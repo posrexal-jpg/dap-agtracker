@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crown of Thorns Tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Public Sans', sans-serif;
+        }
+        .hero {
+            position: relative;
+            padding: 100px 0;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1e3a8a 0%, #60a5fa 100%); /* Fallback */
+        }
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            color: white;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        .btn-download {
+            background-color: #1e3a8a;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+        }
+        .btn-download:hover {
+            background-color: #0f172a;
+        }
+        .partners {
+            padding: 50px 0;
+            background-color: #f8f9fa;
+        }
+        .partners h2 {
+            margin-bottom: 30px;
+        }
+        .logo {
+            max-width: 150px;
+            height: auto;
+        }
+        .description {
+            padding: 50px 0;
+        }
+        .description h2 {
+            margin-bottom: 20px;
+        }
+        .footer {
+            background-color: #000000;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-crown"></i> Crown of Thorns Tracker
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#partners">Partners</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <video autoplay muted loop class="hero-video">
+            <source src="{{ asset('videos/background-video.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="hero-content">
+            <h1>Welcome to Crown of Thorns Tracker</h1>
+            <p>Monitor and track crown-of-thorns starfish infestations to protect our coral reefs. Join us in preserving marine biodiversity.</p>
+            <a href="/download" class="btn btn-download btn-lg">
+                <i class="fas fa-download"></i> Download App
+            </a>
+        </div>
+    </section>
+
+    <!-- Description Section -->
+    <section class="description" id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>About the App</h2>
+                    <p>The Crown of Thorns Tracker is a mobile application designed to help researchers, conservationists, and the public monitor and report sightings of crown-of-thorns starfish (COTS). This invasive species poses a significant threat to coral reefs worldwide.</p>
+                    <p>Our app allows users to:</p>
+                    <ul>
+                        <li>Report COTS sightings with GPS coordinates</li>
+                        <li>View infestation maps</li>
+                        <li>Access educational resources</li>
+                        <li>Contribute to scientific research</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <img src="{{ asset('images/cots-image.jpg') }}" alt="Crown of Thorns Starfish" class="img-fluid rounded">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners Section -->
+    <section class="partners" id="partners">
+        <div class="container text-center">
+            <h2>Partner Agencies</h2>
+            <p>We collaborate with leading organizations to advance marine conservation efforts.</p>
+            <div class="row justify-content-center">
+                <div class="col-md-3">
+                    <img src="{{ asset('images/dost-logo.png') }}" alt="DOST Logo" class="logo">
+                    <p>Department of Science and Technology</p>
+                </div>
+                <div class="col-md-3">
+                    <img src="{{ asset('images/slsu-logo.png') }}" alt="SLSU Bontoc Logo" class="logo">
+                    <p>Southern Luzon State University - Bontoc</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Crown of Thorns Tracker. All rights reserved.</p>
+            <p>Developed in partnership with DOST and SLSU Bontoc.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
