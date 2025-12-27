@@ -10,14 +10,8 @@ class RoleSeeder extends Seeder
 {
     public function run()
     {
-        // Using the DB facade to insert data directly into the role table
-        DB::table('roles')->insert([
-            [
-                'role_name' => 'admin',
-            ],
-            [
-                'role_name' => 'user', // Add other roles if needed
-            ],
-        ]);
+        // Using the Role model to create or update roles
+        \App\Models\Role::firstOrCreate(['role_name' => 'admin']);
+        \App\Models\Role::firstOrCreate(['role_name' => 'user']);
     }
 }
