@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crown of Thorns Tracker - Login</title>
+    <title>Dag-ag Tracker - Login</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -103,8 +103,8 @@
     <div class="login-container row">
                     <!-- Left Panel -->
                     <div class="col-lg-6 left-panel">
-                        <h1><i class="fas fa-crown"></i> Crown of Thorns Tracker</h1>
-                        <p>Monitor and track crown-of-thorns starfish infestations to protect our coral reefs. Join us in preserving marine biodiversity.</p>
+                        <h1><i class="fas fa-crown"></i> Dag-ag Tracker</h1>
+                        <p>Monitor and track dag-ag (Crown-of-Thorns Starfish) infestations to protect our coral reefs. Join us in preserving marine biodiversity.</p>
                         <div class="logos">
                             <img src="{{ asset('images/logo1.png') }}" alt="DOST Logo" class="logo">
                             <img src="{{ asset('images/logo3.png') }}" alt="SLSU Bontoc Logo" class="logo">
