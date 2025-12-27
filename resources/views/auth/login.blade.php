@@ -30,7 +30,7 @@
         .left-panel {
             background: linear-gradient(135deg, #1e3a8a 0%, #60a5fa 100%);
             color: white;
-            padding: 40px;
+            padding: 71px;
             display: flex;
             flex-direction: column;
             justify-content: center;
