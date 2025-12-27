@@ -30,13 +30,13 @@
         .left-panel {
             background: linear-gradient(135deg, #1e3a8a 0%, #60a5fa 100%);
             color: white;
-            padding: 71px;
+            padding: 50px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            height: 100%;
+            /* height: 100%; */
         }
         .left-panel h1 {
             font-size: 2.5rem;
