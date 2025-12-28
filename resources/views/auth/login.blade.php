@@ -141,7 +141,7 @@
                             <img src="{{ asset('images/logo.png') }}" alt="Dag-ag Tracker Logo" style="height: 50px; width: auto; margin-right: 15px;">
                             Dag-ag Tracker
                         </h1>
-                        <p>Monitor and track dag-ag (Crown-of-Thorns Starfish) infestations to protect our coral reefs. Join us in preserving marine biodiversity.</p>
+                        <p>Monitor and track Crown-of-Thorns Starfish (COTS), locally known as Dap-ag, infestations to protect our coral reefs. Join us in preserving marine biodiversity.</p>
                         <div class="logos">
                             <img src="{{ asset('images/logo1.png') }}" alt="DOST Logo" class="logo">
                             <img src="{{ asset('images/logo3.png') }}" alt="SLSU Bontoc Logo" class="logo">

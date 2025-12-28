@@ -10,12 +10,34 @@
                 <p class="page-subtitle">Add, edit, and manage system users</p>
             </div>
             <div class="page-actions">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                <button type="button" class="btn btn-primary" onclick="openAddUserModal()">
                     <i class="bx bx-plus"></i> Add User
                 </button>
             </div>
         </div>
     </div>
+
+    <!-- Success/Error Messages -->
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bx bx-check-circle me-2"></i>
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    @if($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bx bx-error-circle me-2"></i>
+            <strong>Please fix the following errors:</strong>
+            <ul class="mb-0 mt-2">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
 
     <!-- Users Table Card -->
     <div class="row">
@@ -115,30 +137,45 @@
                         @csrf
                         <div class="mb-3">
                             <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
+                            @error('name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}" required>
+                            @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
+                            <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" required>
+                            @error('password')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label for="password_confirmation" class="form-label">Confirm Password</label>
-                            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
+                            <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" id="password_confirmation" name="password_confirmation" required>
+                            @error('password_confirmation')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <!-- Role Dropdown -->
                         <div class="mb-3">
                             <label for="role" class="form-label">Role</label>
-                            <select class="form-select" id="role" name="role_id" required>
+                            <select class="form-select @error('role_id') is-invalid @enderror" id="role" name="role_id" required>
                                 <option value="">Select Role</option>
                                 @foreach($roles as $role)
-                                <option value="{{ $role->id }}">{{ $role->role_name }}</option>
+                                <option value="{{ $role->id }}" {{ old('role_id') == $role->id ? 'selected' : '' }}>{{ $role->role_name }}</option>
                                 @endforeach
                             </select>
+                            @error('role_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <!-- Add User Button -->
@@ -150,3 +187,114 @@
     </div>
 </div>
 @endsection
+
+<script>
+function openAddUserModal() {
+    const modalElement = document.getElementById('addUserModal');
+    if (modalElement) {
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show();
+    }
+}
+
+// Password confirmation validation
+document.addEventListener('DOMContentLoaded', function() {
+    const password = document.getElementById('password');
+    const passwordConfirmation = document.getElementById('password_confirmation');
+    const form = document.querySelector('#addUserModal form');
+
+    // Real-time password confirmation validation
+    passwordConfirmation.addEventListener('input', function() {
+        if (password.value !== passwordConfirmation.value) {
+            passwordConfirmation.setCustomValidity('Passwords do not match');
+            passwordConfirmation.classList.add('is-invalid');
+        } else {
+            passwordConfirmation.setCustomValidity('');
+            passwordConfirmation.classList.remove('is-invalid');
+            passwordConfirmation.classList.add('is-valid');
+        }
+    });
+
+    // Password strength validation
+    password.addEventListener('input', function() {
+        const value = password.value;
+        if (value.length < 8) {
+            password.setCustomValidity('Password must be at least 8 characters long');
+            password.classList.add('is-invalid');
+        } else {
+            password.setCustomValidity('');
+            password.classList.remove('is-invalid');
+            password.classList.add('is-valid');
+        }
+
+        // Re-validate confirmation if password changes
+        if (passwordConfirmation.value) {
+            passwordConfirmation.dispatchEvent(new Event('input'));
+        }
+    });
+
+    // Email validation
+    const email = document.getElementById('email');
+    email.addEventListener('input', function() {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email.value)) {
+            email.setCustomValidity('Please enter a valid email address');
+            email.classList.add('is-invalid');
+        } else {
+            email.setCustomValidity('');
+            email.classList.remove('is-invalid');
+            email.classList.add('is-valid');
+        }
+    });
+
+    // Form submission validation
+    form.addEventListener('submit', function(e) {
+        // Check if passwords match
+        if (password.value !== passwordConfirmation.value) {
+            e.preventDefault();
+            passwordConfirmation.setCustomValidity('Passwords do not match');
+            passwordConfirmation.classList.add('is-invalid');
+            passwordConfirmation.focus();
+            return false;
+        }
+
+        // Check password length
+        if (password.value.length < 8) {
+            e.preventDefault();
+            password.setCustomValidity('Password must be at least 8 characters long');
+            password.classList.add('is-invalid');
+            password.focus();
+            return false;
+        }
+
+        // Check email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email.value)) {
+            e.preventDefault();
+            email.setCustomValidity('Please enter a valid email address');
+            email.classList.add('is-invalid');
+            email.focus();
+            return false;
+        }
+    });
+
+    // Clear validation on modal close
+    const modal = document.getElementById('addUserModal');
+    modal.addEventListener('hidden.bs.modal', function() {
+        form.reset();
+        // Clear validation classes
+        const inputs = form.querySelectorAll('input, select');
+        inputs.forEach(input => {
+            input.classList.remove('is-invalid', 'is-valid');
+            input.setCustomValidity('');
+        });
+    });
+
+    // Reopen modal if there are validation errors
+    @if($errors->any())
+        document.addEventListener('DOMContentLoaded', function() {
+            openAddUserModal();
+        });
+    @endif
+});
+</script>

@@ -42,20 +42,6 @@
                 </a>
             </li>
         </ul>
-
-        <!-- Logout Section -->
-        <div class="sidebar-footer">
-            <a href="{{ route('logout') }}" class="logout-link" onclick="event.preventDefault(); document.getElementById('user-logout-form').submit();">
-                <div class="nav-icon">
-                    <i class="bx bx-log-out"></i>
-                </div>
-                <span class="nav-text">Logout</span>
-                <small class="nav-desc">Sign out of system</small>
-            </a>
-            <form id="user-logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                @csrf
-            </form>
-        </div>
     </nav>
 </aside>
 

@@ -55,14 +55,5 @@
                 <div data-i18n="Analytics">Municipal</div>
             </a>
         </li> -->
-        <li class="menu-item mt-4">
-            <a href="{{ route('logout') }}" class="menu-link text-dark hover-bg-danger hover-text-white text-decoration-none" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                <i class="menu-icon tf-icons bx bx-log-out"></i>
-                <div data-i18n="Logout">Logout</div>
-            </a>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                @csrf
-            </form>
-        </li>
     </ul>
 </aside>

@@ -363,7 +363,7 @@
 
 <div class="page-header">
     <h1>🏊‍♂️ COTS Sighting Map</h1>
-    <p class="description">View all reported Crown-of-Thorns Starfish (COTS) sightings on the interactive map. Help protect our reefs by adding pin to report new sightings in your area.</p>
+    <p class="description">View all reported Crown-of-Thorns Starfish (COTS), locally known as Dap-ag, sightings on the interactive map. Help protect our reefs by adding pin to report new sightings in your area.</p>
 
     <!-- Mobile-Optimized Status and Sync Controls -->
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 mt-4">
@@ -417,7 +417,7 @@
                                     </div>
 
                                     <p>
-                                      The Crown-of-Thorns Starfish (COTS) or locally known as Dap-ag is a marine species known for its significant impact on coral reefs. While it is a natural part of the ecosystem, during population outbreaks, COTS can devastate coral reefs by feeding on coral polyps, leading to extensive coral degradation. This species poses a major threat to coral ecosystems, especially in tropical and subtropical regions, and is considered one of the key factors in coral reef decline. Effective management and research are essential to mitigate the damage caused by COTS outbreaks and protect vital marine biodiversity.
+                                      The Crown-of-Thorns Starfish (COTS), locally known as Dap-ag, is a marine species known for its significant impact on coral reefs. While it is a natural part of the ecosystem, during population outbreaks, COTS can devastate coral reefs by feeding on coral polyps, leading to extensive coral degradation. This species poses a major threat to coral ecosystems, especially in tropical and subtropical regions, and is considered one of the key factors in coral reef decline. Effective management and research are essential to mitigate the damage caused by COTS outbreaks and protect vital marine biodiversity.
                                     </p>
                                 </div>
                                 <div class="modal-footer">

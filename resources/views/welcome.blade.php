@@ -124,7 +124,7 @@
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <h1>Welcome to Dag-ag Tracker</h1>
-            <p>Monitor and track dag-ag (Crown-of-Thorns Starfish) infestations to protect our coral reefs. Join us in preserving marine biodiversity.</p>
+            <p>Monitor and track Crown-of-Thorns Starfish (COTS), locally known as Dap-ag, infestations to protect our coral reefs. Join us in preserving marine biodiversity.</p>
             <a href="/download" class="btn btn-download btn-lg">
                 <i class="fas fa-download"></i> Download App
             </a>
@@ -146,10 +146,10 @@
             <div class="row">
                 <div class="col-md-6">
                     <h2>About the App</h2>
-                    <p>The Dag-ag Tracker is a mobile application designed to help researchers, conservationists, and the public monitor and report sightings of dag-ag (locally known as Crown-of-Thorns Starfish or COTS). This invasive species poses a significant threat to coral reefs worldwide.</p>
+                    <p>The Dag-ag (COTS) Tracker is a mobile application designed to help researchers, conservationists, and the public monitor and report sightings of Crown-of-Thorns Starfish (COTS), locally known as Dap-ag. This invasive species poses a significant threat to coral reefs worldwide.</p>
                     <p>Our app allows users to:</p>
                     <ul>
-                        <li>Report dag-ag sightings with GPS coordinates</li>
+                        <li>Report COTS (Dap-ag) sightings with GPS coordinates</li>
                         <li>View infestation maps</li>
                         <li>Access educational resources</li>
                         <li>Contribute to scientific research</li>

@@ -311,20 +311,18 @@
         <!-- Collapsible Navbar Content -->
         <div class="collapse navbar-collapse" id="navbarContentPage1">
             <ul class="navbar-nav ms-auto align-items-center">
-                <li class="nav-item dropdown me-3">
-                    <a class="nav-link px-0 position-relative" href="#" id="inboxDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-envelope" style="font-size: 1.25rem;"></i>
-                        <span class="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle" style="font-size: 0.7rem;">0</span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="inboxDropdown">
-                        <li><a class="dropdown-item" href="#">New location added in:</a></li>
-                    </ul>
-                </li>
-
                 <li class="nav-item">
-                    <span class="navbar-text fw-semibold text-dark">
+                    <span class="navbar-text fw-semibold text-dark me-3">
                         {{ Auth::user()->role->role_name }}
                     </span>
+                </li>
+                <li class="nav-item">
+                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                        @csrf
+                        <button type="submit" class="btn btn-outline-danger btn-sm" title="Logout">
+                            <i class="bx bx-log-out"></i>
+                        </button>
+                    </form>
                 </li>
             </ul>
         </div>
@@ -350,6 +348,9 @@
 
 <!-- Layout overlay for mobile menu -->
 <div class="layout-overlay"></div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
