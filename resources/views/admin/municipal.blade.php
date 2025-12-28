@@ -1,49 +1,74 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <h2>Municipalities</h2>
-
-        @if(session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="page-header mb-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1 class="page-title">Municipalities</h1>
+                <p class="page-subtitle">Manage municipality locations</p>
             </div>
-        @endif
-
-        @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
+            <div class="page-actions">
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#municipalityModal">
+                    <i class="bx bx-plus"></i> Add Municipality
+                </button>
             </div>
-        @endif
-        <!-- Button to trigger modal -->
-        <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#municipalityModal">Add Municipality</button>
+        </div>
+    </div>
 
-        <!-- Municipalities Table -->
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            @foreach($municipalities as $municipality)
-                <tr>
-                    <td>{{ $municipality->name }}</td>
-                    <td>
-                    <form action="{{  route('admin.municipal.destroy', $municipality->id) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this user?');">
-                                <i class="bx bx-trash"></i> <!-- Replace this with your preferred icon -->
-                            </button>
-                    </form>
-                    </td>
-                </tr>
-            @endforeach
+    <!-- Alerts -->
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
 
-            </tbody>
-        </table>
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+
+    <!-- Municipalities Table Card -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Municipalities List</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Municipality Name</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($municipalities as $municipality)
+                                <tr>
+                                    <td>{{ $municipality->name }}</td>
+                                    <td>
+                                        <form action="{{ route('admin.municipal.destroy', $municipality->id) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this municipality?');" title="Delete Municipality">
+                                                <i class="bx bx-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Modal -->

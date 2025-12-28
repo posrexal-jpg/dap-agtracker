@@ -2,9 +2,25 @@
 
 @section('content')
 <style>
-    /* Modal Overlay */
+    /* Mobile-First Responsive Design */
+    :root {
+        --primary-color: #1e3a8a;
+        --secondary-color: #60a5fa;
+        --success-color: #10b981;
+        --warning-color: #f59e0b;
+        --danger-color: #ef4444;
+        --touch-target-size: 44px;
+    }
+
+    /* Touch-friendly interactions */
+    .btn, button, .form-control, select, input, textarea {
+        min-height: var(--touch-target-size);
+        touch-action: manipulation;
+    }
+
+    /* Modal Overlay - Mobile Optimized */
     .modal.fade .modal-dialog {
-        transform: scale(0.8);
+        transform: scale(0.95);
         opacity: 0;
         transition: transform 0.3s ease, opacity 0.3s ease;
     }
@@ -13,41 +29,298 @@
         opacity: 1;
     }
 
-    /* Modal Content */
+    /* Modal Content - Mobile Enhanced */
     .modal-content {
-        border-radius: 12px;
+        border-radius: 16px;
         border: none;
-        padding: 20px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        background: linear-gradient(145deg, #f3f4f6, #ffffff);
+        padding: 24px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+        background: linear-gradient(145deg, #f8fafc, #ffffff);
+        margin: 16px;
+        max-height: calc(100vh - 32px);
+        overflow-y: auto;
     }
 
-    .modal-header p {
-    font-size: 0.9rem;
-    color: #ffffff;
-    margin: 0;
-    padding-top: 5px;
-    }
-
-
-    /* Modal Header */
     .modal-header {
-        background-color: #0056b3;
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
         color: white;
-        border-top-left-radius: 12px;
-        border-top-right-radius: 12px;
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
         border-bottom: none;
-        padding: 16px 24px;
+        padding: 20px 24px;
+        margin: -24px -24px 20px -24px;
     }
+
     .modal-title {
         font-weight: 600;
         font-size: 1.25rem;
+        margin: 0;
     }
+
     .btn-close {
-        color: white;
-        opacity: 0.8;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        padding: 8px;
+        margin: 0;
     }
-    .btn-close:hover {
+
+    /* Form Controls - Mobile Optimized */
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        color: #374151;
+        font-weight: 600;
+        margin-bottom: 8px;
+        font-size: 0.95rem;
+    }
+
+    .form-control, select {
+        border-radius: 12px;
+        border: 2px solid #e5e7eb;
+        padding: 12px 16px;
+        font-size: 16px; /* Prevents zoom on iOS */
+        transition: all 0.3s ease;
+        background: white;
+        width: 100%;
+    }
+
+    .form-control:focus, select:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+        outline: none;
+    }
+
+    /* Button Styles - Mobile Enhanced */
+    .btn {
+        border-radius: 12px;
+        padding: 12px 24px;
+        font-weight: 600;
+        font-size: 16px;
+        min-height: var(--touch-target-size);
+        transition: all 0.2s ease;
+        border: none;
+        cursor: pointer;
+        touch-action: manipulation;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        color: white;
+    }
+
+    .btn-primary:hover, .btn-primary:active {
+        background: linear-gradient(135deg, #1e293b 0%, #3b82f6 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+    }
+
+    .btn-secondary {
+        background: #f3f4f6;
+        color: #374151;
+    }
+
+    .btn-secondary:hover, .btn-secondary:active {
+        background: #e5e7eb;
+        transform: translateY(-1px);
+    }
+
+    /* Page Header - Mobile Responsive */
+    .page-header {
+        text-align: center;
+        padding: 20px 16px;
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        margin: -20px -20px 20px -20px;
+        border-radius: 0 0 20px 20px;
+    }
+
+    .page-header h1 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 8px;
+    }
+
+    .page-header p {
+        font-size: 0.95rem;
+        color: #64748b;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    /* Status Indicators - Mobile Friendly */
+    .connection-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        margin-bottom: 16px;
+    }
+
+    .connection-status.online {
+        background: rgba(16, 185, 129, 0.1);
+        color: var(--success-color);
+    }
+
+    .connection-status.offline {
+        background: rgba(245, 158, 11, 0.1);
+        color: var(--warning-color);
+    }
+
+    /* Map Container - Mobile Optimized */
+    #map {
+        border-radius: 16px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        margin: 16px;
+        height: calc(100vh - 200px);
+        min-height: 300px;
+    }
+
+    /* Notification Styles */
+    .notification {
+        position: fixed;
+        top: 20px;
+        left: 16px;
+        right: 16px;
+        z-index: 9999;
+        border-radius: 12px;
+        padding: 16px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+        backdrop-filter: blur(10px);
+        animation: slideIn 0.3s ease;
+    }
+
+    .notification.success {
+        background: rgba(16, 185, 129, 0.95);
+        color: white;
+    }
+
+    .notification.warning {
+        background: rgba(245, 158, 11, 0.95);
+        color: white;
+    }
+
+    .notification.error {
+        background: rgba(239, 68, 68, 0.95);
+        color: white;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    /* Loading States */
+    .loading {
+        position: relative;
+        pointer-events: none;
+        opacity: 0.7;
+    }
+
+    .loading::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 20px;
+        height: 20px;
+        margin: -10px 0 0 -10px;
+        border: 2px solid transparent;
+        border-top: 2px solid currentColor;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    /* Mobile-specific adjustments */
+    @media (max-width: 768px) {
+        .modal-content {
+            margin: 8px;
+            padding: 20px;
+        }
+
+        .modal-header {
+            padding: 16px 20px;
+            margin: -20px -20px 16px -20px;
+        }
+
+        .page-header {
+            padding: 16px 12px;
+            margin: -16px -16px 16px -16px;
+        }
+
+        .page-header h1 {
+            font-size: 1.5rem;
+        }
+
+        #map {
+            margin: 12px;
+            height: calc(100vh - 180px);
+        }
+
+        .btn {
+            width: 100%;
+            margin-bottom: 8px;
+        }
+
+        .connection-status {
+            font-size: 0.8rem;
+            padding: 6px 12px;
+        }
+    }
+
+    /* iOS-specific fixes */
+    @supports (-webkit-touch-callout: none) {
+        .form-control, select {
+            font-size: 16px !important; /* Prevent zoom */
+        }
+
+        .btn {
+            -webkit-appearance: none;
+            appearance: none;
+        }
+    }
+
+    /* Android-specific fixes */
+    @supports (-webkit-appearance: none) and (not (-webkit-touch-callout: none)) {
+        .form-control, select {
+            font-size: 16px !important;
+        }
+    }
+
+    /* Dark mode support */
+    @media (prefers-color-scheme: dark) {
+        .modal-content {
+            background: linear-gradient(145deg, #1e293b, #334155);
+            color: #f1f5f9;
+        }
+
+        .form-control, select {
+            background: #334155;
+            border-color: #475569;
+            color: #f1f5f9;
+        }
+
+        .form-control:focus, select:focus {
+            border-color: var(--secondary-color);
+        }
+    }
         opacity: 1;
     }
 
@@ -89,15 +362,29 @@
 </style>
 
 <div class="page-header">
-    <h1>COTS Sighting Map</h1>
-    <p class="description">View all reported Crown-of-thorns Starfish (COTS) Sightings on the interactive map. Help protect our reefs by adding pin to report new sighting in your area.</p>
+    <h1>🏊‍♂️ COTS Sighting Map</h1>
+    <p class="description">View all reported Crown-of-Thorns Starfish (COTS) sightings on the interactive map. Help protect our reefs by adding pin to report new sightings in your area.</p>
+
+    <!-- Mobile-Optimized Status and Sync Controls -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 mt-4">
+        <div class="connection-status online" id="connectionStatus">
+            <i class="fas fa-wifi"></i>
+            <span>Online</span>
+        </div>
+        <div class="d-flex gap-2">
+            <button type="button" class="btn btn-outline-primary btn-sm" onclick="manualSync()" id="syncBtn">
+                <i class="fas fa-sync-alt me-1"></i>Sync Data
+            </button>
+            <button type="button" class="btn btn-success btn-sm" onclick="addNewSighting()" id="addSightingBtn">
+                <i class="fas fa-plus me-1"></i>Add Sighting
+            </button>
+        </div>
+    </div>
 </div>
 
-<div class="layout-wrapper layout-content-navbar">
-        <div class="layout-container">
-                <div class="content-wrapper">
-                 <div id="map" style="height: 80%; position: relative; margin: 0 auto; "></div>
-                 <div class="modal fade" id="consentModal" tabindex="-1" aria-labelledby="consentModalLabel" aria-hidden="true">
+        <div class="content-wrapper">
+            <div id="map" style="height: 80%; position: relative; margin: 0 auto; "></div>
+            <div class="modal fade" id="consentModal" tabindex="-1" aria-labelledby="consentModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -140,7 +427,7 @@
                             </div>
                         </div>
                     </div>
-                    <form action="{{ route('user-save-location') }}" method="POST" enctype="multipart/form-data">
+                    <form id="locationForm" action="{{ route('user-save-location') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <!-- Modal 1: Sighting Details -->
     <div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="modal1Label" aria-hidden="true">
@@ -693,6 +980,217 @@ document.querySelector('.btn-secondary[data-bs-dismiss="modal"]').addEventListen
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
-    
+
+    <!-- Offline Manager -->
+    <script src="{{ asset('js/offline-manager.js') }}"></script>
+
+    <script>
+        // Initialize offline functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const locationForm = document.getElementById('locationForm');
+            const submitBtn = locationForm.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+
+            // Update form submission to handle offline
+            locationForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                if (!navigator.onLine && window.offlineManager) {
+                    // Handle offline submission
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving Offline...';
+                    submitBtn.disabled = true;
+
+                    try {
+                        const formData = new FormData(this);
+                        const locationData = {};
+
+                        // Convert FormData to object
+                        for (let [key, value] of formData.entries()) {
+                            if (key !== 'photo[]') {
+                                locationData[key] = value;
+                            }
+                        }
+
+                        // Handle photos
+                        const photoFiles = formData.getAll('photo[]').filter(file => file.size > 0);
+                        const photoIds = [];
+
+                        for (const file of photoFiles) {
+                            const photoId = await window.offlineManager.storePhotoOffline(file);
+                            photoIds.push(photoId);
+                        }
+
+                        // Store location data offline
+                        const locationId = await window.offlineManager.storeLocationOffline(locationData, photoIds);
+
+                        // Reset form
+                        this.reset();
+
+                        // Show success message
+                        showNotification('Data saved offline! Will sync when online.', 'success');
+
+                        submitBtn.innerHTML = originalBtnText;
+                        submitBtn.disabled = false;
+
+                        // Close modal on mobile
+                        if (window.innerWidth < 768) {
+                            const modal = bootstrap.Modal.getInstance(document.getElementById('modal1'));
+                            if (modal) modal.hide();
+                        }
+
+                    } catch (error) {
+                        console.error('Offline save failed:', error);
+                        showErrorAlert('Failed to save data offline. Please try again.');
+                        submitBtn.innerHTML = originalBtnText;
+                        submitBtn.disabled = false;
+                    }
+                } else {
+                    // Normal online submission
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
+                    submitBtn.disabled = true;
+
+                    try {
+                        const response = await fetch(this.action, {
+                            method: 'POST',
+                            body: new FormData(this),
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            }
+                        });
+
+                        if (response.ok) {
+                            const result = await response.json();
+                            showNotification('Location saved successfully!', 'success');
+                            this.reset();
+                            // Optionally refresh the page or update the UI
+                            setTimeout(() => location.reload(), 1000);
+                        } else {
+                            const error = await response.json();
+                            showNotification(error.message || 'Failed to save location', 'error');
+                        }
+                    } catch (error) {
+                        console.error('Save failed:', error);
+                        showNotification('Failed to save location. Please try again.', 'error');
+                    }
+
+                    submitBtn.innerHTML = originalBtnText;
+                    submitBtn.disabled = false;
+                }
+            });
+
+            // Show online/offline status
+            updateConnectionStatus();
+            window.addEventListener('online', updateConnectionStatus);
+            window.addEventListener('offline', updateConnectionStatus);
+
+            // Add mobile-specific event listeners
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.addEventListener('message', event => {
+                    if (event.data && event.data.type === 'SYNC_COMPLETE') {
+                        showNotification('Data synced successfully!', 'success');
+                        updateConnectionStatus();
+                    }
+                });
+            }
+        });
+
+        function updateConnectionStatus() {
+            const statusElement = document.getElementById('connectionStatus');
+            if (statusElement) {
+                if (navigator.onLine) {
+                    statusElement.className = 'connection-status online';
+                    statusElement.innerHTML = '<i class="fas fa-wifi"></i><span>Online</span>';
+                } else {
+                    statusElement.className = 'connection-status offline';
+                    statusElement.innerHTML = '<i class="fas fa-wifi-slash"></i><span>Offline</span>';
+                }
+            }
+        }
+
+        function addNewSighting() {
+            // Trigger map click or open modal
+            if (typeof addMarkerAtCurrentLocation === 'function') {
+                addMarkerAtCurrentLocation();
+            } else {
+                // Fallback: open the modal
+                const modal = new bootstrap.Modal(document.getElementById('modal1'));
+                modal.show();
+            }
+        }
+
+        function showNotification(message, type = 'info') {
+            // Remove existing notifications
+            const existingNotifications = document.querySelectorAll('.notification');
+            existingNotifications.forEach(notification => notification.remove());
+
+            // Create new notification
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'} me-2"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            document.body.appendChild(notification);
+
+            // Auto-hide after 4 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 4000);
+
+            // Add click to dismiss
+            notification.addEventListener('click', () => notification.remove());
+        }
+
+        // Manual sync button functionality
+        function manualSync() {
+            const syncBtn = document.getElementById('syncBtn');
+            const originalHTML = syncBtn.innerHTML;
+
+            if (window.offlineManager && navigator.onLine) {
+                syncBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Syncing...';
+                syncBtn.disabled = true;
+
+                window.offlineManager.syncData().then(result => {
+                    if (result.synced > 0) {
+                        showNotification(`Synced ${result.synced} locations successfully!`, 'success');
+                    } else {
+                        showNotification('No data to sync', 'info');
+                    }
+                    syncBtn.innerHTML = originalHTML;
+                    syncBtn.disabled = false;
+                }).catch(error => {
+                    showNotification('Sync failed: ' + error.message, 'error');
+                    syncBtn.innerHTML = originalHTML;
+                    syncBtn.disabled = false;
+                });
+            } else if (!navigator.onLine) {
+                showNotification('Cannot sync while offline', 'warning');
+            } else {
+                showNotification('Sync manager not available', 'warning');
+            }
+        }
+
+        // Mobile-specific enhancements
+        if ('visualViewport' in window) {
+            window.visualViewport.addEventListener('resize', () => {
+                // Handle mobile keyboard appearance
+                document.body.style.height = window.visualViewport.height + 'px';
+            });
+        }
+
+        // Prevent zoom on input focus for iOS
+        const inputs = document.querySelectorAll('input, select, textarea');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                if (window.innerWidth < 768) {
+                    input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            });
+        });
+    </script>
 
 @endsection

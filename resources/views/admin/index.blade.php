@@ -1,35 +1,60 @@
 @extends('layouts.app')
 @section('content')
 
-<div class="content-wrapper">
-    <div class="container d-flex justify-content-center align-items-center flex-column mt-5">
-        <div class="row w-100 justify-content-center">
-            <div class="col-md-3 mb-4">
-                <div class="card shadow-lg rounded-lg text-center" style="background-color: #f7f7f7; border: none;">
-                    <div class="card-body" style="padding: 30px;">
-                        <h5 class="mb-3" style="font-weight: 600; color: #333;">Total Users</h5>
-                        <p style="font-size: 1.5rem; font-weight: bold; color: #4caf50;">{{ $userCount }} users</p>
-                    </div>
-                </div>
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="page-header mb-4">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+            <div>
+                <h1 class="page-title">Dashboard</h1>
+                <p class="page-subtitle">Overview of COTS tracking system</p>
             </div>
+            <div class="page-actions">
+                <button class="btn btn-primary" onclick="location.reload()">
+                    <i class="bx bx-refresh"></i> Refresh
+                </button>
+            </div>
+        </div>
+    </div>
 
-            <div class="col-md-3 mb-4">
-                <div class="card shadow-lg rounded-lg text-center" style="background-color: #f7f7f7; border: none;">
-                    <div class="card-body" style="padding: 30px;">
-                        <h5 class="mb-3" style="font-weight: 600; color: #333;">Total Cots</h5>
-                        <p style="font-size: 1.5rem; font-weight: bold; color: #ff9800;">{{ $totalCots }} cots</p>
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-lg-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <div class="stat-icon mb-3">
+                        <i class="bx bx-user text-primary" style="font-size: 3rem;"></i>
                     </div>
+                    <h5 class="card-title">Total Users</h5>
+                    <h2 class="text-primary">{{ $userCount }}</h2>
+                    <p class="text-muted">Registered users</p>
                 </div>
             </div>
         </div>
 
-        <div class="row w-100 justify-content-center">
-            <div class="col-md-6 mb-4">
-                <div class="card shadow-lg rounded-lg" style="border: none;">
-                    <div class="card-body">
-                        <h5 class="text-center" style="font-weight: 600; color: #333;">Locations by Municipality</h5>
-                        <div id="pieChart" style="height: 350px;"></div>
+        <div class="col-lg-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <div class="stat-icon mb-3">
+                        <i class="bx bx-target text-warning" style="font-size: 3rem;"></i>
                     </div>
+                    <h5 class="card-title">Total COTS</h5>
+                    <h2 class="text-warning">{{ $totalCots }}</h2>
+                    <p class="text-muted">Reported sightings</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart Card -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Locations by Municipality</h5>
+                </div>
+                <div class="card-body">
+                    <div id="pieChart" style="height: 400px;"></div>
                 </div>
             </div>
         </div>
@@ -63,7 +88,7 @@ for (var i = 0; i < municipalities.length; i++) {
 var optionsPieChart = {
     chart: {
         type: 'donut',
-        height: 350,
+        height: 400,
         animations: {
             enabled: true,
             easing: 'easeinout',
@@ -130,7 +155,4 @@ if (municipalities.length === totalCotsArray.length && municipalities.length > 0
 }
 
 </script>
-
-
-
 @endsection

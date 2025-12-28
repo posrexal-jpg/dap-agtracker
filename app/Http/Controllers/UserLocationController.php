@@ -88,4 +88,69 @@ class UserLocationController extends Controller
             return response()->json(['message' => 'Location not found.'], 404);
         }
     }
+
+    /**
+     * Sync offline locations when user comes back online
+     */
+    public function syncLocations(Request $request)
+    {
+        try {
+            $locations = $request->input('locations', []);
+
+            if (empty($locations)) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'No locations to sync',
+                    'synced_count' => 0
+                ]);
+            }
+
+            $syncedCount = 0;
+            $errors = [];
+
+            foreach ($locations as $locationData) {
+                try {
+                    // Validate the location data
+                    $validatedData = validator($locationData, [
+                        'name' => 'nullable|string',
+                        'description' => 'nullable|string',
+                        'latitude' => 'required|numeric',
+                        'longitude' => 'required|numeric',
+                        'number_of_cots' => 'nullable|string',
+                        'early_juvenile' => 'nullable|integer',
+                        'juvenile' => 'nullable|integer',
+                        'sub_adult' => 'nullable|integer',
+                        'adult' => 'nullable|integer',
+                        'late_adult' => 'nullable|integer',
+                        'activity_type' => 'nullable|string',
+                        'observer_category' => 'nullable|string',
+                        'municipality' => 'nullable|string',
+                        'barangay' => 'required|string',
+                        'date_of_sighting' => 'nullable|date',
+                        'time_of_sighting' => 'nullable|date_format:H:i',
+                    ])->validate();
+
+                    // Create the location
+                    Location::create($validatedData);
+                    $syncedCount++;
+
+                } catch (\Exception $e) {
+                    $errors[] = 'Failed to sync location: ' . $e->getMessage();
+                }
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => "Synced {$syncedCount} locations successfully",
+                'synced_count' => $syncedCount,
+                'errors' => $errors
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Sync failed: ' . $e->getMessage()
+            ], 500);
+        }
+    }
 }

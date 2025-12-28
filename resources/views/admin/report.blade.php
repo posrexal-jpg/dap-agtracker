@@ -2,52 +2,57 @@
 
 @section('content')
 
-<!-- Card for Location Report -->
-<div class="card shadow-sm mt-4">
-    <div class="card-header d-flex justify-content-between align-items-center bg-dark text-white p-3 rounded-top">
-        <h5 class="m-0">
-            <i class="bx bx-map"></i> Sightings Report
-        </h5>
-        <a href="{{ route('admin.report.export', ['municipality' => request('municipality')]) }}" class="btn btn-success">
-            <i class="bx bx-download"></i> Export
-        </a>
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="page-header mb-4">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+            <div>
+                <h1 class="page-title">Sightings Report</h1>
+                <p class="page-subtitle">View and export COTS sighting reports</p>
+            </div>
+            <div class="page-actions">
+                <a href="{{ route('admin.report.export', ['municipality' => request('municipality')]) }}" class="btn btn-success">
+                    <i class="bx bx-download"></i> Export Report
+                </a>
+            </div>
+        </div>
     </div>
 
-    <!-- Filter Dropdown at the Upper Left -->
-    <div class="dropdown p-3">
-        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-filter"></i> Filter
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="filterDropdown">
-            <li>
-                <form method="GET" action="{{ route('admin.report') }}" class="mb-3">
-                    <div class="d-flex">
-                        <select name="municipality" class="form-select" onchange="this.form.submit()">
-                            <option value="">Select Municipality</option>
-                            @foreach($municipalities as $municipality)
-                                <option value="{{ $municipality }}" {{ request('municipality') == $municipality ? 'selected' : '' }}>
-                                    {{ $municipality }}
-                                </option>
-                            @endforeach
-                        </select>
+    <!-- Report Card -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                        <h5 class="card-title mb-3 mb-md-0">Sightings Data</h5>
+                        <div class="filter-section">
+                            <form method="GET" action="{{ route('admin.report') }}" class="d-flex align-items-center">
+                                <label class="me-2 fw-bold">Filter by Municipality:</label>
+                                <select name="municipality" class="form-select form-select-sm" onchange="this.form.submit()">
+                                    <option value="">All Municipalities</option>
+                                    @foreach($municipalities as $municipality)
+                                        <option value="{{ $municipality }}" {{ request('municipality') == $municipality ? 'selected' : '' }}>
+                                            {{ $municipality }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </form>
+                        </div>
                     </div>
-                </form>
-            </li>
-        </ul>
-    </div>
-
-    <!-- Table for Locations -->
-    <div class="table-responsive text-nowrap p-3">
-        <table class="table table-hover table-striped table-sm table-bordered m-0">
-            <thead class="table-dark">
-                <tr>
-                    <th style="width: 5%; color: white;">#</th>
-                    <th style="width: 10%; color: white;">Name</th>
-                    <th style="width: 15%; color: white;">Municipality where COTS are Sighted</th>
-                    <th style="width: 5%; color: white;">Number of Cots</th>
-                    <th style="width: 5%; color: white;">Date of COTS Sighted</th>
-                    <th style="width: 5%; color: white;">Time of COTS Sighted</th>
-                </tr>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Municipality</th>
+                                    <th>Number of COTS</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
             </thead>
             <tbody>
                 @foreach($locations as $location)

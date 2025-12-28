@@ -67,25 +67,56 @@
         .navbar {
             position: fixed;
             top: 0;
-            right: 0%;
-            margin-right: 20px;
-            z-index: 1000;
-            background-color: #fff;
+            left: 0;
+            right: 0;
+            z-index: 1050;
+            background-color: #ffffff;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 1rem;
+            padding: 0.75rem 1rem;
+            height: 70px;
         }
 
-        #map {
-            height: 100%;
-            position: relative;
-            margin: 10% auto 0 auto;
-            width: 90%;
-            height: 10%;
-            margin-left: 50px;
+        .navbar .container-xxl {
+            padding-left: 0;
+            padding-right: 0;
         }
 
         .layout-page {
-            margin-top: 80px;
+            margin-top: 90px; /* Account for fixed navbar height */
+        }
+
+        /* Navbar responsive adjustments */
+        @media (max-width: 991px) {
+            .navbar .container-xxl {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            .layout-menu-toggle {
+                cursor: pointer;
+                padding: 0.5rem;
+                border-radius: 0.375rem;
+                transition: background-color 0.15s ease-in-out;
+            }
+
+            .layout-menu-toggle:hover {
+                background-color: #f8f9fa;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar {
+                padding: 0.5rem 0.75rem;
+                height: 60px;
+            }
+
+            .layout-page {
+                margin-top: 80px; /* Adjust for smaller navbar on mobile */
+            }
+
+            .navbar-text {
+                font-size: 0.9rem;
+            }
         }
 
         .user-role {
@@ -113,60 +144,190 @@
         .navbar-toggler {
             border-color: transparent;
         }
-        .page-header {
-        position: fixed;
-        top: 70px; /* adjust based on navbar height */
-        left: 300px;
-        width: 100%;
-        background-color: #fff;
-        z-index: 998;
-        padding: 10px 0;
-    }
-
-    .page-header h1 {
-        margin: 0;
-        font-size: 1.8rem;
-        color: #333;
-        font-weight: 700;
-    }
-
-    .page-header .description {
-        margin: 5px 0 0 0;
-        font-size: 1rem;
-        color: #666;
-    }
-
-    .layout-page {
-        margin-top: 160px; /* leave space for navbar + fixed title */
-    }
     </style>
-</head>
+    <style>
+        /* Clean, subtle styling with welcome page colors */
+        .page-header {
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            padding: 1.5rem 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #1e3a8a;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            font-size: 1rem;
+            color: #6c757d;
+            margin-bottom: 0;
+        }
+
+        .page-actions .btn {
+            margin-left: 0.5rem;
+            background-color: #1e3a8a;
+            border-color: #1e3a8a;
+            color: white;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        .page-actions .btn:hover {
+            background-color: #1e40af;
+            border-color: #1e40af;
+        }
+
+        /* Card styling - clean and minimal */
+        .card {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            background: #1e3a8a;
+            color: white;
+            border-bottom: none;
+            padding: 1rem 1.25rem;
+            font-weight: 600;
+        }
+
+        .card-body {
+            padding: 1.25rem;
+        }
+
+        /* Button styling */
+        .btn-primary {
+            background-color: #1e3a8a;
+            border-color: #1e3a8a;
+        }
+
+        .btn-primary:hover {
+            background-color: #1e40af;
+            border-color: #1e40af;
+        }
+
+        .btn-outline-primary {
+            color: #1e3a8a;
+            border-color: #1e3a8a;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: #1e3a8a;
+            border-color: #1e3a8a;
+        }
+
+        /* Table styling */
+        .table thead th {
+            background-color: #f8f9fa;
+            border-bottom: 2px solid #1e3a8a;
+            color: #1e3a8a;
+            font-weight: 600;
+            padding: 0.75rem;
+        }
+
+        .table tbody td {
+            padding: 0.75rem;
+            vertical-align: middle;
+        }
+
+        /* Download item styling */
+        .download-item {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .download-item:hover {
+            background: #ffffff;
+            border-color: #1e3a8a;
+            box-shadow: 0 2px 8px rgba(30, 58, 138, 0.1);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 1.5rem;
+            }
+
+            .page-subtitle {
+                font-size: 0.9rem;
+            }
+
+            .page-actions {
+                margin-top: 1rem;
+                width: 100%;
+            }
+
+            .page-actions .btn {
+                margin-left: 0;
+                margin-right: 0.5rem;
+                margin-bottom: 0.5rem;
+                flex: 1;
+                min-width: 120px;
+            }
+
+            .card-body {
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container-fluid {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+
+            .page-header {
+                padding: 1rem 0;
+            }
+
+            .page-title {
+                font-size: 1.25rem;
+            }
+
+            .page-actions .btn {
+                font-size: 0.85rem;
+                padding: 0.4rem 0.8rem;
+                min-width: 100px;
+            }
+        }
+    </style></head>
 <body>
 <!-- Navbar -->
-<nav class="layout-navbar container-xxl navbar navbar-expand navbar-detached align-items-center bg-navbar-theme fixed-top" id="layout-navbar">
-    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
-        <i class="bx bx-menu bx-sm"></i>
-    </div>
-    
-    <!-- Collapsible Navbar Content -->
-    <div class="collapse navbar-collapse" id="navbarContentPage1">
-        <ul class="navbar-nav flex-row align-items-center ms-auto">
-            <li class="nav-item inbox-dropdown dropdown">
-                <a class="nav-link px-0" href="#" id="inboxDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-envelope" style="font-size: 1.5rem; margin-right: 10px;"></i> 
-                    <span class="badge bg-danger"></span> 
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="inboxDropdown">
-                    <li><a class="dropdown-item" href="#">New location added in:</a></li>
-                </ul>
-            </li>
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top border-bottom" id="layout-navbar">
+    <div class="container-xxl">
+        <div class="layout-menu-toggle d-xl-none me-3">
+            <i class="bx bx-menu bx-sm text-primary"></i>
+        </div>
 
-            <li class="nav-item navbar-dropdown dropdown-user dropdown">
-                <span class="user-role">
-                    {{ Auth::user()->role->role_name }}
-                </span>
-            </li>
-        </ul>
+        <!-- Collapsible Navbar Content -->
+        <div class="collapse navbar-collapse" id="navbarContentPage1">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item dropdown me-3">
+                    <a class="nav-link px-0 position-relative" href="#" id="inboxDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-envelope" style="font-size: 1.25rem;"></i>
+                        <span class="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle" style="font-size: 0.7rem;">0</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="inboxDropdown">
+                        <li><a class="dropdown-item" href="#">New location added in:</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <span class="navbar-text fw-semibold text-dark">
+                        {{ Auth::user()->role->role_name }}
+                    </span>
+                </li>
+            </ul>
+        </div>
     </div>
 </nav>
  
@@ -186,6 +347,9 @@
         </div>
     </div>
 </div>
+
+<!-- Layout overlay for mobile menu -->
+<div class="layout-overlay"></div>
 
 </body>
 </html>

@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1e3a8a" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Dag-ag Tracker" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" href="/images/logo.png" />
     <title>Dag-ag Tracker - Login</title>
 
     <!-- Bootstrap CSS -->
@@ -77,6 +83,21 @@
         .btn-login:hover {
             background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
         }
+        .btn-google {
+            border: 2px solid #dadce0;
+            background: white;
+            color: #3c4043;
+            border-radius: 50px;
+            padding: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .btn-google:hover {
+            background: #f8f9fa;
+            border-color: #c4c7c5;
+            color: #202124;
+            text-decoration: none;
+        }
         .alert {
             border-radius: 10px;
         }
@@ -98,12 +119,28 @@
             }
         }
     </style>
+    <style>
+        #errorModal ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        #errorModal li {
+            margin-bottom: 5px;
+        }
+        #errorModal .modal-content {
+            border-radius: 15px;
+        }
+    </style>
 </head>
 <body>
     <div class="login-container row">
                     <!-- Left Panel -->
                     <div class="col-lg-6 left-panel">
-                        <h1><i class="fas fa-crown"></i> Dag-ag Tracker</h1>
+                        <h1>
+                            <img src="{{ asset('images/logo.png') }}" alt="Dag-ag Tracker Logo" style="height: 50px; width: auto; margin-right: 15px;">
+                            Dag-ag Tracker
+                        </h1>
                         <p>Monitor and track dag-ag (Crown-of-Thorns Starfish) infestations to protect our coral reefs. Join us in preserving marine biodiversity.</p>
                         <div class="logos">
                             <img src="{{ asset('images/logo1.png') }}" alt="DOST Logo" class="logo">
@@ -118,12 +155,12 @@
 
                         <!-- Display login error message if available -->
                         @if(session('error'))
-                            <div class="alert alert-danger">{{ session('error') }}</div>
+                            <div class="alert alert-danger" id="session-error">{{ session('error') }}</div>
                         @endif
 
                         <!-- Display validation errors -->
                         @if($errors->any())
-                            <div class="alert alert-danger">
+                            <div class="alert alert-danger" id="validation-errors">
                                 <ul class="mb-0">
                                     @foreach($errors->all() as $error)
                                         <li>{{ $error }}</li>
@@ -145,12 +182,79 @@
                             <button type="submit" class="btn btn-primary btn-login">Login</button>
                         </form>
 
+                        <div class="text-center my-3">
+                            <span class="text-muted">or</span>
+                        </div>
+
+                        <a href="{{ route('google.login') }}" class="btn btn-outline-secondary btn-google w-100 mb-3">
+                            <i class="fab fa-google me-2"></i>Continue with Google
+                        </a>
+
                         <div class="text-center mt-3">
                             <a href="/" class="text-decoration-none">← Back to Home</a>
                         </div>
                     </div>
                 </div>
 
+    <!-- Error Modal -->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header bg-danger text-white border-0">
+                    <h5 class="modal-title" id="errorModalLabel">
+                        <i class="fas fa-exclamation-triangle me-2"></i>Authentication Failed
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center py-4" id="errorModalBody">
+                    <!-- Error message will be inserted here -->
+                </div>
+                <div class="modal-footer border-0 justify-content-center">
+                    <button type="button" class="btn btn-danger px-4" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-2"></i>Try Again
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Show modal if there are errors
+        document.addEventListener('DOMContentLoaded', function() {
+            const sessionError = document.getElementById('session-error');
+            const validationErrors = document.getElementById('validation-errors');
+            
+            let errorMessage = '';
+            
+            if (sessionError) {
+                errorMessage = sessionError.innerHTML;
+                sessionError.style.display = 'none';
+            } else if (validationErrors) {
+                errorMessage = validationErrors.innerHTML;
+                validationErrors.style.display = 'none';
+            }
+            
+            if (errorMessage) {
+                document.getElementById('errorModalBody').innerHTML = errorMessage;
+                const modal = new bootstrap.Modal(document.getElementById('errorModal'));
+                modal.show();
+            }
+        });
+    </script>
+    <!-- PWA Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('Service Worker registered:', registration);
+                    })
+                    .catch(error => {
+                        console.log('Service Worker registration failed:', error);
+                    });
+            });
+        }
+    </script>
 </body>
 </html>

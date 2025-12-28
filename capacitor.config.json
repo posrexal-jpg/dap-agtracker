@@ -1,0 +1,25 @@
+{
+  "appId": "com.dagag.tracker",
+  "appName": "Dag-ag Tracker",
+  "webDir": "public",
+  "bundledWebRuntime": false,
+  "plugins": {
+    "Camera": {
+      "permissions": ["camera", "photos"]
+    },
+    "Geolocation": {
+      "permissions": ["location"]
+    },
+    "Filesystem": {},
+    "Network": {}
+  },
+  "android": {
+    "buildOptions": {
+      "releaseType": "APK"
+    },
+    "path": "android"
+  },
+  "ios": {
+    "path": "ios"
+  }
+}

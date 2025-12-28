@@ -30,6 +30,15 @@ let menu, animate;
     });
   });
 
+  // Initialize layout overlay click to close menu on mobile
+  let layoutOverlay = document.querySelector('.layout-overlay');
+  if (layoutOverlay) {
+    layoutOverlay.addEventListener('click', event => {
+      event.preventDefault();
+      window.Helpers.toggleCollapsed();
+    });
+  }
+
   // Display menu toggle (layout-menu-toggle) on hover with delay
   let delay = function (elem, callback) {
     let timeout = null;
@@ -108,6 +117,8 @@ let menu, animate;
 
   // If current layout is horizontal OR current window screen is small (overlay menu) than return from here
   if (window.Helpers.isSmallScreen()) {
+    // On small screens, ensure menu starts collapsed (hamburger menu functionality)
+    window.Helpers.setCollapsed(true, false);
     return;
   }
 

@@ -7,7 +7,7 @@
         </a>
         <a href="javascript:void(0);" 
         class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none" 
-        style="background-color: #1ab2a0;">
+        style="background-color: #1e3a8a;">
         <i class="bx bx-chevron-left bx-sm align-middle"></i>
         </a>
     </div>
@@ -41,6 +41,12 @@
             <a href="{{ route('admin.adduser') }}" class="menu-link text-dark hover-bg-primary hover-text-white text-decoration-none">
                 <i class="menu-icon tf-icons bx bx-user-circle"></i>
                 <div data-i18n="Users">Manage Users</div>
+            </a>
+        </li>
+        <li class="menu-item {{ Route::is('admin.municipal') ? 'active' : '' }}">
+            <a href="{{ route('admin.municipal') }}" class="menu-link text-dark hover-bg-primary hover-text-white text-decoration-none">
+                <i class="menu-icon tf-icons bx bx-building"></i>
+                <div data-i18n="Municipal">Municipalities</div>
             </a>
         </li>
         <!-- <li class="menu-item {{ Route::is('admin.municipal') ? 'active' : '' }}">

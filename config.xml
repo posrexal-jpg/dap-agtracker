@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.dagag.tracker" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Dag-ag Tracker</name>
+    <description>Monitor and track dag-ag infestations to protect coral reefs</description>
+    <author email="info@dagagtracker.com" href="https://dagagtracker.com">Dag-ag Tracker Team</author>
+    <content src="index.html" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+
+    <platform name="android">
+        <preference name="Orientation" value="portrait" />
+        <preference name="Fullscreen" value="false" />
+        <preference name="BackgroundColor" value="0xff1e3a8a" />
+        <preference name="DisallowOverscroll" value="true" />
+        <preference name="SplashScreenDelay" value="3000" />
+        <preference name="AndroidPersistentFileLocation" value="Compatibility" />
+
+        <icon density="ldpi" src="public/images/logo.png" />
+        <icon density="mdpi" src="public/images/logo.png" />
+        <icon density="hdpi" src="public/images/logo.png" />
+        <icon density="xhdpi" src="public/images/logo.png" />
+        <icon density="xxhdpi" src="public/images/logo.png" />
+        <icon density="xxxhdpi" src="public/images/logo.png" />
+
+        <splash density="land-ldpi" src="public/images/splash.png" />
+        <splash density="land-mdpi" src="public/images/splash.png" />
+        <splash density="land-hdpi" src="public/images/splash.png" />
+        <splash density="land-xhdpi" src="public/images/splash.png" />
+        <splash density="land-xxhdpi" src="public/images/splash.png" />
+        <splash density="land-xxxhdpi" src="public/images/splash.png" />
+        <splash density="port-ldpi" src="public/images/splash.png" />
+        <splash density="port-mdpi" src="public/images/splash.png" />
+        <splash density="port-hdpi" src="public/images/splash.png" />
+        <splash density="port-xhdpi" src="public/images/splash.png" />
+        <splash density="port-xxhdpi" src="public/images/splash.png" />
+        <splash density="port-xxxhdpi" src="public/images/splash.png" />
+
+        <plugin name="cordova-plugin-camera" spec="^6.0.0">
+            <variable name="ANDROIDX_CORE_VERSION" value="1.6.+" />
+        </plugin>
+        <plugin name="cordova-plugin-geolocation" spec="^4.1.0">
+            <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="Location access for COTS sighting mapping" />
+        </plugin>
+        <plugin name="cordova-plugin-network-information" spec="^3.0.0" />
+        <plugin name="cordova-plugin-file" spec="^7.0.0" />
+        <plugin name="cordova-plugin-device" spec="^2.1.0" />
+        <plugin name="cordova-plugin-splashscreen" spec="^6.0.0" />
+        <plugin name="cordova-plugin-statusbar" spec="^3.0.0" />
+        <plugin name="cordova-plugin-whitelist" spec="^1.3.5" />
+    </platform>
+
+    <platform name="ios">
+        <preference name="Orientation" value="portrait" />
+        <preference name="Fullscreen" value="false" />
+        <preference name="BackgroundColor" value="0xff1e3a8a" />
+        <preference name="DisallowOverscroll" value="true" />
+
+        <icon height="57" src="public/images/logo.png" width="57" />
+        <icon height="114" src="public/images/logo.png" width="114" />
+        <icon height="72" src="public/images/logo.png" width="72" />
+        <icon height="144" src="public/images/logo.png" width="144" />
+        <icon height="76" src="public/images/logo.png" width="76" />
+        <icon height="152" src="public/images/logo.png" width="152" />
+        <icon height="167" src="public/images/logo.png" width="167" />
+
+        <splash height="1136" src="public/images/splash.png" width="640" />
+        <splash height="1334" src="public/images/splash.png" width="750" />
+        <splash height="2208" src="public/images/splash.png" width="1242" />
+        <splash height="2436" src="public/images/splash.png" width="1125" />
+
+        <plugin name="cordova-plugin-camera" spec="^6.0.0" />
+        <plugin name="cordova-plugin-geolocation" spec="^4.1.0" />
+        <plugin name="cordova-plugin-network-information" spec="^3.0.0" />
+        <plugin name="cordova-plugin-file" spec="^7.0.0" />
+        <plugin name="cordova-plugin-device" spec="^2.1.0" />
+        <plugin name="cordova-plugin-splashscreen" spec="^6.0.0" />
+        <plugin name="cordova-plugin-statusbar" spec="^3.0.0" />
+        <plugin name="cordova-plugin-whitelist" spec="^1.3.5" />
+    </platform>
+
+    <plugin name="cordova-plugin-camera" spec="^6.0.0" />
+    <plugin name="cordova-plugin-geolocation" spec="^4.1.0" />
+    <plugin name="cordova-plugin-network-information" spec="^3.0.0" />
+    <plugin name="cordova-plugin-file" spec="^7.0.0" />
+    <plugin name="cordova-plugin-device" spec="^2.1.0" />
+    <plugin name="cordova-plugin-splashscreen" spec="^6.0.0" />
+    <plugin name="cordova-plugin-statusbar" spec="^3.0.0" />
+    <plugin name="cordova-plugin-whitelist" spec="^1.3.5" />
+</widget>
