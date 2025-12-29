@@ -65,6 +65,7 @@ Route::middleware('admin')->group(function () {
 
 // User dashboard routes
 Route::middleware(['user','auth'])->group(function () {
+    Route::get('/user', [UserDashboardController::class, 'index'])->name('user.dashboard');
     Route::get('/user/index', [UserDashboardController::class, 'index'])->name('user.index');
     Route::get('user/locations/create', [UserLocationController::class, 'create'])->name('locations.create');
     Route::get('/user/locations', [UserLocationController::class, 'index'])->name('user.locations');

@@ -65,7 +65,7 @@ class LoginController extends Controller
             case 1:
                 return '/admin';
             case 2:
-                return '/user/index';
+                return route('user.dashboard');
             default:
                 return '/login'; // Fallback if no role matches
         }
