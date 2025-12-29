@@ -610,60 +610,167 @@
     <script>
     // Fetch and display municipalities in Southern Leyte
     function populateMunicipalities() {
-        fetch('https://psgc.gitlab.io/api/provinces/086400000/municipalities/')
-            .then(response => response.json())
-            .then(data => {
-                const municipalitySelect = document.getElementById('municipality');
-                municipalitySelect.innerHTML = '<option value="">Select Municipality</option>';
-                data.forEach(municipality => {
-                    const option = document.createElement('option');
-                    option.value = municipality.name; // Use municipality name as the value
-                    option.textContent = municipality.name; // Municipality name
-                    municipalitySelect.appendChild(option);
-                });
-
-                // Load previously selected municipality from localStorage
-                const savedMunicipality = localStorage.getItem('municipality');
-                if (savedMunicipality) {
-                    municipalitySelect.value = savedMunicipality;
-                    populateBarangays(savedMunicipality);
-                }
-            })
-            .catch(error => console.error('Error fetching municipalities:', error));
+    // First try to load from localStorage cache
+    const cachedMunicipalities = localStorage.getItem('municipalities');
+    if (cachedMunicipalities) {
+        try {
+            const data = JSON.parse(cachedMunicipalities);
+            populateMunicipalitySelect(data);
+            console.log('Loaded municipalities from cache');
+            return;
+        } catch (e) {
+            console.warn('Failed to parse cached municipalities:', e);
+        }
     }
 
+    // Fallback municipalities for Southern Leyte if API fails
+    const fallbackMunicipalities = [
+        { code: '086401000', name: 'Anahawan' },
+        { code: '086402000', name: 'Bontoc' },
+        { code: '086403000', name: 'Hinunangan' },
+        { code: '086404000', name: 'Hinundayan' },
+        { code: '086405000', name: 'Libagon' },
+        { code: '086406000', name: 'Liloan' },
+        { code: '086407000', name: 'Limasawa' },
+        { code: '086408000', name: 'Maasin City' },
+        { code: '086409000', name: 'Macrohon' },
+        { code: '086410000', name: 'Malitbog' },
+        { code: '086411000', name: 'Padre Burgos' },
+        { code: '086412000', name: 'Pintuyan' },
+        { code: '086413000', name: 'Saint Bernard' },
+        { code: '086414000', name: 'San Francisco' },
+        { code: '086415000', name: 'San Juan' },
+        { code: '086416000', name: 'San Ricardo' },
+        { code: '086417000', name: 'Silago' },
+        { code: '086418000', name: 'Sogod' },
+        { code: '086419000', name: 'Tomas Oppus' }
+    ];
+
+    // Try to fetch from API
+    fetch('https://psgc.gitlab.io/api/provinces/086400000/municipalities/')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('API response not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Cache the data
+            localStorage.setItem('municipalities', JSON.stringify(data));
+            populateMunicipalitySelect(data);
+            console.log('Loaded municipalities from API');
+        })
+        .catch(error => {
+            console.warn('Failed to fetch municipalities from API, using fallback:', error);
+            // Use fallback data
+            populateMunicipalitySelect(fallbackMunicipalities);
+            // Cache fallback data
+            localStorage.setItem('municipalities', JSON.stringify(fallbackMunicipalities));
+        });
+}
+
+function populateMunicipalitySelect(data) {
+    const municipalitySelect = document.getElementById('municipality');
+    if (!municipalitySelect) return;
+
+    municipalitySelect.innerHTML = '<option value="">Select Municipality</option>';
+    data.forEach(municipality => {
+        const option = document.createElement('option');
+        option.value = municipality.name; // Use municipality name as the value
+        option.textContent = municipality.name; // Municipality name
+        municipalitySelect.appendChild(option);
+    });
+
+    // Load previously selected municipality from localStorage
+    const savedMunicipality = localStorage.getItem('municipality');
+    if (savedMunicipality) {
+        municipalitySelect.value = savedMunicipality;
+        populateBarangays(savedMunicipality);
+    }
     // Fetch and display barangays of selected municipality
     function populateBarangays(municipalityName) {
-        fetch('https://psgc.gitlab.io/api/provinces/086400000/municipalities/')
-            .then(response => response.json())
-            .then(data => {
-                const municipality = data.find(municipality => municipality.name === municipalityName);
-                if (municipality) {
-                    const municipalityCode = municipality.code;
-                    fetch(`https://psgc.gitlab.io/api/municipalities/${municipalityCode}/barangays/`)
-                        .then(response => response.json())
-                        .then(barangays => {
-                            const barangaySelect = document.getElementById('barangay');
-                            barangaySelect.innerHTML = '<option value="">Select Barangay</option>';
-                            barangays.forEach(barangay => {
-                                const option = document.createElement('option');
-                                option.value = barangay.name; // Use barangay name as the value
-                                option.textContent = barangay.name; // Barangay name
-                                barangaySelect.appendChild(option);
-                            });
-
-                            // Load previously selected barangay from localStorage
-                            const savedBarangay = localStorage.getItem('barangay');
-                            if (savedBarangay) {
-                                barangaySelect.value = savedBarangay;
-                            }
-                        })
-                        .catch(error => console.error('Error fetching barangays:', error));
-                }
-            })
-            .catch(error => console.error('Error fetching municipalities:', error));
+    if (!municipalityName) {
+        document.getElementById('barangay').innerHTML = '<option value="">Select Barangay</option>';
+        return;
     }
 
+    // Check cache first
+    const cacheKey = `barangays_${municipalityName}`;
+    const cachedBarangays = localStorage.getItem(cacheKey);
+    if (cachedBarangays) {
+        try {
+            const barangays = JSON.parse(cachedBarangays);
+            populateBarangaySelect(barangays);
+            console.log(`Loaded barangays for ${municipalityName} from cache`);
+            return;
+        } catch (e) {
+            console.warn('Failed to parse cached barangays:', e);
+        }
+    }
+
+    // Try to fetch from API
+    fetch('https://psgc.gitlab.io/api/provinces/086400000/municipalities/')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('API response not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const municipality = data.find(municipality => municipality.name === municipalityName);
+            if (municipality) {
+                const municipalityCode = municipality.code;
+                return fetch(`https://psgc.gitlab.io/api/municipalities/${municipalityCode}/barangays/`);
+            } else {
+                throw new Error('Municipality not found');
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Barangays API response not ok');
+            }
+            return response.json();
+        })
+        .then(barangays => {
+            // Cache the barangays
+            localStorage.setItem(cacheKey, JSON.stringify(barangays));
+            populateBarangaySelect(barangays);
+            console.log(`Loaded barangays for ${municipalityName} from API`);
+        })
+        .catch(error => {
+            console.warn(`Failed to fetch barangays for ${municipalityName} from API:`, error);
+            // Use fallback empty list or show message
+            populateBarangaySelect([]);
+            // You could add a message to the user here
+        });
+}
+
+function populateBarangaySelect(barangays) {
+    const barangaySelect = document.getElementById('barangay');
+    if (!barangaySelect) return;
+
+    barangaySelect.innerHTML = '<option value="">Select Barangay</option>';
+    if (barangays && barangays.length > 0) {
+        barangays.forEach(barangay => {
+            const option = document.createElement('option');
+            option.value = barangay.name; // Use barangay name as the value
+            option.textContent = barangay.name; // Barangay name
+            barangaySelect.appendChild(option);
+        });
+    } else {
+        // Add a note if no barangays available
+        const option = document.createElement('option');
+        option.value = '';
+        option.textContent = 'No barangays available';
+        option.disabled = true;
+        barangaySelect.appendChild(option);
+    }
+
+    // Load previously selected barangay from localStorage
+    const savedBarangay = localStorage.getItem('barangay');
+    if (savedBarangay) {
+        barangaySelect.value = savedBarangay;
+    }
     // Event listener for municipality selection
     document.addEventListener('DOMContentLoaded', () => {
         // Set up event listener to store selected municipality name in localStorage
@@ -747,216 +854,279 @@
 
 
     <script>
-    // Initialize the map
-    var map = L.map('map').setView([10.306812602471465, 125.00810623168947], 12);
+    // Initialize the map with error handling
+    try {
+        var map = L.map('map').setView([10.306812602471465, 125.00810623168947], 12);
 
-    // OSM layer
-    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    });
-    osm.addTo(map);
+        // OSM layer
+        var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        });
+        osm.addTo(map);
 
-    // Add Locate control
-    L.control.locate().addTo(map);
-
-
-    var geoJsonPolygon = {
-    "type": "FeatureCollection",
-    "features": [
-        {
-            "type": "Feature",
-            "properties": {},
-            "geometry": {
-                "type": "Polygon",
-                "coordinates": [
-                    [
-                        [
-                        124.98882706137022,10.398399643957603],
-                        [124.96538337058183,10.38719952081739],
-                        [124.95600589426613,10.347007542865796],
-                        [124.97074192847674,10.29890218090081],
-                        [124.97141174821303,10.263312667596836],
-                        [124.97141174821303,10.205965592498274],
-                        [124.98212886400279,10.159816761533278],
-                        [124.99820453768757,10.119595918359465],
-                        [125.01026129294985,10.085305317819461],
-                        [125.00892165347574,10.032543423636369],
-                        [125.01495003110864,9.996924282406624],
-                        [125.07389416794933,9.884104645319326],
-                        [125.18709370347563,9.870246924008114],
-                        [125.27082117058052,9.870906828729844],
-                        [125.27617972847554,9.904560213998522],
-                        [125.2547454968975,9.965259545956073],
-                        [125.19178244163419,10.068158647849856],
-                        [125.13953650216087,10.103769941717204],
-                        [125.13082884558139,10.195417877137956],
-                        [125.01762931005521,10.400376094583976],
-                        [125.0028932758446,10.403011342620147],
-                        [124.98882706137022,10.398399643957603]  
-                    ]
-                ]
-            }
+        // Add Locate control (with error handling)
+        try {
+            L.control.locate().addTo(map);
+        } catch (locateError) {
+            console.warn('Locate control not available:', locateError);
         }
-    ]
-};
-// Add the slightly larger GeoJSON polygon to the map
-var polygon = L.geoJSON(geoJsonPolygon, {
-    style: function () {
-        return {
-            color: "#0000FF",  // Border color (still defined, but will be invisible)
-            weight: 2,         // Border thickness
-            opacity: 0,        // Make the border fully transparent
-            fillOpacity: 0     // No fill color
+
+        var geoJsonPolygon = {
+            "type": "FeatureCollection",
+            "features": [
+                {
+                    "type": "Feature",
+                    "properties": {},
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [
+                            [
+                                [
+                                124.98882706137022,10.398399643957603],
+                                [124.96538337058183,10.38719952081739],
+                                [124.95600589426613,10.347007542865796],
+                                [124.97074192847674,10.29890218090081],
+                                [124.97141174821303,10.263312667596836],
+                                [124.97141174821303,10.205965592498274],
+                                [124.98212886400279,10.159816761533278],
+                                [124.99820453768757,10.119595918359465],
+                                [125.01026129294985,10.085305317819461],
+                                [125.00892165347574,10.032543423636369],
+                                [125.01495003110864,9.996924282406624],
+                                [125.07389416794933,9.884104645319326],
+                                [125.18709370347563,9.870246924008114],
+                                [125.27082117058052,9.870906828729844],
+                                [125.27617972847554,9.904560213998522],
+                                [125.2547454968975,9.965259545956073],
+                                [125.19178244163419,10.068158647849856],
+                                [125.13953650216087,10.103769941717204],
+                                [125.13082884558139,10.195417877137956],
+                                [125.01762931005521,10.400376094583976],
+                                [125.0028932758446,10.403011342620147],
+                                [124.98882706137022,10.398399643957603]
+                            ]
+                        ]
+                    }
+                }
+            ]
         };
-    }
-}).addTo(map);
 
-// Fit map to the new polygon bounds
-map.fitBounds(polygon.getBounds());
+        // Add the polygon to the map
+        var polygon = L.geoJSON(geoJsonPolygon, {
+            style: function () {
+                return {
+                    color: "#0000FF",
+                    weight: 2,
+                    opacity: 0,
+                    fillOpacity: 0
+                };
+            }
+        }).addTo(map);
 
-    // Loop through each location from the backend and add markers
-    @foreach ($locations as $location)
-        var marker{{ $location->id }} = L.marker([{{ $location->latitude }}, {{ $location->longitude }}]).addTo(map);
-    @endforeach
+        // Fit map to the polygon bounds
+        map.fitBounds(polygon.getBounds());
 
-// Global marker variable for new markers
-var marker;
+        // Loop through each location from the backend and add markers
+        @if(isset($locations) && is_array($locations))
+            @foreach ($locations as $location)
+                try {
+                    var marker{{ $location->id }} = L.marker([{{ $location->latitude }}, {{ $location->longitude }}]).addTo(map);
+                } catch (markerError) {
+                    console.warn('Failed to add marker for location {{ $location->id }}:', markerError);
+                }
+            @endforeach
+        @endif
 
-// Click event to place a new marker
-map.on('click', function (e) {
-    var clickedPoint = e.latlng;
+        // Global marker variable for new markers
+        var marker;
 
-    // Check if the clicked point is inside the polygon
-    var inside = false;
-    polygon.eachLayer(function (layer) {
-        if (layer.getBounds().contains(clickedPoint)) {
-            inside = true;
+        // Click event to place a new marker
+        map.on('click', function (e) {
+            var clickedPoint = e.latlng;
+
+            // Check if the clicked point is inside the polygon
+            var inside = false;
+            polygon.eachLayer(function (layer) {
+                if (layer.getBounds().contains(clickedPoint)) {
+                    inside = true;
+                }
+            });
+
+            if (inside) {
+                if (marker) {
+                    map.removeLayer(marker); // Remove existing marker
+                }
+                marker = L.marker(clickedPoint).addTo(map); // Place new marker
+
+                // Temporarily store the coordinates
+                document.getElementById('latitude').value = clickedPoint.lat;
+                document.getElementById('longitude').value = clickedPoint.lng;
+
+                document.getElementById('latitude_display').textContent = clickedPoint.lat.toFixed(6);
+                document.getElementById('longitude_display').textContent = clickedPoint.lng.toFixed(6);
+
+                // Show the consent modal
+                if (typeof $ !== 'undefined' && $('#consentModal').modal) {
+                    $('#consentModal').modal('show');
+                } else {
+                    console.warn('jQuery or modal not available');
+                }
+            } else {
+                alert("You can only place markers inside the sogod bay.");
+            }
+        });
+
+        // Handle "Agree" button click in consent modal
+        var agreeBtn = document.getElementById('agreeConsent');
+        if (agreeBtn) {
+            agreeBtn.addEventListener('click', function () {
+                if (typeof $ !== 'undefined' && $('#consentModal').modal && $('#modal1').modal) {
+                    $('#consentModal').modal('hide'); // Hide consent modal
+                    $('#modal1').modal('show'); // Show location modal
+                }
+            });
         }
-    });
 
-    if (inside) {
-        if (marker) {
-            map.removeLayer(marker); // Remove existing marker
+        // Handle "Cancel" button in consent modal
+        var cancelBtn = document.querySelector('.btn-secondary[data-bs-dismiss="modal"]');
+        if (cancelBtn) {
+            cancelBtn.addEventListener('click', function () {
+                if (marker) {
+                    map.removeLayer(marker); // Remove marker if consent is not given
+                    marker = null;
+                }
+            });
         }
-        marker = L.marker(clickedPoint).addTo(map); // Place new marker
 
-        // Temporarily store the coordinates
-        document.getElementById('latitude').value = clickedPoint.lat;
-        document.getElementById('longitude').value = clickedPoint.lng;
+        console.log('Map initialized successfully');
 
-
-        document.getElementById('latitude_display').textContent = clickedPoint.lat.toFixed(6);
-        document.getElementById('longitude_display').textContent = clickedPoint.lng.toFixed(6);
-
-
-        // Show the consent modal
-        $('#consentModal').modal('show');
-    } else {
-        alert("You can only place markers inside the sogod bay.");
+    } catch (mapError) {
+        console.error('Failed to initialize map:', mapError);
+        // Show error message in map container
+        const mapElement = document.getElementById('map');
+        if (mapElement) {
+            mapElement.innerHTML = `
+                <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: #f8f9fa; border-radius: 16px; flex-direction: column;">
+                    <i class="fas fa-exclamation-triangle fa-3x mb-3 text-warning"></i>
+                    <h5 class="text-muted">Map Loading Error</h5>
+                    <p class="text-muted text-center px-3">Unable to load the map. Please check your internet connection and refresh the page.</p>
+                    <button class="btn btn-primary btn-sm mt-2" onclick="location.reload()">Refresh Page</button>
+                </div>
+            `;
+        }
     }
-});
-
-// Handle "Agree" button click in consent modal
-document.getElementById('agreeConsent').addEventListener('click', function () {
-    $('#consentModal').modal('hide'); // Hide consent modal
-    $('#modal1').modal('show'); // Show location modal
-});
-
-// Handle "Cancel" button in consent modal
-document.querySelector('.btn-secondary[data-bs-dismiss="modal"]').addEventListener('click', function () {
-    if (marker) {
-        map.removeLayer(marker); // Remove marker if consent is not given
-        marker = null;
-    }
-    });
 </script>
 
 <script>
     // Function to toggle custom input visibility based on selection
-    document.getElementById('activity_type').addEventListener('change', function() {
-        var activitySelect = document.getElementById('activity_type');
-        var customActivityInput = document.getElementById('custom_activity');
-        if (activitySelect.value === 'other') {
-            customActivityInput.classList.remove('d-none');
-        } else {
-            customActivityInput.classList.add('d-none');
-        }
-    });
+    function setupCustomInputs() {
+        try {
+            const activitySelect = document.getElementById('activity_type');
+            const observerSelect = document.getElementById('observer_category');
+            const customActivityInput = document.getElementById('custom_activity');
+            const customObserverInput = document.getElementById('custom_observer');
 
-    document.getElementById('observer_category').addEventListener('change', function() {
-        var observerSelect = document.getElementById('observer_category');
-        var customObserverInput = document.getElementById('custom_observer');
-        if (observerSelect.value === 'other') {
-            customObserverInput.classList.remove('d-none');
-        } else {
-            customObserverInput.classList.add('d-none');
-        }
-    });
-
-    // When the form is submitted, append the custom input value if provided
-    document.querySelector('form').addEventListener('submit', function() {
-        // If "Other" is selected for activity type and custom input is provided
-        var activitySelect = document.getElementById('activity_type');
-        var customActivityInput = document.getElementById('custom_activity');
-        if (activitySelect.value === 'other' && customActivityInput.value) {
-            activitySelect.value = customActivityInput.value; // Override the value with the custom input
-        }
-
-        // If "Other" is selected for observer category and custom input is provided
-        var observerSelect = document.getElementById('observer_category');
-        var customObserverInput = document.getElementById('custom_observer');
-        if (observerSelect.value === 'other' && customObserverInput.value) {
-            observerSelect.value = customObserverInput.value; // Override the value with the custom input
-        }
-    });
-
-        document.getElementById('photo').addEventListener('change', function(event) {
-        var fileList = event.target.files;
-        var previewContainer = document.getElementById('photo-previews');
-        previewContainer.innerHTML = ''; // Clear previous previews
-
-        // Loop through the selected files
-        for (var i = 0; i < fileList.length; i++) {
-            var file = fileList[i];
-            var reader = new FileReader();
-
-            reader.onload = function(e) {
-                var img = document.createElement('img');
-                img.src = e.target.result;
-                img.classList.add('img-fluid', 'rounded', 'm-2');
-                img.style.maxWidth = '150px';
-                previewContainer.appendChild(img);
+            if (activitySelect && customActivityInput) {
+                activitySelect.addEventListener('change', function() {
+                    if (this.value === 'other') {
+                        customActivityInput.classList.remove('d-none');
+                    } else {
+                        customActivityInput.classList.add('d-none');
+                    }
+                });
             }
 
-            reader.readAsDataURL(file);
+            if (observerSelect && customObserverInput) {
+                observerSelect.addEventListener('change', function() {
+                    if (this.value === 'other') {
+                        customObserverInput.classList.remove('d-none');
+                    } else {
+                        customObserverInput.classList.add('d-none');
+                    }
+                });
+            }
+        } catch (error) {
+            console.warn('Error setting up custom inputs:', error);
         }
-    });
-
-</script>
-<script>
-    // Function to update the total of COTS
-    function updateTotal() {
-        // Get values from the input fields and parse them as integers (default to 0 if empty)
-        let earlyJuvenile = parseInt(document.getElementById('early_juvenile').value) || 0;
-        let juvenile = parseInt(document.getElementById('juvenile').value) || 0;
-        let subAdult = parseInt(document.getElementById('sub_adult').value) || 0;
-        let adult = parseInt(document.getElementById('adult').value) || 0;
-        let lateadult = parseInt(document.getElementById('late_adult').value) || 0;
-
-
-        // Calculate the total
-        let total = earlyJuvenile + juvenile + subAdult + adult + lateadult;
-
-        // Update the total field
-        document.getElementById('number_of_cots').value = total;
     }
 
-    // Attach the updateTotal function to the input event for each relevant field
-    document.getElementById('early_juvenile').addEventListener('input', updateTotal);
-    document.getElementById('juvenile').addEventListener('input', updateTotal);
-    document.getElementById('sub_adult').addEventListener('input', updateTotal);
-    document.getElementById('adult').addEventListener('input', updateTotal);
-    document.getElementById('late_adult').addEventListener('input', updateTotal);
+    // Function to handle photo previews
+    function setupPhotoPreview() {
+        try {
+            const photoInput = document.getElementById('photo');
+            if (photoInput) {
+                photoInput.addEventListener('change', function(event) {
+                    const previewContainer = document.getElementById('photo-previews') || document.createElement('div');
+                    if (!document.getElementById('photo-previews')) {
+                        previewContainer.id = 'photo-previews';
+                        photoInput.parentNode.appendChild(previewContainer);
+                    }
+                    previewContainer.innerHTML = '';
+
+                    const files = event.target.files;
+                    if (files) {
+                        for (let i = 0; i < files.length; i++) {
+                            const file = files[i];
+                            const reader = new FileReader();
+
+                            reader.onload = function(e) {
+                                const img = document.createElement('img');
+                                img.src = e.target.result;
+                                img.classList.add('img-fluid', 'rounded', 'm-2');
+                                img.style.maxWidth = '150px';
+                                previewContainer.appendChild(img);
+                            };
+
+                            reader.readAsDataURL(file);
+                        }
+                    }
+                });
+            }
+        } catch (error) {
+            console.warn('Error setting up photo preview:', error);
+        }
+    }
+
+    // Function to update total COTS count
+    function setupTotalCalculation() {
+        try {
+            const inputs = ['early_juvenile', 'juvenile', 'sub_adult', 'adult', 'late_adult'];
+            const totalInput = document.getElementById('number_of_cots');
+
+            if (totalInput) {
+                inputs.forEach(id => {
+                    const input = document.getElementById(id);
+                    if (input) {
+                        input.addEventListener('input', function() {
+                            updateTotal();
+                        });
+                    }
+                });
+            }
+
+            function updateTotal() {
+                let total = 0;
+                inputs.forEach(id => {
+                    const input = document.getElementById(id);
+                    if (input) {
+                        total += parseInt(input.value) || 0;
+                    }
+                });
+                if (totalInput) {
+                    totalInput.value = total;
+                }
+            }
+        } catch (error) {
+            console.warn('Error setting up total calculation:', error);
+        }
+    }
+
+    // Initialize all functions when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        setupCustomInputs();
+        setupPhotoPreview();
+        setupTotalCalculation();
+    });
 
 
 </script>
@@ -982,7 +1152,17 @@ document.querySelector('.btn-secondary[data-bs-dismiss="modal"]').addEventListen
     <script async defer src="https://buttons.github.io/buttons.js"></script>
 
     <!-- Offline Manager -->
-    <script src="{{ asset('js/offline-manager.js') }}"></script>
+    <script>
+        // Load offline manager with error handling
+        try {
+            // Check if offline manager script exists before trying to use it
+            if (typeof window.offlineManager === 'undefined') {
+                console.warn('Offline manager not loaded, some features may not work offline');
+            }
+        } catch (offlineError) {
+            console.warn('Offline manager error:', offlineError);
+        }
+    </script>
 
     <script>
         // Initialize offline functionality
