@@ -1,7 +1,7 @@
 {
-    "name": "Dag-ag Tracker",
-    "short_name": "Dag-ag Tracker",
-    "description": "Monitor and track dag-ag infestations to protect coral reefs",
+    "name": "Dap-ag Tracker",
+    "short_name": "Dap-ag Tracker",
+    "description": "Monitor and track dap-ag infestations to protect coral reefs",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#1e3a8a",

@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Dag-ag Tracker Mobile Build Script
+# Dap-ag Tracker Mobile Build Script
 # This script helps build APK files for Android
 
-echo "🏗️  Building Dag-ag Tracker APK..."
+echo "🏗️  Building Dap-ag Tracker APK..."
 
 # Check if Node.js is installed
 if ! command -v node &> /dev/null; then
@@ -67,4 +67,4 @@ else
 fi
 
 echo ""
-echo "🎉 Build complete! Your Dag-ag Tracker APK is ready."
+echo "🎉 Build complete! Your Dap-ag Tracker APK is ready."

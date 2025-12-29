@@ -1,6 +1,6 @@
 # Mobile APK Build Guide
 
-This guide explains how to convert the Dag-ag Tracker PWA into a native Android APK using Capacitor.
+This guide explains how to convert the Dap-ag Tracker PWA into a native Android APK using Capacitor.
 
 ## Prerequisites
 
@@ -68,7 +68,7 @@ npm install -g cordova
 
 ```bash
 # Create Cordova project
-cordova create dagag-mobile com.dagag.tracker "Dag-ag Tracker"
+cordova create dagag-mobile com.dagag.tracker "Dap-ag Tracker"
 
 # Copy web assets
 cp -r public/* dagag-mobile/www/
@@ -86,7 +86,7 @@ cordova build android
 The `capacitor.config.json` is pre-configured with:
 
 - App ID: `com.dagag.tracker`
-- App Name: "Dag-ag Tracker"
+- App Name: "Dap-ag Tracker"
 - Plugins: Camera, Geolocation, Filesystem, Network
 - Web directory: `public/`
 

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Admin Dashboard - Dag-ag Tracker')
+@section('title', 'Admin Dashboard - Dap-ag Tracker')
 
 @section('content')
 <div class="admin-dashboard">
@@ -30,7 +30,7 @@
                                 </div>
                             </div>
                             <div class="brand-logo">
-                                <img src="{{ asset('images/logo.png') }}" alt="Dag-ag Tracker" class="img-fluid">
+                                <img src="{{ asset('images/logo.png') }}" alt="Dap-ag Tracker" class="img-fluid">
                             </div>
                         </div>
                     </div>

@@ -6,10 +6,10 @@
     <meta name="theme-color" content="#1e3a8a" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="Dag-ag Tracker" />
+    <meta name="apple-mobile-web-app-title" content="Dap-ag Tracker" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="apple-touch-icon" href="/images/logo.png" />
-    <title>Dag-ag Tracker</title>
+    <title>Dap-ag Tracker</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
@@ -683,8 +683,8 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
             <a class="navbar-brand" href="#">
-                <img src="{{ asset('images/logo.png') }}" alt="Dag-ag Tracker Logo" style="height: 40px; width: auto; margin-right: 10px;">
-                Dag-ag Tracker
+                <img src="{{ asset('images/logo.png') }}" alt="Dap-ag Tracker Logo" style="height: 40px; width: auto; margin-right: 10px;">
+                Dap-ag Tracker
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -747,7 +747,7 @@
         </video>
         <div class="hero-overlay"></div>
         <div class="hero-content fade-in-up">
-            <h1>Welcome to Dag-ag Tracker</h1>
+            <h1>Welcome to Dap-ag Tracker</h1>
             <p>Monitor and track Crown-of-Thorns Starfish (COTS), locally known as Dap-ag, infestations to protect our coral reefs. Join us in preserving marine biodiversity.</p>
             <a href="/download" class="btn btn-download btn-lg">
                 <i class="fas fa-mobile-alt"></i> Install App
@@ -769,7 +769,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <h2>About the App</h2>
-                    <p>The Dag-ag (COTS) Tracker is a mobile application designed to help researchers, conservationists, and the public monitor and report sightings of Crown-of-Thorns Starfish (COTS), locally known as Dap-ag. This invasive species poses a significant threat to coral reefs worldwide.</p>
+                    <p>The Dap-ag (COTS) Tracker is a mobile application designed to help researchers, conservationists, and the public monitor and report sightings of Crown-of-Thorns Starfish (COTS), locally known as Dap-ag. This invasive species poses a significant threat to coral reefs worldwide.</p>
                     <p>Our app allows users to:</p>
                     <ul>
                         <li>Report COTS (Dap-ag) sightings with GPS coordinates</li>
@@ -806,7 +806,7 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 Dag-ag Tracker. All rights reserved.</p>
+            <p>&copy; 2025 Dap-ag Tracker. All rights reserved.</p>
             <p>Developed in partnership with DOST and SLSU Bontoc.</p>
         </div>
     </footer>

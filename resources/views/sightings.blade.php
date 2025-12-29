@@ -6,10 +6,10 @@
     <meta name="theme-color" content="#1e3a8a" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="Dag-ag Tracker" />
+    <meta name="apple-mobile-web-app-title" content="Dap-ag Tracker" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="apple-touch-icon" href="/images/logo.png" />
-    <title>COTS Sightings - Dag-ag Tracker</title>
+    <title>COTS Sightings - Dap-ag Tracker</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <!-- Leaflet CSS -->
@@ -208,8 +208,8 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
             <a class="navbar-brand" href="/">
-                <img src="{{ asset('images/logo.png') }}" alt="Dag-ag Tracker Logo">
-                Dag-ag Tracker
+                <img src="{{ asset('images/logo.png') }}" alt="Dap-ag Tracker Logo">
+                Dap-ag Tracker
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -309,7 +309,7 @@
     <!-- Footer -->
     <footer class="bg-dark text-white py-4 mt-5">
         <div class="container text-center">
-            <p>&copy; 2025 Dag-ag Tracker. All rights reserved.</p>
+            <p>&copy; 2025 Dap-ag Tracker. All rights reserved.</p>
             <p>Developed in partnership with DOST and SLSU Bontoc.</p>
         </div>
     </footer>

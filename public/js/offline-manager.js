@@ -1,4 +1,4 @@
-// Offline Data Management for Dag-ag Tracker PWA
+// Offline Data Management for Dap-ag Tracker PWA
 class OfflineManager {
     constructor() {
         this.dbName = 'DagAgTrackerDB';
@@ -103,8 +103,10 @@ class OfflineManager {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content'),
+                    'Accept': 'application/json'
                 },
+                credentials: 'same-origin', // Include cookies for session authentication
                 body: JSON.stringify({ locations: locationsForSync })
             });
 

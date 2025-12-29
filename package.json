@@ -1,8 +1,8 @@
 {
-    "name": "dag-ag-tracker",
+    "name": "dap-ag-tracker",
     "version": "1.0.0",
-    "description": "Monitor and track dag-ag infestations to protect coral reefs",
-    "author": "Dag-ag Tracker Team",
+    "description": "Monitor and track dap-ag infestations to protect coral reefs",
+    "author": "Dap-ag Tracker Team",
     "private": true,
     "type": "module",
     "main": "public/index.php",

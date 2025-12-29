@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#1e3a8a" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="Dag-ag Tracker" />
+    <meta name="apple-mobile-web-app-title" content="Dap-ag Tracker" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="apple-touch-icon" href="/images/logo.png" />
     <title>Install COTS Tracker - Progressive Web App</title>
@@ -120,8 +120,8 @@
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
             <a class="navbar-brand" href="/">
-                <img src="{{ asset('images/logo.png') }}" alt="Dag-ag Tracker Logo" style="height: 40px; width: auto; margin-right: 10px;">
-                Dag-ag Tracker
+                <img src="{{ asset('images/logo.png') }}" alt="Dap-ag Tracker Logo" style="height: 40px; width: auto; margin-right: 10px;">
+                Dap-ag Tracker
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>

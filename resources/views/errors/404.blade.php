@@ -6,10 +6,10 @@
     <meta name="theme-color" content="#1e3a8a" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="Dag-ag Tracker" />
+    <meta name="apple-mobile-web-app-title" content="Dap-ag Tracker" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="apple-touch-icon" href="/images/logo.png" />
-    <title>Page Not Found - Dag-ag Tracker</title>
+    <title>Page Not Found - Dap-ag Tracker</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
@@ -419,8 +419,8 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-transparent position-absolute top-0 start-0 w-100" style="z-index: 10;">
         <div class="container">
             <a class="navbar-brand text-white" href="/">
-                <img src="{{ asset('images/logo.png') }}" alt="Dag-ag Tracker Logo">
-                <span class="fw-bold">Dag-ag Tracker</span>
+                <img src="{{ asset('images/logo.png') }}" alt="Dap-ag Tracker Logo">
+                <span class="fw-bold">Dap-ag Tracker</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -506,7 +506,7 @@
             <!-- Footer Note -->
             <div class="footer-note">
                 <p class="mb-0">
-                    <strong>Dag-ag Tracker</strong> - Protecting coral reefs, one sighting at a time.
+                    <strong>Dap-ag Tracker</strong> - Protecting coral reefs, one sighting at a time.
                     <br>
                     <small>Developed in partnership with DOST and SLSU Bontoc</small>
                 </p>

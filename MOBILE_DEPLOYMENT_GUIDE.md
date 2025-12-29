@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide covers converting the Dag-ag Tracker PWA into a native Android APK using Capacitor framework. The app is fully prepared for mobile deployment with offline functionality, native features, and optimized UI.
+This guide covers converting the Dap-ag Tracker PWA into a native Android APK using Capacitor framework. The app is fully prepared for mobile deployment with offline functionality, native features, and optimized UI.
 
 ## Prerequisites
 
@@ -82,7 +82,7 @@ The `capacitor.config.json` is pre-configured:
 ```json
 {
   "appId": "com.dagag.tracker",
-  "appName": "Dag-ag Tracker",
+  "appName": "Dap-ag Tracker",
   "webDir": "public",
   "bundledWebRuntime": false,
   "plugins": {
@@ -179,7 +179,7 @@ adb install android/app/build/outputs/apk/debug/app-debug.apk
 ## Play Store Preparation
 
 ### 1. App Store Listing
-- **Title**: Dag-ag Tracker
+- **Title**: Dap-ag Tracker
 - **Short Description**: Offline COTS tracking for marine conservation
 - **Full Description**: Include feature list and offline capabilities
 - **Screenshots**: Capture from actual device
@@ -324,4 +324,4 @@ npx cap sync
 
 ---
 
-*This guide ensures successful conversion of the Dag-ag Tracker PWA to a production-ready Android APK with full offline functionality.*
+*This guide ensures successful conversion of the Dap-ag Tracker PWA to a production-ready Android APK with full offline functionality.*

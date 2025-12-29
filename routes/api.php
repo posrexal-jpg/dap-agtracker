@@ -17,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// PWA Offline Data Sync API
+Route::middleware(['web', 'auth'])->post('/sync-locations', [App\Http\Controllers\UserLocationController::class, 'syncLocations'])->name('api.sync-locations');

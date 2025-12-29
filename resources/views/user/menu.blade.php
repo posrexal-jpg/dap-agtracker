@@ -6,10 +6,10 @@
     <div class="sidebar-header">
         <a href="{{ route('user.index') }}" class="brand-link">
             <div class="brand-logo">
-                <img src="{{ asset('images/logo.png') }}" alt="Dag-ag Tracker Logo" class="logo-img">
+                <img src="{{ asset('images/logo.png') }}" alt="Dap-ag Tracker Logo" class="logo-img">
             </div>
             <div class="brand-text">
-                <span class="brand-title">Dag-ag Tracker</span>
+                <span class="brand-title">Dap-ag Tracker</span>
                 <div class="brand-subtitle">User Panel</div>
             </div>
         </a>

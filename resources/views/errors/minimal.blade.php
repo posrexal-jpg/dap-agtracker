@@ -6,7 +6,7 @@
         <meta name="theme-color" content="#1e3a8a" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="Dag-ag Tracker" />
+        <meta name="apple-mobile-web-app-title" content="Dap-ag Tracker" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/images/logo.png" />
 

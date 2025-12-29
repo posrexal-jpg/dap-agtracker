@@ -1,7 +1,7 @@
 // Service Worker for PWA - Enhanced Offline Support
-const CACHE_NAME = 'dag-ag-tracker-v3';
-const STATIC_CACHE = 'dag-ag-static-v3';
-const DYNAMIC_CACHE = 'dag-ag-dynamic-v3';
+const CACHE_NAME = 'dap-ag-tracker-v3';
+const STATIC_CACHE = 'dap-ag-static-v3';
+const DYNAMIC_CACHE = 'dap-ag-dynamic-v3';
 
 // Static assets to cache immediately
 const STATIC_ASSETS = [
@@ -196,17 +196,56 @@ self.addEventListener('sync', event => {
 
     if (event.tag === 'background-sync') {
         event.waitUntil(
-            // Handle any pending offline data sync here
-            syncOfflineData()
+            // Try to sync offline data
+            syncOfflineData().catch(error => {
+                console.error('Background sync failed:', error);
+                // Retry after a delay if failed
+                return new Promise(resolve => {
+                    setTimeout(() => {
+                        syncOfflineData().then(resolve).catch(resolve);
+                    }, 5000);
+                });
+            })
         );
     }
 });
 
 // Function to sync offline data (placeholder for future implementation)
 function syncOfflineData() {
-    return Promise.resolve();
-    // TODO: Implement offline data synchronization
-    // This could sync form submissions, location data, etc.
+    console.log('Attempting to sync offline data...');
+
+    return fetch('/api/sync-locations', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': getCsrfToken(),
+            'Accept': 'application/json'
+        },
+        credentials: 'same-origin',
+        body: JSON.stringify({
+            locations: [], // This will be populated by the offline manager
+            background_sync: true
+        })
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('Background sync completed successfully');
+            return response.json();
+        } else {
+            console.error('Background sync failed:', response.status);
+            throw new Error('Background sync failed');
+        }
+    })
+    .catch(error => {
+        console.error('Background sync error:', error);
+        throw error;
+    });
+}
+
+// Helper function to get CSRF token
+function getCsrfToken() {
+    const tokenMeta = document.querySelector('meta[name="csrf-token"]');
+    return tokenMeta ? tokenMeta.getAttribute('content') : '';
 }
 
 // Handle push notifications (for future use)

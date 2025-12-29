@@ -2,7 +2,7 @@
 
 ## ✅ Project Status: READY FOR APK BUILD
 
-Your Dag-ag Tracker web app has been successfully prepared for Android APK conversion. All necessary configurations, optimizations, and build scripts are in place.
+Your Dap-ag Tracker web app has been successfully prepared for Android APK conversion. All necessary configurations, optimizations, and build scripts are in place.
 
 ## 🚀 Quick APK Build (Choose Your Platform)
 
@@ -43,7 +43,7 @@ npm run mobile:android
 
 ### ✅ **Native Android APK**
 - **App ID**: `com.dagag.tracker`
-- **Name**: Dag-ag Tracker
+- **Name**: Dap-ag Tracker
 - **Offline Capable**: Full offline functionality
 - **Native Features**: Camera, GPS, file system access
 

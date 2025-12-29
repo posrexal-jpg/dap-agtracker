@@ -69,6 +69,9 @@ Route::middleware('admin')->group(function () {
     Route::delete('/admin/municipality/{id}', [MunicipalityController::class, 'destroy'])->name('admin.municipal.destroy');
 });
 
+// Redirect /users to /user for convenience
+Route::redirect('/users', '/user');
+
 // User dashboard routes
 Route::middleware(['user','auth'])->group(function () {
     Route::get('/user', [UserDashboardController::class, 'index'])->name('user.dashboard');

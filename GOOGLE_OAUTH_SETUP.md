@@ -1,6 +1,6 @@
-# Google OAuth Setup for Dag-ag Tracker
+# Google OAuth Setup for Dap-ag Tracker
 
-This guide will help you set up Google OAuth login for the Dag-ag Tracker application.
+This guide will help you set up Google OAuth login for the Dap-ag Tracker application.
 
 ## Prerequisites
 
