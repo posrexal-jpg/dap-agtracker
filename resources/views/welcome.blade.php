@@ -754,11 +754,8 @@
             </a>
             <div class="hero-buttons">
                 <p class="mb-3">Ready to join the reef rescue squad?</p>
-                <a href="/login" class="btn btn-outline-light">
-                    <i class="fas fa-eye"></i> Start Monitoring
-                </a>
-                <a href="/login" class="btn btn-light">
-                    <i class="fas fa-exclamation-triangle"></i> Report an Outbreak
+                <a href="/login" class="btn btn-light btn-lg">
+                    <i class="fas fa-eye"></i>&nbsp; Start Monitoring &nbsp;<span style="opacity:0.6">|</span>&nbsp; <i class="fas fa-exclamation-triangle"></i>&nbsp; Report an Outbreak
                 </a>
             </div>
         </div>
@@ -881,6 +878,26 @@
                         const target = document.querySelector(href);
                         if (target) {
                             const offset = 20; // Small offset from top
+                            const targetPosition = target.offsetTop - offset;
+                            window.scrollTo({
+                                top: targetPosition,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
+
+            // Smooth scrolling for navbar anchor links
+            const navbarLinks = document.querySelectorAll('.navbar-nav .nav-link');
+            navbarLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href.startsWith('#')) {
+                        e.preventDefault();
+                        const target = document.querySelector(href);
+                        if (target) {
+                            const offset = 80; // Account for navbar height
                             const targetPosition = target.offsetTop - offset;
                             window.scrollTo({
                                 top: targetPosition,

@@ -8,6 +8,6 @@ class DownloadController extends Controller
 {
     public function index()
     {
-        return view('admin.download');
+        return view('download');
     }
 }

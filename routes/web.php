@@ -21,6 +21,9 @@ Route::get('/', function () {
 // COTS Sightings page
 Route::get('/sightings', [LocationController::class, 'sightings'])->name('sightings');
 
+// Public download page
+Route::get('/download', [DownloadController::class, 'index'])->name('download');
+
 // Authentication routes
 Route::get('/login', [LoginController::class, 'index'])->name('login.form');
 Route::post('/login', [LoginController::class, 'customLogin'])->name('login');
@@ -39,7 +42,6 @@ Route::middleware('auth')->group(function () {
 Route::middleware('admin')->group(function () {
     // Dashboard and Location Routes
     Route::get('/admin', [AdminDashboardController::class, 'index'])->name('admin.index');
-    Route::get('/download', [DownloadController::class, 'index'])->name('admin.download');
     Route::post('/save-location', [LocationController::class, 'store'])->name('save-location');
     Route::get('/admin/locations', [LocationController::class, 'index'])->name('admin.location');
     Route::delete('/locations/{id}', [LocationController::class, 'destroy'])->name('locations.destroy');
