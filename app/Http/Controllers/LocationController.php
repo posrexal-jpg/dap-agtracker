@@ -16,6 +16,12 @@ class LocationController extends Controller
         return view('admin.location', compact('locations'));
     }
 
+    public function sightings()
+    {
+        $locations = Location::all();
+        return view('sightings', compact('locations'));
+    }
+
     public function dashboard()
     {
         // Get the sum of number_of_cots by municipality

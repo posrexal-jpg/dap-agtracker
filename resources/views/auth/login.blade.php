@@ -20,21 +20,33 @@
             background: linear-gradient(135deg, #1e3a8a 0%, #60a5fa 100%);
             min-height: 100vh;
             margin: 0;
+            padding: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 10px;
         }
-        .login-container {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
+
+        .login-modal .modal-dialog {
             max-width: 1200px;
             width: 100%;
-            max-height: 90vh;
-            margin: auto;
+            margin: 0 auto;
         }
+
+        .login-modal .modal-content {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .login-modal .modal-body {
+            padding: 0;
+        }
+
+        .login-modal {
+            z-index: 1055; /* Standard Bootstrap modal z-index */
+        }
+
         .left-panel {
             background: linear-gradient(135deg, #1e3a8a 0%, #60a5fa 100%);
             color: white;
@@ -46,6 +58,7 @@
             text-align: center;
             min-height: 400px;
         }
+
         .left-panel h1 {
             font-size: 2.5rem;
             font-weight: 700;
@@ -56,15 +69,18 @@
             justify-content: center;
             gap: 10px;
         }
+
         .left-panel h1 img {
             height: 50px;
             width: auto;
         }
+
         .left-panel p {
             font-size: 1.1rem;
             margin-bottom: 30px;
             line-height: 1.6;
         }
+
         .logos {
             display: flex;
             gap: 20px;
@@ -72,40 +88,50 @@
             flex-wrap: wrap;
             justify-content: center;
         }
+
         .logo {
             max-width: 80px;
             height: auto;
-            /* filter: brightness(0) invert(1); */
         }
+
         .right-panel {
+            background: white;
             padding: 40px 30px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             min-height: 400px;
         }
+
         .right-panel h3 {
             font-size: 1.8rem;
             font-weight: 600;
             margin-bottom: 10px;
+            text-align: center;
         }
+
         .right-panel > p {
             font-size: 0.95rem;
             margin-bottom: 30px;
+            text-align: center;
         }
+
         .form-group {
             margin-bottom: 20px;
         }
+
         .form-control {
             padding: 12px 16px;
             border-radius: 8px;
             border: 1px solid #ddd;
             font-size: 1rem;
         }
+
         .form-control:focus {
             border-color: #1e3a8a;
             box-shadow: 0 0 0 0.2rem rgba(30, 58, 138, 0.25);
         }
+
         .btn-login {
             background: linear-gradient(135deg, #1e3a8a 0%, #60a5fa 100%);
             border: none;
@@ -116,9 +142,11 @@
             font-size: 1rem;
             min-height: 48px;
         }
+
         .btn-login:hover {
             background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
         }
+
         .btn-google {
             border: 2px solid #dadce0;
             background: white;
@@ -133,276 +161,150 @@
             min-height: 48px;
             font-size: 1rem;
         }
+
         .btn-google:hover {
             background: #f8f9fa;
             border-color: #c4c7c5;
             color: #202124;
             text-decoration: none;
         }
+
         .alert {
             border-radius: 10px;
             font-size: 0.9rem;
         }
+
         .text-center.mt-3 a {
             color: #1e3a8a;
             font-weight: 500;
         }
+
         .form-label {
             font-weight: 500;
             margin-bottom: 8px;
             color: #374151;
         }
 
-        /* Accessibility improvements */
-        .form-control:focus {
-            border-color: #1e3a8a;
-            box-shadow: 0 0 0 0.2rem rgba(30, 58, 138, 0.25);
-            outline: none;
-        }
+        /* Modal responsiveness */
+        @media (max-width: 991.98px) {
+            .login-modal .modal-dialog {
+                max-width: 95vw;
+            }
 
-        /* Focus visible for keyboard navigation */
-        .btn:focus,
-        .form-control:focus {
-            outline: 2px solid #1e3a8a;
-            outline-offset: 2px;
-        }
-
-        /* Ensure minimum touch targets on mobile */
-        @media (max-width: 575.98px) {
-            .form-control {
-                min-height: 44px;
-                font-size: 16px; /* Prevents zoom on iOS */
-            }
-            .btn-login,
-            .btn-google {
-                min-height: 44px;
-                font-size: 16px;
-            }
-        }
-
-        /* Print styles - hide login form when printing */
-        @media print {
-            body {
-                background: white !important;
-            }
-            .login-container {
-                box-shadow: none;
-                border: 1px solid #ddd;
-            }
-            .left-panel {
-                background: #f8f9fa !important;
-                color: black !important;
-            }
+            .left-panel,
             .right-panel {
-                display: none;
+                padding: 20px;
+            }
+
+            .left-panel h1 {
+                font-size: 2rem;
+            }
+
+            .left-panel h1 img {
+                height: 40px;
             }
         }
 
-        /* Responsive Design */
-        /* Extra small devices (phones, < 576px) */
-        @media (max-width: 575.98px) {
+        @media (max-width: 767.98px) {
             body {
-                padding: 5px;
+                padding: 10px;
             }
-            .login-container {
+
+            .login-modal .modal-dialog {
+                max-width: 100vw;
+                margin: 0;
+            }
+
+            .login-modal .modal-content {
                 border-radius: 10px;
-                max-height: none;
-                height: auto;
             }
+
             .left-panel {
                 padding: 20px 15px;
                 min-height: 250px;
             }
+
             .left-panel h1 {
                 font-size: 1.8rem;
                 flex-direction: column;
-                text-align: center;
             }
+
             .left-panel h1 img {
                 height: 35px;
-                margin-right: 0;
                 margin-bottom: 10px;
             }
+
             .left-panel p {
                 font-size: 0.95rem;
                 margin-bottom: 20px;
             }
+
             .logos {
                 gap: 15px;
                 margin-top: 20px;
             }
+
             .logo {
                 max-width: 50px;
             }
+
             .right-panel {
                 padding: 20px 15px;
                 min-height: 300px;
             }
+
             .right-panel h3 {
                 font-size: 1.5rem;
                 margin-bottom: 8px;
             }
+
             .right-panel > p {
                 font-size: 0.9rem;
                 margin-bottom: 20px;
             }
+
             .form-control {
                 padding: 10px 14px;
-                font-size: 0.95rem;
-            }
-            .btn-login,
-            .btn-google {
-                padding: 10px 20px;
-                font-size: 0.95rem;
+                font-size: 16px; /* Prevents zoom on iOS */
                 min-height: 44px;
             }
-        }
 
-        /* Small devices (phones, 576px - 767px) */
-        @media (min-width: 576px) and (max-width: 767.98px) {
-            .login-container {
-                max-width: 500px;
-            }
-            .left-panel {
-                padding: 25px 20px;
-                min-height: 300px;
-            }
-            .left-panel h1 {
-                font-size: 2rem;
-            }
-            .left-panel h1 img {
-                height: 40px;
-            }
-            .left-panel p {
-                font-size: 1rem;
-            }
-            .logos {
-                gap: 18px;
-            }
-            .logo {
-                max-width: 60px;
-            }
-            .right-panel {
-                padding: 25px 20px;
-            }
-            .right-panel h3 {
-                font-size: 1.6rem;
+            .btn-login,
+            .btn-google {
+                padding: 12px 20px;
+                min-height: 48px;
+                font-size: 16px;
             }
         }
 
-        /* Medium devices (tablets, 768px - 991px) */
-        @media (min-width: 768px) and (max-width: 991.98px) {
-            .login-container {
-                max-width: 700px;
-            }
-            .left-panel {
-                padding: 30px 25px;
-            }
-            .left-panel h1 {
-                font-size: 2.2rem;
-            }
-            .left-panel h1 img {
-                height: 45px;
-            }
-            .left-panel p {
-                font-size: 1.05rem;
-            }
-            .logos {
-                gap: 20px;
-            }
-            .logo {
-                max-width: 70px;
-            }
-            .right-panel {
-                padding: 30px 25px;
-            }
-            .right-panel h3 {
-                font-size: 1.7rem;
-            }
-        }
-
-        /* Large devices (desktops, 992px - 1199px) */
-        @media (min-width: 992px) and (max-width: 1199.98px) {
-            .login-container {
-                max-width: 1000px;
-            }
-            .left-panel {
-                padding: 35px 28px;
-            }
-            .left-panel h1 {
-                font-size: 2.3rem;
-            }
-            .left-panel h1 img {
-                height: 48px;
-            }
-            .right-panel {
-                padding: 35px 28px;
-            }
-        }
-
-        /* Extra large devices (large desktops, > 1200px) */
-        @media (min-width: 1200px) {
-            .login-container {
-                max-width: 1200px;
-            }
-            .left-panel h1 {
-                font-size: 2.5rem;
-            }
-            .left-panel h1 img {
-                height: 50px;
-            }
-        }
-
-        /* Landscape phones and small tablets */
+        /* Landscape phones */
         @media (max-height: 500px) and (orientation: landscape) {
-            body {
-                padding: 5px;
+            .login-modal .modal-dialog {
+                margin: 5px auto;
             }
-            .login-container {
-                max-height: 95vh;
-                overflow-y: auto;
-            }
+
             .left-panel,
             .right-panel {
                 min-height: 200px;
                 padding: 15px;
             }
+
             .left-panel h1 {
                 font-size: 1.5rem;
                 margin-bottom: 10px;
             }
+
             .left-panel p {
                 font-size: 0.85rem;
                 margin-bottom: 15px;
             }
+
             .logos {
                 margin-top: 15px;
             }
+
             .logo {
                 max-width: 40px;
-            }
-        }
-
-        /* Touch devices - larger touch targets */
-        @media (pointer: coarse) {
-            .btn-login,
-            .btn-google {
-                min-height: 48px;
-            }
-            .form-control {
-                min-height: 44px;
-            }
-        }
-
-        /* High DPI displays */
-        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-            .left-panel h1 img {
-                image-rendering: -webkit-optimize-contrast;
-                image-rendering: crisp-edges;
-            }
-            .logo {
-                image-rendering: -webkit-optimize-contrast;
-                image-rendering: crisp-edges;
             }
         }
     </style>
@@ -419,13 +321,16 @@
             border-radius: 15px;
         }
         #errorModal .modal-dialog {
-            margin: 10px;
+            /* Removed margin to allow proper centering */
+        }
+        #errorModal {
+            z-index: 1060; /* Higher than default Bootstrap modal z-index */
         }
 
         /* Modal responsiveness */
         @media (max-width: 575.98px) {
             #errorModal .modal-dialog {
-                margin: 5px;
+                margin: 1rem;
                 max-width: none;
             }
             #errorModal .modal-content {
@@ -438,67 +343,74 @@
     </style>
 </head>
 <body>
-    <div class="container-fluid p-0">
-        <div class="login-container row g-0">
-            <!-- Left Panel -->
-            <div class="col-lg-6 left-panel">
-                <h1>
-                    <img src="{{ asset('images/logo.png') }}" alt="Dag-ag Tracker Logo">
-                    <span>Dag-ag Tracker</span>
-                </h1>
-                <p>Monitor and track Crown-of-Thorns Starfish (COTS), locally known as Dap-ag, infestations to protect our coral reefs. Join us in preserving marine biodiversity.</p>
-                <div class="logos">
-                    <img src="{{ asset('images/logo1.png') }}" alt="DOST Logo" class="logo">
-                    <img src="{{ asset('images/logo3.png') }}" alt="SLSU Bontoc Logo" class="logo">
-                </div>
-            </div>
-
-                    <!-- Right Panel -->
-                    <div class="col-lg-6 right-panel">
-                        <h3 class="text-center mb-4">Welcome Back</h3>
-                        <p class="text-center text-muted mb-4">Please sign in to your account</p>
-
-                        <!-- Display login error message if available -->
-                        @if(session('error'))
-                            <div class="alert alert-danger" id="session-error">{{ session('error') }}</div>
-                        @endif
-
-                        <!-- Display validation errors -->
-                        @if($errors->any())
-                            <div class="alert alert-danger" id="validation-errors">
-                                <ul class="mb-0">
-                                    @foreach($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
+    <!-- Login Modal -->
+    <div class="modal fade login-modal show" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="false" style="display: block;" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-body p-0">
+                    <div class="row g-0">
+                        <!-- Left Panel -->
+                        <div class="col-lg-6 left-panel">
+                            <h1>
+                                <img src="{{ asset('images/logo.png') }}" alt="Dag-ag Tracker Logo">
+                                <span>Dag-ag Tracker</span>
+                            </h1>
+                            <p>Monitor and track Crown-of-Thorns Starfish (COTS), locally known as Dap-ag, infestations to protect our coral reefs. Join us in preserving marine biodiversity.</p>
+                            <div class="logos">
+                                <img src="{{ asset('images/logo1.png') }}" alt="DOST Logo" class="logo">
+                                <img src="{{ asset('images/logo3.png') }}" alt="SLSU Bontoc Logo" class="logo">
                             </div>
-                        @endif
-
-                        <form action="{{ route('login') }}" method="POST">
-                            @csrf
-                            <div class="form-group">
-                                <label for="email" class="form-label">Email Address</label>
-                                <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" placeholder="Enter your email" required autocomplete="email">
-                            </div>
-                            <div class="form-group">
-                                <label for="password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required autocomplete="current-password">
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-login">Login</button>
-                        </form>
-
-                        <div class="text-center my-3">
-                            <span class="text-muted">or</span>
                         </div>
 
-                        <a href="{{ route('google.login') }}" class="btn btn-outline-secondary btn-google w-100 mb-3">
-                            <i class="fab fa-google me-2"></i>Continue with Google
-                        </a>
+                        <!-- Right Panel -->
+                        <div class="col-lg-6 right-panel">
+                            <h3 class="text-center mb-4">Welcome Back</h3>
+                            <p class="text-center text-muted mb-4">Please sign in to your account</p>
 
-                        <div class="text-center mt-3">
-                            <a href="/" class="text-decoration-none">← Back to Home</a>
+                            <!-- Display login error message if available -->
+                            @if(session('error'))
+                                <div class="alert alert-danger" id="session-error">{{ session('error') }}</div>
+                            @endif
+
+                            <!-- Display validation errors -->
+                            @if($errors->any())
+                                <div class="alert alert-danger" id="validation-errors">
+                                    <ul class="mb-0">
+                                        @foreach($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
+                            <form action="{{ route('login') }}" method="POST">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="email" class="form-label">Email Address</label>
+                                    <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" placeholder="Enter your email" required autocomplete="email">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required autocomplete="current-password">
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-login">Login</button>
+                            </form>
+
+                            <div class="text-center my-3">
+                                <span class="text-muted">or</span>
+                            </div>
+
+                            <a href="{{ route('google.login') }}" class="btn btn-outline-secondary btn-google w-100 mb-3">
+                                <i class="fab fa-google me-2"></i>Continue with Google
+                            </a>
+
+                            <div class="text-center mt-3">
+                                <a href="/" class="text-decoration-none">← Back to Home</a>
+                            </div>
                         </div>
                     </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -526,13 +438,20 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Show modal if there are errors
+        // Initialize and show the login modal
         document.addEventListener('DOMContentLoaded', function() {
+            const loginModal = new bootstrap.Modal(document.getElementById('loginModal'), {
+                backdrop: 'static',
+                keyboard: false
+            });
+            loginModal.show();
+
+            // Show error modal if there are errors
             const sessionError = document.getElementById('session-error');
             const validationErrors = document.getElementById('validation-errors');
-            
+
             let errorMessage = '';
-            
+
             if (sessionError) {
                 errorMessage = sessionError.innerHTML;
                 sessionError.style.display = 'none';
@@ -540,11 +459,11 @@
                 errorMessage = validationErrors.innerHTML;
                 validationErrors.style.display = 'none';
             }
-            
+
             if (errorMessage) {
                 document.getElementById('errorModalBody').innerHTML = errorMessage;
-                const modal = new bootstrap.Modal(document.getElementById('errorModal'));
-                modal.show();
+                const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+                errorModal.show();
             }
         });
     </script>

@@ -313,7 +313,7 @@
             <ul class="navbar-nav ms-auto align-items-center">
                 <li class="nav-item">
                     <span class="navbar-text fw-semibold text-dark me-3">
-                        {{ Auth::user()->role->role_name }}
+                        {{ Auth::check() && Auth::user()->role ? Auth::user()->role->role_name : 'User' }}
                     </span>
                 </li>
                 <li class="nav-item">
@@ -332,10 +332,12 @@
 <!-- Page Content -->
 <div class="layout-wrapper layout-content-navbar">
     <div class="layout-container">
-        @if(auth()->user()->role->role_name == 'admin')
+        @if(auth()->check() && auth()->user()->role && auth()->user()->role->role_name == 'admin')
             @include('admin.menu')
-        @else
+        @elseif(auth()->check() && auth()->user()->role)
             @include('user.menu')
+        @else
+            <!-- No menu for unauthenticated users or users without roles -->
         @endif
 
         <div class="layout-page">

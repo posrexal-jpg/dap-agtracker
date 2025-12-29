@@ -18,6 +18,9 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+// COTS Sightings page
+Route::get('/sightings', [LocationController::class, 'sightings'])->name('sightings');
+
 // Authentication routes
 Route::get('/login', [LoginController::class, 'index'])->name('login.form');
 Route::post('/login', [LoginController::class, 'customLogin'])->name('login');
