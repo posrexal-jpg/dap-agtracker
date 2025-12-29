@@ -21,6 +21,116 @@
             width: auto;
             margin-right: 10px;
         }
+
+        /* Mobile Horizontal Draggable Menu */
+        .mobile-horizontal-menu {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 8px 0;
+            z-index: 1030;
+            display: none;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .mobile-horizontal-menu::-webkit-scrollbar {
+            display: none;
+        }
+
+        .mobile-menu-container {
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            min-width: max-content;
+        }
+
+        .mobile-menu-item {
+            flex: 0 0 auto;
+            text-align: center;
+            margin: 0 8px;
+            min-width: 70px;
+        }
+
+        .mobile-menu-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 4px;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 0.75rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            min-height: 56px;
+            position: relative;
+        }
+
+        .mobile-menu-link i {
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .mobile-menu-link:hover,
+        .mobile-menu-link.active {
+            color: #1e3a8a;
+            background: rgba(30, 58, 138, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(30, 58, 138, 0.2);
+        }
+
+        .mobile-menu-link:active {
+            transform: scale(0.95);
+        }
+
+        .mobile-menu-drag-handle {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 4px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 2px;
+            cursor: grab;
+            touch-action: none;
+        }
+
+        .mobile-menu-drag-handle:active {
+            cursor: grabbing;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        /* Show horizontal menu on mobile */
+        @media (max-width: 991px) {
+            .mobile-horizontal-menu {
+                display: block;
+            }
+
+            .error-404-container {
+                margin-bottom: 80px; /* Account for horizontal menu */
+            }
+        }
+
+        /* Touch device optimizations for mobile menu */
+        @media (pointer: coarse) and (max-width: 991px) {
+            .mobile-menu-link {
+                min-height: 60px;
+                padding: 10px 6px;
+            }
+
+            .mobile-menu-link:active {
+                background: rgba(30, 58, 138, 0.2);
+            }
+        }
     .error-404-container {
         background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
         min-height: 100vh;
@@ -255,6 +365,258 @@
     </div>
 </footer>
 
+<!-- Mobile Horizontal Draggable Menu -->
+@if(auth()->check() && auth()->user()->role)
+<nav class="mobile-horizontal-menu">
+    <div class="mobile-menu-drag-handle" id="mobileMenuDragHandle"></div>
+    <div class="mobile-menu-container" id="mobileMenuContainer">
+        @if(auth()->user()->role->role_name == 'admin')
+            <!-- Admin Menu Items -->
+            <div class="mobile-menu-item">
+                <a href="{{ route('admin.index') }}" class="mobile-menu-link">
+                    <i class="bx bx-home-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </div>
+            <div class="mobile-menu-item">
+                <a href="{{ route('admin.download') }}" class="mobile-menu-link">
+                    <i class="bx bx-upload"></i>
+                    <span>Install</span>
+                </a>
+            </div>
+            <div class="mobile-menu-item">
+                <a href="{{ route('admin.location') }}" class="mobile-menu-link">
+                    <i class="bx bx-location-plus"></i>
+                    <span>Map</span>
+                </a>
+            </div>
+            <div class="mobile-menu-item">
+                <a href="{{ route('admin.report') }}" class="mobile-menu-link">
+                    <i class="bx bx-bar-chart-alt"></i>
+                    <span>Report</span>
+                </a>
+            </div>
+            <div class="mobile-menu-item">
+                <a href="{{ route('admin.adduser') }}" class="mobile-menu-link">
+                    <i class="bx bx-user-circle"></i>
+                    <span>Users</span>
+                </a>
+            </div>
+            <div class="mobile-menu-item">
+                <a href="{{ route('admin.municipal') }}" class="mobile-menu-link">
+                    <i class="bx bx-building"></i>
+                    <span>Municipal</span>
+                </a>
+            </div>
+        @else
+            <!-- User Menu Items -->
+            <div class="mobile-menu-item">
+                <a href="{{ route('user.index') }}" class="mobile-menu-link">
+                    <i class="bx bx-home-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </div>
+            <div class="mobile-menu-item">
+                <a href="{{ route('user.locations') }}" class="mobile-menu-link">
+                    <i class="bx bx-location-plus"></i>
+                    <span>Report</span>
+                </a>
+            </div>
+            <div class="mobile-menu-item">
+                <a href="{{ route('user.download') }}" class="mobile-menu-link">
+                    <i class="bx bx-upload"></i>
+                    <span>Install</span>
+                </a>
+            </div>
+        @endif
+    </div>
+</nav>
+@else
+<!-- Unauthenticated User Menu -->
+<nav class="mobile-horizontal-menu">
+    <div class="mobile-menu-drag-handle" id="mobileMenuDragHandle"></div>
+    <div class="mobile-menu-container" id="mobileMenuContainer">
+        <div class="mobile-menu-item">
+            <a href="/" class="mobile-menu-link">
+                <i class="bx bx-home-alt"></i>
+                <span>Home</span>
+            </a>
+        </div>
+        <div class="mobile-menu-item">
+            <a href="/sightings" class="mobile-menu-link">
+                <i class="bx bx-map"></i>
+                <span>Sightings</span>
+            </a>
+        </div>
+        <div class="mobile-menu-item">
+            <a href="/download" class="mobile-menu-link">
+                <i class="bx bx-upload"></i>
+                <span>Install</span>
+            </a>
+        </div>
+        <div class="mobile-menu-item">
+            <a href="/login" class="mobile-menu-link">
+                <i class="bx bx-log-in"></i>
+                <span>Login</span>
+            </a>
+        </div>
+    </div>
+</nav>
+@endif
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Mobile Menu Drag Functionality -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenu = document.querySelector('.mobile-horizontal-menu');
+    const dragHandle = document.getElementById('mobileMenuDragHandle');
+    const menuContainer = document.getElementById('mobileMenuContainer');
+
+    if (!mobileMenu || !dragHandle || !menuContainer) return;
+
+    let isDragging = false;
+    let startY = 0;
+    let currentY = 0;
+    let menuHeight = mobileMenu.offsetHeight;
+    let isMenuVisible = true;
+
+    // Touch events for mobile drag
+    dragHandle.addEventListener('touchstart', function(e) {
+        isDragging = true;
+        startY = e.touches[0].clientY;
+        dragHandle.style.cursor = 'grabbing';
+        mobileMenu.style.transition = 'none';
+    });
+
+    document.addEventListener('touchmove', function(e) {
+        if (!isDragging) return;
+
+        currentY = e.touches[0].clientY;
+        const deltaY = currentY - startY;
+
+        if (deltaY > 0) { // Dragging down
+            const newHeight = Math.max(0, menuHeight - deltaY);
+            mobileMenu.style.transform = `translateY(${menuHeight - newHeight}px)`;
+        }
+    });
+
+    document.addEventListener('touchend', function(e) {
+        if (!isDragging) return;
+
+        isDragging = false;
+        dragHandle.style.cursor = 'grab';
+        mobileMenu.style.transition = 'transform 0.3s ease';
+
+        const deltaY = currentY - startY;
+
+        if (deltaY > 50) { // Hide menu if dragged down more than 50px
+            mobileMenu.style.transform = `translateY(${menuHeight}px)`;
+            isMenuVisible = false;
+
+            // Auto-show after 3 seconds
+            setTimeout(() => {
+                if (!isMenuVisible) {
+                    mobileMenu.style.transform = 'translateY(0)';
+                    isMenuVisible = true;
+                }
+            }, 3000);
+        } else {
+            // Snap back to visible position
+            mobileMenu.style.transform = 'translateY(0)';
+            isMenuVisible = true;
+        }
+    });
+
+    // Mouse events for desktop testing
+    dragHandle.addEventListener('mousedown', function(e) {
+        isDragging = true;
+        startY = e.clientY;
+        dragHandle.style.cursor = 'grabbing';
+        mobileMenu.style.transition = 'none';
+        e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', function(e) {
+        if (!isDragging) return;
+
+        currentY = e.clientY;
+        const deltaY = currentY - startY;
+
+        if (deltaY > 0) {
+            const newHeight = Math.max(0, menuHeight - deltaY);
+            mobileMenu.style.transform = `translateY(${menuHeight - newHeight}px)`;
+        }
+    });
+
+    document.addEventListener('mouseup', function(e) {
+        if (!isDragging) return;
+
+        isDragging = false;
+        dragHandle.style.cursor = 'grab';
+        mobileMenu.style.transition = 'transform 0.3s ease';
+
+        const deltaY = currentY - startY;
+
+        if (deltaY > 50) {
+            mobileMenu.style.transform = `translateY(${menuHeight}px)`;
+            isMenuVisible = false;
+
+            setTimeout(() => {
+                if (!isMenuVisible) {
+                    mobileMenu.style.transform = 'translateY(0)';
+                    isMenuVisible = true;
+                }
+            }, 3000);
+        } else {
+            mobileMenu.style.transform = 'translateY(0)';
+            isMenuVisible = true;
+        }
+    });
+
+    // Horizontal scrolling with momentum
+    let scrollVelocity = 0;
+    let lastScrollTime = 0;
+    let scrollAnimation = null;
+
+    menuContainer.addEventListener('touchstart', function(e) {
+        if (scrollAnimation) {
+            cancelAnimationFrame(scrollAnimation);
+            scrollAnimation = null;
+        }
+        scrollVelocity = 0;
+        lastScrollTime = Date.now();
+    });
+
+    menuContainer.addEventListener('touchmove', function(e) {
+        const currentTime = Date.now();
+        const deltaTime = currentTime - lastScrollTime;
+
+        if (deltaTime > 0) {
+            scrollVelocity = (e.touches[0].clientX - (menuContainer.lastTouchX || e.touches[0].clientX)) / deltaTime;
+        }
+
+        menuContainer.lastTouchX = e.touches[0].clientX;
+        lastScrollTime = currentTime;
+    });
+
+    menuContainer.addEventListener('touchend', function(e) {
+        // Apply momentum scrolling
+        if (Math.abs(scrollVelocity) > 0.1) {
+            const momentum = function() {
+                menuContainer.scrollLeft += scrollVelocity * 16;
+                scrollVelocity *= 0.95; // Friction
+
+                if (Math.abs(scrollVelocity) > 0.01) {
+                    scrollAnimation = requestAnimationFrame(momentum);
+                } else {
+                    scrollAnimation = null;
+                }
+            };
+            momentum();
+        }
+    });
+});
+</script>
 </body>
 </html>
