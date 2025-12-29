@@ -9,7 +9,7 @@
     <meta name="apple-mobile-web-app-title" content="Dag-ag Tracker" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="apple-touch-icon" href="/images/logo.png" />
-    <title>Download - Dag-ag Tracker</title>
+    <title>Install COTS Tracker - Progressive Web App</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
@@ -157,25 +157,50 @@
 
                     <div class="download-card">
                         <div class="download-header">
-                            <h1 class="mb-2">Download Center</h1>
-                            <p class="mb-0">Get the COTS Tracker mobile application</p>
+                            <h1 class="mb-2">Install COTS Tracker</h1>
+                            <p class="mb-0">Install our app for offline access and native mobile experience</p>
                         </div>
                         <div class="download-body">
                             <div class="download-item text-center">
                                 <div class="download-icon">
-                                    <i class="fab fa-android"></i>
+                                    <i class="fas fa-mobile-alt"></i>
                                 </div>
-                                <h4>COTS Tracker Mobile App</h4>
-                                <p class="text-muted mb-4">Android application for COTS sighting reporting and reef monitoring</p>
-                                <a href="https://github.com/Yajzkie/Android-Cots-Tracker-app.git" class="btn-download" target="_blank">
+                                <h4>Install COTS Tracker App</h4>
+                                <p class="text-muted mb-4">Install our Progressive Web App for the best mobile experience with offline capabilities</p>
+
+                                <!-- Install Button (shown when app is installable) -->
+                                <button id="installBtn" class="btn-download d-none">
                                     <i class="fas fa-download"></i>
-                                    Download APK
-                                </a>
+                                    Install App
+                                </button>
+
+                                <!-- Alternative instructions when install button is not available -->
+                                <div id="installInstructions" class="text-center">
+                                    <p class="mb-3"><strong>How to install:</strong></p>
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-6">
+                                            <div class="install-step mb-3">
+                                                <i class="fas fa-share text-primary mb-2" style="font-size: 2rem;"></i>
+                                                <p><strong>Chrome/Android:</strong> Tap the menu (⋮) → "Add to Home screen"</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="install-step mb-3">
+                                                <i class="fab fa-safari text-primary mb-2" style="font-size: 2rem;"></i>
+                                                <p><strong>Safari/iOS:</strong> Tap share button → "Add to Home Screen"</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="alert alert-info mt-3">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        The app will work offline and provide push notifications for new sightings.
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="text-center">
                                 <p class="text-muted">
-                                    <small>Having trouble downloading? Visit our GitHub repository for installation instructions.</small>
+                                    <small>Already have the app installed? <a href="/" class="text-primary">Launch from home screen</a></small>
                                 </p>
                             </div>
                         </div>
@@ -186,5 +211,88 @@
     </section>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- PWA Install Script -->
+    <script>
+        let deferredPrompt;
+
+        // Listen for the beforeinstallprompt event
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent the mini-infobar from appearing on mobile
+            e.preventDefault();
+            // Stash the event so it can be triggered later
+            deferredPrompt = e;
+
+            // Show the install button
+            const installBtn = document.getElementById('installBtn');
+            const installInstructions = document.getElementById('installInstructions');
+
+            if (installBtn) {
+                installBtn.classList.remove('d-none');
+            }
+            if (installInstructions) {
+                installInstructions.classList.add('d-none');
+            }
+        });
+
+        // Handle install button click
+        document.getElementById('installBtn').addEventListener('click', async () => {
+            if (!deferredPrompt) {
+                alert('App installation is not available on this device/browser.');
+                return;
+            }
+
+            // Show the install prompt
+            deferredPrompt.prompt();
+
+            // Wait for the user to respond to the prompt
+            const { outcome } = await deferredPrompt.userChoice;
+
+            // Reset the deferred prompt variable
+            deferredPrompt = null;
+
+            // Hide the install button
+            document.getElementById('installBtn').classList.add('d-none');
+            document.getElementById('installInstructions').classList.remove('d-none');
+
+            if (outcome === 'accepted') {
+                console.log('User accepted the install prompt');
+            } else {
+                console.log('User dismissed the install prompt');
+            }
+        });
+
+        // Check if app is already installed
+        window.addEventListener('appinstalled', (evt) => {
+            console.log('App was installed successfully');
+            // Hide install button if app is installed
+            document.getElementById('installBtn').classList.add('d-none');
+            document.getElementById('installInstructions').classList.remove('d-none');
+        });
+
+        // Check if running in standalone mode (already installed)
+        if (window.matchMedia('(display-mode: standalone)').matches ||
+            window.navigator.standalone === true) {
+            // App is already installed, hide install options
+            document.getElementById('installBtn').classList.add('d-none');
+            document.getElementById('installInstructions').classList.add('d-none');
+
+            // Show message that app is already installed
+            const downloadBody = document.querySelector('.download-body');
+            downloadBody.innerHTML = `
+                <div class="text-center py-5">
+                    <div class="download-icon mb-4">
+                        <i class="fas fa-check-circle text-success" style="font-size: 4rem;"></i>
+                    </div>
+                    <h4 class="text-success mb-3">App Already Installed!</h4>
+                    <p class="text-muted mb-4">You're already using the COTS Tracker as an installed app.</p>
+                    <a href="/" class="btn btn-primary">
+                        <i class="fas fa-home me-2"></i>
+                        Go to Dashboard
+                    </a>
+                </div>
+            `;
+        }
+    </script>
 </body>
 </html>

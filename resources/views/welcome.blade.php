@@ -750,7 +750,7 @@
             <h1>Welcome to Dag-ag Tracker</h1>
             <p>Monitor and track Crown-of-Thorns Starfish (COTS), locally known as Dap-ag, infestations to protect our coral reefs. Join us in preserving marine biodiversity.</p>
             <a href="/download" class="btn btn-download btn-lg">
-                <i class="fas fa-download"></i> Download App
+                <i class="fas fa-mobile-alt"></i> Install App
             </a>
             <div class="hero-buttons">
                 <p class="mb-3">Ready to join the reef rescue squad?</p>
