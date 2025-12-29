@@ -42,6 +42,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware('admin')->group(function () {
     // Dashboard and Location Routes
     Route::get('/admin', [AdminDashboardController::class, 'index'])->name('admin.index');
+    Route::get('/admin/download', [DownloadController::class, 'adminIndex'])->name('admin.download');
     Route::post('/save-location', [LocationController::class, 'store'])->name('save-location');
     Route::get('/admin/locations', [LocationController::class, 'index'])->name('admin.location');
     Route::delete('/locations/{id}', [LocationController::class, 'destroy'])->name('locations.destroy');

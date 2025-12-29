@@ -10,4 +10,9 @@ class DownloadController extends Controller
     {
         return view('download');
     }
+
+    public function adminIndex()
+    {
+        return view('admin.download');
+    }
 }
