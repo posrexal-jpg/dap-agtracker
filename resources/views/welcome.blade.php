@@ -764,73 +764,7 @@
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="features">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <h2 class="section-title fade-in-up">Why Choose Dag-ag Tracker?</h2>
-                    <p class="section-subtitle fade-in-up">Empowering communities to protect our coral reefs through technology and collaboration.</p>
-                </div>
-            </div>
-            <div class="row g-4">
-                <div class="col-lg-4 col-md-6">
-                    <div class="feature-card fade-in-up">
-                        <div class="feature-icon">
-                            <i class="fas fa-map-marked-alt"></i>
-                        </div>
-                        <h3>Interactive Maps</h3>
-                        <p>Real-time visualization of COTS sightings with detailed location data and infestation patterns.</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="feature-card fade-in-up">
-                        <div class="feature-icon">
-                            <i class="fas fa-mobile-alt"></i>
-                        </div>
-                        <h3>Mobile-First Design</h3>
-                        <p>Optimized for field use with offline capabilities and intuitive touch interfaces.</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="feature-card fade-in-up">
-                        <div class="feature-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <h3>Community Driven</h3>
-                        <p>Connect with divers, researchers, and conservationists to share data and insights.</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="feature-card fade-in-up">
-                        <div class="feature-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <h3>Data Analytics</h3>
-                        <p>Track trends, predict outbreaks, and make informed conservation decisions.</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="feature-card fade-in-up">
-                        <div class="feature-icon">
-                            <i class="fas fa-bell"></i>
-                        </div>
-                        <h3>Real-time Alerts</h3>
-                        <p>Get notified about new sightings and outbreaks in your monitoring area.</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="feature-card fade-in-up">
-                        <div class="feature-icon">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <h3>Data Security</h3>
-                        <p>Your contributions are protected with enterprise-grade security measures.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- Features section removed per request -->
 
     <!-- Description Section -->
     <section class="description" id="about">
