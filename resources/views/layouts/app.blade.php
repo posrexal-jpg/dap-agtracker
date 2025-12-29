@@ -49,6 +49,8 @@
 
     <!-- Helpers -->
     <script src="{{ asset('assets/vendor/js/helpers.js')}}"></script>
+    <script src="{{ asset('assets/vendor/js/menu.js')}}"></script>
+    <script src="{{ asset('assets/js/main.js')}}"></script>
 
     <!-- Config -->
     <script src="{{ asset('assets/js/config.js')}}"></script>
@@ -308,11 +310,25 @@
             <i class="bx bx-menu bx-sm text-primary"></i>
         </div>
 
+        <!-- Navbar brand for mobile -->
+        <a class="navbar-brand d-lg-none" href="{{ route('admin.index') }}">
+            <img src="{{ asset('images/logo.png') }}" alt="COTS Tracker Logo" style="height: 30px; width: auto;">
+        </a>
+
+        <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContentPage1" aria-controls="navbarContentPage1" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
         <!-- Collapsible Navbar Content -->
         <div class="collapse navbar-collapse" id="navbarContentPage1">
             <ul class="navbar-nav ms-auto align-items-center">
-                <li class="nav-item">
+                <li class="nav-item d-block d-lg-none">
                     <span class="navbar-text fw-semibold text-dark me-3">
+                        {{ Auth::check() && Auth::user()->role ? Auth::user()->role->role_name : 'User' }}
+                    </span>
+                </li>
+                <li class="nav-item">
+                    <span class="navbar-text fw-semibold text-dark me-3 d-none d-lg-inline">
                         {{ Auth::check() && Auth::user()->role ? Auth::user()->role->role_name : 'User' }}
                     </span>
                 </li>
@@ -321,6 +337,7 @@
                         @csrf
                         <button type="submit" class="btn btn-outline-danger btn-sm" title="Logout">
                             <i class="bx bx-log-out"></i>
+                            <span class="d-none d-lg-inline ms-1">Logout</span>
                         </button>
                     </form>
                 </li>
