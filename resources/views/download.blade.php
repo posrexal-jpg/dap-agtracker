@@ -26,7 +26,7 @@
         }
 
         .download-container {
-            padding: 80px 0;
+            padding: 19px 0;
         }
 
         .download-card {

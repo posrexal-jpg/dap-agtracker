@@ -15,277 +15,412 @@
     <style>
         body {
             font-family: 'Public Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
         }
+
         .navbar-brand img {
             height: 40px;
             width: auto;
             margin-right: 10px;
         }
 
-        /* Mobile Horizontal Draggable Menu */
-        .mobile-horizontal-menu {
+        /* Animated background elements */
+        .floating-shapes {
             position: fixed;
-            bottom: 0;
+            top: 0;
             left: 0;
-            right: 0;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
-            padding: 8px 0;
-            z-index: 1030;
-            display: none;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-            overflow-x: auto;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
         }
 
-        .mobile-horizontal-menu::-webkit-scrollbar {
-            display: none;
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 6s ease-in-out infinite;
         }
 
-        .mobile-menu-container {
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 60px;
+            height: 60px;
+            top: 20%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+
+        .shape:nth-child(3) {
+            width: 100px;
+            height: 100px;
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        .shape:nth-child(4) {
+            width: 40px;
+            height: 40px;
+            bottom: 10%;
+            right: 20%;
+            animation-delay: 1s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .error-404-container {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
             display: flex;
-            align-items: center;
-            padding: 0 16px;
-            min-width: max-content;
-        }
-
-        .mobile-menu-item {
-            flex: 0 0 auto;
-            text-align: center;
-            margin: 0 8px;
-            min-width: 70px;
-        }
-
-        .mobile-menu-link {
-            display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 8px 4px;
-            color: #64748b;
-            text-decoration: none;
-            font-size: 0.75rem;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            min-height: 56px;
-            position: relative;
+            padding: 20px;
         }
 
-        .mobile-menu-link i {
-            font-size: 1.2rem;
-            margin-bottom: 4px;
-            display: block;
+        .error-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 600px;
+            width: 100%;
+            padding: 3rem 2rem;
+            text-align: center;
+            animation: slideUp 0.8s ease-out;
         }
 
-        .mobile-menu-link:hover,
-        .mobile-menu-link.active {
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .error-icon {
+            font-size: 5rem;
             color: #1e3a8a;
-            background: rgba(30, 58, 138, 0.1);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(30, 58, 138, 0.2);
+            margin-bottom: 1.5rem;
+            animation: bounce 2s ease-in-out infinite;
         }
 
-        .mobile-menu-link:active {
-            transform: scale(0.95);
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
         }
 
-        .mobile-menu-drag-handle {
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 4px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 2px;
-            cursor: grab;
-            touch-action: none;
-        }
-
-        .mobile-menu-drag-handle:active {
-            cursor: grabbing;
-            background: rgba(0, 0, 0, 0.4);
-        }
-
-        /* Show horizontal menu on mobile */
-        @media (max-width: 991px) {
-            .mobile-horizontal-menu {
-                display: block;
-            }
-
-            .error-404-container {
-                margin-bottom: 80px; /* Account for horizontal menu */
-            }
-        }
-
-        /* Touch device optimizations for mobile menu */
-        @media (pointer: coarse) and (max-width: 991px) {
-            .mobile-menu-link {
-                min-height: 60px;
-                padding: 10px 6px;
-            }
-
-            .mobile-menu-link:active {
-                background: rgba(30, 58, 138, 0.2);
-            }
-        }
-    .error-404-container {
-        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-    }
-
-    .error-card {
-        background: white;
-        border-radius: 20px;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        border: none;
-        max-width: 500px;
-        width: 100%;
-    }
-
-    .error-number {
-        font-size: 8rem;
-        font-weight: 700;
-        color: #1e3a8a;
-        line-height: 1;
-        margin-bottom: 1rem;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .error-title {
-        font-size: 2rem;
-        font-weight: 600;
-        color: #374151;
-        margin-bottom: 1rem;
-    }
-
-    .error-description {
-        color: #6b7280;
-        font-size: 1.1rem;
-        line-height: 1.6;
-        margin-bottom: 2rem;
-    }
-
-    .btn-go-home {
-        background: linear-gradient(135deg, #1e3a8a 0%, #60a5fa 100%);
-        border: none;
-        border-radius: 50px;
-        padding: 12px 30px;
-        font-weight: 600;
-        font-size: 1.1rem;
-        color: white;
-        text-decoration: none;
-        display: inline-block;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(30, 58, 138, 0.3);
-    }
-
-    .btn-go-home:hover {
-        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(30, 58, 138, 0.4);
-        color: white;
-        text-decoration: none;
-    }
-
-    .btn-go-back {
-        border: 2px solid #d1d5db;
-        background: white;
-        color: #6b7280;
-        border-radius: 50px;
-        padding: 12px 30px;
-        font-weight: 600;
-        font-size: 1.1rem;
-        text-decoration: none;
-        display: inline-block;
-        transition: all 0.3s ease;
-        margin-left: 10px;
-    }
-
-    .btn-go-back:hover {
-        border-color: #9ca3af;
-        background: #f9fafb;
-        color: #374151;
-        text-decoration: none;
-    }
-
-    .logo-404 {
-        max-width: 100px;
-        height: auto;
-        margin-bottom: 2rem;
-        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
-    }
-
-    .fun-element {
-        margin-top: 3rem;
-        padding: 1rem;
-        background: rgba(255, 255, 255, 0.8);
-        border-radius: 15px;
-        border: 1px solid rgba(255, 255, 255, 0.5);
-    }
-
-    .fun-element p {
-        color: #374151;
-        font-weight: 500;
-        margin: 0;
-    }
-
-    @media (max-width: 768px) {
         .error-number {
-            font-size: 6rem;
+            font-size: 8rem;
+            font-weight: 900;
+            color: #1e3a8a;
+            line-height: 1;
+            margin-bottom: 1rem;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, #1e3a8a 0%, #60a5fa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1); }
+            to { text-shadow: 3px 3px 20px rgba(30, 58, 138, 0.3); }
         }
 
         .error-title {
-            font-size: 1.5rem;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 1rem;
+            line-height: 1.2;
         }
 
-        .btn-go-home,
-        .btn-go-back {
-            padding: 10px 20px;
-            font-size: 1rem;
-            margin-left: 0;
-            margin-top: 10px;
+        .error-description {
+            color: #6b7280;
+            font-size: 1.2rem;
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .logo-404 {
-            max-width: 80px;
-        }
-    }
-
-    @media (max-width: 576px) {
-        .error-404-container {
-            padding: 10px;
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
         }
 
-        .error-card .card-body {
-            padding: 2rem 1.5rem;
+        .btn-primary-custom {
+            background: linear-gradient(135deg, #1e3a8a 0%, #60a5fa 100%);
+            border: none;
+            border-radius: 50px;
+            padding: 14px 32px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: white;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(30, 58, 138, 0.3);
+            position: relative;
+            overflow: hidden;
         }
 
-        .error-number {
-            font-size: 5rem;
-        }
-
-        .btn-go-home,
-        .btn-go-back {
+        .btn-primary-custom::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
             width: 100%;
-            margin-left: 0;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
         }
-    }
-</style>
+
+        .btn-primary-custom:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary-custom:hover {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(30, 58, 138, 0.4);
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-secondary-custom {
+            border: 2px solid #e5e7eb;
+            background: white;
+            color: #6b7280;
+            border-radius: 50px;
+            padding: 14px 32px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-secondary-custom:hover {
+            border-color: #d1d5db;
+            background: #f9fafb;
+            color: #374151;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+        }
+
+        .quick-links {
+            background: rgba(30, 58, 138, 0.05);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .quick-links h5 {
+            color: #1e3a8a;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .link-item {
+            background: white;
+            border-radius: 12px;
+            padding: 1rem 0.75rem;
+            text-decoration: none;
+            color: #4b5563;
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(30, 58, 138, 0.1);
+        }
+
+        .link-item:hover {
+            background: #1e3a8a;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
+            text-decoration: none;
+        }
+
+        .link-item i {
+            display: block;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #60a5fa;
+        }
+
+        .link-item:hover i {
+            color: white;
+        }
+
+        .footer-note {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+
+        .coral-emoji {
+            font-size: 2rem;
+            margin: 1rem 0;
+            animation: wave 2s ease-in-out infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            75% { transform: rotate(-5deg); }
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .error-content {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
+            }
+
+            .error-number {
+                font-size: 6rem;
+            }
+
+            .error-title {
+                font-size: 2rem;
+            }
+
+            .error-description {
+                font-size: 1.1rem;
+            }
+
+            .action-buttons {
+                gap: 0.75rem;
+            }
+
+            .btn-primary-custom,
+            .btn-secondary-custom {
+                padding: 12px 24px;
+                font-size: 1rem;
+            }
+
+            .link-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.5rem;
+            }
+
+            .link-item {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .error-number {
+                font-size: 5rem;
+            }
+
+            .error-title {
+                font-size: 1.75rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn-primary-custom,
+            .btn-secondary-custom {
+                width: 100%;
+            }
+
+            .link-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            .error-content {
+                background: rgba(17, 24, 39, 0.95);
+                color: #f9fafb;
+            }
+
+            .error-title {
+                color: #f9fafb;
+            }
+
+            .error-description {
+                color: #d1d5db;
+            }
+
+            .btn-secondary-custom {
+                background: #374151;
+                border-color: #4b5563;
+                color: #f9fafb;
+            }
+
+            .btn-secondary-custom:hover {
+                background: #4b5563;
+                border-color: #6b7280;
+                color: #f9fafb;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Animated Background Shapes -->
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-transparent position-absolute top-0 start-0 w-100" style="z-index: 10;">
         <div class="container">
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand text-white" href="/">
                 <img src="{{ asset('images/logo.png') }}" alt="Dag-ag Tracker Logo">
-                Dag-ag Tracker
+                <span class="fw-bold">Dag-ag Tracker</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -293,330 +428,143 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/#about">About</a>
+                        <a class="nav-link text-white" href="/#about">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/sightings">COTS Sightings</a>
+                        <a class="nav-link text-white" href="/sightings">COTS Sightings</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/#partners">Partners</a>
+                        <a class="nav-link text-white" href="/#partners">Partners</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/login">Login</a>
+                        <a class="nav-link text-white" href="/login">Login</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-<div class="error-404-container">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-8 col-lg-6">
-                <!-- Logo -->
-                <div class="text-center mb-4">
-                    <img src="{{ asset('images/logo.png') }}" alt="Dag-ag Tracker Logo" class="logo-404">
+    <div class="error-404-container">
+        <div class="error-content">
+            <!-- Error Icon -->
+            <div class="error-icon">
+                <i class="fas fa-compass"></i>
+            </div>
+
+            <!-- Error Number -->
+            <div class="error-number">404</div>
+
+            <!-- Error Title -->
+            <h1 class="error-title">Lost in the Reef?</h1>
+
+            <!-- Error Description -->
+            <p class="error-description">
+                The page you're looking for seems to have drifted away with the ocean currents.
+                But don't worry – our coral reefs are still safe and our mission continues!
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <a href="{{ url('/') }}" class="btn-primary-custom">
+                    <i class="fas fa-home"></i>
+                    Back to Home
+                </a>
+                <button onclick="history.back()" class="btn-secondary-custom">
+                    <i class="fas fa-arrow-left"></i>
+                    Go Back
+                </button>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="quick-links">
+                <h5><i class="fas fa-link me-2"></i>Quick Navigation</h5>
+                <div class="link-grid">
+                    <a href="/sightings" class="link-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        View Map
+                    </a>
+                    <a href="/login" class="link-item">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Login
+                    </a>
+                    <a href="/download" class="link-item">
+                        <i class="fas fa-download"></i>
+                        Install App
+                    </a>
+                    <a href="/#about" class="link-item">
+                        <i class="fas fa-info-circle"></i>
+                        About
+                    </a>
                 </div>
+            </div>
 
-                <!-- Error Card -->
-                <div class="error-card">
-                    <div class="card-body text-center">
-                        <div class="error-number">404</div>
-                        <h2 class="error-title">Oops! Page Not Found</h2>
-                        <p class="error-description">
-                            The page you're looking for seems to have wandered off into the coral reefs.
-                            Don't worry, let's get you back on track!
-                        </p>
+            <!-- Fun Element -->
+            <div class="coral-emoji">
+                🐠🌊
+            </div>
 
-                        <!-- Action Buttons -->
-                        <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center gap-2">
-                            <a href="{{ url('/') }}" class="btn-go-home">
-                                <i class="fas fa-home me-2"></i>Go Home
-                            </a>
-                            <button onclick="history.back()" class="btn-go-back">
-                                <i class="fas fa-arrow-left me-2"></i>Go Back
-                            </button>
-                        </div>
-
-                        <!-- Help Text -->
-                        <div class="mt-4 pt-3 border-top border-light">
-                            <p class="text-muted small mb-1">Need assistance?</p>
-                            <p class="text-muted small">
-                                If you believe this is an error, please contact our support team or try navigating from the home page.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Fun Element -->
-                <div class="fun-element text-center">
-                    <p>🐠 Help protect our coral reefs by reporting COTS sightings with Dag-ag Tracker!</p>
-                </div>
+            <!-- Footer Note -->
+            <div class="footer-note">
+                <p class="mb-0">
+                    <strong>Dag-ag Tracker</strong> - Protecting coral reefs, one sighting at a time.
+                    <br>
+                    <small>Developed in partnership with DOST and SLSU Bontoc</small>
+                </p>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Footer -->
-<footer class="bg-dark text-white py-4 mt-5">
-    <div class="container text-center">
-        <p>&copy; 2025 Dag-ag Tracker. All rights reserved.</p>
-        <p>Developed in partnership with DOST and SLSU Bontoc.</p>
-    </div>
-</footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Mobile Horizontal Draggable Menu -->
-@if(auth()->check() && auth()->user()->role)
-<nav class="mobile-horizontal-menu">
-    <div class="mobile-menu-drag-handle" id="mobileMenuDragHandle"></div>
-    <div class="mobile-menu-container" id="mobileMenuContainer">
-        @if(auth()->user()->role->role_name == 'admin')
-            <!-- Admin Menu Items -->
-            <div class="mobile-menu-item">
-                <a href="{{ route('admin.index') }}" class="mobile-menu-link">
-                    <i class="bx bx-home-alt"></i>
-                    <span>Dashboard</span>
-                </a>
-            </div>
-            <div class="mobile-menu-item">
-                <a href="{{ route('admin.download') }}" class="mobile-menu-link">
-                    <i class="bx bx-upload"></i>
-                    <span>Install</span>
-                </a>
-            </div>
-            <div class="mobile-menu-item">
-                <a href="{{ route('admin.location') }}" class="mobile-menu-link">
-                    <i class="bx bx-location-plus"></i>
-                    <span>Map</span>
-                </a>
-            </div>
-            <div class="mobile-menu-item">
-                <a href="{{ route('admin.report') }}" class="mobile-menu-link">
-                    <i class="bx bx-bar-chart-alt"></i>
-                    <span>Report</span>
-                </a>
-            </div>
-            <div class="mobile-menu-item">
-                <a href="{{ route('admin.adduser') }}" class="mobile-menu-link">
-                    <i class="bx bx-user-circle"></i>
-                    <span>Users</span>
-                </a>
-            </div>
-            <div class="mobile-menu-item">
-                <a href="{{ route('admin.municipal') }}" class="mobile-menu-link">
-                    <i class="bx bx-building"></i>
-                    <span>Municipal</span>
-                </a>
-            </div>
-        @else
-            <!-- User Menu Items -->
-            <div class="mobile-menu-item">
-                <a href="{{ route('user.index') }}" class="mobile-menu-link">
-                    <i class="bx bx-home-alt"></i>
-                    <span>Dashboard</span>
-                </a>
-            </div>
-            <div class="mobile-menu-item">
-                <a href="{{ route('user.locations') }}" class="mobile-menu-link">
-                    <i class="bx bx-location-plus"></i>
-                    <span>Report</span>
-                </a>
-            </div>
-            <div class="mobile-menu-item">
-                <a href="{{ route('user.download') }}" class="mobile-menu-link">
-                    <i class="bx bx-upload"></i>
-                    <span>Install</span>
-                </a>
-            </div>
-        @endif
-    </div>
-</nav>
-@else
-<!-- Unauthenticated User Menu -->
-<nav class="mobile-horizontal-menu">
-    <div class="mobile-menu-drag-handle" id="mobileMenuDragHandle"></div>
-    <div class="mobile-menu-container" id="mobileMenuContainer">
-        <div class="mobile-menu-item">
-            <a href="/" class="mobile-menu-link">
-                <i class="bx bx-home-alt"></i>
-                <span>Home</span>
-            </a>
-        </div>
-        <div class="mobile-menu-item">
-            <a href="/sightings" class="mobile-menu-link">
-                <i class="bx bx-map"></i>
-                <span>Sightings</span>
-            </a>
-        </div>
-        <div class="mobile-menu-item">
-            <a href="/download" class="mobile-menu-link">
-                <i class="bx bx-upload"></i>
-                <span>Install</span>
-            </a>
-        </div>
-        <div class="mobile-menu-item">
-            <a href="/login" class="mobile-menu-link">
-                <i class="bx bx-log-in"></i>
-                <span>Login</span>
-            </a>
-        </div>
-    </div>
-</nav>
-@endif
+    <!-- Interactive Elements -->
+    <script>
+        // Add some interactive fun
+        document.addEventListener('DOMContentLoaded', function() {
+            // Random coral emoji animation
+            const coralEmoji = document.querySelector('.coral-emoji');
+            const emojis = ['🐠', '🦀', '🐟', '🪸', '🐙', '🦑', '🐡', '🐠🌊'];
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- Mobile Menu Drag Functionality -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const mobileMenu = document.querySelector('.mobile-horizontal-menu');
-    const dragHandle = document.getElementById('mobileMenuDragHandle');
-    const menuContainer = document.getElementById('mobileMenuContainer');
-
-    if (!mobileMenu || !dragHandle || !menuContainer) return;
-
-    let isDragging = false;
-    let startY = 0;
-    let currentY = 0;
-    let menuHeight = mobileMenu.offsetHeight;
-    let isMenuVisible = true;
-
-    // Touch events for mobile drag
-    dragHandle.addEventListener('touchstart', function(e) {
-        isDragging = true;
-        startY = e.touches[0].clientY;
-        dragHandle.style.cursor = 'grabbing';
-        mobileMenu.style.transition = 'none';
-    });
-
-    document.addEventListener('touchmove', function(e) {
-        if (!isDragging) return;
-
-        currentY = e.touches[0].clientY;
-        const deltaY = currentY - startY;
-
-        if (deltaY > 0) { // Dragging down
-            const newHeight = Math.max(0, menuHeight - deltaY);
-            mobileMenu.style.transform = `translateY(${menuHeight - newHeight}px)`;
-        }
-    });
-
-    document.addEventListener('touchend', function(e) {
-        if (!isDragging) return;
-
-        isDragging = false;
-        dragHandle.style.cursor = 'grab';
-        mobileMenu.style.transition = 'transform 0.3s ease';
-
-        const deltaY = currentY - startY;
-
-        if (deltaY > 50) { // Hide menu if dragged down more than 50px
-            mobileMenu.style.transform = `translateY(${menuHeight}px)`;
-            isMenuVisible = false;
-
-            // Auto-show after 3 seconds
-            setTimeout(() => {
-                if (!isMenuVisible) {
-                    mobileMenu.style.transform = 'translateY(0)';
-                    isMenuVisible = true;
-                }
+            setInterval(() => {
+                const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+                coralEmoji.textContent = randomEmoji;
             }, 3000);
-        } else {
-            // Snap back to visible position
-            mobileMenu.style.transform = 'translateY(0)';
-            isMenuVisible = true;
-        }
-    });
 
-    // Mouse events for desktop testing
-    dragHandle.addEventListener('mousedown', function(e) {
-        isDragging = true;
-        startY = e.clientY;
-        dragHandle.style.cursor = 'grabbing';
-        mobileMenu.style.transition = 'none';
-        e.preventDefault();
-    });
+            // Add click effect to buttons
+            const buttons = document.querySelectorAll('.btn-primary-custom, .btn-secondary-custom');
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    // Add ripple effect
+                    const ripple = document.createElement('span');
+                    ripple.style.position = 'absolute';
+                    ripple.style.borderRadius = '50%';
+                    ripple.style.background = 'rgba(255, 255, 255, 0.3)';
+                    ripple.style.transform = 'scale(0)';
+                    ripple.style.animation = 'ripple 0.6s linear';
+                    ripple.style.left = (e.offsetX - 10) + 'px';
+                    ripple.style.top = (e.offsetY - 10) + 'px';
+                    ripple.style.width = '20px';
+                    ripple.style.height = '20px';
 
-    document.addEventListener('mousemove', function(e) {
-        if (!isDragging) return;
+                    this.appendChild(ripple);
 
-        currentY = e.clientY;
-        const deltaY = currentY - startY;
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+        });
 
-        if (deltaY > 0) {
-            const newHeight = Math.max(0, menuHeight - deltaY);
-            mobileMenu.style.transform = `translateY(${menuHeight - newHeight}px)`;
-        }
-    });
-
-    document.addEventListener('mouseup', function(e) {
-        if (!isDragging) return;
-
-        isDragging = false;
-        dragHandle.style.cursor = 'grab';
-        mobileMenu.style.transition = 'transform 0.3s ease';
-
-        const deltaY = currentY - startY;
-
-        if (deltaY > 50) {
-            mobileMenu.style.transform = `translateY(${menuHeight}px)`;
-            isMenuVisible = false;
-
-            setTimeout(() => {
-                if (!isMenuVisible) {
-                    mobileMenu.style.transform = 'translateY(0)';
-                    isMenuVisible = true;
+        // Add ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
                 }
-            }, 3000);
-        } else {
-            mobileMenu.style.transform = 'translateY(0)';
-            isMenuVisible = true;
-        }
-    });
-
-    // Horizontal scrolling with momentum
-    let scrollVelocity = 0;
-    let lastScrollTime = 0;
-    let scrollAnimation = null;
-
-    menuContainer.addEventListener('touchstart', function(e) {
-        if (scrollAnimation) {
-            cancelAnimationFrame(scrollAnimation);
-            scrollAnimation = null;
-        }
-        scrollVelocity = 0;
-        lastScrollTime = Date.now();
-    });
-
-    menuContainer.addEventListener('touchmove', function(e) {
-        const currentTime = Date.now();
-        const deltaTime = currentTime - lastScrollTime;
-
-        if (deltaTime > 0) {
-            scrollVelocity = (e.touches[0].clientX - (menuContainer.lastTouchX || e.touches[0].clientX)) / deltaTime;
-        }
-
-        menuContainer.lastTouchX = e.touches[0].clientX;
-        lastScrollTime = currentTime;
-    });
-
-    menuContainer.addEventListener('touchend', function(e) {
-        // Apply momentum scrolling
-        if (Math.abs(scrollVelocity) > 0.1) {
-            const momentum = function() {
-                menuContainer.scrollLeft += scrollVelocity * 16;
-                scrollVelocity *= 0.95; // Friction
-
-                if (Math.abs(scrollVelocity) > 0.01) {
-                    scrollAnimation = requestAnimationFrame(momentum);
-                } else {
-                    scrollAnimation = null;
-                }
-            };
-            momentum();
-        }
-    });
-});
-</script>
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
 </body>
 </html>
