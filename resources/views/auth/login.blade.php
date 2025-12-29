@@ -26,6 +26,20 @@
             justify-content: center;
         }
 
+        /* Prevent body scrolling on mobile when modal is open */
+        .mobile-device {
+            overflow: hidden;
+        }
+
+        .mobile-device .login-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1055;
+        }
+
         .login-modal .modal-dialog {
             max-width: 1200px;
             width: 100%;
@@ -277,27 +291,152 @@
             }
         }
 
-        /* Landscape phones */
-        @media (max-height: 500px) and (orientation: landscape) {
-            .login-modal .modal-dialog {
-                margin: 5px auto;
-            }
+        /* Mobile Phone - Full Viewport Modal */
+        .mobile-device .login-modal .modal-dialog {
+            max-width: 100vw;
+            margin: 0;
+            height: 100vh;
+            max-height: 100vh;
+        }
 
-            .left-panel,
-            .right-panel {
-                min-height: 200px;
-                padding: 15px;
-            }
+        .mobile-device .login-modal .modal-content {
+            height: 100vh;
+            max-height: 100vh;
+            border-radius: 0;
+            display: flex;
+            flex-direction: column;
+        }
 
-            .left-panel h1 {
-                font-size: 1.5rem;
-                margin-bottom: 10px;
-            }
+        .mobile-device .login-modal .modal-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0;
+        }
 
-            .left-panel p {
-                font-size: 0.85rem;
-                margin-bottom: 15px;
-            }
+        .mobile-device .row.g-0 {
+            height: 100%;
+            flex-direction: column;
+        }
+
+        .mobile-device .left-panel,
+        .mobile-device .right-panel {
+            flex: 1;
+            min-height: auto;
+            padding: 20px 15px;
+        }
+
+        .mobile-device .left-panel {
+            background: linear-gradient(135deg, #1e3a8a 0%, #60a5fa 100%);
+            order: 2; /* Move to bottom on mobile */
+        }
+
+        .mobile-device .right-panel {
+            background: white;
+            order: 1; /* Move to top on mobile */
+            flex: 1.2; /* Give more space to form */
+        }
+
+        /* Mobile Portrait Specific */
+        .mobile-portrait .left-panel h1 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .mobile-portrait .left-panel p {
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .mobile-portrait .logos {
+            margin-top: 15px;
+            gap: 10px;
+        }
+
+        .mobile-portrait .logo {
+            max-width: 40px;
+        }
+
+        .mobile-portrait .right-panel h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+        }
+
+        .mobile-portrait .right-panel > p {
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+        }
+
+        .mobile-portrait .form-group {
+            margin-bottom: 15px;
+        }
+
+        .mobile-portrait .btn-login,
+        .mobile-portrait .btn-google {
+            margin-bottom: 10px;
+            min-height: 44px;
+        }
+
+        /* Mobile Landscape Specific */
+        .mobile-landscape .row.g-0 {
+            flex-direction: row;
+        }
+
+        .mobile-landscape .left-panel,
+        .mobile-landscape .right-panel {
+            flex: 1;
+            min-height: 100%;
+            padding: 15px;
+            overflow-y: auto;
+        }
+
+        .mobile-landscape .left-panel {
+            order: 1;
+        }
+
+        .mobile-landscape .right-panel {
+            order: 2;
+        }
+
+        .mobile-landscape .left-panel h1 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .mobile-landscape .left-panel p {
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+
+        .mobile-landscape .right-panel h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .mobile-landscape .right-panel > p {
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+        }
+
+        .mobile-landscape .logos {
+            margin-top: 10px;
+            gap: 8px;
+        }
+
+        .mobile-landscape .logo {
+            max-width: 35px;
+        }
+
+        .mobile-landscape .form-group {
+            margin-bottom: 12px;
+        }
+
+        .mobile-landscape .btn-login,
+        .mobile-landscape .btn-google {
+            padding: 10px 16px;
+            min-height: 40px;
+            font-size: 14px;
+        }
 
             .logos {
                 margin-top: 15px;
@@ -437,6 +576,70 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Device Detection and Mobile Optimization -->
+    <script>
+        // Device and orientation detection for login page
+        function updateDeviceClasses() {
+            const body = document.body;
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+                           (window.innerWidth <= 768 && window.innerHeight > window.innerWidth);
+            const isPortrait = window.innerHeight > window.innerWidth;
+
+            // Remove existing classes
+            body.classList.remove('mobile-device', 'mobile-portrait', 'mobile-landscape');
+
+            // Add appropriate classes
+            if (isMobile) {
+                body.classList.add('mobile-device');
+                if (isPortrait) {
+                    body.classList.add('mobile-portrait');
+                } else {
+                    body.classList.add('mobile-landscape');
+                }
+            }
+        }
+
+        // Initial check
+        updateDeviceClasses();
+
+        // Listen for orientation changes
+        window.addEventListener('orientationchange', function() {
+            setTimeout(updateDeviceClasses, 100);
+        });
+
+        // Listen for resize events
+        window.addEventListener('resize', updateDeviceClasses);
+
+        // Touch device optimizations
+        if ('ontouchstart' in window) {
+            document.body.classList.add('touch-device');
+        }
+
+        // Force modal resize on mobile devices
+        function resizeModal() {
+            const modal = document.getElementById('loginModal');
+            if (modal && document.body.classList.contains('mobile-device')) {
+                // Small delay to ensure DOM is ready
+                setTimeout(() => {
+                    const modalDialog = modal.querySelector('.modal-dialog');
+                    if (modalDialog) {
+                        modalDialog.style.height = '100vh';
+                        modalDialog.style.maxHeight = '100vh';
+                    }
+                }, 100);
+            }
+        }
+
+        // Resize modal on orientation change
+        window.addEventListener('orientationchange', function() {
+            setTimeout(resizeModal, 200);
+        });
+
+        // Initial modal sizing
+        document.addEventListener('DOMContentLoaded', function() {
+            resizeModal();
+        });
+    </script>
     <script>
         // Initialize and show the login modal
         document.addEventListener('DOMContentLoaded', function() {

@@ -77,6 +77,130 @@
             background: transparent !important;
             border: none !important;
         }
+
+        /* Device and Orientation Detection */
+        .mobile-device {
+            /* Mobile-specific styles will be applied via JavaScript */
+        }
+
+        .mobile-portrait {
+            /* Portrait orientation styles */
+        }
+
+        .mobile-landscape {
+            /* Landscape orientation styles */
+        }
+
+        /* Mobile Bottom Navigation */
+        .mobile-bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 8px 0;
+            z-index: 1030;
+            display: none;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-bottom-nav .nav-item {
+            flex: 1;
+            text-align: center;
+        }
+
+        .mobile-bottom-nav .nav-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 4px;
+            color: #64748b !important;
+            font-size: 0.75rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            min-height: 56px;
+            border-radius: 8px;
+            margin: 0 2px;
+        }
+
+        .mobile-bottom-nav .nav-link i {
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .mobile-bottom-nav .nav-link:hover,
+        .mobile-bottom-nav .nav-link.active {
+            color: #1e3a8a !important;
+            background: rgba(30, 58, 138, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(30, 58, 138, 0.2);
+        }
+
+        .mobile-bottom-nav .nav-link:active {
+            transform: scale(0.95);
+        }
+
+        /* Hide regular navbar on mobile */
+        .mobile-device .navbar {
+            display: none;
+        }
+
+        .mobile-device .mobile-bottom-nav {
+            display: flex;
+        }
+
+        /* Adjust body padding for bottom nav */
+        .mobile-device {
+            padding-bottom: 80px;
+        }
+
+        /* Mobile Bottom Navigation Landscape Adjustments */
+        .mobile-landscape .mobile-bottom-nav {
+            padding: 4px 0;
+        }
+
+        .mobile-landscape .mobile-bottom-nav .nav-link {
+            padding: 6px 2px;
+            font-size: 0.7rem;
+            min-height: 48px;
+        }
+
+        .mobile-landscape .mobile-bottom-nav .nav-link i {
+            font-size: 1rem;
+            margin-bottom: 2px;
+        }
+
+        .mobile-landscape {
+            padding-bottom: 70px;
+        }
+
+        /* Touch device optimizations for bottom nav */
+        .touch-device .mobile-bottom-nav .nav-link {
+            min-height: 60px;
+        }
+
+        .touch-device .mobile-bottom-nav .nav-link:active {
+            background: rgba(30, 58, 138, 0.2);
+        }
+
+        /* Mobile responsive adjustments */
+        @media (max-width: 575.98px) {
+            #map {
+                height: 400px;
+            }
+
+            .hero-section {
+                padding: 30px 0;
+            }
+
+            .stats-card {
+                padding: 15px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -106,6 +230,38 @@
                     </li>
                 </ul>
             </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-bottom-nav">
+        <div class="container-fluid">
+            <ul class="navbar-nav d-flex flex-row justify-content-around">
+                <li class="nav-item">
+                    <a class="nav-link" href="/#about">
+                        <i class="fas fa-info-circle"></i>
+                        <span>About</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/sightings">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Sightings</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/#partners">
+                        <i class="fas fa-handshake"></i>
+                        <span>Partners</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Login</span>
+                    </a>
+                </li>
+            </ul>
         </div>
     </nav>
 
@@ -224,6 +380,78 @@
         ]);
         map.fitBounds(group.getBounds().pad(0.1));
         @endif
+    </script>
+
+    <!-- Device Detection and Mobile Optimization -->
+    <script>
+        // Device and orientation detection
+        function updateDeviceClasses() {
+            const body = document.body;
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+                           (window.innerWidth <= 768 && window.innerHeight > window.innerWidth);
+            const isPortrait = window.innerHeight > window.innerWidth;
+
+            // Remove existing classes
+            body.classList.remove('mobile-device', 'mobile-portrait', 'mobile-landscape');
+
+            // Add appropriate classes
+            if (isMobile) {
+                body.classList.add('mobile-device');
+                if (isPortrait) {
+                    body.classList.add('mobile-portrait');
+                } else {
+                    body.classList.add('mobile-landscape');
+                }
+            }
+        }
+
+        // Initial check
+        updateDeviceClasses();
+
+        // Listen for orientation changes
+        window.addEventListener('orientationchange', function() {
+            setTimeout(updateDeviceClasses, 100);
+        });
+
+        // Listen for resize events
+        window.addEventListener('resize', updateDeviceClasses);
+
+        // Touch device optimizations
+        if ('ontouchstart' in window) {
+            document.body.classList.add('touch-device');
+        }
+
+        // Mobile bottom navigation active state management
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileNavLinks = document.querySelectorAll('.mobile-bottom-nav .nav-link');
+            const currentPath = window.location.pathname;
+
+            mobileNavLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                if (href === currentPath || (href.startsWith('#') && currentPath === '/')) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Smooth scrolling for anchor links in mobile bottom nav
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href.startsWith('#')) {
+                        e.preventDefault();
+                        const target = document.querySelector(href);
+                        if (target) {
+                            const offset = 20; // Small offset from top
+                            const targetPosition = target.offsetTop - offset;
+                            window.scrollTo({
+                                top: targetPosition,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
+        });
     </script>
 
     <!-- PWA Service Worker Registration -->
