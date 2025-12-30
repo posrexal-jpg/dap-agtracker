@@ -9,6 +9,19 @@
             <div class="row align-items-center">
                 <div class="col-lg-8 col-md-7">
                     <div class="header-content">
+                        @php
+                            $hour = date('H');
+                            $greeting = 'Good morning';
+                            if ($hour >= 12 && $hour < 17) {
+                                $greeting = 'Good afternoon';
+                            } elseif ($hour >= 17) {
+                                $greeting = 'Good evening';
+                            }
+                            $userName = auth()->user()->name ?? 'Admin';
+                        @endphp
+                        <div class="greeting mb-3">
+                            <h2 class="greeting-text">{{ $greeting }}, {{ $userName }}!</h2>
+                        </div>
                         <div class="d-flex align-items-center mb-2">
                             <div class="header-icon me-3">
                                 <i class="fas fa-tachometer-alt"></i>
@@ -423,6 +436,19 @@
     font-weight: 400;
 }
 
+/* Greeting Styles */
+.greeting {
+    margin-bottom: 1rem;
+}
+
+.greeting-text {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.95);
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .header-stats {
     display: flex;
     align-items: center;
@@ -834,6 +860,10 @@
 
     .header-subtitle {
         font-size: 0.875rem;
+    }
+
+    .greeting-text {
+        font-size: 1rem;
     }
 
     .header-actions {

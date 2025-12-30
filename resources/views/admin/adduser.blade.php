@@ -6,12 +6,15 @@
     <div class="page-header mb-4">
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
             <div>
-                <h1 class="page-title">Manage Users</h1>
-                <p class="page-subtitle">Add, edit, and manage system users</p>
+                <h1 class="page-title">
+                    <i class="bx bx-user-circle me-3 text-primary"></i>
+                    Manage Users
+                </h1>
+                <p class="page-subtitle">Add, edit, and manage system users with ease</p>
             </div>
             <div class="page-actions">
                 <button type="button" class="btn btn-primary" onclick="openAddUserModal()">
-                    <i class="bx bx-plus"></i> Add User
+                    <i class="bx bx-plus me-2"></i>Add New User
                 </button>
             </div>
         </div>

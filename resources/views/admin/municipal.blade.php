@@ -6,12 +6,15 @@
     <div class="page-header mb-4">
         <div class="d-flex justify-content-between align-items-center">
             <div>
-                <h1 class="page-title">Municipalities</h1>
-                <p class="page-subtitle">Manage municipality locations</p>
+                <h1 class="page-title">
+                    <i class="bx bx-building me-3 text-primary"></i>
+                    Municipalities
+                </h1>
+                <p class="page-subtitle">Manage and organize municipality locations</p>
             </div>
             <div class="page-actions">
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#municipalityModal">
-                    <i class="bx bx-plus"></i> Add Municipality
+                    <i class="bx bx-plus me-2"></i>Add Municipality
                 </button>
             </div>
         </div>

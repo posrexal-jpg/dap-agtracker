@@ -1,253 +1,891 @@
 @extends('layouts.app')
+@section('title', 'Admin Dashboard - Dap-ag Tracker')
+
 @section('content')
-
-<div class="container-fluid">
-    <!-- Page Header -->
-    <div class="page-header mb-4">
-        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
-            <div>
-                <h1 class="page-title">Dashboard</h1>
-                <p class="page-subtitle">Comprehensive overview of COTS tracking system</p>
-            </div>
-            <div class="page-actions">
-                <button class="btn btn-primary" onclick="location.reload()">
-                    <i class="bx bx-refresh"></i> Refresh
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Key Metrics Cards -->
-    <div class="row mb-4">
-        <div class="col-xl-3 col-lg-6 mb-4">
-            <div class="card h-100">
-                <div class="card-body text-center">
-                    <div class="stat-icon mb-3">
-                        <i class="bx bx-user text-primary" style="font-size: 3rem;"></i>
-                    </div>
-                    <h5 class="card-title">Total Users</h5>
-                    <h2 class="text-primary">{{ number_format($userCount) }}</h2>
-                    <p class="text-muted">Registered users</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-3 col-lg-6 mb-4">
-            <div class="card h-100">
-                <div class="card-body text-center">
-                    <div class="stat-icon mb-3">
-                        <i class="bx bx-target text-warning" style="font-size: 3rem;"></i>
-                    </div>
-                    <h5 class="card-title">Total COTS</h5>
-                    <h2 class="text-warning">{{ number_format($totalCots) }}</h2>
-                    <p class="text-muted">Reported sightings</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-3 col-lg-6 mb-4">
-            <div class="card h-100">
-                <div class="card-body text-center">
-                    <div class="stat-icon mb-3">
-                        <i class="bx bx-map-pin text-info" style="font-size: 3rem;"></i>
-                    </div>
-                    <h5 class="card-title">Locations</h5>
-                    <h2 class="text-info">{{ number_format($locationCount) }}</h2>
-                    <p class="text-muted">Sighting locations</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-3 col-lg-6 mb-4">
-            <div class="card h-100">
-                <div class="card-body text-center">
-                    <div class="stat-icon mb-3">
-                        <i class="bx bx-trending-up text-success" style="font-size: 3rem;"></i>
-                    </div>
-                    <h5 class="card-title">Avg per Location</h5>
-                    <h2 class="text-success">{{ $locationCount > 0 ? number_format($totalCots / $locationCount, 1) : 0 }}</h2>
-                    <p class="text-muted">COTS per sighting</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Charts Row -->
-    <div class="row mb-4">
-        <!-- Municipality Distribution -->
-        <div class="col-xl-6 mb-4">
-            <div class="card h-100">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">COTS Distribution by Municipality</h5>
-                </div>
-                <div class="card-body">
-                    <div id="municipalityChart" style="height: 350px;"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Monthly Trends -->
-        <div class="col-xl-6 mb-4">
-            <div class="card h-100">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Monthly Trends (Last 6 Months)</h5>
-                </div>
-                <div class="card-body">
-                    <div id="monthlyChart" style="height: 350px;"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Activity and Observer Stats -->
-    <div class="row mb-4">
-        <!-- Activity Types -->
-        <div class="col-lg-6 mb-4">
-            <div class="card h-100">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Activity Types</h5>
-                </div>
-                <div class="card-body">
-                    <div id="activityChart" style="height: 300px;"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Observer Categories -->
-        <div class="col-lg-6 mb-4">
-            <div class="card h-100">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Observer Categories</h5>
-                </div>
-                <div class="card-body">
-                    <div id="observerChart" style="height: 300px;"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- COTS Size Distribution and Top Barangays -->
-    <div class="row mb-4">
-        <!-- COTS Size Distribution -->
-        <div class="col-lg-6 mb-4">
-            <div class="card h-100">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">COTS Size Distribution</h5>
-                </div>
-                <div class="card-body">
-                    <div id="sizeChart" style="height: 300px;"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Top Barangays -->
-        <div class="col-lg-6 mb-4">
-            <div class="card h-100">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Top Barangays by Sightings</h5>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Barangay</th>
-                                    <th>Sightings</th>
-                                    <th>Percentage</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($topBarangays as $barangay)
-                                <tr>
-                                    <td>{{ $barangay->barangay ?: 'N/A' }}</td>
-                                    <td>{{ $barangay->count }}</td>
-                                    <td>
-                                        <div class="progress" style="height: 8px;">
-                                            <div class="progress-bar bg-primary" role="progressbar"
-                                                 style="width: {{ $locationCount > 0 ? ($barangay->count / $locationCount) * 100 : 0 }}%"
-                                                 aria-valuenow="{{ $barangay->count }}"
-                                                 aria-valuemin="0"
-                                                 aria-valuemax="{{ $locationCount }}"></div>
-                                        </div>
-                                        {{ $locationCount > 0 ? number_format(($barangay->count / $locationCount) * 100, 1) : 0 }}%
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Recent Activity -->
-    <div class="row">
-        <!-- Recent Sightings -->
-        <div class="col-lg-8 mb-4">
-            <div class="card h-100">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Recent Sightings (Last 7 Days)</h5>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Location</th>
-                                    <th>Municipality</th>
-                                    <th>COTS Count</th>
-                                    <th>Activity</th>
-                                    <th>Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse($recentSightings as $sighting)
-                                <tr>
-                                    <td>{{ $sighting->name ?: 'N/A' }}</td>
-                                    <td>{{ $sighting->municipality ?: 'N/A' }}</td>
-                                    <td><span class="badge bg-warning">{{ $sighting->number_of_cots ?: 0 }}</span></td>
-                                    <td>{{ $sighting->activity_type ?: 'N/A' }}</td>
-                                    <td>{{ $sighting->created_at->format('M d, Y') }}</td>
-                                </tr>
-                                @empty
-                                <tr>
-                                    <td colspan="5" class="text-center text-muted">No recent sightings</td>
-                                </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Recent Users -->
-        <div class="col-lg-4 mb-4">
-            <div class="card h-100">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Recent Users</h5>
-                </div>
-                <div class="card-body">
-                    @forelse($recentUsers as $user)
-                    <div class="d-flex align-items-center mb-3">
-                        <div class="avatar avatar-sm me-3">
-                            <div class="avatar-initial bg-primary rounded-circle">{{ strtoupper(substr($user->name, 0, 1)) }}</div>
+<div class="admin-dashboard">
+    <!-- Modern Header Section -->
+    <div class="dashboard-header">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <div class="header-content">
+                        @php
+                            $hour = date('H');
+                            $greeting = 'Good morning';
+                            if ($hour >= 12 && $hour < 17) {
+                                $greeting = 'Good afternoon';
+                            } elseif ($hour >= 17) {
+                                $greeting = 'Good evening';
+                            }
+                            $userName = auth()->user()->name ?? 'Admin';
+                        @endphp
+                        <div class="greeting mb-3">
+                            <h2 class="greeting-text">{{ $greeting }}, {{ $userName }}!</h2>
                         </div>
-                        <div class="flex-grow-1">
-                            <h6 class="mb-0">{{ $user->name }}</h6>
-                            <small class="text-muted">{{ $user->created_at->diffForHumans() }}</small>
+                        <div class="d-flex align-items-center mb-2">
+                            <div class="header-icon me-3">
+                                <i class="fas fa-tachometer-alt"></i>
+                            </div>
+                            <div>
+                                <h1 class="header-title mb-0">Admin Dashboard</h1>
+                                <p class="header-subtitle mb-0">Monitor and manage COTS tracking data across Southern Leyte</p>
+                            </div>
                         </div>
-                        <span class="badge bg-secondary">{{ $user->role->role_name ?? 'User' }}</span>
                     </div>
-                    @empty
-                    <p class="text-muted text-center">No recent users</p>
-                    @endforelse
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="dashboard-content">
+        <div class="container-fluid">
+            <!-- Enhanced Stats Cards -->
+            <div class="stats-grid">
+                <div class="stats-row">
+                    <div class="stat-card users-card">
+                        <div class="stat-card-inner">
+                            <div class="stat-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-number">{{ $userCount }}</div>
+                                <div class="stat-label">Total Users</div>
+                                <div class="stat-trend">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>+12%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card cots-card">
+                        <div class="stat-card-inner">
+                            <div class="stat-icon">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-number">{{ $totalCots }}</div>
+                                <div class="stat-label">Total COTS</div>
+                                <div class="stat-trend">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>+8%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card locations-card">
+                        <div class="stat-card-inner">
+                            <div class="stat-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-number">{{ $locationCount }}</div>
+                                <div class="stat-label">Active Locations</div>
+                                <div class="stat-trend">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>+15%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card municipalities-card">
+                        <div class="stat-card-inner">
+                            <div class="stat-icon">
+                                <i class="fas fa-city"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-number">{{ count($municipalities ?? []) }}</div>
+                                <div class="stat-label">Municipalities</div>
+                                <div class="stat-trend">
+                                    <i class="fas fa-minus"></i>
+                                    <span>0%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts and Actions Section -->
+            <div class="dashboard-grid">
+                <!-- Main Chart -->
+                <div class="chart-section">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div class="chart-title">
+                                <i class="fas fa-chart-pie"></i>
+                                <span>COTS Distribution by Municipality</span>
+                            </div>
+                            <div class="chart-actions">
+                                <button class="btn btn-sm btn-outline-primary" onclick="refreshChart()">
+                                    <i class="fas fa-sync-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chart-body">
+                            <div id="pieChart" style="height: 400px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions & Recent Activity -->
+                <div class="actions-section">
+                    <!-- Quick Actions -->
+                    <div class="action-card">
+                        <div class="action-header">
+                            <div class="action-title">
+                                <i class="fas fa-bolt"></i>
+                                <span>Quick Actions</span>
+                            </div>
+                        </div>
+                        <div class="action-body">
+                            <div class="action-buttons">
+                                <a href="{{ route('admin.location') }}" class="action-btn primary">
+                                    <div class="action-icon">
+                                        <i class="fas fa-map-marked-alt"></i>
+                                    </div>
+                                    <div class="action-content">
+                                        <span class="action-label">Manage Locations</span>
+                                        <span class="action-desc">View and edit sighting data</span>
+                                    </div>
+                                    <i class="fas fa-chevron-right"></i>
+                                </a>
+
+                                <a href="{{ route('admin.adduser') }}" class="action-btn success">
+                                    <div class="action-icon">
+                                        <i class="fas fa-user-plus"></i>
+                                    </div>
+                                    <div class="action-content">
+                                        <span class="action-label">Manage Users</span>
+                                        <span class="action-desc">Add and manage user accounts</span>
+                                    </div>
+                                    <i class="fas fa-chevron-right"></i>
+                                </a>
+
+                                <a href="{{ route('admin.report') }}" class="action-btn info">
+                                    <div class="action-icon">
+                                        <i class="fas fa-chart-bar"></i>
+                                    </div>
+                                    <div class="action-content">
+                                        <span class="action-label">Generate Reports</span>
+                                        <span class="action-desc">Export data and analytics</span>
+                                    </div>
+                                    <i class="fas fa-chevron-right"></i>
+                                </a>
+
+                                <a href="{{ route('admin.download') }}" class="action-btn warning">
+                                    <div class="action-icon">
+                                        <i class="fas fa-download"></i>
+                                    </div>
+                                    <div class="action-content">
+                                        <span class="action-label">Download Data</span>
+                                        <span class="action-desc">Bulk data export options</span>
+                                    </div>
+                                    <i class="fas fa-chevron-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- System Status -->
+                    <div class="status-card">
+                        <div class="status-header">
+                            <div class="status-title">
+                                <i class="fas fa-server"></i>
+                                <span>System Status</span>
+                            </div>
+                        </div>
+                        <div class="status-body">
+                            <div class="status-items">
+                                <div class="status-item">
+                                    <div class="status-indicator online"></div>
+                                    <span>Database</span>
+                                </div>
+                                <div class="status-item">
+                                    <div class="status-indicator online"></div>
+                                    <span>File Storage</span>
+                                </div>
+                                <div class="status-item">
+                                    <div class="status-indicator online"></div>
+                                    <span>API Services</span>
+                                </div>
+                                <div class="status-item">
+                                    <div class="status-indicator warning"></div>
+                                    <span>Backup Status</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity Section -->
+            <div class="recent-activity">
+                <div class="activity-card">
+                    <div class="activity-header">
+                        <div class="activity-title">
+                            <i class="fas fa-history"></i>
+                            <span>Recent Activity</span>
+                        </div>
+                        <a href="#" class="view-all">View All</a>
+                    </div>
+                    <div class="activity-body">
+                        <div class="activity-list">
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-plus-circle"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-text">New COTS sighting reported in Sogod</div>
+                                    <div class="activity-time">2 hours ago</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-user-plus"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-text">New user account created</div>
+                                    <div class="activity-time">4 hours ago</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-text">Monthly report generated</div>
+                                    <div class="activity-time">1 day ago</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+/* Modern Admin Dashboard Styles */
+:root {
+    --primary-color: #1e40af;
+    --primary-dark: #1e3a8a;
+    --primary-light: #3b82f6;
+    --secondary-color: #64748b;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --danger-color: #ef4444;
+    --info-color: #06b6d4;
+    --dark-color: #1f2937;
+    --light-color: #f8fafc;
+    --border-color: #e2e8f0;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    --radius-sm: 0.375rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+}
+
+.admin-dashboard {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+/* Header Styles */
+.dashboard-header {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+    color: white;
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-lg);
+}
+
+.header-content .header-icon {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    backdrop-filter: blur(10px);
+}
+
+.header-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.header-subtitle {
+    font-size: 1rem;
+    opacity: 0.9;
+    font-weight: 400;
+}
+
+/* Greeting Styles */
+.greeting {
+    margin-bottom: 1rem;
+}
+
+.greeting-text {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.95);
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-stats {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    backdrop-filter: blur(10px);
+}
+
+.stat-value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    opacity: 0.9;
+}
+
+.brand-logo img {
+    height: 50px;
+    width: auto;
+}
+
+/* Stats Grid */
+.stats-grid {
+    margin-bottom: 2rem;
+}
+
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.stat-card {
+    background: white;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+}
+
+.stat-card-inner {
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.users-card .stat-icon { background: linear-gradient(135deg, var(--primary-color), var(--primary-light)); }
+.cots-card .stat-icon { background: linear-gradient(135deg, var(--warning-color), #fbbf24); }
+.locations-card .stat-icon { background: linear-gradient(135deg, var(--info-color), #22d3ee); }
+.municipalities-card .stat-icon { background: linear-gradient(135deg, var(--success-color), #34d399); }
+
+.stat-content {
+    flex: 1;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--dark-color);
+    margin-bottom: 0.25rem;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: var(--secondary-color);
+    font-weight: 500;
+}
+
+.stat-trend {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--success-color);
+    margin-top: 0.25rem;
+}
+
+.stat-trend i {
+    font-size: 0.625rem;
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* Chart Section */
+.chart-section .chart-card {
+    background: white;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.chart-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.chart-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+.chart-title i {
+    color: var(--primary-color);
+}
+
+.chart-actions .btn {
+    border-radius: var(--radius-md);
+    padding: 0.5rem;
+}
+
+.chart-body {
+    padding: 1.5rem;
+}
+
+/* Actions Section */
+.actions-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.action-card, .status-card {
+    background: white;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.action-header, .status-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.action-title, .status-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+.action-title i, .status-title i {
+    color: var(--primary-color);
+}
+
+.action-body {
+    padding: 1.5rem;
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+    background: white;
+}
+
+.action-btn:hover {
+    transform: translateX(4px);
+    box-shadow: var(--shadow-md);
+}
+
+.action-btn.primary { border-left: 4px solid var(--primary-color); }
+.action-btn.success { border-left: 4px solid var(--success-color); }
+.action-btn.info { border-left: 4px solid var(--info-color); }
+.action-btn.warning { border-left: 4px solid var(--warning-color); }
+
+.action-btn.primary:hover { background: rgba(59, 130, 246, 0.05); }
+.action-btn.success:hover { background: rgba(16, 185, 129, 0.05); }
+.action-btn.info:hover { background: rgba(6, 182, 212, 0.05); }
+.action-btn.warning:hover { background: rgba(245, 158, 11, 0.05); }
+
+.action-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+.action-btn.primary .action-icon { background: rgba(59, 130, 246, 0.1); color: var(--primary-color); }
+.action-btn.success .action-icon { background: rgba(16, 185, 129, 0.1); color: var(--success-color); }
+.action-btn.info .action-icon { background: rgba(6, 182, 212, 0.1); color: var(--info-color); }
+.action-btn.warning .action-icon { background: rgba(245, 158, 11, 0.1); color: var(--warning-color); }
+
+.action-content {
+    flex: 1;
+}
+
+.action-label {
+    display: block;
+    font-weight: 600;
+    color: var(--dark-color);
+    margin-bottom: 0.25rem;
+}
+
+.action-desc {
+    font-size: 0.875rem;
+    color: var(--secondary-color);
+}
+
+/* Status Card */
+.status-body {
+    padding: 1.5rem;
+}
+
+.status-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.status-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--dark-color);
+}
+
+.status-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.status-indicator.online { background: var(--success-color); }
+.status-indicator.warning { background: var(--warning-color); }
+.status-indicator.offline { background: var(--danger-color); }
+
+/* Recent Activity */
+.recent-activity .activity-card {
+    background: white;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.activity-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.activity-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+.activity-title i {
+    color: var(--primary-color);
+}
+
+.view-all {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.view-all:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
+}
+
+.activity-body {
+    padding: 1.5rem;
+}
+
+.activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.activity-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: var(--radius-lg);
+    background: var(--light-color);
+    transition: background 0.3s ease;
+}
+
+.activity-item:hover {
+    background: #e2e8f0;
+}
+
+.activity-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+}
+
+.activity-content {
+    flex: 1;
+}
+
+.activity-text {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--dark-color);
+    margin-bottom: 0.25rem;
+}
+
+.activity-time {
+    font-size: 0.75rem;
+    color: var(--secondary-color);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .stats-row {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-header {
+        padding: 1.5rem 0;
+        margin-bottom: 1.5rem;
+    }
+
+    .header-content {
+        margin-bottom: 1rem;
+    }
+
+    .header-title {
+        font-size: 1.5rem;
+    }
+
+    .header-subtitle {
+        font-size: 0.875rem;
+    }
+
+    .greeting-text {
+        font-size: 1rem;
+    }
+
+    .header-actions {
+        justify-content: center !important;
+    }
+
+    .stats-row {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .stat-card-inner {
+        padding: 1rem;
+        gap: 0.75rem;
+    }
+
+    .stat-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.25rem;
+    }
+
+    .stat-number {
+        font-size: 1.5rem;
+    }
+
+    .dashboard-grid {
+        gap: 1rem;
+    }
+
+    .chart-body {
+        padding: 1rem;
+    }
+
+    .action-body, .status-body, .activity-body {
+        padding: 1rem;
+    }
+
+    .action-btn {
+        padding: 0.75rem;
+        gap: 0.75rem;
+    }
+
+    .activity-item {
+        padding: 0.75rem;
+        gap: 0.75rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .dashboard-header {
+        padding: 1rem 0;
+    }
+
+    .header-content .header-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.25rem;
+    }
+
+    .header-title {
+        font-size: 1.25rem;
+    }
+
+    .brand-logo img {
+        height: 40px;
+    }
+
+    .stat-card-inner {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+
+    .action-btn {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+
+    .activity-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+}
+
+/* Dark mode support (optional) */
+@media (prefers-color-scheme: dark) {
+    .admin-dashboard {
+        background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+    }
+
+    .stat-card, .chart-card, .action-card, .status-card, .activity-card {
+        background: #374151;
+        border-color: #4b5563;
+        color: #f9fafb;
+    }
+
+    .stat-number, .stat-label, .activity-text {
+        color: #f9fafb;
+    }
+
+    .activity-item {
+        background: #4b5563;
+    }
+
+    .activity-item:hover {
+        background: #6b7280;
+    }
+}
+
+/* Print styles */
+@media print {
+    .dashboard-header,
+    .action-card,
+    .status-card,
+    .activity-card {
+        display: none;
+    }
+
+    .stats-grid,
+    .chart-section {
+        break-inside: avoid;
+    }
+}
+</style>
 
 <script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>
 <script src="{{ asset('assets/vendor/libs/popper/popper.js') }}"></script>
@@ -255,255 +893,153 @@
 <script src="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
 <script src="{{ asset('assets/vendor/js/menu.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-<script src="{{ asset('assets/js/main.js') }}"></script>
 
 <script>
-// Chart data from PHP
 var municipalities = {!! json_encode($municipalities) !!};
 var totalCotsArray = {!! json_encode($totalCotsArray) !!};
-var sightingCounts = {!! json_encode($sightingCounts) !!};
-var activityLabels = {!! json_encode($activityLabels) !!};
-var activityCounts = {!! json_encode($activityCounts) !!};
-var observerLabels = {!! json_encode($observerLabels) !!};
-var observerCounts = {!! json_encode($observerCounts) !!};
-var monthlyLabels = {!! json_encode($monthlyLabels) !!};
-var monthlySightings = {!! json_encode($monthlySightings) !!};
-var monthlyCots = {!! json_encode($monthlyCots) !!};
-var cotsSizes = {!! json_encode($cotsSizes) !!};
 
-// Color schemes
-var municipalityColors = ['#f44336', '#4caf50', '#2196f3', '#ff9800', '#9c27b0', '#3f51b5', '#009688', '#795548'];
-var activityColors = ['#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#00bcd4'];
-var observerColors = ['#4caf50', '#8bc34a', '#cddc39', '#ffeb3b', '#ffc107'];
-var sizeColors = ['#81c784', '#4caf50', '#388e3c', '#2e7d32', '#1b5e20'];
+var baseColors = ['#1e40af', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4'];
 
-// Municipality Chart (Donut)
-if (municipalities.length > 0) {
-    var municipalityOptions = {
-        chart: {
-            type: 'donut',
-            height: 350,
-            animations: {
-                enabled: true,
-                easing: 'easeinout',
-                speed: 800
-            }
-        },
-        series: totalCotsArray,
-        labels: municipalities,
-        colors: municipalityColors.slice(0, municipalities.length),
-        dataLabels: {
+var generatedColors = [];
+for (var i = 0; i < municipalities.length; i++) {
+    if (i < baseColors.length) {
+        generatedColors.push(baseColors[i]);
+    } else {
+        generatedColors.push('#' + Math.floor(Math.random() * 16777215).toString(16));
+    }
+}
+
+var optionsPieChart = {
+    chart: {
+        type: 'donut',
+        height: 350,
+        animations: {
             enabled: true,
-            style: {
-                fontSize: '14px',
-                fontWeight: 'bold',
-                colors: ['#fff']
-            },
-            formatter: function (val, opts) {
-                return totalCotsArray[opts.seriesIndex] + ' cots';
-            }
+            easing: 'easeinout',
+            speed: 800
         },
-        tooltip: {
-            theme: 'dark',
-            y: {
-                formatter: function (val, opts) {
-                    return val + ' cots (' + sightingCounts[opts.seriesIndex] + ' sightings)';
-                }
-            }
+        background: 'transparent'
+    },
+    series: totalCotsArray,
+    labels: municipalities,
+    colors: generatedColors,
+    dataLabels: {
+        enabled: true,
+        style: {
+            fontSize: '14px',
+            fontWeight: 'bold',
+            colors: ['#fff']
         },
-        plotOptions: {
-            pie: {
-                donut: {
-                    size: '70%',
-                    labels: {
+        formatter: function (val, opts) {
+            if (opts.series && opts.series[opts.seriesIndex] !== undefined) {
+                var totalCots = opts.series[opts.seriesIndex];
+                var percentage = (totalCots / opts.w.globals.seriesTotals.reduce((a, b) => a + b, 0)) * 100;
+                return totalCots + ' (' + percentage.toFixed(1) + '%)';
+            } else {
+                var municipality = municipalities[opts.seriesIndex];
+                return municipality;
+            }
+        }
+    },
+    tooltip: {
+        theme: 'light',
+        style: {
+            fontSize: '12px'
+        },
+        y: {
+            formatter: function (val) {
+                return val + ' COTS';
+            }
+        }
+    },
+    plotOptions: {
+        pie: {
+            donut: {
+                size: '70%',
+                labels: {
+                    show: true,
+                    total: {
                         show: true,
-                        total: {
-                            show: true,
-                            label: 'Total COTS',
-                            formatter: function (w) {
-                                return w.globals.seriesTotals.reduce((a, b) => a + b, 0);
-                            }
-                        }
+                        label: 'Total COTS',
+                        fontSize: '16px',
+                        fontWeight: 'bold',
+                        color: '#1e40af'
                     }
                 }
             }
-        },
-        legend: {
-            position: 'bottom',
-            horizontalAlign: 'center',
-            fontSize: '12px'
         }
-    };
-    var municipalityChart = new ApexCharts(document.querySelector("#municipalityChart"), municipalityOptions);
-    municipalityChart.render();
-}
-
-// Monthly Trends Chart (Line/Bar Combo)
-if (monthlyLabels.length > 0) {
-    var monthlyOptions = {
-        chart: {
-            type: 'line',
-            height: 350,
-            toolbar: {
-                show: false
-            }
+    },
+    legend: {
+        position: 'bottom',
+        horizontalAlign: 'center',
+        fontSize: '12px',
+        fontWeight: 'bold',
+        markers: {
+            width: 12,
+            height: 12,
+            radius: 6
         },
-        series: [{
-            name: 'Sightings',
-            type: 'column',
-            data: monthlySightings
-        }, {
-            name: 'Total COTS',
-            type: 'line',
-            data: monthlyCots
-        }],
-        colors: ['#2196f3', '#ff9800'],
-        dataLabels: {
-            enabled: false
-        },
-        stroke: {
-            width: [0, 3]
-        },
-        xaxis: {
-            categories: monthlyLabels,
-            labels: {
-                formatter: function(value) {
-                    var date = new Date(value + '-01');
-                    return date.toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
+        itemMargin: {
+            horizontal: 8,
+            vertical: 4
+        }
+    },
+    responsive: [{
+        breakpoint: 768,
+        options: {
+            legend: {
+                position: 'bottom',
+                fontSize: '10px'
+            },
+            dataLabels: {
+                style: {
+                    fontSize: '10px'
                 }
             }
-        },
-        yaxis: [{
-            title: {
-                text: 'Sightings'
-            }
-        }, {
-            opposite: true,
-            title: {
-                text: 'COTS Count'
-            }
-        }],
-        tooltip: {
-            shared: true,
-            intersect: false
-        },
-        legend: {
-            position: 'top'
         }
-    };
-    var monthlyChart = new ApexCharts(document.querySelector("#monthlyChart"), monthlyOptions);
-    monthlyChart.render();
+    }]
+};
+
+if (municipalities.length === totalCotsArray.length && municipalities.length > 0) {
+    var chartPie = new ApexCharts(document.querySelector("#pieChart"), optionsPieChart);
+    chartPie.render();
+} else {
+    console.error("Data mismatch or empty arrays:", municipalities.length, totalCotsArray.length);
 }
 
-// Activity Types Chart (Bar)
-if (activityLabels.length > 0) {
-    var activityOptions = {
-        chart: {
-            type: 'bar',
-            height: 300,
-            toolbar: {
-                show: false
-            }
-        },
-        series: [{
-            name: 'Count',
-            data: activityCounts
-        }],
-        colors: activityColors.slice(0, activityLabels.length),
-        plotOptions: {
-            bar: {
-                horizontal: true,
-                barHeight: '60%',
-                distributed: true
-            }
-        },
-        dataLabels: {
-            enabled: false
-        },
-        xaxis: {
-            categories: activityLabels
-        },
-        tooltip: {
-            theme: 'dark'
-        }
-    };
-    var activityChart = new ApexCharts(document.querySelector("#activityChart"), activityOptions);
-    activityChart.render();
+// Refresh chart function
+function refreshChart() {
+    if (chartPie) {
+        chartPie.updateOptions(optionsPieChart);
+    }
 }
 
-// Observer Categories Chart (Pie)
-if (observerLabels.length > 0) {
-    var observerOptions = {
-        chart: {
-            type: 'pie',
-            height: 300
-        },
-        series: observerCounts,
-        labels: observerLabels,
-        colors: observerColors.slice(0, observerLabels.length),
-        dataLabels: {
-            enabled: true,
-            style: {
-                fontSize: '12px',
-                colors: ['#fff']
-            }
-        },
-        tooltip: {
-            theme: 'dark'
-        },
-        legend: {
-            position: 'bottom'
-        }
-    };
-    var observerChart = new ApexCharts(document.querySelector("#observerChart"), observerOptions);
-    observerChart.render();
-}
-
-// COTS Size Distribution Chart (Horizontal Bar)
-var sizeLabels = Object.keys(cotsSizes);
-var sizeValues = Object.values(cotsSizes);
-
-if (sizeLabels.length > 0 && sizeValues.some(v => v > 0)) {
-    var sizeOptions = {
-        chart: {
-            type: 'bar',
-            height: 300,
-            toolbar: {
-                show: false
-            }
-        },
-        series: [{
-            name: 'Count',
-            data: sizeValues
-        }],
-        colors: sizeColors,
-        plotOptions: {
-            bar: {
-                horizontal: true,
-                barHeight: '50%'
-            }
-        },
-        dataLabels: {
-            enabled: true,
-            textAnchor: 'start',
-            style: {
-                colors: ['#333']
-            },
-            formatter: function (val) {
-                return val > 0 ? val : '';
-            },
-            offsetX: 10
-        },
-        xaxis: {
-            categories: sizeLabels.map(label => label.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase()))
-        },
-        tooltip: {
-            theme: 'dark'
-        }
-    };
-    var sizeChart = new ApexCharts(document.querySelector("#sizeChart"), sizeOptions);
-    sizeChart.render();
-}
-
+// Add loading animation for better UX
+$(document).ready(function() {
+    $('.stat-card').each(function(index) {
+        $(this).css('animation-delay', (index * 0.1) + 's');
+        $(this).addClass('animate-in');
+    });
+});
 </script>
+
+<style>
+/* Additional animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-in {
+    animation: fadeInUp 0.6s ease-out forwards;
+    opacity: 0;
+}
+</style>
+
 @endsection

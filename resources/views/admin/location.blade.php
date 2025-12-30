@@ -3,27 +3,156 @@
 
 @section('content')
 <div class="container-fluid">
-    <!-- Page Header -->
-    <div class="page-header mb-4">
+    <!-- Page Header - Hidden on Mobile/Tablet -->
+    <div class="page-header mb-4 d-none d-lg-block">
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
             <div>
-                <h1 class="page-title">Sightings Map</h1>
-                <p class="page-subtitle">Interactive map showing all reported COTS sightings</p>
+                <h1 class="page-title">
+                    <i class="bx bx-map me-3 text-primary"></i>
+                    Sightings Map
+                </h1>
+                <p class="page-subtitle">Interactive map showing all reported COTS sightings with detailed analytics</p>
             </div>
             <div class="page-actions">
                 <div class="d-flex flex-wrap align-items-center gap-2">
                     <div class="stat-pill bg-light px-3 py-2 rounded">
-                        <i class="fas fa-map-marker-alt me-2 text-primary"></i>
+                        <i class="bx bx-map-pin me-2 text-primary"></i>
                         <span>{{ count($locations) }} Locations</span>
                     </div>
                     <button class="btn btn-outline-primary" onclick="refreshMap()">
-                        <i class="fas fa-sync-alt"></i>
+                        <i class="bx bx-refresh"></i>
                         <span class="d-none d-sm-inline ms-1">Refresh</span>
                     </button>
                     <button class="btn btn-outline-secondary" onclick="toggleFullscreen()">
-                        <i class="fas fa-expand"></i>
+                        <i class="bx bx-fullscreen"></i>
                         <span class="d-none d-sm-inline ms-1">Fullscreen</span>
                     </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile/Tablet Top Menu -->
+    <div class="mobile-map-menu d-lg-none">
+        <div class="mobile-menu-header">
+            <div class="mobile-menu-brand">
+                <i class="bx bx-map text-primary me-2"></i>
+                <span class="fw-semibold">Sightings Map</span>
+            </div>
+            <div class="mobile-menu-actions">
+                <div class="stat-pill bg-light px-2 py-1 rounded-pill me-2">
+                    <i class="bx bx-map-pin me-1 text-primary"></i>
+                    <span class="small">{{ count($locations) }}</span>
+                </div>
+                <button class="btn btn-outline-primary btn-sm me-1" onclick="refreshMap()" title="Refresh">
+                    <i class="bx bx-refresh"></i>
+                </button>
+                <button class="btn btn-outline-secondary btn-sm me-1" onclick="toggleMobileFilters()" title="Filters & Legend">
+                    <i class="bx bx-filter"></i>
+                </button>
+                <button class="btn btn-outline-secondary btn-sm" onclick="toggleFullscreen()" title="Fullscreen">
+                    <i class="bx bx-fullscreen"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Filters & Legend Panel (Collapsible) -->
+        <div class="mobile-filters-panel" id="mobileFiltersPanel" style="display: none;">
+            <div class="mobile-filters-content">
+                <!-- Municipality Filter -->
+                <div class="filter-group">
+                    <label class="filter-label">Municipality</label>
+                    <select class="form-select form-select-sm" id="municipalityFilterMobile">
+                        <option value="">All Municipalities</option>
+                        @foreach($locations->pluck('municipality')->unique() as $municipality)
+                            <option value="{{ $municipality }}">{{ $municipality }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <!-- Barangay Filter -->
+                <div class="filter-group">
+                    <label class="filter-label">Barangay</label>
+                    <select class="form-select form-select-sm" id="barangayFilterMobile">
+                        <option value="">All Barangays</option>
+                        @foreach($locations->pluck('barangay')->unique()->filter() as $barangay)
+                            <option value="{{ $barangay }}">{{ $barangay }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <!-- Activity Type Filter -->
+                <div class="filter-group">
+                    <label class="filter-label">Activity Type</label>
+                    <select class="form-select form-select-sm" id="activityFilterMobile">
+                        <option value="">All Activities</option>
+                        @foreach($locations->pluck('activity_type')->unique()->filter() as $activity)
+                            <option value="{{ $activity }}">{{ $activity }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <!-- Observer Category Filter -->
+                <div class="filter-group">
+                    <label class="filter-label">Observer Category</label>
+                    <select class="form-select form-select-sm" id="observerFilterMobile">
+                        <option value="">All Categories</option>
+                        @foreach($locations->pluck('observer_category')->unique()->filter() as $observer)
+                            <option value="{{ $observer }}">{{ $observer }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <!-- Date Range Filter -->
+                <div class="filter-group">
+                    <label class="filter-label">Date Range</label>
+                    <div class="date-inputs">
+                        <input type="date" class="form-control form-control-sm" id="startDateMobile" placeholder="Start Date">
+                        <input type="date" class="form-control form-control-sm" id="endDateMobile" placeholder="End Date">
+                    </div>
+                </div>
+
+                <!-- Legend -->
+                <div class="legend-section">
+                    <h6 class="legend-title">COTS Size Categories</h6>
+                    <div class="legend-items">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #10b981;"></div>
+                            <span>1-5cm (Juvenile)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #f59e0b;"></div>
+                            <span>6-15cm (Sub-adult)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #ef4444;"></div>
+                            <span>16-25cm (Adult)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #8b5cf6;"></div>
+                            <span>26-35cm (Large Adult)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #1e40af;"></div>
+                            <span>>35cm (Giant)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="mobile-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">{{ $locations->sum('number_of_cots') ?? 0 }}</div>
+                        <div class="stat-label">Total COTS</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">{{ $locations->count() }}</div>
+                        <div class="stat-label">Sightings</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">{{ $locations->pluck('municipality')->unique()->count() }}</div>
+                        <div class="stat-label">Municipalities</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -34,7 +163,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body p-0">
-                    <div class="map-wrapper">
+                    <!-- Desktop Layout -->
+                    <div class="map-wrapper d-none d-lg-flex">
         <div class="map-sidebar">
             <div class="sidebar-header">
                 <h6 class="sidebar-title">
@@ -50,6 +180,39 @@
                         <option value="">All Municipalities</option>
                         @foreach($locations->pluck('municipality')->unique() as $municipality)
                             <option value="{{ $municipality }}">{{ $municipality }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <!-- Barangay Filter -->
+                <div class="filter-group">
+                    <label class="filter-label">Barangay</label>
+                    <select class="form-select form-select-sm" id="barangayFilter">
+                        <option value="">All Barangays</option>
+                        @foreach($locations->pluck('barangay')->unique()->filter() as $barangay)
+                            <option value="{{ $barangay }}">{{ $barangay }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <!-- Activity Type Filter -->
+                <div class="filter-group">
+                    <label class="filter-label">Activity Type</label>
+                    <select class="form-select form-select-sm" id="activityFilter">
+                        <option value="">All Activities</option>
+                        @foreach($locations->pluck('activity_type')->unique()->filter() as $activity)
+                            <option value="{{ $activity }}">{{ $activity }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <!-- Observer Category Filter -->
+                <div class="filter-group">
+                    <label class="filter-label">Observer Category</label>
+                    <select class="form-select form-select-sm" id="observerFilter">
+                        <option value="">All Categories</option>
+                        @foreach($locations->pluck('observer_category')->unique()->filter() as $observer)
+                            <option value="{{ $observer }}">{{ $observer }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -125,8 +288,28 @@
             </div>
         </div>
     </div>
-</div>
-</div>
+
+                    <!-- Mobile/Tablet Full Screen Map -->
+                    <div class="mobile-map-container d-lg-none">
+                        <div id="mobileMap" class="mobile-fullscreen-map"></div>
+
+                        <!-- Mobile Map Controls -->
+                        <div class="mobile-map-controls">
+                            <button class="mobile-control-btn" onclick="centerMap()" title="Center Map">
+                                <i class="bx bx-crosshair"></i>
+                            </button>
+                            <button class="mobile-control-btn" onclick="toggleLayer()" title="Toggle Satellite">
+                                <i class="bx bx-layer"></i>
+                            </button>
+                            <button class="mobile-control-btn" onclick="exportMap()" title="Export Map">
+                                <i class="bx bx-download"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <style>
 /* Modern Map View Styles */
@@ -195,8 +378,12 @@
 /* Map Layout */
 .map-wrapper {
     display: flex;
-    height: calc(100vh - 140px);
+    height: calc(100vh - 110px); /* Account for navbar (70px) + some spacing */
     position: relative;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow: hidden;
 }
 
 .map-sidebar {
@@ -206,6 +393,8 @@
     display: flex;
     flex-direction: column;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+    margin: 0;
+    padding: 0;
 }
 
 .sidebar-header {
@@ -664,6 +853,199 @@
         page-break-inside: avoid;
     }
 }
+
+/* Mobile/Tablet Full Screen Map Styles */
+.mobile-map-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.mobile-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    min-height: 60px;
+}
+
+.mobile-menu-brand {
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+}
+
+.mobile-menu-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.mobile-filters-panel {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.mobile-filters-content {
+    padding: 1rem;
+}
+
+.mobile-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 0.75rem;
+    background: #f8fafc;
+    border-radius: 8px;
+}
+
+.stat-item .stat-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1e40af;
+    margin-bottom: 0.25rem;
+}
+
+.stat-item .stat-label {
+    font-size: 0.75rem;
+    color: #64748b;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.mobile-map-container {
+    position: fixed;
+    top: 120px; /* Account for mobile menu */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+}
+
+.mobile-fullscreen-map {
+    height: 100%;
+    width: 100%;
+}
+
+.mobile-map-controls {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.mobile-control-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #374151;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.mobile-control-btn:hover {
+    background: white;
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Adjust layout for mobile menu */
+@media (max-width: 991px) {
+    .layout-page {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }
+
+    .container-fluid {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .card {
+        border: none !important;
+        border-radius: 0 !important;
+        margin-bottom: 0 !important;
+    }
+
+    .card-body {
+        padding: 0 !important;
+    }
+}
+
+/* Desktop layout fixes */
+@media (min-width: 992px) {
+    .layout-page {
+        margin-top: 90px;
+        padding: 0;
+        overflow-x: hidden; /* Prevent horizontal scroll */
+    }
+
+    .container-fluid {
+        padding-left: 0;
+        padding-right: 0;
+        margin: 0;
+        max-width: 100vw; /* Ensure it doesn't exceed viewport */
+    }
+
+    .map-container {
+        margin: 0;
+        padding: 0;
+        width: 100vw; /* Full viewport width */
+        overflow: hidden;
+    }
+
+    .card {
+        margin-bottom: 0;
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+    .card-body {
+        padding: 0;
+        overflow: hidden;
+    }
+
+    .map-wrapper {
+        width: 100vw; /* Ensure full width */
+        max-width: 100vw;
+    }
+}
+
+/* Mobile filters animation */
+.mobile-filters-panel {
+    transition: all 0.3s ease;
+}
+
+.mobile-filters-panel.show {
+    max-height: 300px;
+}
 </style>
 
         <!-- Core JS -->
@@ -678,18 +1060,38 @@
         <!-- Leaflet map script -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize map with modern settings
-    const map = L.map('map', {
-        center: [10.306812602471465, 125.00810623168947],
-        zoom: 12,
-        zoomControl: true,
-        scrollWheelZoom: true,
-        doubleClickZoom: true,
-        boxZoom: true,
-        keyboard: true,
-        dragging: true,
-        touchZoom: true
-    });
+    // Check if we're on mobile/tablet
+    const isMobile = window.innerWidth < 992;
+
+    // Initialize appropriate map
+    let map;
+    if (isMobile) {
+        // Mobile fullscreen map
+        map = L.map('mobileMap', {
+            center: [10.306812602471465, 125.00810623168947],
+            zoom: 12,
+            zoomControl: true,
+            scrollWheelZoom: true,
+            doubleClickZoom: true,
+            boxZoom: true,
+            keyboard: true,
+            dragging: true,
+            touchZoom: true
+        });
+    } else {
+        // Desktop map with sidebar
+        map = L.map('map', {
+            center: [10.306812602471465, 125.00810623168947],
+            zoom: 12,
+            zoomControl: true,
+            scrollWheelZoom: true,
+            doubleClickZoom: true,
+            boxZoom: true,
+            keyboard: true,
+            dragging: true,
+            touchZoom: true
+        });
+    }
 
     // Add modern tile layers
     const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -915,9 +1317,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Filter functionality
     function applyFilters() {
-        const municipalityFilter = document.getElementById('municipalityFilter').value;
-        const startDate = document.getElementById('startDate').value;
-        const endDate = document.getElementById('endDate').value;
+        const isMobile = window.innerWidth < 992;
+
+        // Get filter values from appropriate elements
+        const municipalityFilter = isMobile
+            ? document.getElementById('municipalityFilterMobile')?.value
+            : document.getElementById('municipalityFilter')?.value;
+        const barangayFilter = isMobile
+            ? document.getElementById('barangayFilterMobile')?.value
+            : document.getElementById('barangayFilter')?.value;
+        const activityFilter = isMobile
+            ? document.getElementById('activityFilterMobile')?.value
+            : document.getElementById('activityFilter')?.value;
+        const observerFilter = isMobile
+            ? document.getElementById('observerFilterMobile')?.value
+            : document.getElementById('observerFilter')?.value;
+        const startDate = isMobile
+            ? document.getElementById('startDateMobile')?.value
+            : document.getElementById('startDate')?.value;
+        const endDate = isMobile
+            ? document.getElementById('endDateMobile')?.value
+            : document.getElementById('endDate')?.value;
 
         // Clear existing markers
         markerClusterGroup.clearLayers();
@@ -928,6 +1348,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Municipality filter
             if (municipalityFilter && location.municipality !== municipalityFilter) {
+                return false;
+            }
+
+            // Barangay filter
+            if (barangayFilter && location.barangay !== barangayFilter) {
+                return false;
+            }
+
+            // Activity type filter
+            if (activityFilter && location.activity_type !== activityFilter) {
+                return false;
+            }
+
+            // Observer category filter
+            if (observerFilter && location.observer_category !== observerFilter) {
                 return false;
             }
 
@@ -965,9 +1400,32 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Event listeners for filters
-    document.getElementById('municipalityFilter').addEventListener('change', applyFilters);
-    document.getElementById('startDate').addEventListener('change', applyFilters);
-    document.getElementById('endDate').addEventListener('change', applyFilters);
+    // Set up filter event listeners for both desktop and mobile
+    const municipalityFilter = document.getElementById('municipalityFilter');
+    const municipalityFilterMobile = document.getElementById('municipalityFilterMobile');
+    const barangayFilter = document.getElementById('barangayFilter');
+    const barangayFilterMobile = document.getElementById('barangayFilterMobile');
+    const activityFilter = document.getElementById('activityFilter');
+    const activityFilterMobile = document.getElementById('activityFilterMobile');
+    const observerFilter = document.getElementById('observerFilter');
+    const observerFilterMobile = document.getElementById('observerFilterMobile');
+    const startDate = document.getElementById('startDate');
+    const startDateMobile = document.getElementById('startDateMobile');
+    const endDate = document.getElementById('endDate');
+    const endDateMobile = document.getElementById('endDateMobile');
+
+    if (municipalityFilter) municipalityFilter.addEventListener('change', applyFilters);
+    if (municipalityFilterMobile) municipalityFilterMobile.addEventListener('change', applyFilters);
+    if (barangayFilter) barangayFilter.addEventListener('change', applyFilters);
+    if (barangayFilterMobile) barangayFilterMobile.addEventListener('change', applyFilters);
+    if (activityFilter) activityFilter.addEventListener('change', applyFilters);
+    if (activityFilterMobile) activityFilterMobile.addEventListener('change', applyFilters);
+    if (observerFilter) observerFilter.addEventListener('change', applyFilters);
+    if (observerFilterMobile) observerFilterMobile.addEventListener('change', applyFilters);
+    if (startDate) startDate.addEventListener('change', applyFilters);
+    if (startDateMobile) startDateMobile.addEventListener('change', applyFilters);
+    if (endDate) endDate.addEventListener('change', applyFilters);
+    if (endDateMobile) endDateMobile.addEventListener('change', applyFilters);
 
     // Map control functions
     window.centerMap = function() {
@@ -1027,6 +1485,18 @@ document.addEventListener('DOMContentLoaded', function() {
         link.download = 'cots-sightings-map.png';
         link.href = canvas.toDataURL();
         link.click();
+    };
+
+    // Mobile filters & legend toggle function
+    window.toggleMobileFilters = function() {
+        const panel = document.getElementById('mobileFiltersPanel');
+        if (panel.style.display === 'none' || panel.style.display === '') {
+            panel.style.display = 'block';
+            panel.classList.add('show');
+        } else {
+            panel.style.display = 'none';
+            panel.classList.remove('show');
+        }
     };
 
     // Delete location function

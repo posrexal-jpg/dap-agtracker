@@ -6,8 +6,11 @@
     <div class="page-header mb-4">
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
             <div>
-                <h1 class="page-title">App Installation</h1>
-                <p class="page-subtitle">Install the COTS Tracker Progressive Web App</p>
+                <h1 class="page-title">
+                    <i class="bx bx-mobile me-3 text-primary"></i>
+                    App Installation
+                </h1>
+                <p class="page-subtitle">Install the COTS Tracker Progressive Web App for offline functionality</p>
             </div>
         </div>
     </div>

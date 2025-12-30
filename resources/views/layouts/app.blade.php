@@ -428,12 +428,352 @@
                 background: rgba(30, 58, 138, 0.2);
             }
         }
+    </style>
+
+    <!-- Professional Admin Pages Styling -->
+    <style>
+        /* Import Google Fonts for Professional Typography */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        /* Global Admin Styling */
+        body.admin-page {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            min-height: 100vh;
+        }
+
+        /* Professional Page Headers */
+        .page-header {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: none;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid #3b82f6;
+        }
+
+        .page-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.025em;
+        }
+
+        .page-subtitle {
+            font-size: 1.125rem;
+            color: #64748b;
+            font-weight: 400;
+            margin-bottom: 0;
+        }
+
+        .page-actions .btn {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            border: none;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .page-actions .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .page-actions .btn-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .page-actions .btn-success:hover {
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Enhanced Card Design */
+        .card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            background: white;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1.5rem 2rem;
+            font-weight: 600;
+            color: #1e293b;
+            font-size: 1.125rem;
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        .card-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        /* Professional Table Design */
+        .table {
+            font-size: 0.95rem;
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-bottom: 2px solid #e2e8f0;
+            font-weight: 600;
+            color: #374151;
+            padding: 1rem 1.5rem;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .table tbody td {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #f1f5f9;
+            vertical-align: middle;
+            color: #475569;
+        }
+
+        .table tbody tr:hover {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%);
+        }
+
+        /* Professional Form Elements */
+        .form-control, .form-select {
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            background: #ffffff;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            background: #ffffff;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* Professional Buttons */
+        .btn {
+            font-weight: 600;
+            border-radius: 10px;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-success:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-warning:hover {
+            background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+            box-shadow: 0 6px 16px rgba(245, 158, 11, 0.4);
+            transform: translateY(-1px);
+        }
+
+        /* Professional Alerts */
+        .alert {
+            border: none;
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .alert-success {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            color: #065f46;
+            border-left: 4px solid #10b981;
+        }
+
+        .alert-danger {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            color: #991b1b;
+            border-left: 4px solid #ef4444;
+        }
+
+        .alert-warning {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            color: #92400e;
+            border-left: 4px solid #f59e0b;
+        }
+
+        .alert-info {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            color: #1e40af;
+            border-left: 4px solid #3b82f6;
+        }
+
+        /* Professional Badges */
+        .badge {
+            font-weight: 600;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+        }
+
+        /* Loading States */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .page-header {
+                padding: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .page-title {
+                font-size: 1.875rem;
+            }
+
+            .card-body {
+                padding: 1.5rem;
+            }
+
+            .table-responsive {
+                font-size: 0.85rem;
+            }
+
+            .btn {
+                padding: 0.625rem 1.25rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .page-header {
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
+
+            .card-header, .card-body {
+                padding: 1rem;
+            }
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            body.admin-page {
+                background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+                color: #f1f5f9;
+            }
+
+            .page-header {
+                background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+                color: #f1f5f9;
+            }
+
+            .card {
+                background: #1e293b;
+                color: #f1f5f9;
+            }
+
+            .card-header {
+                background: linear-gradient(135deg, #334155 0%, #475569 100%);
+                border-bottom-color: #475569;
+            }
+
+            .table thead th {
+                background: linear-gradient(135deg, #334155 0%, #475569 100%);
+                color: #f1f5f9;
+            }
+
+            .table tbody td {
+                color: #cbd5e1;
+                border-bottom-color: #334155;
+            }
+
+            .table tbody tr:hover {
+                background: linear-gradient(135deg, #334155 0%, #475569 50%);
+            }
+        }
     </style></head>
-<body>
+<body class="{{ Route::is('admin.*') ? 'admin-page' : '' }}">
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top border-bottom" id="layout-navbar">
     <div class="container-xxl">
-        <div class="layout-menu-toggle d-xl-none me-3">
+        <div class="layout-menu-toggle d-xl-none d-lg-none me-3">
             <i class="bx bx-menu bx-sm text-primary"></i>
         </div>
 
@@ -442,7 +782,7 @@
             <img src="{{ asset('images/logo.png') }}" alt="COTS Tracker Logo" style="height: 30px; width: auto;">
         </a>
 
-        <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContentPage1" aria-controls="navbarContentPage1" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler d-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContentPage1" aria-controls="navbarContentPage1" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -459,7 +799,7 @@
                         {{ Auth::check() && Auth::user()->role ? Auth::user()->role->role_name : 'User' }}
                     </span>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item d-none d-lg-block">
                     <form action="{{ route('logout') }}" method="POST" class="d-inline">
                         @csrf
                         <button type="submit" class="btn btn-outline-danger btn-sm" title="Logout">
@@ -537,6 +877,15 @@
                     <i class="bx bx-building"></i>
                     <span>Municipal</span>
                 </a>
+            </div>
+            <div class="mobile-menu-item d-lg-none">
+                <form action="{{ route('logout') }}" method="POST" class="d-inline w-100">
+                    @csrf
+                    <button type="submit" class="mobile-menu-link w-100 text-start border-0 bg-transparent text-danger" title="Logout">
+                        <i class="bx bx-log-out"></i>
+                        <span>Logout</span>
+                    </button>
+                </form>
             </div>
         @else
             <!-- User Menu Items -->

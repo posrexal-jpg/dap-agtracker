@@ -7,12 +7,15 @@
     <div class="page-header mb-4">
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
             <div>
-                <h1 class="page-title">Sightings Report</h1>
-                <p class="page-subtitle">View and export COTS sighting reports</p>
+                <h1 class="page-title">
+                    <i class="bx bx-bar-chart-alt me-3 text-primary"></i>
+                    Sightings Report
+                </h1>
+                <p class="page-subtitle">View and export comprehensive COTS sighting reports</p>
             </div>
             <div class="page-actions">
                 <a href="{{ route('admin.report.export', ['municipality' => request('municipality')]) }}" class="btn btn-success">
-                    <i class="bx bx-download"></i> Export Report
+                    <i class="bx bx-download me-2"></i>Export Report
                 </a>
             </div>
         </div>
