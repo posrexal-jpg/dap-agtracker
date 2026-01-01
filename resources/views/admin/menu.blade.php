@@ -19,12 +19,6 @@
                 <div data-i18n="Analytics" class="fw-semibold">Dashboard</div>
             </a>
         </li>
-        <li class="menu-item {{ Route::is('admin.download') ? 'active' : '' }}">
-            <a href="{{ route('admin.download') }}" class="menu-link text-dark hover-bg-primary hover-text-white text-decoration-none py-3 px-4 rounded-3 mx-2 mb-1">
-                <i class="menu-icon tf-icons bx bx-upload fs-5"></i>
-                <div data-i18n="Locations" class="fw-semibold">Download</div>
-            </a>
-        </li>
         <li class="menu-item {{ Route::is('admin.location') ? 'active' : '' }}">
             <a href="{{ route('admin.location') }}" class="menu-link text-dark hover-bg-primary hover-text-white text-decoration-none py-3 px-4 rounded-3 mx-2 mb-1">
                 <i class="menu-icon tf-icons bx bx-location-plus fs-5"></i>

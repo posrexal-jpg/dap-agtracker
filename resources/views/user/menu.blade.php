@@ -1,48 +1,34 @@
-
-@extends('layouts.app')
-@section('sidebar')
 <!-- User Sidebar Menu -->
-<aside id="user-sidebar" class="user-sidebar">
-    <div class="sidebar-header">
-        <a href="{{ route('user.index') }}" class="brand-link">
-            <div class="brand-logo">
-                <img src="{{ asset('images/logo.png') }}" alt="Dap-ag Tracker Logo" class="logo-img">
-            </div>
-            <div class="brand-text">
-                <span class="brand-title">Dap-ag Tracker</span>
-                <div class="brand-subtitle">User Panel</div>
-            </div>
+<aside id="user-sidebar" class="user-sidebar layout-menu menu-vertical menu bg-white text-dark border-end shadow-sm">
+    <div class="app-brand demo bg-gradient-primary py-4 px-3 border-bottom">
+        <a href="{{ route('user.dashboard') }}" class="app-brand-link d-flex align-items-center text-white text-decoration-none">
+            <img src="{{ asset('images/logo.png') }}" alt="Dap-ag Tracker Logo" class="app-brand-logo demo" style="height: 45px; width: auto;">
+            <span class="menu-text fw-bold ms-3 fs-5">COTS Tracker</span>
         </a>
-        <button class="sidebar-close" id="user-sidebar-close">
-            <i class="bx bx-x"></i>
-        </button>
+        <a href="javascript:void(0);"
+        class="layout-menu-toggle menu-link text-white ms-auto d-block d-xl-none rounded-pill"
+        style="background-color: rgba(255,255,255,0.1);">
+        <i class="bx bx-chevron-left bx-sm align-middle"></i>
+        </a>
     </div>
+    <div class="menu-inner-shadow bg-light"></div>
+    <ul class="menu-inner py-2">
+        <!-- Sightings Map -->
+        <li class="menu-item {{ Route::is('user.locations') ? 'active' : '' }}">
+            <a href="{{ route('user.locations') }}" class="menu-link text-dark hover-bg-primary hover-text-white text-decoration-none py-3 px-4 rounded-3 mx-2 mb-1">
+                <i class="menu-icon tf-icons bx bx-home-circle fs-5"></i>
+                <div class="fw-semibold">My Account</div>
+            </a>
+        </li>
 
-    <nav class="sidebar-nav">
-        <ul class="nav-list">
-            <!-- Sightings Map -->
-            <li class="nav-item {{ Route::is('user.index') ? 'active' : '' }}">
-                <a href="{{ route('user.index') }}" class="nav-link">
-                    <div class="nav-icon">
-                        <i class="bx bx-home-circle"></i>
-                    </div>
-                    <span class="nav-text">Sightings Map</span>
-                    <small class="nav-desc">Interactive Map View</small>
-                </a>
-            </li>
-
-            <!-- Download -->
-            <li class="nav-item {{ Route::is('user.download') ? 'active' : '' }}">
-                <a href="{{ route('user.download') }}" class="nav-link">
-                    <div class="nav-icon">
-                        <i class="bx bx-upload"></i>
-                    </div>
-                    <span class="nav-text">Download</span>
-                    <small class="nav-desc">Data Export</small>
-                </a>
-            </li>
-        </ul>
-    </nav>
+        <!-- My Account -->
+        <li class="menu-item {{ Route::is('user.account') ? 'active' : '' }}">
+            <a href="{{ route('user.account') }}" class="menu-link text-dark hover-bg-primary hover-text-white text-decoration-none py-3 px-4 rounded-3 mx-2 mb-1">
+                <i class="menu-icon tf-icons bx bx-user fs-5"></i>
+                <div class="fw-semibold">Sighting Map</div>
+            </a>
+        </li>
+    </ul>
 </aside>
 
 <!-- Sidebar Overlay -->
@@ -56,400 +42,108 @@
     left: 0;
     width: 280px;
     height: 100vh;
-    background: linear-gradient(180deg, #ffffff 0%, #f0f9ff 100%);
+    background: #ffffff;
     box-shadow: 2px 0 20px rgba(0, 0, 0, 0.08);
     z-index: 1050;
-    transform: translateX(-100%);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border-right: 1px solid #e2e8f0;
     overflow-y: auto;
     overflow-x: hidden;
+    padding: 1.5rem 0;
 }
 
-.user-sidebar.open {
-    transform: translateX(0);
+.app-brand {
+    background: linear-gradient(135deg, #0369a1 0%, #0284c7 100%) !important;
 }
 
-.sidebar-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.5rem;
-    border-bottom: 1px solid #e2e8f0;
-    background: #ffffff;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
-
-.brand-link {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: #0369a1;
-    flex: 1;
-    min-width: 0;
-}
-
-.brand-logo {
-    width: 45px;
-    height: 45px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #0369a1 0%, #0284c7 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 1rem;
-    flex-shrink: 0;
-}
-
-.logo-img {
-    width: 32px;
-    height: 32px;
+.menu-link {
+    transition: all 0.3s ease;
+    padding: 1rem 1.5rem;
+    margin: 0.25rem 1rem;
     border-radius: 8px;
-    object-fit: cover;
 }
 
-.brand-text {
-    min-width: 0;
-    flex: 1;
+.menu-link:hover {
+    background-color: rgba(3, 105, 161, 0.1) !important;
+    color: #0369a1 !important;
 }
 
-.brand-title {
-    display: block;
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: #0369a1;
-    line-height: 1.2;
-    margin-bottom: 0.125rem;
+.menu-item.active .menu-link {
+    background: linear-gradient(135deg, #0369a1 0%, #0284c7 100%) !important;
+    color: white !important;
 }
 
-.brand-subtitle {
-    font-size: 0.75rem;
-    color: #64748b;
-    font-weight: 500;
+/* Layout spacing for main content */
+.layout-page {
+    margin-left: 280px;
+    padding: 1rem;
+    transition: margin-left 0.3s ease;
 }
 
-.sidebar-close {
-    width: 40px;
-    height: 40px;
-    border: none;
-    background: transparent;
+.layout-page main {
+    padding: 1rem;
+    background: #f8fafc;
     border-radius: 8px;
-    color: #64748b;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-    flex-shrink: 0;
-}
-
-.sidebar-close:hover {
-    background: #f1f5f9;
-    color: #0369a1;
-}
-
-.sidebar-nav {
-    padding: 1rem 0;
-    height: calc(100vh - 100px);
-    display: flex;
-    flex-direction: column;
-}
-
-.nav-list {
-    list-style: none;
-    padding: 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     margin: 0;
-    flex: 1;
 }
 
-.nav-item {
-    margin: 0.25rem 0;
+/* Mobile responsiveness */
+@media (max-width: 1199.98px) {
+    .user-sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        padding: 0;
+    }
+
+    .user-sidebar.open {
+        transform: translateX(0);
+    }
+
+    .sidebar-overlay.active {
+        display: block;
+    }
+
+    .layout-page {
+        margin-left: 0;
+    }
 }
 
-.nav-link {
-    display: flex;
-    align-items: center;
-    padding: 0.875rem 1.5rem;
-    text-decoration: none;
-    color: #475569;
-    transition: all 0.3s ease;
-    border-radius: 0 25px 25px 0;
-    margin: 0 0.5rem 0 0;
-    position: relative;
-    border: none;
-    background: transparent;
-}
-
-.nav-link:hover {
-    background: rgba(3, 105, 161, 0.08);
-    color: #0369a1;
-    transform: translateX(4px);
-}
-
-.nav-item.active .nav-link {
-    background: linear-gradient(135deg, #0369a1 0%, #0284c7 100%);
-    color: white;
-    box-shadow: 0 4px 12px rgba(3, 105, 161, 0.3);
-}
-
-.nav-item.active .nav-link::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 4px;
-    height: 60%;
-    background: white;
-    border-radius: 0 4px 4px 0;
-}
-
-.nav-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 1rem;
-    font-size: 1.25rem;
-    flex-shrink: 0;
-    transition: all 0.3s ease;
-}
-
-.nav-item.active .nav-icon {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-}
-
-.nav-link:hover .nav-icon {
-    background: rgba(3, 105, 161, 0.1);
-    transform: scale(1.05);
-}
-
-.nav-text {
-    font-size: 0.95rem;
-    font-weight: 600;
-    line-height: 1.2;
-    margin-bottom: 0.125rem;
-}
-
-.nav-desc {
-    font-size: 0.75rem;
-    opacity: 0.8;
-    line-height: 1.2;
-    display: block;
-}
-
-.sidebar-footer {
-    margin-top: auto;
-    padding: 1rem 0;
-    border-top: 1px solid #e2e8f0;
-}
-
-.logout-link {
-    display: flex;
-    align-items: center;
-    padding: 0.875rem 1.5rem;
-    text-decoration: none;
-    color: #dc2626;
-    transition: all 0.3s ease;
-    border-radius: 0 25px 25px 0;
-    margin: 0 0.5rem 0 0;
-    border: none;
-    background: transparent;
-}
-
-.logout-link:hover {
-    background: rgba(220, 38, 38, 0.1);
-    color: #b91c1c;
-    transform: translateX(4px);
+/* Desktop layout adjustments */
+@media (min-width: 1200px) {
+    .layout-menu-fixed:not(.layout-menu-collapsed) .layout-page, .layout-menu-fixed-offcanvas:not(.layout-menu-collapsed) .layout-page {
+        /* padding-left: 16.25rem; */
+    }
 }
 
 .sidebar-overlay {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
-    z-index: 1040;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-}
-
-.sidebar-overlay.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-/* Desktop Styles */
-@media (min-width: 1200px) {
-    .user-sidebar {
-        position: fixed;
-        transform: translateX(0);
-        z-index: 1000;
-    }
-
-    .sidebar-close {
-        display: none;
-    }
-
-    .sidebar-overlay {
-        display: none;
-    }
-}
-
-/* Tablet Styles */
-@media (max-width: 1199px) and (min-width: 768px) {
-    .user-sidebar {
-        width: 260px;
-    }
-
-    .brand-title {
-        font-size: 1.1rem;
-    }
-
-    .nav-link {
-        padding: 0.75rem 1.25rem;
-    }
-}
-
-/* Mobile Styles */
-@media (max-width: 767px) {
-    .user-sidebar {
-        width: 100%;
-        max-width: 320px;
-    }
-
-    .sidebar-header {
-        padding: 1.25rem;
-    }
-
-    .brand-logo {
-        width: 40px;
-        height: 40px;
-    }
-
-    .logo-img {
-        width: 28px;
-        height: 28px;
-    }
-
-    .brand-title {
-        font-size: 1.1rem;
-    }
-
-    .nav-link {
-        padding: 1rem 1.25rem;
-    }
-
-    .nav-icon {
-        width: 36px;
-        height: 36px;
-        font-size: 1.1rem;
-    }
-
-    .nav-text {
-        font-size: 0.9rem;
-    }
-
-    .nav-desc {
-        font-size: 0.7rem;
-    }
-}
-
-/* Small Mobile */
-@media (max-width: 480px) {
-    .user-sidebar {
-        max-width: 280px;
-    }
-
-    .sidebar-header {
-        padding: 1rem;
-    }
-
-    .brand-text {
-        display: none;
-    }
-
-    .nav-link {
-        justify-content: center;
-        padding: 1rem;
-    }
-
-    .nav-icon {
-        margin-right: 0;
-        margin-bottom: 0.25rem;
-    }
-
-    .nav-text,
-    .nav-desc {
-        text-align: center;
-        margin-bottom: 0.125rem;
-    }
-
-    .nav-desc {
-        font-size: 0.65rem;
-    }
+    z-index: 1049;
 }
 
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
     .user-sidebar {
-        background: linear-gradient(180deg, #1f2937 0%, #0f172a 100%);
-        border-color: #374151;
-    }
-
-    .sidebar-header {
         background: #1f2937;
         border-color: #374151;
     }
 
-    .brand-title {
-        color: #f9fafb;
+    .menu-link {
+        color: #d1d5db !important;
     }
 
-    .brand-subtitle {
-        color: #9ca3af;
+    .menu-link:hover {
+        background: rgba(3, 105, 161, 0.1) !important;
+        color: #38bdf8 !important;
     }
 
-    .sidebar-close {
-        color: #9ca3af;
-    }
-
-    .sidebar-close:hover {
-        background: #374151;
-        color: #f9fafb;
-    }
-
-    .nav-link {
-        color: #d1d5db;
-    }
-
-    .nav-link:hover {
-        background: rgba(3, 105, 161, 0.1);
-        color: #38bdf8;
-    }
-
-    .nav-item.active .nav-link {
-        background: linear-gradient(135deg, #0369a1 0%, #0284c7 100%);
-    }
-
-    .sidebar-footer {
-        border-color: #374151;
-    }
-
-    .logout-link {
-        color: #f87171;
-    }
-
-    .logout-link:hover {
-        background: rgba(248, 113, 113, 0.1);
-        color: #fca5a5;
+    .menu-item.active .menu-link {
+        background: linear-gradient(135deg, #0369a1 0%, #0284c7 100%) !important;
     }
 }
 
@@ -463,18 +157,17 @@
 </style>
 
 <script>
-// User sidebar functionality
+// User sidebar functionality - simplified to work like admin sidebar
 document.addEventListener('DOMContentLoaded', function() {
     const sidebar = document.getElementById('user-sidebar');
     const overlay = document.getElementById('user-sidebar-overlay');
-    const closeBtn = document.getElementById('user-sidebar-close');
     const menuToggle = document.querySelector('.layout-menu-toggle');
 
     // Function to open sidebar
     function openSidebar() {
         if (sidebar) {
             sidebar.classList.add('open');
-            if (overlay) overlay.classList.add('active');
+            if (overlay) overlay.style.display = 'block';
             document.body.style.overflow = 'hidden';
         }
     }
@@ -483,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function closeSidebar() {
         if (sidebar) {
             sidebar.classList.remove('open');
-            if (overlay) overlay.classList.remove('active');
+            if (overlay) overlay.style.display = 'none';
             document.body.style.overflow = '';
         }
     }
@@ -492,13 +185,12 @@ document.addEventListener('DOMContentLoaded', function() {
     if (menuToggle) {
         menuToggle.addEventListener('click', function(e) {
             e.preventDefault();
-            openSidebar();
+            if (sidebar && sidebar.classList.contains('open')) {
+                closeSidebar();
+            } else {
+                openSidebar();
+            }
         });
-    }
-
-    // Close button
-    if (closeBtn) {
-        closeBtn.addEventListener('click', closeSidebar);
     }
 
     // Overlay click
@@ -515,7 +207,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Close sidebar when clicking on nav links (mobile)
     if (sidebar) {
-        const navLinks = sidebar.querySelectorAll('.nav-link');
+        const navLinks = sidebar.querySelectorAll('.menu-link');
         navLinks.forEach(link => {
             link.addEventListener('click', function() {
                 if (window.innerWidth < 1200) {
@@ -531,13 +223,5 @@ document.addEventListener('DOMContentLoaded', function() {
             closeSidebar();
         }
     });
-
-    // Prevent sidebar from closing when clicking inside it
-    if (sidebar) {
-        sidebar.addEventListener('click', function(e) {
-            e.stopPropagation();
-        });
-    }
 });
 </script>
-@endsection

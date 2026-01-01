@@ -8,6 +8,11 @@ export default defineConfig({
             input: [
                 'resources/sass/app.scss',
                 'resources/js/app.js',
+                'resources/css/app.css',
+                'resources/css/admin.css',
+                'resources/css/mobile-menu.css',
+                'resources/js/mobile-menu.js',
+                'resources/js/service-worker.js',
             ],
             refresh: true,
         }),

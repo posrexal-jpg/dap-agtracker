@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 @section('title', 'Admin Dashboard - Dap-ag Tracker')
 
 @section('content')

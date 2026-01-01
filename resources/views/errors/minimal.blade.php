@@ -195,7 +195,7 @@
                 @else
                     <!-- User Menu Items -->
                     <div class="mobile-menu-item">
-                        <a href="{{ route('user.index') }}" class="mobile-menu-link">
+                        <a href="{{ route('user.dashboard') }}" class="mobile-menu-link">
                             <i class="bx bx-home-alt"></i>
                             <span>Dashboard</span>
                         </a>

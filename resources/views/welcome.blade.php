@@ -700,9 +700,15 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#partners">Partners</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login">Login</a>
-                    </li>
+                    @if(auth()->check())
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ auth()->user()->role && auth()->user()->role->role_name == 'admin' ? route('admin.index') : route('user.account') }}">My Account</a>
+                        </li>
+                    @else
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">Login</a>
+                        </li>
+                    @endif
                 </ul>
             </div>
         </div>
@@ -730,12 +736,21 @@
                         <span>Partners</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/login">
-                        <i class="fas fa-sign-in-alt"></i>
-                        <span>Login</span>
-                    </a>
-                </li>
+                @if(auth()->check())
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ auth()->user()->role && auth()->user()->role->role_name == 'admin' ? route('admin.index') : route('user.account') }}">
+                            <i class="fas fa-user"></i>
+                            <span>My Account</span>
+                        </a>
+                    </li>
+                @else
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>Login</span>
+                        </a>
+                    </li>
+                @endif
             </ul>
         </div>
     </nav>
@@ -754,9 +769,15 @@
             </a>
             <div class="hero-buttons">
                 <p class="mb-3">Ready to join the reef rescue squad?</p>
-                <a href="/login" class="btn btn-light btn-lg">
-                    <i class="fas fa-eye"></i>&nbsp; Start Monitoring &nbsp;<span style="opacity:0.6">|</span>&nbsp; <i class="fas fa-exclamation-triangle"></i>&nbsp; Report an Outbreak
-                </a>
+                @if(auth()->check())
+                    <a href="{{ auth()->user()->role && auth()->user()->role->role_name == 'admin' ? route('admin.index') : route('user.account') }}" class="btn btn-light btn-lg">
+                        <i class="fas fa-eye"></i>&nbsp; Start Monitoring &nbsp;<span style="opacity:0.6">|</span>&nbsp; <i class="fas fa-exclamation-triangle"></i>&nbsp; Report an Outbreak
+                    </a>
+                @else
+                    <a href="/login" class="btn btn-light btn-lg">
+                        <i class="fas fa-eye"></i>&nbsp; Start Monitoring &nbsp;<span style="opacity:0.6">|</span>&nbsp; <i class="fas fa-exclamation-triangle"></i>&nbsp; Report an Outbreak
+                    </a>
+                @endif
             </div>
         </div>
     </section>

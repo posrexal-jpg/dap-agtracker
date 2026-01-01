@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 @section('title', 'COTS Sightings Map - Admin Dashboard')
 
 @section('content')
@@ -291,10 +291,123 @@
 
                     <!-- Mobile/Tablet Full Screen Map -->
                     <div class="mobile-map-container d-lg-none">
+                        <!-- Mobile Sidebar Overlay -->
+                        <div class="mobile-sidebar-overlay" id="mobileSidebar">
+                            <div class="mobile-sidebar-header">
+                                <div class="sidebar-title">
+                                    <i class="fas fa-filter"></i>
+                                    Filters & Legend
+                                </div>
+                                <button class="sidebar-close-btn" onclick="toggleMobileSidebar()">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="mobile-sidebar-content">
+                                <!-- Municipality Filter -->
+                                <div class="filter-group">
+                                    <label class="filter-label">Municipality</label>
+                                    <select class="form-select form-select-sm" id="municipalityFilterMobile">
+                                        <option value="">All Municipalities</option>
+                                        @foreach($locations->pluck('municipality')->unique() as $municipality)
+                                            <option value="{{ $municipality }}">{{ $municipality }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <!-- Barangay Filter -->
+                                <div class="filter-group">
+                                    <label class="filter-label">Barangay</label>
+                                    <select class="form-select form-select-sm" id="barangayFilterMobile">
+                                        <option value="">All Barangays</option>
+                                        @foreach($locations->pluck('barangay')->unique()->filter() as $barangay)
+                                            <option value="{{ $barangay }}">{{ $barangay }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <!-- Activity Type Filter -->
+                                <div class="filter-group">
+                                    <label class="filter-label">Activity Type</label>
+                                    <select class="form-select form-select-sm" id="activityFilterMobile">
+                                        <option value="">All Activities</option>
+                                        @foreach($locations->pluck('activity_type')->unique()->filter() as $activity)
+                                            <option value="{{ $activity }}">{{ $activity }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <!-- Observer Category Filter -->
+                                <div class="filter-group">
+                                    <label class="filter-label">Observer Category</label>
+                                    <select class="form-select form-select-sm" id="observerFilterMobile">
+                                        <option value="">All Categories</option>
+                                        @foreach($locations->pluck('observer_category')->unique()->filter() as $observer)
+                                            <option value="{{ $observer }}">{{ $observer }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <!-- Date Range Filter -->
+                                <div class="filter-group">
+                                    <label class="filter-label">Date Range</label>
+                                    <div class="date-inputs">
+                                        <input type="date" class="form-control form-control-sm" id="startDateMobile" placeholder="Start Date">
+                                        <input type="date" class="form-control form-control-sm" id="endDateMobile" placeholder="End Date">
+                                    </div>
+                                </div>
+
+                                <!-- Legend -->
+                                <div class="legend-section">
+                                    <h6 class="legend-title">COTS Size Categories</h6>
+                                    <div class="legend-items">
+                                        <div class="legend-item">
+                                            <div class="legend-color" style="background: #10b981;"></div>
+                                            <span>1-5cm (Juvenile)</span>
+                                        </div>
+                                        <div class="legend-item">
+                                            <div class="legend-color" style="background: #f59e0b;"></div>
+                                            <span>6-15cm (Sub-adult)</span>
+                                        </div>
+                                        <div class="legend-item">
+                                            <div class="legend-color" style="background: #ef4444;"></div>
+                                            <span>16-25cm (Adult)</span>
+                                        </div>
+                                        <div class="legend-item">
+                                            <div class="legend-color" style="background: #8b5cf6;"></div>
+                                            <span>26-35cm (Large Adult)</span>
+                                        </div>
+                                        <div class="legend-item">
+                                            <div class="legend-color" style="background: #1e40af;"></div>
+                                            <span>>35cm (Giant)</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Quick Stats -->
+                                <div class="mobile-stats">
+                                    <div class="stat-item">
+                                        <div class="stat-value">{{ $locations->sum('number_of_cots') ?? 0 }}</div>
+                                        <div class="stat-label">Total COTS</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-value">{{ $locations->count() }}</div>
+                                        <div class="stat-label">Sightings</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-value">{{ $locations->pluck('municipality')->unique()->count() }}</div>
+                                        <div class="stat-label">Municipalities</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div id="mobileMap" class="mobile-fullscreen-map"></div>
 
                         <!-- Mobile Map Controls -->
                         <div class="mobile-map-controls">
+                            <button class="mobile-control-btn" onclick="toggleMobileSidebar()" title="Filters & Legend">
+                                <i class="fas fa-filter"></i>
+                            </button>
                             <button class="mobile-control-btn" onclick="centerMap()" title="Center Map">
                                 <i class="bx bx-crosshair"></i>
                             </button>
@@ -943,11 +1056,82 @@
     width: 100%;
 }
 
+/* Mobile Sidebar Overlay */
+.mobile-sidebar-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 1001;
+    display: none; /* Hidden by default */
+    flex-direction: column;
+    overflow-y: auto;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+}
+
+.mobile-sidebar-overlay.show {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.mobile-sidebar-overlay.show {
+    display: flex;
+}
+
+.mobile-sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #e2e8f0;
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 1002;
+}
+
+.mobile-sidebar-header .sidebar-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1e40af;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sidebar-close-btn {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    transition: all 0.3s ease;
+}
+
+.sidebar-close-btn:hover {
+    background: #f3f4f6;
+    color: #374151;
+}
+
+.mobile-sidebar-content {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+}
+
 .mobile-map-controls {
     position: absolute;
     top: 20px;
     right: 20px;
-    z-index: 1001;
+    z-index: 1002; /* Higher than sidebar overlay */
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -1498,6 +1682,29 @@ document.addEventListener('DOMContentLoaded', function() {
             panel.classList.remove('show');
         }
     };
+
+    // Mobile sidebar overlay toggle function
+    window.toggleMobileSidebar = function() {
+        const sidebar = document.getElementById('mobileSidebar');
+        if (sidebar.classList.contains('show')) {
+            sidebar.classList.remove('show');
+        } else {
+            sidebar.classList.add('show');
+        }
+    };
+
+    // Close mobile sidebar when clicking on map
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileMap = document.getElementById('mobileMap');
+        if (mobileMap) {
+            mobileMap.addEventListener('click', function() {
+                const sidebar = document.getElementById('mobileSidebar');
+                if (sidebar && sidebar.classList.contains('show')) {
+                    sidebar.classList.remove('show');
+                }
+            });
+        }
+    });
 
     // Delete location function
     window.deleteLocation = function(id) {

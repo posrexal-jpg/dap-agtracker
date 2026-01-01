@@ -9,11 +9,24 @@ use App\Models\Municipality;
 
 class UserLocationController extends Controller
 {
+    public function account()
+    {
+        $user = Auth::user();
+        $userLocations = Location::where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
+        $municipalities = Municipality::all();
+
+        return view('user.account', compact('userLocations', 'municipalities'));
+    }
+
     public function index()
     {
-        $locations = Location::all();
-        $municipalities = Municipality::all();  // Retrieve all municipalities
-        return view('user.index', compact('locations', 'municipalities'));  // Pass municipalities to the view
+        return redirect()->route('user.account');
+    }
+
+    public function create()
+    {
+        $municipalities = Municipality::all();
+        return view('user.create', compact('municipalities'));
     }
 
     public function store(Request $request)
@@ -54,6 +67,7 @@ class UserLocationController extends Controller
     
         // Create a new location using the request data
         Location::create([
+            'user_id' => Auth::id(),
             'name' => $request->name ?? null,
             'description' => $request->description ?? null,
             'latitude' => $request->latitude,
@@ -79,13 +93,13 @@ class UserLocationController extends Controller
 
     public function destroy($id)
     {
-        $location = Location::find($id);
+        $location = Location::where('id', $id)->where('user_id', Auth::id())->first();
 
         if ($location) {
             $location->delete();
             return response()->json(['message' => 'Location deleted successfully.']);
         } else {
-            return response()->json(['message' => 'Location not found.'], 404);
+            return response()->json(['message' => 'Location not found or access denied.'], 404);
         }
     }
 

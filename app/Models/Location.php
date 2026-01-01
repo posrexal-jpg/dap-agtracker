@@ -11,6 +11,7 @@ class Location extends Model
 
     
     protected $fillable = [
+        'user_id',
         'name',
         'description',
         'latitude',
@@ -20,6 +21,7 @@ class Location extends Model
         'juvenile',
         'sub_adult',
         'adult',
+        'late_adult',
         'activity_type',
         'observer_category',
         'municipality',
