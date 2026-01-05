@@ -76,6 +76,9 @@ Route::redirect('/users', '/user');
 Route::middleware(['user','auth'])->group(function () {
     Route::get('/user', [UserDashboardController::class, 'index'])->name('user.dashboard');
     Route::get('/user/account', [UserLocationController::class, 'account'])->name('user.account');
+    // Update user profile and password
+    Route::post('/user/account/update', [UserController::class, 'updateProfile'])->name('user.account.update');
+    Route::post('/user/account/password', [UserController::class, 'updatePassword'])->name('user.account.password');
     Route::get('/user/index', [UserLocationController::class, 'index'])->name('user.locations.index');
     Route::get('user/locations/create', [UserLocationController::class, 'create'])->name('locations.create');
     Route::get('/user/locations', [UserLocationController::class, 'index'])->name('user.locations');

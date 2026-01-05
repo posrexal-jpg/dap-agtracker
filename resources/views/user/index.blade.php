@@ -344,7 +344,7 @@
     </div>
 </div>
 
-        <div class="content-wrapper">
+    <div class="content-wrapper">
             <div id="map" style="height: 80%; position: relative; margin: 0 auto; "></div>
             <div class="modal fade" id="consentModal" tabindex="-1" aria-labelledby="consentModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -562,21 +562,13 @@
         </div>
     </div>
 
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-  
-  
     <!-- Core JS -->
     <script src="{{ asset('assets/vendor/libs/jquery/jquery.js')}}"></script>
     <script src="{{ asset('assets/vendor/libs/popper/popper.js')}}"></script>
     <script src="{{ asset('assets/vendor/js/bootstrap.js')}}"></script>
     <script src="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js')}}"></script>
     <script src="{{ asset('assets/vendor/js/menu.js')}}"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.74.0/dist/L.Control.Locate.min.js" charset="utf-8"></script>
 
@@ -603,6 +595,12 @@
     <!-- User-specific JavaScript files -->
     <script src="{{ asset('js/user-location.js') }}"></script>
     <script src="{{ asset('js/user-modal.js') }}"></script>
+
+    <script>
+        // Embed server-side sightings data for the map
+        window.SIGHTINGS = @json(isset($locations) ? $locations->toArray() : []);
+    </script>
+
     <script src="{{ asset('js/user-map.js') }}"></script>
     <script src="{{ asset('js/user-form.js') }}"></script>
     <script src="{{ asset('js/user-offline.js') }}"></script>

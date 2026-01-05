@@ -200,12 +200,7 @@
                             <span>Dashboard</span>
                         </a>
                     </div>
-                    <div class="mobile-menu-item">
-                        <a href="{{ route('user.locations') }}" class="mobile-menu-link">
-                            <i class="bx bx-location-plus"></i>
-                            <span>Report</span>
-                        </a>
-                    </div>
+                    <!-- Report menu removed -->
                     <div class="mobile-menu-item">
                         <a href="{{ route('user.download') }}" class="mobile-menu-link">
                             <i class="bx bx-upload"></i>

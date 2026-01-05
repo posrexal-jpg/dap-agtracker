@@ -1,7 +1,12 @@
 // User Map Initialization
-document.addEventListener('DOMContentLoaded', function() {
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+        initializeMap();
+    });
+} else {
+    // DOM already ready
     initializeMap();
-});
+}
 
 function initializeMap() {
     // Initialize the map with error handling
@@ -76,16 +81,24 @@ function initializeMap() {
         // Fit map to the polygon bounds
         map.fitBounds(polygon.getBounds());
 
-        // Loop through each location from the backend and add markers
-        @if(isset($locations) && is_array($locations))
-            @foreach ($locations as $location)
+        // Add markers from window.SIGHTINGS if available
+        if (window.SIGHTINGS && Array.isArray(window.SIGHTINGS)) {
+            window.SIGHTINGS.forEach(function(loc) {
                 try {
-                    var marker{{ $location->id }} = L.marker([{{ $location->latitude }}, {{ $location->longitude }}]).addTo(map);
+                    if (loc.latitude && loc.longitude) {
+                        var m = L.marker([parseFloat(loc.latitude), parseFloat(loc.longitude)]).addTo(map);
+                        var popup = '<strong>' + (loc.name || 'Unnamed') + '</strong><br/>' +
+                                    (loc.municipality ? loc.municipality + ' - ' : '') + (loc.barangay || '') + '<br/>' +
+                                    (loc.date_of_sighting ? loc.date_of_sighting : (loc.created_at || ''));
+                        m.bindPopup(popup);
+                    }
                 } catch (markerError) {
-                    console.warn('Failed to add marker for location {{ $location->id }}:', markerError);
+                    console.warn('Failed to add marker for location:', markerError, loc);
                 }
-            @endforeach
-        @endif
+            });
+        } else {
+            console.warn('No SIGHTINGS data found for markers.');
+        }
 
         // Global marker variable for new markers
         var marker;

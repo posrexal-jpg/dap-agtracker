@@ -20,7 +20,10 @@ class UserLocationController extends Controller
 
     public function index()
     {
-        return redirect()->route('user.account');
+        $municipalities = Municipality::all();
+        $locations = Location::orderBy('created_at', 'desc')->get();
+
+        return view('user.index', compact('locations', 'municipalities'));
     }
 
     public function create()

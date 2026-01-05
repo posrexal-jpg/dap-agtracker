@@ -17,7 +17,7 @@
         <li class="menu-item {{ Route::is('user.locations') ? 'active' : '' }}">
             <a href="{{ route('user.locations') }}" class="menu-link text-dark hover-bg-primary hover-text-white text-decoration-none py-3 px-4 rounded-3 mx-2 mb-1">
                 <i class="menu-icon tf-icons bx bx-home-circle fs-5"></i>
-                <div class="fw-semibold">My Account</div>
+                <div class="fw-semibold">Sighting Map</div>
             </a>
         </li>
 
@@ -25,8 +25,19 @@
         <li class="menu-item {{ Route::is('user.account') ? 'active' : '' }}">
             <a href="{{ route('user.account') }}" class="menu-link text-dark hover-bg-primary hover-text-white text-decoration-none py-3 px-4 rounded-3 mx-2 mb-1">
                 <i class="menu-icon tf-icons bx bx-user fs-5"></i>
-                <div class="fw-semibold">Sighting Map</div>
+                <div class="fw-semibold">My Account</div>
             </a>
+        </li>
+
+        <!-- Logout -->
+        <li class="menu-item">
+            <form action="{{ route('logout') }}" method="POST" class="w-100">
+                @csrf
+                <button type="submit" class="menu-link w-100 text-start text-dark hover-bg-danger hover-text-white text-decoration-none py-3 px-4 rounded-3 mx-2 mb-1 border-0 bg-transparent">
+                    <i class="menu-icon tf-icons bx bx-log-out fs-5"></i>
+                    <div class="fw-semibold">Logout</div>
+                </button>
+            </form>
         </li>
     </ul>
 </aside>
@@ -205,13 +216,26 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Close sidebar when clicking on nav links (mobile)
+    // Close sidebar and ensure navigation when clicking on nav links (mobile & desktop)
     if (sidebar) {
         const navLinks = sidebar.querySelectorAll('.menu-link');
         navLinks.forEach(link => {
-            link.addEventListener('click', function() {
+            link.addEventListener('click', function(e) {
+                // Allow opening in new tab or modifier-click
+                if (e.metaKey || e.ctrlKey || this.target === '_blank') return;
+
+                // Prevent any other handlers from stopping navigation
+                e.preventDefault();
+
+                const href = this.getAttribute('href');
+                if (!href) return;
+
                 if (window.innerWidth < 1200) {
-                    setTimeout(closeSidebar, 300);
+                    closeSidebar();
+                    // small delay to allow close animation
+                    setTimeout(() => { window.location.href = href; }, 250);
+                } else {
+                    window.location.href = href;
                 }
             });
         });

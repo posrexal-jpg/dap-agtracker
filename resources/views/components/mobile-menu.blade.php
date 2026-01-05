@@ -60,7 +60,7 @@
             <div class="mobile-menu-item">
                 <a href="{{ route('user.locations') }}" class="mobile-menu-link {{ Route::is('user.locations') ? 'active' : '' }}">
                     <i class="bx bx-location-plus"></i>
-                    <span>Report</span>
+                    <span>Sighting Map</span>
                 </a>
             </div>
             <div class="mobile-menu-item">
@@ -70,10 +70,13 @@
                 </a>
             </div>
             <div class="mobile-menu-item">
-                <a href="{{ route('user.download') }}" class="mobile-menu-link {{ Route::is('user.download') ? 'active' : '' }}">
-                    <i class="bx bx-upload"></i>
-                    <span>Install</span>
-                </a>
+                <form action="{{ route('logout') }}" method="POST" class="d-inline w-100">
+                    @csrf
+                    <button type="submit" class="mobile-menu-link w-100 text-start border-0 bg-transparent text-danger" title="Logout">
+                        <i class="bx bx-log-out"></i>
+                        <span>Logout</span>
+                    </button>
+                </form>
             </div>
         @endif
     </div>

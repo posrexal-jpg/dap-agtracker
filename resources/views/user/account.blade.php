@@ -16,180 +16,73 @@
         <div class="row align-items-center">
             <div class="col-md-12">
                 <h1 class="page-title">My Account</h1>
-                <p class="page-subtitle">Manage your COTS sightings and view your data on the map</p>
+                <p class="page-subtitle">Manage your profile and change your password</p>
             </div>
         </div>
     </div>
 
-    <!-- Stats Cards -->
-    <div class="row mb-4">
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body text-center">
-                    <i class="bx bx-map-pin bx-lg text-primary mb-2"></i>
-                    <h4 class="card-title">{{ $userLocations->count() }}</h4>
-                    <p class="card-text text-muted">Total Sightings</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body text-center">
-                    <i class="bx bx-calendar bx-lg text-success mb-2"></i>
-                    <h4 class="card-title">{{ $userLocations->where('created_at', '>=', now()->startOfMonth())->count() }}</h4>
-                    <p class="card-text text-muted">This Month</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body text-center">
-                    <i class="bx bx-camera bx-lg text-warning mb-2"></i>
-                    <h4 class="card-title">{{ $userLocations->whereNotNull('photo')->count() }}</h4>
-                    <p class="card-text text-muted">With Photos</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body text-center">
-                    <i class="bx bx-star bx-lg text-info mb-2"></i>
-                    <h4 class="card-title">{{ $userLocations->avg('adult') ? number_format($userLocations->avg('adult'), 1) : '0' }}</h4>
-                    <p class="card-text text-muted">Avg Adults/COTS</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Main Content -->
     <div class="row">
-        <!-- Map Section -->
-        <div class="col-lg-8">
+        <div class="col-lg-6">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title mb-0">
-                        <i class="bx bx-map"></i> My COTS Sightings Map
-                    </h5>
+                    <h5 class="card-title mb-0"><i class="bx bx-user"></i> Profile Information</h5>
                 </div>
                 <div class="card-body">
-                    <div id="map" style="height: 500px; width: 100%; border-radius: 8px;"></div>
+                    @if(session('success'))
+                        <div class="alert alert-success">{{ session('success') }}</div>
+                    @endif
+                    @if($errors->any())
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <form action="{{ route('user.account.update') }}" method="POST">
+                        @csrf
+                        <div class="mb-3">
+                            <label class="form-label">Name</label>
+                            <input type="text" name="name" class="form-control" value="{{ old('name', auth()->user()->name) }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control" value="{{ old('email', auth()->user()->email) }}" required>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">Save Profile</button>
+                            <a href="{{ route('user.download') }}" class="btn btn-outline-secondary">Download App</a>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
 
-        <!-- Recent Sightings -->
-        <div class="col-lg-4">
+        <div class="col-lg-6">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title mb-0">
-                        <i class="bx bx-list-ul"></i> Recent Sightings
-                    </h5>
+                    <h5 class="card-title mb-0"><i class="bx bx-key"></i> Change Password</h5>
                 </div>
-                <div class="card-body" style="max-height: 500px; overflow-y: auto;">
-                    @forelse($userLocations->take(10) as $location)
-                    <div class="d-flex align-items-start mb-3 pb-3 border-bottom">
-                        <div class="flex-shrink-0">
-                            <div class="avatar avatar-sm">
-                                @if($location->photo)
-                                    <img src="{{ asset('storage/' . (is_array(json_decode($location->photo)) ? json_decode($location->photo)[0] : $location->photo)) }}" alt="Location" class="rounded-circle">
-                                @else
-                                    <div class="avatar-initial bg-primary rounded-circle">
-                                        <i class="bx bx-map-pin"></i>
-                                    </div>
-                                @endif
-                            </div>
+                <div class="card-body">
+                    <form action="{{ route('user.account.password') }}" method="POST">
+                        @csrf
+                        <div class="mb-3">
+                            <label class="form-label">Current Password</label>
+                            <input type="password" name="current_password" class="form-control" required>
                         </div>
-                        <div class="flex-grow-1 ms-3">
-                            <h6 class="mb-1">{{ $location->name ?? 'Unnamed Location' }}</h6>
-                            <p class="text-muted small mb-1">{{ $location->barangay }}, {{ $location->municipality }}</p>
-                            <p class="text-muted small mb-0">
-                                <i class="bx bx-calendar"></i> {{ $location->date_of_sighting ? \Carbon\Carbon::parse($location->date_of_sighting)->format('M d, Y') : $location->created_at->format('M d, Y') }}
-                            </p>
-                            @if($location->number_of_cots)
-                            <span class="badge bg-primary">{{ $location->number_of_cots }} COTS</span>
-                            @endif
+                        <div class="mb-3">
+                            <label class="form-label">New Password</label>
+                            <input type="password" name="password" class="form-control" required>
                         </div>
-                    </div>
-                    @empty
-                    <div class="text-center py-4">
-                        <i class="bx bx-map-pin bx-lg text-muted mb-3"></i>
-                        <p class="text-muted">No sightings recorded yet</p>
-                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addLocationModal">
-                            Add Your First Sighting
-                        </button>
-                    </div>
-                    @endforelse
+                        <div class="mb-3">
+                            <label class="form-label">Confirm New Password</label>
+                            <input type="password" name="password_confirmation" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-danger">Change Password</button>
+                    </form>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Data Table -->
-    <div class="card mt-4">
-        <div class="card-header">
-            <h5 class="card-title mb-0">
-                <i class="bx bx-table"></i> All My Sightings
-            </h5>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Location</th>
-                            <th>Municipality</th>
-                            <th>Barangay</th>
-                            <th>COTS Count</th>
-                            <th>Activity</th>
-                            <th>Photos</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($userLocations as $location)
-                        <tr>
-                            <td>{{ $location->date_of_sighting ? \Carbon\Carbon::parse($location->date_of_sighting)->format('M d, Y') : $location->created_at->format('M d, Y') }}</td>
-                            <td>{{ $location->name ?? 'Unnamed' }}</td>
-                            <td>{{ $location->municipality }}</td>
-                            <td>{{ $location->barangay }}</td>
-                            <td>
-                                @if($location->number_of_cots)
-                                    <span class="badge bg-primary">{{ $location->number_of_cots }}</span>
-                                @else
-                                    <span class="text-muted">-</span>
-                                @endif
-                            </td>
-                            <td>{{ $location->activity_type ?? '-' }}</td>
-                            <td>
-                                @if($location->photo)
-                                    <i class="bx bx-camera text-success"></i>
-                                @else
-                                    <span class="text-muted">-</span>
-                                @endif
-                            </td>
-                            <td>
-                                <button class="btn btn-sm btn-outline-primary" onclick="viewLocation({{ $location->id }})">
-                                    <i class="bx bx-show"></i>
-                                </button>
-                                <button class="btn btn-sm btn-outline-danger" onclick="deleteLocation({{ $location->id }})">
-                                    <i class="bx bx-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="8" class="text-center py-4">
-                                <i class="bx bx-inbox bx-lg text-muted mb-2"></i>
-                                <p class="text-muted mb-2">No sightings found</p>
-                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addLocationModal">
-                                    Add Your First Sighting
-                                </button>
-                            </td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
