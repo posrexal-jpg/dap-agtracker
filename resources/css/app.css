@@ -228,3 +228,41 @@ body {
         min-width: 100px;
     }
 }
+
+/* Mobile bottom navbar support: when body has class `mobile-bottom-navbar`
+   the navbar moves to the bottom and page content gets bottom padding. */
+body.mobile-bottom-navbar .navbar {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    padding: 0.4rem 0.75rem;
+    border-top: 1px solid rgba(0,0,0,0.06);
+    box-shadow: 0 -6px 18px rgba(0,0,0,0.06);
+}
+
+body.mobile-bottom-navbar .layout-page {
+    margin-top: 0 !important;
+    padding-bottom: 80px; /* room for bottom nav */
+}
+
+/* Ensure navbar contents are laid out horizontally for bottom nav */
+body.mobile-bottom-navbar .navbar .container-xxl {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Smaller touch targets for bottom nav items on small screens */
+@media (max-width: 768px) {
+    body.mobile-bottom-navbar .navbar {
+        height: 64px;
+    }
+
+    body.mobile-bottom-navbar .navbar .nav-item {
+        margin-left: 6px;
+        margin-right: 6px;
+    }
+}

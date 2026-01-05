@@ -146,5 +146,30 @@
 <script src="{{ asset('js/mobile-menu.js') }}"></script>
 <script src="{{ asset('js/service-worker.js') }}"></script>
 
+<!-- Mobile navbar position handler for admin layout -->
+<script>
+    (function() {
+        function updateNavbarPosition() {
+            const body = document.body;
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+            const isSmall = window.innerWidth <= 768;
+            if (isMobile && isSmall) {
+                body.classList.add('mobile-bottom-navbar');
+            } else {
+                body.classList.remove('mobile-bottom-navbar');
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', updateNavbarPosition);
+        } else {
+            updateNavbarPosition();
+        }
+
+        window.addEventListener('orientationchange', function() { setTimeout(updateNavbarPosition, 120); });
+        window.addEventListener('resize', function() { setTimeout(updateNavbarPosition, 120); });
+    })();
+</script>
+
 </body>
 </html>

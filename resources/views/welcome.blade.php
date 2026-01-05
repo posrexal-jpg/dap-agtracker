@@ -790,7 +790,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <h2>About the App</h2>
-                    <p>The Dap-ag (COTS) Tracker is a mobile application designed to help researchers, conservationists, and the public monitor and report sightings of Crown-of-Thorns Starfish (COTS), locally known as Dap-ag. This invasive species poses a significant threat to coral reefs worldwide.</p>
+                    <p>The Dap-ag (COTS) Tracker is an application designed to help researchers, conservationists, and the public monitor and report sightings of Crown-of-Thorns Starfish (COTS), locally known as Dap-ag. This invasive species poses a significant threat to coral reefs worldwide.</p>
                     <p>Our app allows users to:</p>
                     <ul>
                         <li>Report COTS (Dap-ag) sightings with GPS coordinates</li>

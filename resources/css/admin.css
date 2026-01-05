@@ -333,3 +333,18 @@ body.admin-page {
         background: linear-gradient(135deg, #334155 0%, #475569 50%);
     }
 }
+
+/* Ensure admin pages can scroll when content overflows */
+html, body.admin-page {
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+}
+
+.layout-page, .layout-wrapper, .layout-container {
+    overflow: visible !important;
+}
+
+/* If a component forces overflow hidden from vendor CSS, allow inner content to scroll */
+.layout-page main, .card, .page-content {
+    overflow: visible !important;
+}
