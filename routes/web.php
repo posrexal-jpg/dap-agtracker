@@ -74,7 +74,8 @@ Route::redirect('/users', '/user');
 
 // User dashboard routes
 Route::middleware(['user','auth'])->group(function () {
-    Route::get('/user', [UserDashboardController::class, 'index'])->name('user.dashboard');
+    Route::redirect('/user', '/user/dashboard');
+    Route::get('/user/dashboard', [UserDashboardController::class, 'dashboard'])->name('user.dashboard');
     Route::get('/user/account', [UserLocationController::class, 'account'])->name('user.account');
     // Update user profile and password
     Route::post('/user/account/update', [UserController::class, 'updateProfile'])->name('user.account.update');

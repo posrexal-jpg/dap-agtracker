@@ -1,23 +1,32 @@
 // User Map Initialization
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function() {
-        initializeMap();
-    });
-} else {
-    // DOM already ready
-    initializeMap();
-}
-
 function initializeMap() {
+    // Check if Leaflet is available
+    if (typeof L === 'undefined') {
+        console.error('Leaflet library not loaded');
+        setTimeout(initializeMap, 500); // Retry after 500ms
+        return;
+    }
+
+    // Check if map container exists
+    var mapElement = document.getElementById('map');
+    if (!mapElement) {
+        console.error('Map container element not found');
+        return;
+    }
+
+    console.log('Map container found, initializing Leaflet map...');
+
     // Initialize the map with error handling
     try {
         var map = L.map('map').setView([10.306812602471465, 125.00810623168947], 12);
+        console.log('Leaflet map created successfully');
 
         // OSM layer
         var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         });
         osm.addTo(map);
+        console.log('OSM tiles added');
 
         // Add Locate control (with error handling)
         try {
@@ -178,4 +187,15 @@ function initializeMap() {
             `;
         }
     }
+}
+
+// Initialize map when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM loaded, initializing map...');
+        setTimeout(initializeMap, 100); // Small delay to ensure all scripts are loaded
+    });
+} else {
+    console.log('DOM already ready, initializing map...');
+    setTimeout(initializeMap, 100);
 }

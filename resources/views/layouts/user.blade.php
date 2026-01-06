@@ -82,9 +82,10 @@
             <i class="bx bx-menu bx-sm text-primary"></i>
         </div>
 
-        <!-- Navbar brand for mobile -->
-        <a class="navbar-brand d-lg-none" href="{{ route('user.dashboard') }}">
-            <img src="{{ asset('images/logo.png') }}" alt="COTS Tracker Logo" style="height: 30px; width: auto;">
+        <!-- Navbar brand for mobile - professional app style -->
+        <a class="navbar-brand d-lg-none d-flex align-items-center justify-content-start" href="{{ route('user.dashboard') }}" style="margin: 0;">
+            <img src="{{ asset('images/logo.png') }}" alt="COTS Tracker Logo" style="height: 36px; width: auto;">
+            <span class="fw-bold text-white" style="font-size: 0.85rem; letter-spacing: 0.5px; margin-left: 0.5rem; white-space: nowrap;">COTS</span>
         </a>
 
         <button class="navbar-toggler d-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContentPage1" aria-controls="navbarContentPage1" aria-expanded="false" aria-label="Toggle navigation">

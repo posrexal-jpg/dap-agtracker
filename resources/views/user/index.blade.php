@@ -130,25 +130,23 @@
 
     /* Page Header - Mobile Responsive */
     .page-header {
-        text-align: center;
-        padding: 20px 16px;
+        padding: 24px;
         background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-        margin: -20px -20px 20px -20px;
-        border-radius: 0 0 20px 20px;
+        border-bottom: 1px solid #e2e8f0;
+        flex-shrink: 0;
     }
 
     .page-header h1 {
         font-size: 1.75rem;
         font-weight: 700;
-        color: var(--primary-color);
+        color: #1e3a8a;
         margin-bottom: 8px;
     }
 
     .page-header p {
         font-size: 0.95rem;
         color: #64748b;
-        max-width: 600px;
-        margin: 0 auto;
+        margin-bottom: 16px;
     }
 
     /* Status Indicators - Mobile Friendly */
@@ -160,7 +158,6 @@
         border-radius: 20px;
         font-size: 0.875rem;
         font-weight: 500;
-        margin-bottom: 16px;
     }
 
     .connection-status.online {
@@ -175,11 +172,24 @@
 
     /* Map Container - Mobile Optimized */
     #map {
-        border-radius: 16px;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-        margin: 16px;
-        height: calc(100vh - 200px);
+        flex: 1;
+        border-radius: 0;
+        box-shadow: none;
+        margin: 0 !important;
+        padding: 0 !important;
+        height: 100% !important;
+        width: 100% !important;
         min-height: 300px;
+    }
+
+    .content-wrapper {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        width: 100%;
+        height: 100%;
+        padding: 0 !important;
+        margin: 0 !important;
     }
 
     /* Notification Styles */
@@ -269,9 +279,13 @@
             font-size: 1.5rem;
         }
 
+        .page-header {
+            padding: 16px;
+        }
+
         #map {
-            margin: 12px;
-            height: calc(100vh - 180px);
+            margin: 0;
+            height: 100%;
         }
 
         .btn {
@@ -323,6 +337,7 @@
     }
 </style>
 
+<div class="container-fluid" style="height: 100%; display: flex; flex-direction: column; overflow: hidden; padding: 0; margin: 0;">
 <div class="page-header">
     <h1>🏊‍♂️ COTS Sighting Map</h1>
     <p class="description">View all reported Crown-of-Thorns Starfish (COTS), locally known as Dap-ag, sightings on the interactive map. Help protect our reefs by adding pin to report new sightings in your area.</p>
@@ -344,8 +359,9 @@
     </div>
 </div>
 
+<div class="page-content" style="flex: 1; overflow: hidden; padding: 0; margin: 0; display: flex; flex-direction: column;">
     <div class="content-wrapper">
-            <div id="map" style="height: 80%; position: relative; margin: 0 auto; "></div>
+            <div id="map"></div>
             <div class="modal fade" id="consentModal" tabindex="-1" aria-labelledby="consentModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                             <div class="modal-content">
@@ -606,5 +622,7 @@
     <script src="{{ asset('js/user-offline.js') }}"></script>
     <script src="{{ asset('js/offline-manager.js') }}"></script>
     <script src="{{ asset('js/pwa-install.js') }}"></script>
+</div>
+</div>
 
 @endsection

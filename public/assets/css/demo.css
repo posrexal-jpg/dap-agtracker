@@ -5,7 +5,7 @@
 
 .menu .app-brand.demo {
   height: 64px;
-  margin-top: 12px;
+  margin-top: 8px;
 }
 
 .app-brand-logo.demo svg {
@@ -27,6 +27,75 @@
 /* Default navbar */
 .layout-navbar-fixed .layout-wrapper:not(.layout-without-menu) .layout-page {
   padding-top: 64px !important;
+}
+
+/* Base layout structure */
+body {
+  padding-top: 0 !important;
+}
+
+#layout-navbar {
+  z-index: 1040;
+  min-height: 56px;
+}
+
+.layout-wrapper {
+  padding-top: 56px; /* Navbar height */
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 56px);
+  overflow: hidden;
+
+.layout-container {
+  display: flex;
+  flex: 1;
+  position: relative;
+}
+
+.layout-page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+.layout-page main {
+  flex: 1;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+
+.user-sidebar {
+  width: 280px;
+  flex-shrink: 0;
+}
+
+/* Desktop layout */
+@media (min-width: 1200px) {
+  .layout-page {
+    margin-left: 0;
+  }
+  
+  .user-sidebar {
+    position: fixed;
+    left: 0;
+    top: 56px;
+    height: calc(100vh - 56px);
+    overflow-y: auto;
+  }
+  
+  .layout-page {
+    margin-left: 280px;
+  }
 }
 
 /* Navbar page z-index issue solution */
@@ -105,3 +174,260 @@
   text-align: center;
   margin-top: 1rem;
 }
+
+/* --------------------------------------------------------------------------
+   /user — Mobile & Orientation fixes
+   - Make sidebar behave as an overlay on small screens (opens via .show/.open)
+   - Ensure main content fills viewport and does not sit beside sidebar
+   - Provide a fixed bottom navbar area and prevent horizontal scroll
+   - Improve touch scrolling inside sidebar
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 767.98px), (max-width: 1024px) and (orientation: landscape) {
+
+  /* Prevent horizontal overflow on small devices */
+  html, body {
+    overflow-x: hidden;
+  }
+
+  /* Sidebar becomes a full-height overlay */
+  .user-sidebar {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    height: 100vh !important;
+    width: 280px !important;
+    max-width: 80vw !important;
+    background: #ffffff !important;
+    transform: translateX(-110%);
+    transition: transform 0.22s ease-in-out;
+    z-index: 1100 !important;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* When JS toggles the sidebar, add .show or .open to reveal it */
+  .user-sidebar.show,
+  .user-sidebar.open {
+    transform: translateX(0) !important;
+  }
+
+  /* Dimmer overlay (optional markup: .user-overlay or .sidebar-overlay as a sibling) */
+  .user-overlay,
+  .sidebar-overlay,
+  #user-sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 1099;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.18s ease-in-out;
+    display: none;
+  }
+  .user-overlay.show,
+  .user-overlay.open,
+  .sidebar-overlay.show,
+  .sidebar-overlay.open,
+  .sidebar-overlay.active,
+  #user-sidebar-overlay.show,
+  #user-sidebar-overlay.open,
+  #user-sidebar-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+    display: block;
+  }
+
+  /* Ensure the page content occupies full width when sidebar is hidden */
+  .layout-page,
+  .layout-container,
+  .layout-content {
+    margin-left: 0 !important;
+    width: 100% !important;
+    padding-right: 0 !important;
+  }
+
+  /* Stack children and ensure widths are 100% to avoid scattered layout */
+  .layout-page main > *,
+  .layout-page .card,
+  .layout-page .row,
+  .layout-page .col,
+  .layout-page .container,
+  .layout-page .map-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  /* Menu inner should use full width and stack items */
+  .user-sidebar .menu-inner {
+    display: block !important;
+  }
+  .user-sidebar .menu-item {
+    width: 100% !important;
+    margin: 0.25rem 0 !important;
+  }
+
+  /* Make images, iframes and embeds responsive inside user pages */
+  .layout-page img,
+  .layout-page iframe,
+  .layout-page embed,
+  .layout-page video {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  /* Leaflet sizing helpers: ensure map fills available width/height */
+  .leaflet-container,
+  .map-container,
+  #map {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: calc(100vh - 140px) !important;
+    min-height: 320px !important;
+  }
+
+  /* Provide spacing at the bottom so content isn't hidden behind bottom nav */
+  .layout-page {
+    padding-bottom: 68px !important;
+  }
+
+  /* Fixed bottom navigation area (common mobile pattern) */
+  .mobile-bottom-navbar,
+  .bottom-nav,
+  .mobile-nav-bottom {
+    position: fixed !important;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1050 !important;
+    background: #fff;
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.08);
+  }
+
+  /* Make sure interactive lists inside the sidebar are comfortably tappable */
+  .user-sidebar .menu-link,
+  .user-sidebar .mobile-menu-link {
+    padding-top: 0.9rem !important;
+    padding-bottom: 0.9rem !important;
+  }
+
+  /* Reduce scrollbar visual noise in mobile (but keep functionality) */
+  .user-sidebar::-webkit-scrollbar {
+    width: 8px;
+  }
+  .user-sidebar::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.12);
+    border-radius: 6px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Mobile Professional App Brand Styling
+   - Large, centered logo on small screens
+   - Safe area padding for notch/safe insets
+   - App-like compact navbar
+   - Professional spacing and typography
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 767.98px) {
+  /* Mobile app-like navbar */
+  #layout-navbar {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100% !important;
+    padding: max(0.25rem, env(safe-area-inset-top)) 0.5rem !important;
+    background: linear-gradient(135deg, #0369a1 0%, #0284c7 100%) !important;
+    border: none !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    z-index: 1040;
+    min-height: 56px;
+  }
+
+  /* Mobile navbar brand/logo left-aligned and at top */
+  .navbar-brand {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    flex: 0 0 auto !important;
+    margin: 0 !important;
+    padding-left: 2.5rem !important;
+    padding-top: max(0.25rem, env(safe-area-inset-top)) !important;
+  }
+
+  .navbar-brand img {
+    height: 36px !important;
+    width: auto !important;
+    filter: brightness(0) invert(1);
+    max-width: 40px;
+    margin-right: 0.5rem !important;
+    flex-shrink: 0;
+  }
+
+  .navbar-brand span {
+    display: flex;
+    align-items: center;
+    height: 36px;
+  }
+
+  /* Hide desktop branding elements on mobile */
+  .navbar-text,
+  .navbar-nav .nav-link {
+    display: none !important;
+  }
+
+  /* Mobile menu toggle on the left */
+  .layout-menu-toggle {
+    position: absolute !important;
+    left: 0.5rem !important;
+    top: 50% !important;
+    transform: translateY(-50%);
+    z-index: 1041;
+  }
+
+  .layout-menu-toggle i {
+    color: #ffffff !important;
+    font-size: 1.5rem !important;
+  }
+
+  /* Add safe margin below navbar to prevent content overlap */
+  .layout-wrapper {
+    padding-top: 64px;
+  }
+
+  .layout-page {
+    margin-top: 0 !important;
+  }
+}
+
+/* Extra small screens and landscape */
+@media (max-width: 575.98px) {
+  #layout-navbar {
+    padding: max(0.4rem, env(safe-area-inset-top)) 0.3rem 0.4rem !important;
+  }
+
+  .navbar-brand img {
+    height: 38px !important;
+  }
+}
+
+/* Landscape orientation mobile devices */
+@media (max-height: 500px) and (orientation: landscape) {
+  #layout-navbar {
+    padding: 0.3rem max(0.5rem, env(safe-area-inset-top)) 0.3rem !important;
+  }
+
+  .navbar-brand img {
+    height: 32px !important;
+  }
+
+  .layout-wrapper {
+    padding-top: 52px;
+  }
+}
+

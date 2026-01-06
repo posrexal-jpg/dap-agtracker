@@ -13,6 +13,14 @@
     </div>
     <div class="menu-inner-shadow bg-light"></div>
     <ul class="menu-inner py-2">
+        <!-- Dashboard -->
+        <li class="menu-item {{ Route::is('user.dashboard') ? 'active' : '' }}">
+            <a href="{{ route('user.dashboard') }}" class="menu-link text-dark hover-bg-primary hover-text-white text-decoration-none py-3 px-4 rounded-3 mx-2 mb-1">
+                <i class="menu-icon tf-icons bx bx-grid-alt fs-5"></i>
+                <div class="fw-semibold">Dashboard</div>
+            </a>
+        </li>
+
         <!-- Sightings Map -->
         <li class="menu-item {{ Route::is('user.locations') ? 'active' : '' }}">
             <a href="{{ route('user.locations') }}" class="menu-link text-dark hover-bg-primary hover-text-white text-decoration-none py-3 px-4 rounded-3 mx-2 mb-1">
@@ -59,7 +67,6 @@
     border-right: 1px solid #e2e8f0;
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 1.5rem 0;
 }
 
 .app-brand {

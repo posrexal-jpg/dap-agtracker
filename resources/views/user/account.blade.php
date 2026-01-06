@@ -9,10 +9,51 @@
         padding-left: 0;
     }
 }
+
+.page-header {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    padding: 30px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1e3a8a;
+    margin-bottom: 8px;
+}
+
+.page-subtitle {
+    color: #64748b;
+    font-size: 1rem;
+    margin-bottom: 0;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    margin-bottom: 24px;
+}
+
+.card-header {
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.card-title {
+    color: #1e3a8a;
+    font-weight: 600;
+}
+
+.page-content {
+    padding: 24px;
+    flex: 1;
+    overflow-y: auto;
+}
 </style>
-<div class="container-fluid px-0">
+<div class="container-fluid px-0" style="height: 100%; display: flex; flex-direction: column; overflow: auto;">
     <!-- Page Header -->
-    <div class="page-header">
+    <div class="page-header" style="flex-shrink: 0;">
         <div class="row align-items-center">
             <div class="col-md-12">
                 <h1 class="page-title">My Account</h1>
@@ -21,6 +62,7 @@
         </div>
     </div>
 
+    <div class="page-content">
     <div class="row">
         <div class="col-lg-6">
             <div class="card">
