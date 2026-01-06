@@ -124,11 +124,19 @@
     <div class="layout-container">
         @include('user.menu')
 
-        <div class="layout-page">
-            <main class="py-4">
+        <div class="layout-page" style="padding: 24px 16px; min-height: 100vh; background: #f6f9fc;">
+            <main class="py-2">
                 @yield('content')
             </main>
         </div>
+    </body>
+    <style>
+        @media (max-width: 768px) {
+            .layout-page {
+                padding: 10px 2px !important;
+            }
+        }
+    </style>
     </div>
 </div>
 
