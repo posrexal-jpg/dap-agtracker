@@ -352,9 +352,6 @@
             <button type="button" class="btn btn-outline-primary btn-sm" onclick="manualSync()" id="syncBtn">
                 <i class="fas fa-sync-alt me-1"></i>Sync Data
             </button>
-            <button type="button" class="btn btn-success btn-sm" onclick="addNewSighting()" id="addSightingBtn">
-                <i class="fas fa-plus me-1"></i>Add Sighting
-            </button>
         </div>
     </div>
 </div>
