@@ -18,15 +18,32 @@ function initializeMap() {
 
     // Initialize the map with error handling
     try {
+
         var map = L.map('map').setView([10.306812602471465, 125.00810623168947], 12);
         console.log('Leaflet map created successfully');
 
-        // OSM layer
+        // Base layers
         var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         });
-        osm.addTo(map);
-        console.log('OSM tiles added');
+
+        var esriSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+        });
+
+        var esriTopo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+            attribution: 'Map data: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> contributors'
+        });
+
+        var baseMaps = {
+            "OpenStreetMap": osm,
+            "Satellite": esriSat,
+            "Topographic": esriTopo
+        };
+
+        osm.addTo(map); // Default
+        L.control.layers(baseMaps, null, { position: 'topright', collapsed: false }).addTo(map);
+        console.log('Map layers and controls added');
 
         // Add Locate control (with error handling)
         try {

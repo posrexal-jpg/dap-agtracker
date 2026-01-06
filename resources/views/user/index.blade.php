@@ -358,51 +358,51 @@
 
 <div class="page-content" style="flex: 1; overflow: hidden; padding: 0; margin: 0; display: flex; flex-direction: column;">
     <div class="content-wrapper">
-            <div id="map"></div>
+            <div id="map" style="z-index: 1;"></div>
+            <!-- Consent Modal -->
             <div class="modal fade" id="consentModal" tabindex="-1" aria-labelledby="consentModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="consentModalLabel">Data Privacy Consent</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="consentModalLabel">Data Privacy Consent</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="fs-5">
+                                All of the information that the respondents will provide will be treated as confidential and will only be used for research purposes.
+                                We are committed to protecting your personal information and respecting your privacy.
+                                Any personal information provided will be treated with confidentiality.
+                            </p> 
+                            <p class="text-muted">
+                                By clicking <strong>"I Agree"</strong>, you consent to the collection and processing of your data for research and monitoring purposes, in accordance with applicable data privacy laws.
+                            </p>
+                            <div class="row g-2 my-3">
+                                <div class="col-6">
+                                    <img src="{{ asset('images/img1.jpg') }}" class="img-fluid rounded" alt="Species 1">
                                 </div>
-                                <div class="modal-body">
-                                    <p class="fs-5">
-                                        All of the information that the respondents will provide will be treated as confidential and will only be used for research purposes.
-                                        We are committed to protecting your personal information and respecting your privacy.
-                                        Any personal information provided will be treated with confidentiality.
-                                    </p> 
-                                    
-                                    <p class="text-muted">
-                                        By clicking <strong>"I Agree"</strong>, you consent to the collection and processing of your data for research and monitoring purposes, in accordance with applicable data privacy laws.
-                                    </p>
-                                    <div class="row g-2 my-3">
-                                        <div class="col-6">
-                                            <img src="{{ asset('images/img1.jpg') }}" class="img-fluid rounded" alt="Species 1">
-                                        </div>
-                                        <div class="col-6">
-                                            <img src="{{ asset('images/img2.jpg') }}" class="img-fluid rounded" alt="Species 2">
-                                        </div>
-                                        <div class="col-6">
-                                            <img src="{{ asset('images/img3.jpg') }}" class="img-fluid rounded" alt="Species 3">
-                                        </div>
-                                        <div class="col-6">
-                                            <img src="{{ asset('images/img4.jpg') }}" class="img-fluid rounded" alt="Species 3">
-                                        </div>
-                                    </div>
-
-                                    <p>
-                                      The Crown-of-Thorns Starfish (COTS), locally known as Dap-ag, is a marine species known for its significant impact on coral reefs. While it is a natural part of the ecosystem, during population outbreaks, COTS can devastate coral reefs by feeding on coral polyps, leading to extensive coral degradation. This species poses a major threat to coral ecosystems, especially in tropical and subtropical regions, and is considered one of the key factors in coral reef decline. Effective management and research are essential to mitigate the damage caused by COTS outbreaks and protect vital marine biodiversity.
-                                    </p>
+                                <div class="col-6">
+                                    <img src="{{ asset('images/img2.jpg') }}" class="img-fluid rounded" alt="Species 2">
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                    <button type="button" class="btn btn-primary" id="agreeConsent">I Agree</button>
+                                <div class="col-6">
+                                    <img src="{{ asset('images/img3.jpg') }}" class="img-fluid rounded" alt="Species 3">
+                                </div>
+                                <div class="col-6">
+                                    <img src="{{ asset('images/img4.jpg') }}" class="img-fluid rounded" alt="Species 4">
                                 </div>
                             </div>
+                            <p>
+                              The Crown-of-Thorns Starfish (COTS), locally known as Dap-ag, is a marine species known for its significant impact on coral reefs. While it is a natural part of the ecosystem, during population outbreaks, COTS can devastate coral reefs by feeding on coral polyps, leading to extensive coral degradation. This species poses a major threat to coral ecosystems, especially in tropical and subtropical regions, and is considered one of the key factors in coral reef decline. Effective management and research are essential to mitigate the damage caused by COTS outbreaks and protect vital marine biodiversity.
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary" id="agreeConsent">I Agree</button>
                         </div>
                     </div>
-                    <form id="locationForm" action="{{ route('user-save-location') }}" method="POST" enctype="multipart/form-data">
+                </div>
+            </div>
+            <!-- End Consent Modal -->
+            <form id="locationForm" action="{{ route('user-save-location') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <!-- Modal 1: Sighting Details -->
     <div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="modal1Label" aria-hidden="true">
@@ -567,15 +567,16 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="backBtn4">Back</button>
-                <button type="submit" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-secondary" id="backBtn4">Back</button>
+                    <button type="submit" class="btn btn-success">Submit</button>
                 </div>
-                </form>   
             </div>
         </div>
     </div>
+    </form>
+    <!-- End Location Form -->
 
-    <!-- Core JS -->
+    <!-- Core JS (no duplicates) -->
     <script src="{{ asset('assets/vendor/libs/jquery/jquery.js')}}"></script>
     <script src="{{ asset('assets/vendor/libs/popper/popper.js')}}"></script>
     <script src="{{ asset('assets/vendor/js/bootstrap.js')}}"></script>
@@ -584,14 +585,6 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.74.0/dist/L.Control.Locate.min.js" charset="utf-8"></script>
-
-    <!-- build:js assets/vendor/js/core.js -->
-    <script src="{{ asset('assets/vendor/libs/jquery/jquery.js')}}"></script>
-    <script src="{{ asset('assets/vendor/libs/popper/popper.js')}}"></script>
-    <script src="{{ asset('assets/vendor/js/bootstrap.js')}}"></script>
-    <script src="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js')}}"></script>
-    <script src="{{ asset('assets/vendor/js/menu.js')}}"></script>
-    <!-- endbuild -->
 
     <!-- Vendors JS -->
     <script src="{{ asset('assets/vendor/libs/apex-charts/apexcharts.js')}}"></script>
@@ -608,12 +601,10 @@
     <!-- User-specific JavaScript files -->
     <script src="{{ asset('js/user-location.js') }}"></script>
     <script src="{{ asset('js/user-modal.js') }}"></script>
-
     <script>
         // Embed server-side sightings data for the map
         window.SIGHTINGS = @json(isset($locations) ? $locations->toArray() : []);
     </script>
-
     <script src="{{ asset('js/user-map.js') }}"></script>
     <script src="{{ asset('js/user-form.js') }}"></script>
     <script src="{{ asset('js/user-offline.js') }}"></script>
