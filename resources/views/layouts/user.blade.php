@@ -182,17 +182,96 @@
             height: calc(100vh - var(--navbar-height)) !important;
             z-index: 2147483645 !important;
         }
-        /* Ensure Bootstrap modals and backdrops appear above the map (global and fullscreen) */
+        /* Ensure modals always appear in front of all page elements */
+        /* Backdrop should sit above the map but below the modal. Use very large
+           z-index values to ensure the modal is always in front of the map. */
         .modal-backdrop {
-            z-index: 1000 !important;
+            z-index: 2147483646 !important;
+            background-color: rgba(0,0,0,0.65) !important;
+            opacity: 1 !important;
         }
         .modal {
-            z-index: 1001 !important;
+            z-index: 2147483647 !important;
         }
-        /* Consent modal on very top */
-        #consentModal,
-        #consentModal + .modal-backdrop {
+        /* Map-fullscreen specific: backdrop sits between the map and modal */
+        /* On the fullscreen map page we remove the backdrop so the map stays
+           fully interactive while the modal is open. */
+        body.map-fullscreen .modal-backdrop {
+            display: none !important;
+            z-index: 0 !important;
+            background-color: transparent !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+        /* Place modals below the fixed top navbar on fullscreen map pages */
+        body.map-fullscreen .modal {
+            /* ensure navbar stays above modals */
+            z-index: 2147483646 !important;
+        }
+        body.map-fullscreen .modal.show {
+            position: fixed !important;
+            top: calc(var(--navbar-height) + -24px) !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            margin: 0 !important;
+            max-height: calc(100vh - var(--navbar-height) - 28px) !important;
+        }
+        body.map-fullscreen .modal .modal-dialog {
+            margin: 0 auto !important;
+            width: min(920px, 95vw) !important;
+            max-height: calc(100vh - var(--navbar-height) - 64px) !important;
+        }
+        /* Consent modal should also appear below the navbar */
+        body.map-fullscreen #consentModal {
+            z-index: 2147483646 !important;
+        }
+        body.map-fullscreen .modal {
+            z-index: 2147483647 !important;
+        }
+        /* Consent modal highest priority */
+        #consentModal {
             z-index: 2147483649 !important;
+        }
+        #consentModal + .modal-backdrop {
+            z-index: 2147483648 !important;
+        }
+
+        /* Ensure modals are fixed and perfectly centered on screen and that
+           modal content uses flex so body can scroll while footer stays visible. */
+        .modal.show {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            position: fixed !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            margin: 0 !important;
+            pointer-events: auto !important;
+            padding: 16px; /* keep small gap on very small screens */
+        }
+        .modal .modal-dialog {
+            max-width: 920px;
+            width: min(920px, 95vw);
+            max-height: calc(100vh - 120px);
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+        }
+        .modal .modal-content {
+            display: flex;
+            flex-direction: column;
+            max-height: inherit;
+            overflow: hidden;
+        }
+        .modal .modal-body {
+            overflow: auto;
+            flex: 1 1 auto;
+            padding: 20px 24px;
+        }
+        .modal .modal-footer {
+            flex-shrink: 0;
+            padding: 12px 20px;
         }
     </style>
 </head>

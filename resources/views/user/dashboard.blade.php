@@ -11,13 +11,17 @@
 }
 </style>
 
-<div class="container-fluid px-3 py-4" style="height: 100%; display: flex; flex-direction: column; overflow: auto; background: #f6f9fc;">
+<div class="container-fluid px-3 py-4" style="min-height: calc(100vh - var(--navbar-height)); display: flex; flex-direction: column; background: #f6f9fc; overflow-y: auto; padding-top: 1.25rem;">
     <!-- Page Header -->
     <div class="page-header shadow-sm">
         <div class="row align-items-center">
-            <div class="col-md-12 text-center">
+            <div class="col-md-8">
                 <h1 class="page-title mb-2">Welcome, <span style="color:#0284c7">{{ Auth::user()->name }}</span>! <span class="wave">👋</span></h1>
-                <p class="page-subtitle mb-0">Monitor <b>COTS</b> sightings and help protect our coral reefs</p>
+                <p class="page-subtitle mb-0">Track and report Crown-of-Thorns Starfish (COTS) sightings — help protect our reefs.</p>
+            </div>
+            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                <a href="{{ route('user.sightings-map') }}" class="btn btn-primary me-2"><i class="bx bx-plus me-1"></i> Report Sighting</a>
+                <a href="{{ route('user.sightings-map') }}" class="btn btn-outline-primary">View Map</a>
             </div>
         </div>
     </div>
@@ -78,7 +82,7 @@
                 </div>
                 <div class="card-body">
                     @if($recentSightings->count() > 0)
-                        <div class="table-responsive">
+                        <div class="table-responsive" style="max-height:360px; overflow:auto;">
                             <table class="table table-hover mb-0 align-middle">
                                 <thead class="table-light">
                                     <tr>

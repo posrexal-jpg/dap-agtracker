@@ -39,7 +39,7 @@
 
     .modal-header .modal-title {
         font-weight: 700;
-        font-size: 1.5rem;
+        font-size: 1rem;
         letter-spacing: 0.3px;
     }
 
@@ -59,31 +59,33 @@
     }
 
     .modal-body {
-        padding: 32px;
-        max-height: calc(100vh - 280px);
+        padding: 10px 12px;
+        max-height: calc(100vh - 160px);
         overflow-y: auto;
+        font-size: 13px;
     }
 
     .modal-body .form-group {
-        margin-bottom: 24px;
+        margin-bottom: 8px;
     }
 
     .modal-body label {
         font-weight: 600;
         color: #1f2937;
-        font-size: 0.95rem;
-        margin-bottom: 10px;
+        font-size: 0.78rem;
+        margin-bottom: 4px;
         display: block;
     }
 
     .modal-body .form-control,
     .modal-body select {
-        border-radius: 12px;
-        border: 2px solid #e5e7eb;
-        padding: 14px 16px;
-        font-size: 15px;
-        transition: all 0.3s ease;
+        border-radius: 6px;
+        border: 1px solid #e5e7eb;
+        padding: 6px 8px;
+        font-size: 13px;
+        transition: all 0.12s ease;
         background: #f9fafb;
+        height: 30px;
     }
 
     .modal-body .form-control:focus,
@@ -96,7 +98,7 @@
 
     /* Consent modal specific styling */
     #consentModal .modal-body {
-        padding: 32px;
+        padding: 16px;
     }
 
     #consentModal .modal-body p {
@@ -105,8 +107,8 @@
     }
 
     #consentModal .modal-body p.fs-5 {
-        font-size: 1rem !important;
-        margin-bottom: 20px;
+        font-size: 0.9rem !important;
+        margin-bottom: 12px;
     }
 
     #consentModal .modal-body img {
@@ -120,22 +122,25 @@
     }
 
     .modal-footer {
-        padding: 20px 32px;
+        padding: 6px 10px;
         border-top: 1px solid #f3f4f6;
         background: #f9fafb;
-        border-radius: 0 0 20px 20px;
+        border-radius: 0 0 8px 8px;
         display: flex;
-        gap: 12px;
+        gap: 6px;
         justify-content: flex-end;
+        align-items: center;
     }
 
     .modal-footer .btn {
-        border-radius: 10px;
-        padding: 12px 28px;
+        border-radius: 6px;
+        padding: 4px 8px;
         font-weight: 600;
-        font-size: 15px;
-        min-width: 120px;
-        transition: all 0.2s ease;
+        font-size: 12px;
+        min-width: 56px;
+        transition: all 0.1s ease;
+        line-height: 1;
+        height: 30px;
     }
 
     .modal-footer .btn-primary {
@@ -523,9 +528,9 @@
     </div>
 </div>
 
-<div class="page-content" style="flex: 1; overflow: hidden; padding: 0; margin: 0; display: flex; flex-direction: column; height: 100%; min-height: 400px;">
+<div class="page-content" style="flex: 1; overflow-y: auto; padding: 0; margin: 0; display: flex; flex-direction: column; height: 100%; min-height: 400px;">
     <div class="content-wrapper" style="flex: 1; display: flex; flex-direction: column; height: 100%; padding: 0; margin: 0;">
-        <div id="map" style="z-index: 1; width: 100%; height: 100%; min-height: 400px; position: relative;"></div>
+        <div id="map"></div>
             <!-- Consent Modal -->
             <div class="modal fade" id="consentModal" tabindex="-1" aria-labelledby="consentModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -749,9 +754,7 @@
     <script src="{{ asset('assets/vendor/js/bootstrap.js')}}"></script>
     <script src="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js')}}"></script>
     <script src="{{ asset('assets/vendor/js/menu.js')}}"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.74.0/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+    <!-- Leaflet is loaded in the layout; avoid duplicate includes here -->
 
     <!-- Vendors JS -->
     <script src="{{ asset('assets/vendor/libs/apex-charts/apexcharts.js')}}"></script>
