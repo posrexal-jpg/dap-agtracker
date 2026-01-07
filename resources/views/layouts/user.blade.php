@@ -182,10 +182,17 @@
             height: calc(100vh - var(--navbar-height)) !important;
             z-index: 2147483645 !important;
         }
-        /* Ensure Bootstrap modals and backdrops appear above the map */
-        body.map-fullscreen .modal,
-        body.map-fullscreen .modal-backdrop {
-            z-index: 2147483648 !important;
+        /* Ensure Bootstrap modals and backdrops appear above the map (global and fullscreen) */
+        .modal-backdrop {
+            z-index: 1000 !important;
+        }
+        .modal {
+            z-index: 1001 !important;
+        }
+        /* Consent modal on very top */
+        #consentModal,
+        #consentModal + .modal-backdrop {
+            z-index: 2147483649 !important;
         }
     </style>
 </head>
