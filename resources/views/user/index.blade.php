@@ -363,6 +363,19 @@
             flex-direction: column;
         }
     }
+
+    /* Keep map contained within the page content. Do not override global html/body layout. */
+    .page-content, .content-wrapper {
+        height: 100%;
+        width: 100%;
+    }
+    #map {
+        flex: 1;
+        width: 100%;
+        height: 100%;
+        min-height: 400px;
+        position: relative;
+    }
 </style>
 
 <div class="container-fluid" style="height: 100vh; min-height: 100vh; display: flex; flex-direction: column; overflow: hidden; padding: 0; margin: 0;">
@@ -386,13 +399,13 @@
 
 <div class="page-content" style="flex: 1; overflow: hidden; padding: 0; margin: 0; display: flex; flex-direction: column; height: 100%; min-height: 400px;">
     <div class="content-wrapper" style="flex: 1; display: flex; flex-direction: column; height: 100%; padding: 0; margin: 0;">
-        <div id="map" style="z-index: 1; width: 100vw; height: 100vh; min-height: 400px; position: relative;"></div>
+        <div id="map" style="z-index: 1; width: 100%; height: 100%; min-height: 400px; position: relative;"></div>
             <!-- Consent Modal -->
             <div class="modal fade" id="consentModal" tabindex="-1" aria-labelledby="consentModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="consentModalLabel">Data Privacy Consent</h5>
+                                <h5 class="modal-title" id="consentModalLabel"><i class="fas fa-shield-alt me-2"></i>Data Privacy Consent</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -434,10 +447,10 @@
     @csrf
     <!-- Modal 1: Sighting Details -->
     <div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="modal1Label" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modal1Label">Sighting Details</h5>
+                    <h5 class="modal-title" id="modal1Label"><i class="fas fa-info-circle me-2"></i>Sighting Details</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 
@@ -481,10 +494,10 @@
 
     <!-- Modal 2: COTS Count -->
     <div class="modal fade" id="modal2" tabindex="-1" aria-labelledby="modal2Label" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modal2Label">COTS Count</h5>
+                    <h5 class="modal-title" id="modal2Label"><i class="fas fa-sort-numeric-up me-2"></i>COTS Count</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -523,10 +536,10 @@
 
     <!-- Modal 3: Activity & Observer Info -->
     <div class="modal fade" id="modal3" tabindex="-1" aria-labelledby="modal3Label" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modal3Label">Activity & Observer Info</h5>
+                    <h5 class="modal-title" id="modal3Label"><i class="fas fa-user me-2"></i>Activity & Observer Info</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -566,10 +579,10 @@
 
     <!-- Modal 4: Location & Media -->
     <div class="modal fade" id="modal4" tabindex="-1" aria-labelledby="modal4Label" aria-hidden="true">
-        <div class="modal-dialog"> 
+        <div class="modal-dialog modal-dialog-centered modal-lg"> 
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modal4Label">Location & Media</h5>
+                    <h5 class="modal-title" id="modal4Label"><i class="fas fa-map-marker-alt me-2"></i>Location & Media</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

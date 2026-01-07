@@ -125,19 +125,24 @@
  
 <!-- Page Content -->
 <div class="layout-wrapper layout-content-navbar">
-    <div class="layout-container">
-        @if(auth()->check() && auth()->user()->role && auth()->user()->role->role_name == 'admin')
-            @include('admin.menu')
-        @elseif(auth()->check() && auth()->user()->role)
-            @include('user.menu')
-        @else
-            <!-- No menu for unauthenticated users or users without roles -->
-        @endif
-
-        <div class="layout-page">
-            <main class="py-4">
-                @yield('content')
-            </main>
+    <div class="container-fluid px-0">
+        <div class="row g-0 min-vh-100">
+            @if(auth()->check() && auth()->user()->role && auth()->user()->role->role_name == 'admin')
+                <div class="col-auto">
+                    @include('admin.menu')
+                </div>
+            @elseif(auth()->check() && auth()->user()->role)
+                <div class="col-auto">
+                    @include('user.menu')
+                </div>
+            @endif
+            <div class="col d-flex flex-column">
+                <div class="layout-page flex-grow-1 d-flex flex-column">
+                    <main class="py-4 flex-grow-1 d-flex flex-column">
+                        @yield('content')
+                    </main>
+                </div>
+            </div>
         </div>
     </div>
 </div>

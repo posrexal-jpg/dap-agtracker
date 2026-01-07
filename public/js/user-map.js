@@ -92,6 +92,20 @@ function initializeMap() {
             ]
         };
 
+        // Check for previously stored user location (to restore view quickly on refresh)
+        var storedLocation = null;
+        try {
+            var stored = localStorage.getItem('user_location');
+            if (stored) {
+                var parsed = JSON.parse(stored);
+                if (parsed && parsed.lat && parsed.lng) {
+                    storedLocation = parsed;
+                }
+            }
+        } catch (err) {
+            console.warn('Failed to read stored user location:', err);
+        }
+
         // Add the polygon to the map
         var polygon = L.geoJSON(geoJsonPolygon, {
             style: function () {
@@ -104,8 +118,120 @@ function initializeMap() {
             }
         }).addTo(map);
 
-        // Fit map to the polygon bounds
-        map.fitBounds(polygon.getBounds());
+        // Fit map to the polygon bounds unless we have a stored user location
+        if (storedLocation) {
+            try {
+                map.setView([parseFloat(storedLocation.lat), parseFloat(storedLocation.lng)], 15);
+            } catch (vErr) {
+                console.warn('Failed to set view from stored location:', vErr);
+                map.fitBounds(polygon.getBounds());
+            }
+        } else {
+            map.fitBounds(polygon.getBounds());
+        }
+
+        // Ask for user's location and zoom to it (will prompt for permission)
+        try {
+            if (navigator && navigator.geolocation) {
+                // Use Leaflet's locate which triggers browser permission dialog
+                map.locate({ setView: true, maxZoom: 15, watch: false, enableHighAccuracy: true });
+
+                // Once location found, add a marker + accuracy circle and set view
+                map.on('locationfound', function(e) {
+                    try {
+                        // Center map on the freshly found location and save it for next load
+                        try { map.setView(e.latlng, 15); } catch(se) {}
+                        try {
+                            var saveObj = { lat: e.latlng.lat, lng: e.latlng.lng, accuracy: e.accuracy, ts: Date.now() };
+                            localStorage.setItem('user_location', JSON.stringify(saveObj));
+                        } catch(saveErr) { console.warn('Could not save user location:', saveErr); }
+
+                        var radius = e.accuracy || 0;
+                        // Add a subtle marker for the user's location
+                        var userMarker = L.circleMarker(e.latlng, { radius: 6, fillColor: '#2b8aef', color: '#fff', weight: 2, fillOpacity: 0.9 }).addTo(map);
+                        var accuracyCircle = L.circle(e.latlng, { radius: radius, color: '#2b8aef', weight: 1, opacity: 0.25, fillOpacity: 0.05 }).addTo(map);
+                        // Remove after 10s to reduce clutter
+                        setTimeout(function(){
+                            try { map.removeLayer(userMarker); } catch(err){}
+                            try { map.removeLayer(accuracyCircle); } catch(err){}
+                        }, 10000);
+                    } catch (locErr) {
+                        console.warn('Error handling locationfound:', locErr);
+                    }
+                });
+
+                map.on('locationerror', function(err) {
+                    console.warn('Location error or permission denied:', err.message || err);
+                });
+            } else {
+                console.warn('Geolocation not available in this browser');
+            }
+        } catch (locInitErr) {
+            console.warn('Failed to initiate location request:', locInitErr);
+        }
+
+        // Add a small 'Center on me' control to allow users to re-request location
+        try {
+            var CenterControl = L.Control.extend({
+                options: { position: 'topright' },
+                onAdd: function(map) {
+                    var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
+                    var link = L.DomUtil.create('a', '', container);
+                    link.href = '#';
+                    link.title = 'Center on me';
+                    link.innerHTML = '<i class="fas fa-location-arrow"></i>';
+                    L.DomEvent.on(link, 'click', function(e) {
+                        L.DomEvent.stopPropagation(e);
+                        L.DomEvent.preventDefault(e);
+                        try {
+                            map.locate({ setView: true, maxZoom: 15, enableHighAccuracy: true });
+                        } catch (err) {
+                            console.warn('Locate request failed:', err);
+                        }
+                    });
+                    return container;
+                }
+            });
+            map.addControl(new CenterControl());
+            // Auto-click the control after a short delay to request location on initial load
+            try {
+                setTimeout(function() {
+                    function doLocate() {
+                        var btn = document.querySelector('.leaflet-control a[title="Center on me"]');
+                        if (btn) {
+                            try { btn.click(); } catch(e) { try { map.locate({ setView: true, maxZoom: 15, enableHighAccuracy: true }); } catch(err){} }
+                        } else {
+                            try { map.locate({ setView: true, maxZoom: 15, enableHighAccuracy: true }); } catch(e){}
+                        }
+                    }
+
+                    // If Permissions API is available, only auto-trigger when permission isn't denied
+                    if (navigator.permissions && navigator.permissions.query) {
+                        try {
+                            navigator.permissions.query({ name: 'geolocation' }).then(function(result) {
+                                if (result.state === 'granted' || result.state === 'prompt') {
+                                    doLocate();
+                                } else {
+                                    console.warn('Geolocation permission is denied; skipping auto-locate.');
+                                }
+                            }).catch(function(){
+                                // If query fails, fallback to locating
+                                doLocate();
+                            });
+                        } catch (permErr) {
+                            doLocate();
+                        }
+                    } else {
+                        // No Permissions API — attempt locate (browser will prompt)
+                        doLocate();
+                    }
+                }, 700);
+            } catch (autoClickErr) {
+                console.warn('Auto-trigger for Center control failed:', autoClickErr);
+            }
+        } catch (ctrlErr) {
+            console.warn('Could not add Center control:', ctrlErr);
+        }
 
         // Add markers from window.SIGHTINGS if available
         if (window.SIGHTINGS && Array.isArray(window.SIGHTINGS)) {

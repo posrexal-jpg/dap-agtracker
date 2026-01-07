@@ -121,10 +121,13 @@
             max-width: calc(100vw - 280px);
             overflow-x: hidden;
         }
+        /* Offset content to account for fixed navbar height */
+        :root { --navbar-height: 64px; }
+        .layout-page { padding-top: var(--navbar-height); }
         .layout-page main {
             flex: 1 1 0%;
             min-width: 0;
-            padding: 2rem 2vw 2rem 2vw;
+            padding: 2rem 2vw 2rem 2vw !important;
             overflow-x: hidden;
             overflow-y: auto;
             background: transparent;
@@ -152,9 +155,41 @@
                 overflow-x: hidden;
             }
         }
+        /* Fullscreen map mode for sightings page: show top navbar and keep modals above map */
+        body.map-fullscreen {
+            overflow: hidden;
+        }
+        body.map-fullscreen #layout-navbar {
+            display: block !important;
+            position: fixed !important;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 2147483647 !important;
+        }
+        body.map-fullscreen .user-sidebar {
+            display: none !important;
+        }
+        body.map-fullscreen .layout-page {
+            margin-left: 0 !important;
+            padding-top: 0 !important;
+        }
+        body.map-fullscreen #map {
+            position: fixed !important;
+            top: var(--navbar-height) !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: calc(100vh - var(--navbar-height)) !important;
+            z-index: 2147483645 !important;
+        }
+        /* Ensure Bootstrap modals and backdrops appear above the map */
+        body.map-fullscreen .modal,
+        body.map-fullscreen .modal-backdrop {
+            z-index: 2147483648 !important;
+        }
     </style>
 </head>
-<body>
+<body class="{{ Route::is('admin.*') ? 'admin-page' : '' }} {{ Route::is('user.sightings-map') ? 'map-fullscreen' : '' }}">
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top border-bottom" id="layout-navbar">
     <div class="container-xxl">
@@ -175,15 +210,14 @@
         <!-- Collapsible Navbar Content -->
         <div class="collapse navbar-collapse" id="navbarContentPage1">
             <ul class="navbar-nav ms-auto align-items-center">
-                <li class="nav-item d-block d-lg-none">
-                    <span class="navbar-text fw-semibold text-dark me-3">
-                        {{ Auth::check() && Auth::user()->role ? Auth::user()->role->role_name : 'User' }}
-                    </span>
+                <li class="nav-item">
+                    <a href="{{ route('user.dashboard') }}" class="nav-link">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <span class="navbar-text fw-semibold text-dark me-3 d-none d-lg-inline">
-                        {{ Auth::check() && Auth::user()->role ? Auth::user()->role->role_name : 'User' }}
-                    </span>
+                    <a href="{{ route('user.sightings-map') }}" class="nav-link">Sightings Map</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('user.account') }}" class="nav-link">My Account</a>
                 </li>
                 <li class="nav-item d-none d-lg-block">
                     <form action="{{ route('logout') }}" method="POST" class="d-inline">
@@ -202,7 +236,11 @@
 <!-- Page Content -->
 <div class="layout-wrapper layout-content-navbar">
     <div class="layout-container d-flex flex-row" style="min-height: 100vh;">
-        @include('user.menu')
+        @if(auth()->check() && auth()->user()->role)
+            <aside class="d-block d-lg-none">
+                @include('user.menu')
+            </aside>
+        @endif
         <div class="layout-page flex-grow-1 d-flex flex-column">
             <main class="py-4 flex-grow-1 d-flex flex-column">
                 @yield('content')
