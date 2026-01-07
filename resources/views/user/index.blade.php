@@ -376,7 +376,11 @@
             <i class="fas fa-wifi"></i>
             <span>Online</span>
         </div>
-        <!-- Sync Data button removed. Add to another menu if needed. -->
+        <div class="d-flex gap-2">
+            <button type="button" class="btn btn-outline-primary btn-sm" onclick="manualSync()" id="syncBtn">
+                <i class="fas fa-sync-alt me-1"></i>Sync Data
+            </button>
+        </div>
     </div>
 </div>
 
