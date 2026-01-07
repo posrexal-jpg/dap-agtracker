@@ -57,7 +57,7 @@
     <!-- Quick Actions -->
     <div class="row g-3 mb-4 quick-actions-row">
         <div class="col-md-6 col-12">
-            <a href="{{ route('user.locations') }}" class="btn btn-primary w-100 py-3 quick-action-btn mb-2 mb-md-0">
+            <a href="{{ route('user.sightings-map') }}" class="btn btn-primary w-100 py-3 quick-action-btn mb-2 mb-md-0">
                 <i class="bx bx-map me-2"></i> View Sighting Map
             </a>
         </div>
@@ -74,7 +74,7 @@
             <div class="card shadow-sm recent-sightings-card">
                 <div class="card-header d-flex align-items-center justify-content-between">
                     <h5 class="card-title mb-0"><i class="bx bx-list-check"></i> Recent Sightings</h5>
-                    <a href="{{ route('user.locations') }}" class="btn btn-sm btn-outline-primary">View All</a>
+                    <a href="{{ route('user.sightings-map') }}" class="btn btn-sm btn-outline-primary">View All</a>
                 </div>
                 <div class="card-body">
                     @if($recentSightings->count() > 0)
@@ -108,7 +108,7 @@
                         <div class="text-center py-5">
                             <i class="bx bx-inbox" style="font-size: 3rem; color: #ccc;"></i>
                             <p class="text-muted mt-3">No sightings yet. Start by reporting your first COTS sighting.</p>
-                            <a href="{{ route('user.locations') }}" class="btn btn-primary mt-3">
+                            <a href="{{ route('user.sightings-map') }}" class="btn btn-primary mt-3">
                                 <i class="bx bx-plus me-1"></i> Report Sighting
                             </a>
                         </div>

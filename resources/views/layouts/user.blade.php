@@ -72,26 +72,84 @@
 
     <!-- Professional User Pages Styling -->
     <style>
-        /* Ensure sidebar has fixed width and content does not overlap */
+        /* Sidebar fixed, content scrollable, clear separation, prevent horizontal scroll */
+        html, body {
+            width: 100vw;
+            max-width: 100vw;
+            overflow-x: hidden;
+        }
+        .layout-wrapper {
+            display: flex;
+            flex-direction: row;
+            width: 100vw;
+            min-height: 100vh;
+            background: #f8fafc;
+            overflow-x: hidden;
+        }
         .user-sidebar {
             width: 280px;
             min-width: 280px;
             max-width: 280px;
             flex-shrink: 0;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
             z-index: 1001;
+            box-shadow: 2px 0 8px rgba(0,0,0,0.04);
+            background: #fff;
+            border-right: 1px solid #e5e7eb;
+            overflow-x: hidden;
+        }
+        .layout-container {
+            display: flex;
+            flex-direction: row;
+            width: 100vw;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
         .layout-page {
             flex: 1 1 0%;
             min-width: 0;
+            margin-left: 280px;
             display: flex;
             flex-direction: column;
+            background: #f8fafc;
+            min-height: 100vh;
             position: relative;
+            z-index: 1;
+            max-width: calc(100vw - 280px);
+            overflow-x: hidden;
+        }
+        .layout-page main {
+            flex: 1 1 0%;
+            min-width: 0;
+            padding: 2rem 2vw 2rem 2vw;
+            overflow-x: hidden;
+            overflow-y: auto;
+            background: transparent;
+            max-width: 100%;
         }
         @media (max-width: 1199.98px) {
             .user-sidebar {
+                position: fixed;
+                left: 0;
+                top: 0;
                 width: 100vw;
                 min-width: 0;
                 max-width: 100vw;
+                height: auto;
+                z-index: 1001;
+            }
+            .layout-page {
+                margin-left: 0;
+                min-width: 0;
+                width: 100vw;
+                max-width: 100vw;
+            }
+            .layout-container {
+                flex-direction: column;
+                overflow-x: hidden;
             }
         }
     </style>

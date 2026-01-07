@@ -82,8 +82,8 @@ Route::middleware(['user','auth'])->group(function () {
     Route::post('/user/account/password', [UserController::class, 'updatePassword'])->name('user.account.password');
     Route::get('/user/index', [UserLocationController::class, 'index'])->name('user.locations.index');
     Route::get('user/locations/create', [UserLocationController::class, 'create'])->name('locations.create');
-    Route::get('/user/locations', [UserLocationController::class, 'index'])->name('user.locations');
-    Route::post('/user/locations', [UserLocationController::class, 'store'])->name('user-save-location');
-    Route::delete('/user/locations/{id}', [UserLocationController::class, 'destroy'])->name('user.locations.destroy');
+    Route::get('/user/sightings-map', [UserLocationController::class, 'index'])->name('user.sightings-map');
+    Route::post('/user/sightings-map', [UserLocationController::class, 'store'])->name('user-save-location');
+    Route::delete('/user/sightings-map/{id}', [UserLocationController::class, 'destroy'])->name('user.sightings-map.destroy');
     Route::get('/user/download', [UserDownloadController::class, 'index'])->name('user.download');
 });

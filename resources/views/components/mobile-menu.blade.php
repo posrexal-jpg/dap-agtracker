@@ -58,9 +58,9 @@
                 </a>
             </div>
             <div class="mobile-menu-item">
-                <a href="{{ route('user.locations') }}" class="mobile-menu-link {{ Route::is('user.locations') ? 'active' : '' }}">
+                <a href="{{ route('user.sightings-map') }}" class="mobile-menu-link {{ Route::is('user.sightings-map') ? 'active' : '' }}">
                     <i class="bx bx-location-plus"></i>
-                    <span>Sighting Map</span>
+                    <span>Sightings Map</span>
                 </a>
             </div>
             <div class="mobile-menu-item">

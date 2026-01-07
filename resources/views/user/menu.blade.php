@@ -22,10 +22,10 @@
         </li>
 
         <!-- Sightings Map -->
-        <li class="menu-item {{ Route::is('user.locations') ? 'active' : '' }}">
-            <a href="{{ route('user.locations') }}" class="menu-link text-dark hover-bg-primary hover-text-white text-decoration-none py-3 px-4 rounded-3 mx-2 mb-1">
+        <li class="menu-item {{ Route::is('user.sightings-map') ? 'active' : '' }}">
+            <a href="{{ route('user.sightings-map') }}" class="menu-link text-dark hover-bg-primary hover-text-white text-decoration-none py-3 px-4 rounded-3 mx-2 mb-1">
                 <i class="menu-icon tf-icons bx bx-home-circle fs-5"></i>
-                <div class="fw-semibold">Sighting Map</div>
+                <div class="fw-semibold">Sightings Map</div>
             </a>
         </li>
 
