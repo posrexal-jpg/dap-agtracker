@@ -70,9 +70,31 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/mobile-menu.css') }}" />
 
-
-
     <!-- Professional User Pages Styling -->
+    <style>
+        /* Ensure sidebar has fixed width and content does not overlap */
+        .user-sidebar {
+            width: 280px;
+            min-width: 280px;
+            max-width: 280px;
+            flex-shrink: 0;
+            z-index: 1001;
+        }
+        .layout-page {
+            flex: 1 1 0%;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        @media (max-width: 1199.98px) {
+            .user-sidebar {
+                width: 100vw;
+                min-width: 0;
+                max-width: 100vw;
+            }
+        }
+    </style>
 </head>
 <body>
 <!-- Navbar -->
@@ -121,22 +143,13 @@
  
 <!-- Page Content -->
 <div class="layout-wrapper layout-content-navbar">
-    <div class="layout-container">
+    <div class="layout-container d-flex flex-row" style="min-height: 100vh;">
         @include('user.menu')
-
-        <div class="layout-page" style="padding: 24px 16px; min-height: 100vh; background: #f6f9fc;">
-            <main class="py-2">
+        <div class="layout-page flex-grow-1 d-flex flex-column">
+            <main class="py-4 flex-grow-1 d-flex flex-column">
                 @yield('content')
             </main>
         </div>
-    </body>
-    <style>
-        @media (max-width: 768px) {
-            .layout-page {
-                padding: 10px 2px !important;
-            }
-        }
-    </style>
     </div>
 </div>
 

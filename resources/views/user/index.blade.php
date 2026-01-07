@@ -177,9 +177,10 @@
         box-shadow: none;
         margin: 0 !important;
         padding: 0 !important;
-        height: 100% !important;
-        width: 100% !important;
-        min-height: 300px;
+        height: 100vh !important;
+        width: 100vw !important;
+        min-height: 400px;
+        position: relative;
     }
 
     .content-wrapper {
@@ -335,9 +336,36 @@
             border-color: var(--secondary-color);
         }
     }
+
+    /* Desktop-specific adjustments */
+    @media (min-width: 1200px) {
+        .container-fluid,
+        .page-content,
+        .content-wrapper {
+            height: 100vh !important;
+            min-height: 100vh !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        #map {
+            height: 100vh !important;
+            min-height: 100vh !important;
+            width: 100% !important;
+            position: relative;
+        }
+        .user-sidebar {
+            z-index: 1001;
+        }
+        .layout-page {
+            height: 100vh !important;
+            min-height: 100vh !important;
+            display: flex;
+            flex-direction: column;
+        }
+    }
 </style>
 
-<div class="container-fluid" style="height: 100%; display: flex; flex-direction: column; overflow: hidden; padding: 0; margin: 0;">
+<div class="container-fluid" style="height: 100vh; min-height: 100vh; display: flex; flex-direction: column; overflow: hidden; padding: 0; margin: 0;">
 <div class="page-header">
     <h1>🏊‍♂️ COTS Sighting Map</h1>
     <p class="description">View all reported Crown-of-Thorns Starfish (COTS), locally known as Dap-ag, sightings on the interactive map. Help protect our reefs by adding pin to report new sightings in your area.</p>
@@ -356,9 +384,9 @@
     </div>
 </div>
 
-<div class="page-content" style="flex: 1; overflow: hidden; padding: 0; margin: 0; display: flex; flex-direction: column;">
-    <div class="content-wrapper">
-            <div id="map" style="z-index: 1;"></div>
+<div class="page-content" style="flex: 1; overflow: hidden; padding: 0; margin: 0; display: flex; flex-direction: column; height: 100%; min-height: 400px;">
+    <div class="content-wrapper" style="flex: 1; display: flex; flex-direction: column; height: 100%; padding: 0; margin: 0;">
+        <div id="map" style="z-index: 1; width: 100vw; height: 100vh; min-height: 400px; position: relative;"></div>
             <!-- Consent Modal -->
             <div class="modal fade" id="consentModal" tabindex="-1" aria-labelledby="consentModalLabel" aria-hidden="true">
                 <div class="modal-dialog">

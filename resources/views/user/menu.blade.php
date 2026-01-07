@@ -38,7 +38,7 @@
         </li>
 
         <!-- Logout -->
-        <li class="menu-item">
+        <li class="menu-item d-block d-xl-none">
             <form action="{{ route('logout') }}" method="POST" class="w-100">
                 @csrf
                 <button type="submit" class="menu-link w-100 text-start text-dark hover-bg-danger hover-text-white text-decoration-none py-3 px-4 rounded-3 mx-2 mb-1 border-0 bg-transparent">
@@ -91,10 +91,20 @@
 }
 
 /* Layout spacing for main content */
+
+.layout-wrapper {
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    min-height: 100vh;
+}
+
 .layout-page {
-    margin-left: 280px;
+    flex: 1;
     padding: 1rem;
-    transition: margin-left 0.3s ease;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .layout-page main {
@@ -121,17 +131,18 @@
         display: block;
     }
 
+    .layout-wrapper {
+        flex-direction: column;
+    }
     .layout-page {
-        margin-left: 0;
+        min-width: 0;
+        width: 100vw;
+        padding: 1rem;
     }
 }
 
 /* Desktop layout adjustments */
-@media (min-width: 1200px) {
-    .layout-menu-fixed:not(.layout-menu-collapsed) .layout-page, .layout-menu-fixed-offcanvas:not(.layout-menu-collapsed) .layout-page {
-        /* padding-left: 16.25rem; */
-    }
-}
+
 
 .sidebar-overlay {
     display: none;
