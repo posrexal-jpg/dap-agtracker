@@ -235,12 +235,67 @@ function initializeMap() {
 
         // Add markers from window.SIGHTINGS if available
         if (window.SIGHTINGS && Array.isArray(window.SIGHTINGS)) {
+            // Function to create starfish SVG icon
+            function createStarfishIcon(color) {
+                const svg = `
+                    <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Center circle -->
+                        <circle cx="16" cy="16" r="6" fill="${color}" stroke="white" stroke-width="1.5"/>
+                        <!-- Top arm -->
+                        <path d="M 16 2 Q 14 8 16 10" stroke="${color}" stroke-width="4" fill="none" stroke-linecap="round"/>
+                        <!-- Top-right arm -->
+                        <path d="M 24 6 Q 21 10 20 12" stroke="${color}" stroke-width="4" fill="none" stroke-linecap="round"/>
+                        <!-- Bottom-right arm -->
+                        <path d="M 26 18 Q 22 18 20 20" stroke="${color}" stroke-width="4" fill="none" stroke-linecap="round"/>
+                        <!-- Bottom-left arm -->
+                        <path d="M 20 26 Q 18 22 16 20" stroke="${color}" stroke-width="4" fill="none" stroke-linecap="round"/>
+                        <!-- Top-left arm -->
+                        <path d="M 8 18 Q 10 18 12 20" stroke="${color}" stroke-width="4" fill="none" stroke-linecap="round"/>
+                        <!-- Left arm -->
+                        <path d="M 6 6 Q 10 10 12 12" stroke="${color}" stroke-width="4" fill="none" stroke-linecap="round"/>
+                        <!-- Outer spikes -->
+                        <circle cx="16" cy="2" r="1.5" fill="${color}"/>
+                        <circle cx="26" cy="8" r="1.5" fill="${color}"/>
+                        <circle cx="28" cy="18" r="1.5" fill="${color}"/>
+                        <circle cx="20" cy="28" r="1.5" fill="${color}"/>
+                        <circle cx="12" cy="28" r="1.5" fill="${color}"/>
+                        <circle cx="4" cy="18" r="1.5" fill="${color}"/>
+                        <circle cx="6" cy="8" r="1.5" fill="${color}"/>
+                        <!-- Shadow -->
+                        <ellipse cx="16" cy="30" rx="8" ry="1.5" fill="rgba(0,0,0,0.2)"/>
+                    </svg>
+                `;
+                return `data:image/svg+xml;base64,${btoa(svg)}`;
+            }
+
             window.SIGHTINGS.forEach(function(loc) {
                 try {
                     if (loc.latitude && loc.longitude) {
-                        var m = L.marker([parseFloat(loc.latitude), parseFloat(loc.longitude)]).addTo(map);
+                        // Determine marker color based on COTS count
+                        // Red if count > 15, Green otherwise
+                        const cotsCount = loc.number_of_cots || 0;
+                        const markerColor = cotsCount > 15 ? '#dc3545' : '#28a745';
+                        const isOutbreak = cotsCount > 15;
+
+                        const markerIcon = L.icon({
+                            iconUrl: createStarfishIcon(markerColor),
+                            iconSize: [32, 32],
+                            iconAnchor: [16, 32],
+                            popupAnchor: [0, -32]
+                        });
+
+                        var m = L.marker([parseFloat(loc.latitude), parseFloat(loc.longitude)], {
+                            icon: markerIcon
+                        }).addTo(map);
+
+                        // Add pulse class to marker element if outbreak
+                        if (isOutbreak) {
+                            m._icon.classList.add('marker-outbreak');
+                        }
+
                         var popup = '<strong>' + (loc.name || 'Unnamed') + '</strong><br/>' +
                                     (loc.municipality ? loc.municipality + ' - ' : '') + (loc.barangay || '') + '<br/>' +
+                                    '<strong>COTS Count:</strong> ' + cotsCount + '<br/>' +
                                     (loc.date_of_sighting ? loc.date_of_sighting : (loc.created_at || ''));
                         m.bindPopup(popup);
                     }

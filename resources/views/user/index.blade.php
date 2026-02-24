@@ -390,6 +390,23 @@
         100% { transform: rotate(360deg); }
     }
 
+    /* Pulse animation for outbreak markers (red) */
+    @keyframes pulseOutbreak {
+        0% {
+            box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7);
+        }
+        70% {
+            box-shadow: 0 0 0 15px rgba(220, 53, 69, 0);
+        }
+        100% {
+            box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+        }
+    }
+
+    .marker-outbreak {
+        animation: pulseOutbreak 2s infinite;
+    }
+
     /* Mobile-specific adjustments */
     @media (max-width: 768px) {
         .modal-content {
