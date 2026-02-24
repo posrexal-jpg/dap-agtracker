@@ -14,7 +14,10 @@
 <div class="container-fluid px-3 py-4" style="min-height: calc(100vh - var(--navbar-height)); display: flex; flex-direction: column; background: #f6f9fc; overflow-y: auto; padding-top: 1.25rem;">
     <!-- Page Header -->
     <div class="page-header shadow-sm">
-        <div class="row align-items-center">
+        <div class="page-header-logo">
+            <img src="{{ asset('images/logo.png') }}" alt="COTS Tracker Logo">
+        </div>
+        <div class="row align-items-center" style="width: 100%;">
             <div class="col-md-8">
                 <h1 class="page-title mb-2">Welcome, <span style="color:#0284c7">{{ Auth::user()->name }}</span>! <span class="wave">👋</span></h1>
                 <p class="page-subtitle mb-0">Track and report Crown-of-Thorns Starfish (COTS) sightings — help protect our reefs.</p>
@@ -132,6 +135,25 @@
         border-bottom: 1px solid #e2e8f0;
         flex-shrink: 0;
         border-radius: 12px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .page-header-logo {
+        display: none;
+    }
+
+    @media (min-width: 768px) {
+        .page-header-logo {
+            display: block;
+            flex-shrink: 0;
+        }
+
+        .page-header-logo img {
+            height: 50px;
+            width: auto;
+        }
     }
 
     .page-title {

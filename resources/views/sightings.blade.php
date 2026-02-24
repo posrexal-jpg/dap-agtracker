@@ -42,6 +42,32 @@
             left: 0;
             right: 0;
             z-index: 1020;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .hero-logo {
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .hero-logo {
+                display: block;
+            }
+
+            .hero-logo img {
+                height: 50px;
+                width: auto;
+            }
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .stats-section {
@@ -380,7 +406,10 @@
 
     <!-- Hero Section -->
     <section class="hero-section">
-        <div class="container-fluid">
+        <div class="hero-logo">
+            <img src="{{ asset('images/logo.png') }}" alt="COTS Tracker Logo">
+        </div>
+        <div class="hero-content">
             <h1>COTS Sightings Map</h1>
             <p>View reported Crown-of-Thorns Starfish (Dap-ag) sightings across monitored areas</p>
         </div>

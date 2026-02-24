@@ -14,6 +14,24 @@
     background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
     padding: 30px;
     border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.page-header-logo {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .page-header-logo {
+        display: block;
+    }
+
+    .page-header-logo img {
+        height: 50px;
+        width: auto;
+    }
 }
 
 .page-title {
@@ -54,7 +72,10 @@
 <div class="container-fluid px-0" style="height: 100%; display: flex; flex-direction: column; overflow: auto;">
     <!-- Page Header -->
     <div class="page-header" style="flex-shrink: 0;">
-        <div class="row align-items-center">
+        <div class="page-header-logo">
+            <img src="{{ asset('images/logo.png') }}" alt="COTS Tracker Logo">
+        </div>
+        <div class="row align-items-center" style="width: 100%;">
             <div class="col-md-12">
                 <h1 class="page-title">My Account</h1>
                 <p class="page-subtitle">Manage your profile and change your password</p>

@@ -265,6 +265,31 @@
         background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
         border-bottom: 1px solid #e2e8f0;
         flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .page-header-logo {
+        display: none;
+    }
+
+    @media (min-width: 768px) {
+        .page-header-logo {
+            display: block;
+            flex-shrink: 0;
+        }
+
+        .page-header-logo img {
+            height: 50px;
+            width: auto;
+        }
+    }
+
+    .page-header-content {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
     }
 
     .page-header h1 {
@@ -528,11 +553,15 @@
 
 <div class="container-fluid" style="height: 100vh; min-height: 100vh; display: flex; flex-direction: column; overflow: hidden; padding: 0; margin: 0;">
 <div class="page-header">
-    <h1>🏊‍♂️ COTS Sighting Map</h1>
-    <p class="description">View all reported Crown-of-Thorns Starfish (COTS), locally known as Dap-ag, sightings on the interactive map. Help protect our reefs by adding pin to report new sightings in your area.</p>
+    <div class="page-header-logo">
+        <img src="{{ asset('images/logo.png') }}" alt="COTS Tracker Logo">
+    </div>
+    <div class="page-header-content">
+        <h1>🏊‍♂️ COTS Sighting Map</h1>
+        <p class="description">View all reported Crown-of-Thorns Starfish (COTS), locally known as Dap-ag, sightings on the interactive map. Help protect our reefs by adding pin to report new sightings in your area.</p>
 
-    <!-- Mobile-Optimized Status and Sync Controls -->
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 mt-4">
+        <!-- Mobile-Optimized Status and Sync Controls -->
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 mt-4">
         <div class="connection-status online" id="connectionStatus">
             <i class="fas fa-wifi"></i>
             <span>Online</span>
@@ -542,6 +571,7 @@
                 <i class="fas fa-sync-alt me-1"></i>Sync Data
             </button>
         </div>
+    </div>
     </div>
 </div>
 
