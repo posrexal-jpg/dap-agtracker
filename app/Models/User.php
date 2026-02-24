@@ -48,10 +48,17 @@ class User extends Authenticatable
     /**
      * Define the relationship with the Role model.
      */
-// In User.php (User model)
 public function role()
 {
     return $this->belongsTo(Role::class, 'role_id');
+}
+
+/**
+ * Get the locations for the user.
+ */
+public function locations()
+{
+    return $this->hasMany(Location::class);
 }
 
 }

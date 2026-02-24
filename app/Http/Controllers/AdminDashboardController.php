@@ -24,7 +24,7 @@ class AdminDashboardController extends Controller
             )
             ->whereNotNull('municipality')
             ->groupBy('municipality')
-            ->orderBy('total_cots', 'desc')
+            ->orderBy(DB::raw('SUM(number_of_cots)'), 'desc')
             ->get();
 
         // Recent activity (last 7 days)

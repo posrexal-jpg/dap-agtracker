@@ -762,7 +762,7 @@
         </video>
         <div class="hero-overlay"></div>
         <div class="hero-content fade-in-up">
-            <h1>Welcome to Dap-ag Tracker</h1>
+            <h1>Welcome to COTS Tracker</h1>
             <p>Monitor and track Crown-of-Thorns Starfish (COTS), locally known as Dap-ag, infestations to protect our coral reefs. Join us in preserving marine biodiversity.</p>
             <a href="/download" class="btn btn-download btn-lg">
                 <i class="fas fa-mobile-alt"></i> Install App
@@ -771,11 +771,11 @@
                 <p class="mb-3">Ready to join the reef rescue squad?</p>
                 @if(auth()->check())
                     <a href="{{ auth()->user()->role && auth()->user()->role->role_name == 'admin' ? route('admin.index') : route('user.account') }}" class="btn btn-light btn-lg">
-                        <i class="fas fa-eye"></i>&nbsp; Start Monitoring &nbsp;<span style="opacity:0.6">|</span>&nbsp; <i class="fas fa-exclamation-triangle"></i>&nbsp; Report an Outbreak
+                        Start Monitoring
                     </a>
                 @else
                     <a href="/login" class="btn btn-light btn-lg">
-                        <i class="fas fa-eye"></i>&nbsp; Start Monitoring &nbsp;<span style="opacity:0.6">|</span>&nbsp; <i class="fas fa-exclamation-triangle"></i>&nbsp; Report an Outbreak
+                        Start Monitoring
                     </a>
                 @endif
             </div>

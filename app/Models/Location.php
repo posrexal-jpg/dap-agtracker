@@ -30,4 +30,12 @@ class Location extends Model
         'time_of_sighting',
         'photo',
     ];
+
+    /**
+     * Get the user that owns the location.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

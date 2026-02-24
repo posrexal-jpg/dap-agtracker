@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <title>Mobile Orientation Test - Admin Layout</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* Test styles based on our admin.css changes */
+        .admin-layout {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        #admin-navbar {
+            height: 60px;
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%) !important;
+            z-index: 1050;
+        }
+
+        .sidebar {
+            width: 280px;
+            min-height: calc(100vh - 60px);
+            position: fixed;
+            top: 60px;
+            left: 0;
+            z-index: 1040;
+            transition: transform 0.3s ease-in-out;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+
+        .main-content {
+            margin-left: 280px;
+            min-height: calc(100vh - 60px);
+            background: #f8fafc;
+            transition: margin-left 0.3s ease-in-out;
+            padding: 1rem;
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            height: calc(100vh - 60px);
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1039;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .sidebar-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Mobile Responsive Design */
+        @media (max-width: 991.98px) {
+            .sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+                z-index: 1041;
+                width: 280px;
+                max-width: 85vw;
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 0.5rem;
+            }
+
+            body.sidebar-open {
+                overflow: hidden;
+            }
+
+            .sidebar, .main-content {
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+
+        /* Landscape Mobile Orientation */
+        @media (max-width: 991.98px) and (orientation: landscape) {
+            .sidebar {
+                width: 260px;
+                max-width: 70vw;
+            }
+
+            #admin-navbar {
+                height: 50px;
+            }
+
+            .main-content {
+                padding: 0.25rem;
+            }
+
+            .sidebar-overlay {
+                top: 50px;
+                height: calc(100vh - 50px);
+            }
+
+            .d-flex.flex-grow-1 {
+                margin-top: 50px !important;
+            }
+        }
+
+        /* Portrait Mobile Orientation */
+        @media (max-width: 991.98px) and (orientation: portrait) {
+            .sidebar {
+                width: 280px;
+                max-width: 85vw;
+            }
+
+            #admin-navbar {
+                height: 60px;
+            }
+
+            .main-content {
+                padding: 0.75rem;
+            }
+
+            .sidebar-overlay {
+                top: 60px;
+                height: calc(100vh - 60px);
+            }
+        }
+
+        /* Fix for iOS Safari viewport issues */
+        @supports (-webkit-touch-callout: none) {
+            .admin-layout {
+                min-height: -webkit-fill-available;
+            }
+
+            .main-content {
+                min-height: calc(-webkit-fill-available - 60px);
+            }
+
+            .sidebar {
+                min-height: calc(-webkit-fill-available - 60px);
+            }
+        }
+
+        /* Prevent horizontal scroll on mobile */
+        @media (max-width: 991.98px) {
+            body, html {
+                overflow-x: hidden;
+            }
+        }
+
+        .test-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .orientation-info {
+            position: fixed;
+            top: 70px;
+            right: 10px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            z-index: 2000;
+        }
+    </style>
+</head>
+<body class="d-flex flex-column h-100 admin-layout">
+    <!-- Orientation Info Display -->
+    <div class="orientation-info" id="orientationInfo">
+        <div>Screen: <span id="screenSize"></span></div>
+        <div>Orientation: <span id="orientation"></span></div>
+        <div>Viewport: <span id="viewport"></span></div>
+    </div>
+
+    <!-- Top Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow-sm" id="admin-navbar">
+        <div class="container-fluid px-4">
+            <!-- Mobile Menu Toggle -->
+            <button class="btn btn-link text-white d-lg-none p-0 me-3" type="button" id="sidebarToggle" aria-label="Toggle sidebar">
+                <i class="fas fa-bars fs-5"></i>
+            </button>
+
+            <!-- Brand -->
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <i class="fas fa-star me-2"></i>
+                <span class="fw-bold d-none d-sm-inline">COTS Tracker Admin</span>
+            </a>
+
+            <!-- Right Side Navigation -->
+            <div class="navbar-nav ms-auto d-flex flex-row align-items-center">
+                <div class="nav-item">
+                    <span class="text-white">Test User</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Layout Container -->
+    <div class="d-flex flex-grow-1" style="margin-top: 60px;">
+        <!-- Sidebar -->
+        <aside class="sidebar bg-white shadow-sm border-end" id="adminSidebar">
+            <div class="p-3">
+                <h6 class="text-muted mb-3">NAVIGATION</h6>
+                <ul class="list-unstyled">
+                    <li class="mb-2">
+                        <a href="#" class="d-flex align-items-center text-decoration-none text-dark p-2 rounded">
+                            <i class="fas fa-tachometer-alt me-3"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#" class="d-flex align-items-center text-decoration-none text-dark p-2 rounded">
+                            <i class="fas fa-users me-3"></i>
+                            Users
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#" class="d-flex align-items-center text-decoration-none text-dark p-2 rounded">
+                            <i class="fas fa-map-marker-alt me-3"></i>
+                            Locations
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#" class="d-flex align-items-center text-decoration-none text-dark p-2 rounded">
+                            <i class="fas fa-chart-bar me-3"></i>
+                            Reports
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Sidebar Overlay for Mobile -->
+        <div class="sidebar-overlay d-lg-none" id="sidebarOverlay"></div>
+
+        <!-- Main Content Area -->
+        <main class="main-content flex-grow-1 bg-light">
+            <div class="container-fluid">
+                <div class="test-card">
+                    <h2>Mobile Orientation Test</h2>
+                    <p>This page tests the mobile orientation fixes for the admin layout.</p>
+                    
+                    <h4>Test Instructions:</h4>
+                    <ol>
+                        <li>Open this page on a mobile device or use browser dev tools mobile simulation</li>
+                        <li>Rotate the device between portrait and landscape orientations</li>
+                        <li>Test the sidebar toggle button (hamburger menu)</li>
+                        <li>Verify that content adapts properly to orientation changes</li>
+                        <li>Check that there's no horizontal scrolling</li>
+                    </ol>
+                </div>
+
+                <div class="test-card">
+                    <h4>Expected Behavior:</h4>
+                    <ul>
+                        <li><strong>Portrait:</strong> Navbar height 60px, sidebar width 280px (max 85vw)</li>
+                        <li><strong>Landscape:</strong> Navbar height 50px, sidebar width 260px (max 70vw)</li>
+                        <li><strong>Sidebar:</strong> Should slide in/out smoothly on mobile</li>
+                        <li><strong>Overlay:</strong> Should appear when sidebar is open on mobile</li>
+                        <li><strong>Content:</strong> Should adjust padding based on orientation</li>
+                    </ul>
+                </div>
+
+                <div class="test-card">
+                    <h4>Form Test:</h4>
+                    <form>
+                        <div class="mb-3">
+                            <label for="testInput" class="form-label">Test Input (16px font to prevent iOS zoom)</label>
+                            <input type="text" class="form-control" id="testInput" placeholder="Type here...">
+                        </div>
+                        <div class="mb-3">
+                            <label for="testSelect" class="form-label">Test Select</label>
+                            <select class="form-select" id="testSelect">
+                                <option>Option 1</option>
+                                <option>Option 2</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-primary">Test Button (44px min height)</button>
+                    </form>
+                </div>
+
+                <div class="test-card">
+                    <h4>Table Test:</h4>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Location</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Test Entry 1</td>
+                                    <td>Location A</td>
+                                    <td><span class="badge bg-success">Active</span></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Test Entry 2</td>
+                                    <td>Location B</td>
+                                    <td><span class="badge bg-warning">Pending</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sidebar toggle functionality
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebar = document.getElementById('adminSidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            
+            if (sidebarToggle && sidebar && sidebarOverlay) {
+                // Toggle sidebar on mobile
+                sidebarToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('show');
+                    sidebarOverlay.classList.toggle('show');
+                    document.body.classList.toggle('sidebar-open');
+                });
+
+                // Close sidebar when clicking overlay
+                sidebarOverlay.addEventListener('click', function() {
+                    sidebar.classList.remove('show');
+                    sidebarOverlay.classList.remove('show');
+                    document.body.classList.remove('sidebar-open');
+                });
+
+                // Close sidebar on window resize if desktop
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth >= 992) {
+                        sidebar.classList.remove('show');
+                        sidebarOverlay.classList.remove('show');
+                        document.body.classList.remove('sidebar-open');
+                    }
+                    updateOrientationInfo();
+                });
+            }
+
+            // Mobile responsive adjustments
+            function handleMobileLayout() {
+                const isMobile = window.innerWidth < 992;
+                const body = document.body;
+                
+                if (isMobile) {
+                    body.classList.add('mobile-layout');
+                } else {
+                    body.classList.remove('mobile-layout', 'sidebar-open');
+                    if (sidebar) sidebar.classList.remove('show');
+                    if (sidebarOverlay) sidebarOverlay.classList.remove('show');
+                }
+            }
+
+            // Update orientation info display
+            function updateOrientationInfo() {
+                const screenSize = document.getElementById('screenSize');
+                const orientation = document.getElementById('orientation');
+                const viewport = document.getElementById('viewport');
+                
+                if (screenSize) screenSize.textContent = `${screen.width}x${screen.height}`;
+                if (orientation) orientation.textContent = window.innerWidth > window.innerHeight ? 'Landscape' : 'Portrait';
+                if (viewport) viewport.textContent = `${window.innerWidth}x${window.innerHeight}`;
+            }
+
+            // Initial calls and event listeners
+            handleMobileLayout();
+            updateOrientationInfo();
+            
+            window.addEventListener('resize', function() {
+                handleMobileLayout();
+                updateOrientationInfo();
+            });
+            
+            window.addEventListener('orientationchange', function() {
+                setTimeout(function() {
+                    handleMobileLayout();
+                    updateOrientationInfo();
+                }, 100);
+            });
+
+            // Update info every second for real-time feedback
+            setInterval(updateOrientationInfo, 1000);
+        });
+    </script>
+</body>
+</html>

@@ -1,56 +1,98 @@
 
-<aside id="layout-menu" class="layout-menu menu-vertical menu bg-white text-dark border-end shadow-sm">
-    <div class="app-brand demo bg-gradient-primary py-4 px-3 border-bottom">
-        <a href="{{ route('admin.index') }}" class="app-brand-link d-flex align-items-center text-white text-decoration-none">
-            <img src="{{ asset('images/logo.png') }}" alt="COTS Tracker Logo" class="app-brand-logo demo" style="height: 60px; width: auto;">
-            <span class="menu-text fw-bold ms-3 fs-5">COTS Tracker</span>
-        </a>
-        <a href="javascript:void(0);"
-        class="layout-menu-toggle menu-link text-white ms-auto d-block d-xl-none rounded-pill"
-        style="background-color: rgba(255,255,255,0.1);">
-        <i class="bx bx-chevron-left bx-sm align-middle"></i>
-        </a>
+<!-- Modern Admin Sidebar -->
+<div class="admin-sidebar h-100">
+    <!-- Sidebar Header -->
+    <div class="sidebar-header p-4 border-bottom">
+        <div class="d-flex align-items-center">
+            <div class="sidebar-brand-icon bg-primary rounded-3 p-2 me-3">
+                <i class="fas fa-fish text-white fs-5"></i>
+            </div>
+            <div class="sidebar-brand-text">
+                <h6 class="mb-0 fw-bold text-dark">COTS Tracker</h6>
+                <small class="text-muted">Admin Panel</small>
+            </div>
+        </div>
     </div>
-    <div class="menu-inner-shadow bg-light"></div>
-    <ul class="menu-inner py-2">
-        <li class="menu-item {{ Route::is('admin.index') ? 'active' : '' }}">
-            <a href="{{ route('admin.index') }}" class="menu-link text-dark hover-bg-primary hover-text-white text-decoration-none py-3 px-4 rounded-3 mx-2 mb-1">
-                <i class="menu-icon tf-icons bx bx-home-alt fs-5"></i>
-                <div data-i18n="Analytics" class="fw-semibold">Dashboard</div>
-            </a>
-        </li>
-        <li class="menu-item {{ Route::is('admin.location') ? 'active' : '' }}">
-            <a href="{{ route('admin.location') }}" class="menu-link text-dark hover-bg-primary hover-text-white text-decoration-none py-3 px-4 rounded-3 mx-2 mb-1">
-                <i class="menu-icon tf-icons bx bx-location-plus fs-5"></i>
-                <div data-i18n="Locations" class="fw-semibold">Sightings Map</div>
-            </a>
-        </li>
-        <li class="menu-item {{ Route::is('admin.report') ? 'active' : '' }}">
-            <a href="{{ route('admin.report') }}" class="menu-link text-dark hover-bg-primary hover-text-white text-decoration-none py-3 px-4 rounded-3 mx-2 mb-1">
-                <i class="menu-icon tf-icons bx bx-bar-chart-alt fs-5"></i>
-                <div class="fw-semibold">Reports</div>
-            </a>
-        </li>
-        <li class="menu-item {{ Route::is('admin.adduser') ? 'active' : '' }}">
-            <a href="{{ route('admin.adduser') }}" class="menu-link text-dark hover-bg-primary hover-text-white text-decoration-none py-3 px-4 rounded-3 mx-2 mb-1">
-                <i class="menu-icon tf-icons bx bx-user-circle fs-5"></i>
-                <div data-i18n="Users" class="fw-semibold">Manage Users</div>
-            </a>
-        </li>
-        <li class="menu-item {{ Route::is('admin.municipal') ? 'active' : '' }}">
-            <a href="{{ route('admin.municipal') }}" class="menu-link text-dark hover-bg-primary hover-text-white text-decoration-none py-3 px-4 rounded-3 mx-2 mb-1">
-                <i class="menu-icon tf-icons bx bx-building fs-5"></i>
-                <div data-i18n="Municipal" class="fw-semibold">Municipalities</div>
-            </a>
-        </li>
-        <!-- <li class="menu-item {{ Route::is('admin.municipal') ? 'active' : '' }}">
-            <a href="{{ route('admin.municipal') }}" class="menu-link text-dark hover-bg-primary hover-text-white text-decoration-none">
-                <i class="menu-icon tf-icons bx bx-building"></i>
-                <div data-i18n="Analytics">Municipal</div>
-            </a>
-        </li> -->
-    </ul>
-</aside>
+
+    <!-- Navigation Menu -->
+    <nav class="sidebar-nav flex-grow-1 p-3">
+        <ul class="nav flex-column">
+            <!-- Dashboard -->
+            <li class="nav-item mb-1">
+                <a href="{{ route('admin.index') }}" class="nav-link sidebar-link {{ Route::is('admin.index') ? 'active' : '' }}">
+                    <div class="d-flex align-items-center">
+                        <div class="nav-icon">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <span class="nav-text">Dashboard</span>
+                    </div>
+                </a>
+            </li>
+
+            <!-- Sightings Map -->
+            <li class="nav-item mb-1">
+                <a href="{{ route('admin.location') }}" class="nav-link sidebar-link {{ Route::is('admin.location') ? 'active' : '' }}">
+                    <div class="d-flex align-items-center">
+                        <div class="nav-icon">
+                            <i class="fas fa-map-marked-alt"></i>
+                        </div>
+                        <span class="nav-text">Sightings Map</span>
+                    </div>
+                </a>
+            </li>
+
+            <!-- Reports -->
+            <li class="nav-item mb-1">
+                <a href="{{ route('admin.report') }}" class="nav-link sidebar-link {{ Route::is('admin.report') ? 'active' : '' }}">
+                    <div class="d-flex align-items-center">
+                        <div class="nav-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <span class="nav-text">Reports</span>
+                    </div>
+                </a>
+            </li>
+
+            <!-- Section Divider -->
+            <li class="nav-divider my-3">
+                <hr class="border-light">
+                <small class="text-muted px-3">Management</small>
+            </li>
+
+            <!-- Manage Users -->
+            <li class="nav-item mb-1">
+                <a href="{{ route('admin.adduser') }}" class="nav-link sidebar-link {{ Route::is('admin.adduser') ? 'active' : '' }}">
+                    <div class="d-flex align-items-center">
+                        <div class="nav-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <span class="nav-text">Manage Users</span>
+                    </div>
+                </a>
+            </li>
+
+            <!-- Municipalities -->
+            <li class="nav-item mb-1">
+                <a href="{{ route('admin.municipal') }}" class="nav-link sidebar-link {{ Route::is('admin.municipal') ? 'active' : '' }}">
+                    <div class="d-flex align-items-center">
+                        <div class="nav-icon">
+                            <i class="fas fa-city"></i>
+                        </div>
+                        <span class="nav-text">Municipalities</span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Sidebar Footer -->
+    <div class="sidebar-footer p-3 border-top">
+        <div class="d-flex align-items-center text-muted">
+            <i class="fas fa-shield-alt me-2"></i>
+            <small>Admin Access</small>
+        </div>
+    </div>
+</div>
 
 <style>
 /* Professional Admin Menu Styling */

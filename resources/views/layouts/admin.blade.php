@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="{{ asset('assets/')}}" data-template="vertical-menu-template-free">
+<html lang="en" class="h-100">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>@yield('title', 'Dap-ag Tracker')</title>
-    <meta name="description" content="" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <title>@yield('title', 'Welcome to COTS tracker')</title>
+    <meta name="description" content="COTS Tracker Admin Dashboard - Monitor and manage Crown-of-Thorns Starfish sightings">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -14,162 +13,167 @@
     <meta name="api-token" content="{{ Auth::check() ? Auth::user()->currentAccessToken()?->plainTextToken : '' }}">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('images/logo.png')}}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/logo.png') }}">
 
     <!-- PWA Manifest -->
-    <link rel="manifest" href="{{ asset('manifest.json') }}" />
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Icons -->
-    <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/boxicons.css')}}" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-
-    <!-- Core CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/vendor/css/core.css')}}" class="template-customizer-core-css" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/css/theme-default.css')}}" class="template-customizer-theme-css" />
-    <link rel="stylesheet" href="{{ asset('assets/css/demo.css')}}" />
-
-    <!-- Vendors CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/apex-charts/apex-charts.css')}}" />
-    
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Leaflet CSS & JS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@v0.74.0/dist/L.Control.Locate.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@v0.74.0/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
-    <!-- Leaflet Awesome Markers -->
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.awesome-markers/2.0.4/leaflet.awesome-markers.js"></script>    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.awesome-markers/2.0.4/leaflet.awesome-markers.css" />
- 
-
-
-    <!-- Helpers -->
-    <script src="{{ asset('assets/vendor/js/helpers.js')}}"></script>
-    <script src="{{ asset('assets/vendor/js/menu.js')}}"></script>
-    <script src="{{ asset('assets/js/main.js')}}"></script>
-
-    <!-- Config -->
-    <script src="{{ asset('assets/js/config.js')}}"></script>
-
-    <!-- Bootstrap JS and Popper.js -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@v0.74.0/dist/L.Control.Locate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.awesome-markers/2.0.4/leaflet.awesome-markers.css">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/admin.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/mobile-menu.css') }}" />
-
-
-
-    <!-- Professional Admin Pages Styling -->
+    @vite(['resources/css/app.css', 'resources/css/admin.css', 'resources/css/mobile-menu.css'])
 </head>
-<body class="admin-page">
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top border-bottom" id="layout-navbar">
-    <div class="container-xxl">
-        <div class="layout-menu-toggle d-xl-none d-lg-none me-3">
-            <i class="bx bx-menu bx-sm text-primary"></i>
+<body class="d-flex flex-column h-100 admin-layout">
+    <!-- Top Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow-sm" id="admin-navbar">
+        <div class="container-fluid px-4">
+            <!-- Mobile Menu Toggle -->
+            <button class="btn btn-link text-white d-lg-none p-0 me-3" type="button" id="sidebarToggle" aria-label="Toggle sidebar">
+                <i class="fas fa-bars fs-5"></i>
+            </button>
+
+            <!-- Brand -->
+            <a class="navbar-brand d-flex align-items-center" href="{{ route('admin.index') }}">
+                <img src="{{ asset('images/logo.png') }}" alt="COTS Tracker" class="me-2" style="height: 32px;">
+                <span class="fw-bold d-none d-sm-inline">COTS Tracker</span>
+            </a>
+
+            <!-- Right Side Navigation -->
+            <div class="navbar-nav ms-auto d-flex flex-row align-items-center">
+                <!-- User Info -->
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <div class="avatar-sm bg-light rounded-circle d-flex align-items-center justify-content-center me-2">
+                            <i class="fas fa-user text-primary"></i>
+                        </div>
+                        <div class="d-none d-md-block">
+                            <div class="fw-semibold">{{ Auth::user()->name ?? 'Admin' }}</div>
+                            <small class="opacity-75">{{ Auth::user()->role->role_name ?? 'Administrator' }}</small>
+                        </div>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end shadow border-0">
+                        <li><h6 class="dropdown-header">Account</h6></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-user-cog me-2"></i>Profile Settings</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-bell me-2"></i>Notifications</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form action="{{ route('logout') }}" method="POST" class="d-inline w-100">
+                                @csrf
+                                <button type="submit" class="dropdown-item text-danger">
+                                    <i class="fas fa-sign-out-alt me-2"></i>Logout
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
+    </nav>
 
-        <!-- Navbar brand for mobile -->
-        <a class="navbar-brand d-lg-none" href="{{ route('admin.index') }}">
-            <img src="{{ asset('images/logo.png') }}" alt="COTS Tracker Logo" style="height: 30px; width: auto;">
-        </a>
+    <!-- Main Layout Container -->
+    <div class="d-flex flex-grow-1" style="margin-top: 60px;">
+        <!-- Sidebar -->
+        <aside class="sidebar bg-white shadow-sm border-end" id="adminSidebar">
+            @include('admin.menu')
+        </aside>
 
-        <button class="navbar-toggler d-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContentPage1" aria-controls="navbarContentPage1" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <!-- Sidebar Overlay for Mobile -->
+        <div class="sidebar-overlay d-lg-none" id="sidebarOverlay"></div>
 
-        <!-- Collapsible Navbar Content -->
-        <div class="collapse navbar-collapse" id="navbarContentPage1">
-            <ul class="navbar-nav ms-auto align-items-center">
-                <li class="nav-item d-block d-lg-none">
-                    <span class="navbar-text fw-semibold text-dark me-3">
-                        {{ Auth::check() && Auth::user()->role ? Auth::user()->role->role_name : 'User' }}
-                    </span>
-                </li>
-                <li class="nav-item">
-                    <span class="navbar-text fw-semibold text-dark me-3 d-none d-lg-inline">
-                        {{ Auth::check() && Auth::user()->role ? Auth::user()->role->role_name : 'User' }}
-                    </span>
-                </li>
-                <li class="nav-item d-none d-lg-block">
-                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                        @csrf
-                        <button type="submit" class="btn btn-outline-danger btn-sm" title="Logout">
-                            <i class="bx bx-log-out"></i>
-                            <span class="d-none d-lg-inline ms-1">Logout</span>
-                        </button>
-                    </form>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
- 
-<!-- Page Content -->
-<div class="layout-wrapper layout-content-navbar">
-    <div class="layout-container">
-        @include('admin.menu')
-
-        <div class="layout-page">
-            <main class="py-4">
+        <!-- Main Content Area -->
+        <main class="main-content flex-grow-1 bg-light">
+            <div class="container-fluid p-4">
                 @yield('content')
-            </main>
-        </div>
+            </div>
+        </main>
     </div>
-</div>
 
-<!-- Layout overlay for mobile menu -->
-<div class="layout-overlay"></div>
+    <!-- Mobile Bottom Navigation (Optional) -->
+    @include('components.mobile-menu')
 
-@include('components.mobile-menu')
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@v0.74.0/dist/L.Control.Locate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.awesome-markers/2.0.4/leaflet.awesome-markers.js"></script>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Custom JavaScript -->
-<script src="{{ asset('js/mobile-menu.js') }}"></script>
-<script src="{{ asset('js/service-worker.js') }}"></script>
+    <!-- Custom JavaScript -->
+    @vite(['resources/js/app.js', 'resources/js/mobile-menu.js', 'resources/js/service-worker.js'])
 
-<!-- Mobile navbar position handler for admin layout -->
-<script>
-    (function() {
-        function updateNavbarPosition() {
-            const body = document.body;
-            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
-            const isSmall = window.innerWidth <= 768;
-            if (isMobile && isSmall) {
-                body.classList.add('mobile-bottom-navbar');
-            } else {
-                body.classList.remove('mobile-bottom-navbar');
+    <!-- Admin Layout JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sidebar toggle functionality
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebar = document.getElementById('adminSidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            
+            if (sidebarToggle && sidebar && sidebarOverlay) {
+                // Toggle sidebar on mobile
+                sidebarToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('show');
+                    sidebarOverlay.classList.toggle('show');
+                    document.body.classList.toggle('sidebar-open');
+                });
+
+                // Close sidebar when clicking overlay
+                sidebarOverlay.addEventListener('click', function() {
+                    sidebar.classList.remove('show');
+                    sidebarOverlay.classList.remove('show');
+                    document.body.classList.remove('sidebar-open');
+                });
+
+                // Close sidebar on window resize if desktop
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth >= 992) {
+                        sidebar.classList.remove('show');
+                        sidebarOverlay.classList.remove('show');
+                        document.body.classList.remove('sidebar-open');
+                    }
+                });
             }
-        }
 
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', updateNavbarPosition);
-        } else {
-            updateNavbarPosition();
-        }
+            // Mobile responsive adjustments
+            function handleMobileLayout() {
+                const isMobile = window.innerWidth < 992;
+                const body = document.body;
+                
+                if (isMobile) {
+                    body.classList.add('mobile-layout');
+                } else {
+                    body.classList.remove('mobile-layout', 'sidebar-open');
+                    if (sidebar) sidebar.classList.remove('show');
+                    if (sidebarOverlay) sidebarOverlay.classList.remove('show');
+                }
+            }
 
-        window.addEventListener('orientationchange', function() { setTimeout(updateNavbarPosition, 120); });
-        window.addEventListener('resize', function() { setTimeout(updateNavbarPosition, 120); });
-    })();
-</script>
+            // Initial call and event listeners
+            handleMobileLayout();
+            window.addEventListener('resize', handleMobileLayout);
+            window.addEventListener('orientationchange', function() {
+                setTimeout(handleMobileLayout, 100);
+            });
+        });
+    </script>
 
 </body>
 </html>
