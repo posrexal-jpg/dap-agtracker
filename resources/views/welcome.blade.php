@@ -6,10 +6,10 @@
     <meta name="theme-color" content="#1e3a8a" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="Dap-ag Tracker" />
+    <meta name="apple-mobile-web-app-title" content="COTS Tracker" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="apple-touch-icon" href="/images/logo.png" />
-    <title>Dap-ag Tracker</title>
+    <title>COTS Tracker</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
@@ -683,8 +683,8 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
             <a class="navbar-brand" href="#">
-                <img src="{{ asset('images/logo.png') }}" alt="Dap-ag Tracker Logo" style="height: 40px; width: auto; margin-right: 10px;">
-                Dap-ag Tracker
+                <img src="{{ asset('images/logo.png') }}" alt="COTS Tracker Logo" style="height: 40px; width: auto; margin-right: 10px;">
+                COTS Tracker
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -827,7 +827,7 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 Dap-ag Tracker. All rights reserved.</p>
+            <p>&copy; 2025 COTS Tracker. All rights reserved.</p>
             <p>Developed in partnership with DOST and SLSU Bontoc.</p>
         </div>
     </footer>

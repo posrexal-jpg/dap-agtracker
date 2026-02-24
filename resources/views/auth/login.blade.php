@@ -6,10 +6,10 @@
     <meta name="theme-color" content="#1e3a8a" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="Dap-ag Tracker" />
+    <meta name="apple-mobile-web-app-title" content="COTS Tracker" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="apple-touch-icon" href="/images/logo.png" />
-    <title>Dap-ag Tracker - Login</title>
+    <title>COTS Tracker - Login</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -649,8 +649,8 @@
                         <!-- Left Panel -->
                         <div class="col-lg-6 left-panel">
                             <h1>
-                                <img src="{{ asset('images/logo.png') }}" alt="Dap-ag Tracker Logo">
-                                <span>Dap-ag Tracker</span>
+                                <img src="{{ asset('images/logo.png') }}" alt="COTS Tracker Logo">
+                                <span>COTS Tracker</span>
                             </h1>
                             <p>Monitor and track Crown-of-Thorns Starfish (COTS), locally known as Dap-ag, infestations to protect our coral reefs. Join us in preserving marine biodiversity.</p>
                             <div class="logos">

@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Admin Dashboard - Dap-ag Tracker')
+@section('title', 'Admin Dashboard - COTS Tracker')
 
 @section('content')
 <div class="admin-dashboard">

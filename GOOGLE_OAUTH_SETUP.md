@@ -1,6 +1,6 @@
-# Google OAuth Setup for Dap-ag Tracker
+# Google OAuth Setup for COTS Tracker
 
-This guide will help you set up Google OAuth login for the Dap-ag Tracker application.
+This guide will help you set up Google OAuth login for the COTS Tracker application.
 
 ## Prerequisites
 

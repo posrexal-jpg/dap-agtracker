@@ -1,4 +1,4 @@
-// Offline Data Management for Dap-ag Tracker PWA
+// Offline Data Management for COTS Tracker PWA
 class OfflineManager {
     constructor() {
         this.dbName = 'DagAgTrackerDB';

@@ -1,4 +1,4 @@
-# Dap-ag Tracker - Offline PWA & Mobile App
+# COTS Tracker - Offline PWA & Mobile App
 
 A Progressive Web App for tracking Crown-of-Thorns Starfish (COTS) sightings with full offline functionality and mobile APK conversion capabilities.
 
@@ -185,7 +185,7 @@ npm run apk:release     # Build release APK
 
 ## License
 
-This project is part of the Dap-ag Tracker initiative for coral reef conservation.
+This project is part of the COTS Tracker initiative for coral reef conservation.
 
 ## Contributing
 

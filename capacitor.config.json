@@ -1,6 +1,6 @@
 {
   "appId": "com.dagag.tracker",
-  "appName": "Dap-ag Tracker",
+  "appName": "COTS Tracker",
   "webDir": "public",
   "bundledWebRuntime": false,
   "plugins": {

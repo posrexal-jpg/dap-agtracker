@@ -1,8 +1,8 @@
 @echo off
-REM Dap-ag Tracker Mobile Build Script for Windows
+REM COTS Tracker Mobile Build Script for Windows
 REM This script helps build APK files for Android
 
-echo Building Dap-ag Tracker APK...
+echo Building COTS Tracker APK...
 
 REM Check if Node.js is installed
 node --version >nul 2>&1
@@ -75,5 +75,5 @@ if exist "android" (
 )
 
 echo.
-echo Build complete! Your Dap-ag Tracker APK is ready.
+echo Build complete! Your COTS Tracker APK is ready.
 pause

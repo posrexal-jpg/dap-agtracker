@@ -2,7 +2,7 @@
     "name": "dap-ag-tracker",
     "version": "1.0.0",
     "description": "Monitor and track dap-ag infestations to protect coral reefs",
-    "author": "Dap-ag Tracker Team",
+    "author": "COTS Tracker Team",
     "private": true,
     "type": "module",
     "main": "public/index.php",
