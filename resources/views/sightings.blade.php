@@ -20,25 +20,53 @@
         }
 
         #map {
-            height: 600px;
+            height: 100vh;
             width: 100%;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        body {
+            overflow: hidden;
         }
 
         .hero-section {
             background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
             color: white;
-            padding: 50px 0;
+            padding: 20px 0;
             text-align: center;
+            position: fixed;
+            top: 56px;
+            left: 0;
+            right: 0;
+            z-index: 1020;
+        }
+
+        .stats-section {
+            position: fixed;
+            top: 56px;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            padding: 8px 0;
+            z-index: 1021;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
 
         .stats-card {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background: transparent;
+            border-radius: 6px;
+            padding: 8px 10px;
+            margin: 0;
+            box-shadow: none;
+        }
+
+        .map-section {
+            width: 100%;
+            height: 100vh;
         }
 
         .navbar-brand img {
@@ -76,6 +104,23 @@
         .cots-marker {
             background: transparent !important;
             border: none !important;
+        }
+
+        /* Pulse animation for outbreak markers (red) */
+        @keyframes pulseOutbreak {
+            0% {
+                box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(220, 53, 69, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+            }
+        }
+
+        .marker-outbreak {
+            animation: pulseOutbreak 2s infinite;
         }
 
         /* Device and Orientation Detection */
@@ -189,17 +234,85 @@
 
         /* Mobile responsive adjustments */
         @media (max-width: 575.98px) {
-            #map {
-                height: 400px;
+            .hero-section {
+                padding: 10px 0;
+                top: 0;
             }
 
-            .hero-section {
-                padding: 30px 0;
+            .hero-section h1 {
+                font-size: 1.2rem;
+                margin: 0;
+            }
+
+            .hero-section p {
+                font-size: 0.8rem;
+                margin: 3px 0 0 0;
+            }
+
+            .stats-section {
+                top: auto;
+                bottom: 80px;
+                padding: 6px 0;
             }
 
             .stats-card {
-                padding: 15px;
+                padding: 6px 8px;
             }
+
+            .stats-card h3 {
+                font-size: 1.1rem;
+                margin: 0;
+            }
+
+            .stats-card p {
+                font-size: 0.75rem;
+                margin: 2px 0 0 0;
+            }
+
+            #map {
+                height: 100vh;
+            }
+        }
+
+        @media (min-width: 576px) {
+            .hero-section {
+                padding: 12px 0;
+            }
+
+            .hero-section h1 {
+                font-size: 1.5rem;
+                margin: 0;
+            }
+
+            .hero-section p {
+                font-size: 0.9rem;
+                margin: 4px 0 0 0;
+            }
+
+            .stats-section {
+                top: 56px;
+            }
+
+            .stats-card h3 {
+                font-size: 1.3rem;
+                margin: 0;
+            }
+
+            .stats-card p {
+                font-size: 0.8rem;
+                margin: 2px 0 0 0;
+            }
+        }
+
+        /* Navbar z-index */
+        .navbar {
+            z-index: 1019;
+        }
+
+        /* Footer overlay styling on mobile */
+        footer {
+            position: relative;
+            z-index: 1000;
         }
     </style>
 </head>
@@ -267,32 +380,32 @@
 
     <!-- Hero Section -->
     <section class="hero-section">
-        <div class="container">
+        <div class="container-fluid">
             <h1>COTS Sightings Map</h1>
             <p>View reported Crown-of-Thorns Starfish (Dap-ag) sightings across monitored areas</p>
         </div>
     </section>
 
     <!-- Stats Section -->
-    <section class="py-4">
-        <div class="container">
-            <div class="row">
+    <section class="stats-section">
+        <div class="container-fluid">
+            <div class="row g-2">
                 <div class="col-md-4">
                     <div class="stats-card text-center">
-                        <h3 class="text-primary">{{ $locations->count() }}</h3>
-                        <p class="mb-0">Total Sightings</p>
+                        <h3 class="text-primary" style="margin: 0;">{{ $locations->count() }}</h3>
+                        <p class="mb-0" style="font-size: 0.9rem;">Total Sightings</p>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="stats-card text-center">
-                        <h3 class="text-success">{{ $locations->sum('number_of_cots') }}</h3>
-                        <p class="mb-0">Total COTS Count</p>
+                        <h3 class="text-success" style="margin: 0;">{{ $locations->sum('number_of_cots') }}</h3>
+                        <p class="mb-0" style="font-size: 0.9rem;">Total COTS Count</p>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="stats-card text-center">
-                        <h3 class="text-warning">{{ $locations->unique('municipality')->count() }}</h3>
-                        <p class="mb-0">Municipalities Affected</p>
+                        <h3 class="text-warning" style="margin: 0;">{{ $locations->unique('municipality')->count() }}</h3>
+                        <p class="mb-0" style="font-size: 0.9rem;">Municipalities Affected</p>
                     </div>
                 </div>
             </div>
@@ -300,10 +413,8 @@
     </section>
 
     <!-- Map Section -->
-    <section class="py-4">
-        <div class="container">
-            <div id="map"></div>
-        </div>
+    <section class="map-section">
+        <div id="map"></div>
     </section>
 
     <!-- Footer -->
@@ -327,19 +438,62 @@
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
-        // Custom icon for COTS sightings
-        const cotsIcon = L.divIcon({
-            className: 'cots-marker',
-            html: '<div style="background-color: #dc3545; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>',
-            iconSize: [26, 26],
-            iconAnchor: [13, 13]
-        });
+        // Function to create starfish SVG icon
+        function createStarfishIcon(color) {
+            const svg = `
+                <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Center circle -->
+                    <circle cx="16" cy="16" r="6" fill="${color}" stroke="white" stroke-width="1.5"/>
+                    <!-- Top arm -->
+                    <path d="M 16 2 Q 14 8 16 10" stroke="${color}" stroke-width="4" fill="none" stroke-linecap="round"/>
+                    <!-- Top-right arm -->
+                    <path d="M 24 6 Q 21 10 20 12" stroke="${color}" stroke-width="4" fill="none" stroke-linecap="round"/>
+                    <!-- Bottom-right arm -->
+                    <path d="M 26 18 Q 22 18 20 20" stroke="${color}" stroke-width="4" fill="none" stroke-linecap="round"/>
+                    <!-- Bottom-left arm -->
+                    <path d="M 20 26 Q 18 22 16 20" stroke="${color}" stroke-width="4" fill="none" stroke-linecap="round"/>
+                    <!-- Top-left arm -->
+                    <path d="M 8 18 Q 10 18 12 20" stroke="${color}" stroke-width="4" fill="none" stroke-linecap="round"/>
+                    <!-- Left arm -->
+                    <path d="M 6 6 Q 10 10 12 12" stroke="${color}" stroke-width="4" fill="none" stroke-linecap="round"/>
+                    <!-- Outer spikes -->
+                    <circle cx="16" cy="2" r="1.5" fill="${color}"/>
+                    <circle cx="26" cy="8" r="1.5" fill="${color}"/>
+                    <circle cx="28" cy="18" r="1.5" fill="${color}"/>
+                    <circle cx="20" cy="28" r="1.5" fill="${color}"/>
+                    <circle cx="12" cy="28" r="1.5" fill="${color}"/>
+                    <circle cx="4" cy="18" r="1.5" fill="${color}"/>
+                    <circle cx="6" cy="8" r="1.5" fill="${color}"/>
+                    <!-- Shadow -->
+                    <ellipse cx="16" cy="30" rx="8" ry="1.5" fill="rgba(0,0,0,0.2)"/>
+                </svg>
+            `;
+            return `data:image/svg+xml;base64,${btoa(svg)}`;
+        }
 
         // Add markers for each sighting
         @foreach($locations as $location)
+        // Determine marker color based on COTS count
+        // Red if count > 15, Green otherwise
+        const cotsCount{{ $location->id }} = {{ $location->number_of_cots }};
+        const markerColor{{ $location->id }} = cotsCount{{ $location->id }} > 15 ? '#dc3545' : '#28a745';
+        const isOutbreak{{ $location->id }} = cotsCount{{ $location->id }} > 15;
+        
+        const marker{{ $location->id }}Icon = L.icon({
+            iconUrl: createStarfishIcon(markerColor{{ $location->id }}),
+            iconSize: [32, 32],
+            iconAnchor: [16, 32],
+            popupAnchor: [0, -32]
+        });
+
         const marker{{ $location->id }} = L.marker([{{ $location->latitude }}, {{ $location->longitude }}], {
-            icon: cotsIcon
+            icon: marker{{ $location->id }}Icon
         }).addTo(map);
+
+        // Add pulse class to marker element if outbreak
+        if (isOutbreak{{ $location->id }}) {
+            marker{{ $location->id }}._icon.classList.add('marker-outbreak');
+        }
 
         // Create popup content
         const popupContent{{ $location->id }} = `
