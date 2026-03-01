@@ -38,7 +38,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.awesome-markers/2.0.4/leaflet.awesome-markers.css">
 
     <!-- Custom CSS -->
-    @vite(['resources/css/app.css', 'resources/css/admin.css', 'resources/css/mobile-menu.css'])
 </head>
 <body class="d-flex flex-column h-100 admin-layout">
     <!-- Top Navigation Bar -->
