@@ -8,6 +8,8 @@
     "main": "public/index.php",
     "scripts": {
         "dev": "vite",
+        "dev:assets": "vite",
+        "build:assets": "vite build",
         "build": "vite build",
         "mobile:build": "npm run build && npx cap sync",
         "mobile:android": "npm run mobile:build && npx cap open android",

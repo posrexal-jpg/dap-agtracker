@@ -19,6 +19,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Load helper that maps Vite manifest entries to built assets
+        $helpers = app_path('Helpers/manifest.php');
+        if (file_exists($helpers)) {
+            require_once $helpers;
+        }
     }
 }
