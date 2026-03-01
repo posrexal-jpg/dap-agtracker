@@ -12,7 +12,7 @@
         </a>
     </div>
     <div class="menu-inner-shadow bg-light"></div>
-    <ul class="menu-inner py-2">
+    <ul class="menu-inner py-2" style="list-style: none;">
         <!-- Dashboard -->
         <li class="menu-item {{ Route::is('user.dashboard') ? 'active' : '' }}">
             <a href="{{ route('user.dashboard') }}" class="menu-link text-dark hover-bg-primary hover-text-white text-decoration-none py-3 px-4 rounded-3 mx-2 mb-1">

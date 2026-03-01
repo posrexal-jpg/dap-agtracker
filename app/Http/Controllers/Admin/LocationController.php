@@ -233,16 +233,16 @@ class LocationController extends Controller
         }
 
         return [
-            'total_locations'      => $query->count(),
-            'total_cots'           => $query->sum('number_of_cots') ?? 0,
-            'unique_municipalities'=> $query->distinct()->count('municipality'),
-            'recent_sightings'     => $query->where('created_at', '>=', now()->subDays(7))->count(),
-            'by_municipality'      => $query->select('municipality', DB::raw('count(*) as count'), DB::raw('sum(number_of_cots) as total_cots'))
+            'total_locations'      => (clone $query)->count(),
+            'total_cots'           => (clone $query)->sum('number_of_cots') ?? 0,
+            'unique_municipalities'=> (clone $query)->distinct('municipality')->count('municipality'),
+            'recent_sightings'     => (clone $query)->where('created_at', '>=', now()->subDays(7))->count(),
+            'by_municipality'      => (clone $query)->select('municipality', DB::raw('count(*) as count'), DB::raw('sum(number_of_cots) as total_cots'))
                 ->whereNotNull('municipality')
                 ->groupBy('municipality')
                 ->orderByDesc(DB::raw('sum(number_of_cots)'))
                 ->get(),
-            'by_activity_type'     => $query->select('activity_type', DB::raw('count(*) as count'))
+            'by_activity_type'     => (clone $query)->select('activity_type', DB::raw('count(*) as count'))
                 ->whereNotNull('activity_type')
                 ->groupBy('activity_type')
                 ->orderByDesc('count')
