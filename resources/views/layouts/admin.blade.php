@@ -115,9 +115,6 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Custom JavaScript -->
-    @vite(['resources/js/app.js', 'resources/js/mobile-menu.js', 'resources/js/service-worker.js'])
-
     <!-- Admin Layout JavaScript -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
