@@ -43,6 +43,8 @@
         'resources/css/admin.css',
         'resources/css/mobile-menu.css',
     ]) !!}
+
+    @stack('styles')
 </head>
 <body class="d-flex flex-column h-100 admin-layout">
     <!-- Top Navigation Bar -->
@@ -126,6 +128,8 @@
         'resources/js/mobile-menu.js',
         'resources/js/service-worker.js',
     ]) !!}
+
+    @stack('scripts')
 
     <!-- Admin Layout JavaScript -->
     <script>

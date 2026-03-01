@@ -228,39 +228,31 @@
                     <div class="activity-header">
                         <div class="activity-title">
                             <i class="fas fa-history"></i>
-                            <span>Recent Activity</span>
+                            <span>Recent Sightings (Last 7 Days)</span>
                         </div>
-                        <a href="#" class="view-all">View All</a>
+                        <a href="{{ route('admin.location') }}" class="view-all">View All</a>
                     </div>
                     <div class="activity-body">
                         <div class="activity-list">
+                            @forelse($recentSightings as $sighting)
                             <div class="activity-item">
                                 <div class="activity-icon">
-                                    <i class="fas fa-plus-circle"></i>
+                                    <i class="fas fa-map-marker-alt"></i>
                                 </div>
                                 <div class="activity-content">
-                                    <div class="activity-text">New COTS sighting reported in Sogod</div>
-                                    <div class="activity-time">2 hours ago</div>
+                                    <div class="activity-text">
+                                        COTS sighting in {{ $sighting->barangay ?? 'Unknown' }}, {{ $sighting->municipality ?? '—' }}
+                                        &mdash; <strong>{{ $sighting->number_of_cots ?? 0 }}</strong> COTS
+                                    </div>
+                                    <div class="activity-time">{{ $sighting->created_at->diffForHumans() }}</div>
                                 </div>
                             </div>
-                            <div class="activity-item">
-                                <div class="activity-icon">
-                                    <i class="fas fa-user-plus"></i>
-                                </div>
-                                <div class="activity-content">
-                                    <div class="activity-text">New user account created</div>
-                                    <div class="activity-time">4 hours ago</div>
-                                </div>
+                            @empty
+                            <div class="text-center text-muted py-3">
+                                <i class="fas fa-inbox fa-2x mb-2 d-block opacity-50"></i>
+                                No sightings in the last 7 days.
                             </div>
-                            <div class="activity-item">
-                                <div class="activity-icon">
-                                    <i class="fas fa-chart-line"></i>
-                                </div>
-                                <div class="activity-content">
-                                    <div class="activity-text">Monthly report generated</div>
-                                    <div class="activity-time">1 day ago</div>
-                                </div>
-                            </div>
+                            @endforelse
                         </div>
                     </div>
                 </div>
@@ -302,8 +294,9 @@
 .dashboard-header {
     background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
     color: white;
-    padding: 2rem 0;
-    margin-bottom: 2rem;
+    /* Stretch full-width by negating the parent container-fluid p-4 (1.5rem) */
+    margin: -1.5rem -1.5rem 2rem;
+    padding: 2rem 1.5rem;
     box-shadow: var(--shadow-lg);
 }
 
@@ -887,11 +880,6 @@
 }
 </style>
 
-<script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>
-<script src="{{ asset('assets/vendor/libs/popper/popper.js') }}"></script>
-<script src="{{ asset('assets/vendor/js/bootstrap.js') }}"></script>
-<script src="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
-<script src="{{ asset('assets/vendor/js/menu.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
 <script>
@@ -1014,11 +1002,11 @@ function refreshChart() {
     }
 }
 
-// Add loading animation for better UX
-$(document).ready(function() {
-    $('.stat-card').each(function(index) {
-        $(this).css('animation-delay', (index * 0.1) + 's');
-        $(this).addClass('animate-in');
+// Add stagger animation on load
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.stat-card').forEach(function (card, index) {
+        card.style.animationDelay = (index * 0.1) + 's';
+        card.classList.add('animate-in');
     });
 });
 </script>
