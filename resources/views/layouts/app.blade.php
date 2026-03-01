@@ -68,12 +68,14 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}" />
+    <!-- Custom CSS (from build manifest) -->
+    {!! manifest_styles([
+        'resources/css/app.css',
+        'resources/css/mobile-menu.css',
+    ]) !!}
     @if(Route::is('admin.*'))
-        <link rel="stylesheet" href="{{ asset('css/admin.css') }}" />
+        {!! manifest_styles(['resources/css/admin.css']) !!}
     @endif
-    <link rel="stylesheet" href="{{ asset('css/mobile-menu.css') }}" />
 
 
 
@@ -155,9 +157,12 @@
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Custom JavaScript -->
-<script src="{{ asset('js/mobile-menu.js') }}"></script>
-<script src="{{ asset('js/service-worker.js') }}"></script>
+<!-- Custom JavaScript (from build manifest) -->
+{!! manifest_scripts([
+    'resources/js/app.js',
+    'resources/js/mobile-menu.js',
+    'resources/js/service-worker.js',
+]) !!}
 
 <!-- Mobile navbar position handler -->
 <script>
