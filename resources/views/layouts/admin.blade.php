@@ -38,14 +38,9 @@
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@v0.74.0/dist/L.Control.Locate.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.awesome-markers/2.0.4/leaflet.awesome-markers.css">
 
-    <!-- Custom CSS (from build manifest) -->
-    {!! manifest_styles([
-        'resources/css/app.css',
-        'resources/css/admin.css',
-        'resources/css/mobile-menu.css',
-    ]) !!}
+    <!-- Custom CSS (Vite) -->
+    @vite(['resources/css/app.css', 'resources/css/admin.css', 'resources/css/mobile-menu.css'])
 
     @stack('styles')
 
@@ -159,17 +154,12 @@
 <!-- Leaflet JS -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@v0.74.0/dist/L.Control.Locate.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.awesome-markers/2.0.4/leaflet.awesome-markers.js"></script>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Custom JavaScript (from build manifest) -->
-{!! manifest_scripts([
-    'resources/js/app.js',
-    'resources/js/mobile-menu.js',
-    'resources/js/service-worker.js',
-]) !!}
+<!-- Custom JavaScript (Vite) -->
+@vite(['resources/js/app.js', 'resources/js/mobile-menu.js', 'resources/js/service-worker.js'])
 
 @stack('scripts')
 

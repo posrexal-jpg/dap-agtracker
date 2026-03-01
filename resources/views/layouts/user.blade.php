@@ -66,11 +66,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Custom CSS (from build manifest) -->
-    {!! manifest_styles([
-        'resources/css/app.css',
-        'resources/css/mobile-menu.css',
-    ]) !!}
+    <!-- Custom CSS (Vite) -->
+    @vite(['resources/css/app.css', 'resources/css/mobile-menu.css'])
 
     <!-- Professional User Pages Styling -->
     <style>
@@ -345,12 +342,8 @@
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Custom JavaScript (from build manifest) -->
-{!! manifest_scripts([
-    'resources/js/app.js',
-    'resources/js/mobile-menu.js',
-    'resources/js/service-worker.js',
-]) !!}
+<!-- Custom JavaScript (Vite) -->
+@vite(['resources/js/app.js', 'resources/js/mobile-menu.js', 'resources/js/service-worker.js'])
 
 </body>
 </html>
