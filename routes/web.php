@@ -2,16 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\DownloadController;
-use App\Http\Controllers\UserDownloadController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserDashboardController;
+use App\Http\Controllers\UserDownloadController;
 use App\Http\Controllers\UserLocationController;
-use App\Http\Controllers\MunicipalityController;
-use App\Exports\LocationsReportExport;
-use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Controllers\Admin;
 
 // Landing page - no redirect
 Route::get('/', function () {
@@ -39,35 +36,38 @@ Route::middleware('auth')->group(function () {
 });
 
 // Admin routes
-Route::middleware('admin')->group(function () {
-    // Dashboard and Location Routes
-    Route::get('/admin', [AdminDashboardController::class, 'index'])->name('admin.index');
-    Route::get('/admin/download', [DownloadController::class, 'adminIndex'])->name('admin.download');
-    Route::post('/save-location', [LocationController::class, 'store'])->name('save-location');
-    Route::get('/admin/locations', [LocationController::class, 'index'])->name('admin.location');
-    Route::delete('/locations/{id}', [LocationController::class, 'destroy'])->name('locations.destroy');
-    Route::get('/admin/report', [LocationController::class, 'report'])->name('admin.report');
-    Route::get('admin/report/export', [LocationController::class, 'export'])->name('admin.report.export');
-    // In routes/web.php
-    Route::get('/dashboard-data', [LocationController::class, 'getDashboardData'])->name('dashboard.data');
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware('admin')
+    ->group(function () {
+        // Dashboard
+        Route::get('/',              [Admin\DashboardController::class, 'index'])->name('index');
+        Route::get('/dashboard-data',[Admin\DashboardController::class, 'dashboardData'])->name('dashboard.data');
 
+        // Locations
+        Route::get('/locations',         [Admin\LocationController::class, 'index'])->name('location');
+        Route::post('/locations',         [Admin\LocationController::class, 'store'])->name('locations.store');
+        Route::delete('/locations/{id}',  [Admin\LocationController::class, 'destroy'])->name('locations.destroy');
+        Route::get('/report',            [Admin\LocationController::class, 'report'])->name('report');
+        Route::get('/report/export',     [Admin\LocationController::class, 'export'])->name('report.export');
 
+        // Users
+        Route::get('/users',                   [Admin\UserController::class, 'index'])->name('adduser');
+        Route::get('/users/create',            [Admin\UserController::class, 'create'])->name('adduser.create');
+        Route::post('/users',                  [Admin\UserController::class, 'store'])->name('users.store');
+        Route::get('/users/{user}/edit',       [Admin\UserController::class, 'edit'])->name('users.edit');
+        Route::put('/users/{user}',            [Admin\UserController::class, 'update'])->name('users.update');
+        Route::delete('/users/{user}',         [Admin\UserController::class, 'destroy'])->name('users.destroy');
 
-    // User Management Routes
-    Route::get('/admin/adduser/create', [UserController::class, 'create'])->name('admin.adduser.create'); // Route for creating user
-    Route::post('/admin/adduser/users', [UserController::class, 'store'])->name('admin.users.store'); // Route for storing user
-    Route::get('/admin/adduser/users/{user}/edit', [UserController::class, 'edit'])->name('admin.users.edit'); // Route for editing user
-    Route::put('/admin/adduser/users/{user}', [UserController::class, 'update'])->name('admin.users.update'); // Route for updating user
-    Route::delete('/admin/adduser/users/{user}', [UserController::class, 'destroy'])->name('admin.users.destroy'); // Route for deleting user
-    Route::get('/admin/users', [UserController::class, 'index'])->name('admin.adduser'); // Route for listing users
+        // Downloads
+        Route::get('/download', [Admin\DownloadController::class, 'index'])->name('download');
 
-
-
-    Route::get('/admin/municipal/create', [MunicipalityController::class, 'create'])->name('admin.municipal.create');
-    Route::post('/admin/municipal', [MunicipalityController::class, 'store'])->name('admin.municipal.store');
-    Route::get('/admin/municipality', [MunicipalityController::class, 'index'])->name('admin.municipal');
-    Route::delete('/admin/municipality/{id}', [MunicipalityController::class, 'destroy'])->name('admin.municipal.destroy');
-});
+        // Municipalities
+        Route::get('/municipality',        [Admin\MunicipalityController::class, 'index'])->name('municipal');
+        Route::get('/municipality/create', [Admin\MunicipalityController::class, 'create'])->name('municipal.create');
+        Route::post('/municipality',       [Admin\MunicipalityController::class, 'store'])->name('municipal.store');
+        Route::delete('/municipality/{id}',[Admin\MunicipalityController::class, 'destroy'])->name('municipal.destroy');
+    });
 
 // Redirect /users to /user for convenience
 Route::redirect('/users', '/user');

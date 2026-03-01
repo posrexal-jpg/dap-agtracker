@@ -15,10 +15,14 @@ class Admin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->role_id == 1) {
-            return $next($request);
+        if (! Auth::check()) {
+            return redirect()->route('login.form');
         }
-        abort(403);
-        // return redirect('/login');
+
+        if (! Auth::user()->isAdmin()) {
+            abort(403, 'Access denied.');
+        }
+
+        return $next($request);
     }
 }

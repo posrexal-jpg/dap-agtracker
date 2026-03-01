@@ -56,9 +56,15 @@ public function role()
 /**
  * Get the locations for the user.
  */
-public function locations()
-{
-    return $this->hasMany(Location::class);
-}
+    public function locations()
+    {
+        return $this->hasMany(Location::class);
+    }
 
-}
+    /**
+     * Determine whether the user has the admin role.
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role_id === Role::ADMIN_ID;
+    }}

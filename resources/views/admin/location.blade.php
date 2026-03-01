@@ -1709,7 +1709,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Delete location function
     window.deleteLocation = function(id) {
         if (confirm('Are you sure you want to delete this COTS sighting location?')) {
-            fetch(`/locations/${id}`, {
+            fetch(`/admin/locations/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}',
