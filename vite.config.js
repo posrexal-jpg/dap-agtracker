@@ -10,6 +10,7 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/css/app.css',
                 'resources/css/admin.css',
+                'resources/js/admin.js',
                 'resources/css/mobile-menu.css',
                 'resources/js/mobile-menu.js',
                 'resources/js/service-worker.js',

@@ -1,10 +1,88 @@
-/* Professional Admin Pages Styling */
+/* Modern Admin Layout Styling */
 
-/* Global Admin Styling */
-body.admin-page {
+/* Global Admin Layout */
+.admin-layout {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-    min-height: 100vh;
+    background: #f8fafc;
+    overflow-x: hidden;
+}
+
+/* Top Navigation Bar */
+#admin-navbar {
+    height: 60px;
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1050;
+}
+
+#admin-navbar .navbar-brand {
+    font-weight: 700;
+    font-size: 1.25rem;
+    text-decoration: none;
+}
+
+#admin-navbar .avatar-sm {
+    width: 36px;
+    height: 36px;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    width: 280px;
+    min-height: calc(100vh - 60px);
+    position: fixed;
+    top: 60px;
+    left: 0;
+    z-index: 1040;
+    transition: transform 0.3s ease-in-out;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #e2e8f0 transparent;
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: #e2e8f0;
+    border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: #cbd5e1;
+}
+
+/* Main Content Area */
+.main-content {
+    margin-left: 280px;
+    min-height: calc(100vh - 60px);
+    background: #f8fafc;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+/* Sidebar Overlay for Mobile */
+.sidebar-overlay {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 60px);
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1039;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out;
+}
+
+.sidebar-overlay.show {
+    opacity: 1;
+    visibility: visible;
 }
 
 /* Professional Page Headers */
@@ -258,11 +336,109 @@ body.admin-page {
     100% { transform: rotate(360deg); }
 }
 
-/* Responsive Design */
+/* Mobile Responsive Design */
+@media (max-width: 991.98px) {
+    /* Mobile Layout Adjustments */
+    .sidebar {
+        transform: translateX(-100%);
+        position: fixed;
+        z-index: 1041;
+        width: 280px;
+        max-width: 85vw;
+    }
+
+    .sidebar.show {
+        transform: translateX(0);
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: 0.5rem;
+    }
+
+    .mobile-layout .main-content {
+        padding-top: 0;
+    }
+
+    /* Adjust navbar for mobile */
+    #admin-navbar .navbar-brand span {
+        display: none;
+    }
+
+    /* Prevent body scroll when sidebar is open */
+    body.sidebar-open {
+        overflow: hidden;
+    }
+}
+
+/* Landscape Mobile Orientation */
+@media (max-width: 991.98px) and (orientation: landscape) {
+    .sidebar {
+        width: 260px;
+        max-width: 70vw;
+    }
+
+    #admin-navbar {
+        height: 50px;
+    }
+
+    .main-content {
+        padding: 0.25rem;
+    }
+
+    .page-header {
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .page-title {
+        font-size: 1.5rem;
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+
+    /* Adjust main layout container for landscape */
+    .d-flex.flex-grow-1 {
+        margin-top: 50px !important;
+    }
+}
+
+/* Portrait Mobile Orientation */
+@media (max-width: 991.98px) and (orientation: portrait) {
+    .sidebar {
+        width: 280px;
+        max-width: 85vw;
+    }
+
+    #admin-navbar {
+        height: 60px;
+    }
+
+    .main-content {
+        padding: 0.75rem;
+    }
+
+    .page-header {
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .page-title {
+        font-size: 1.75rem;
+    }
+
+    .card-body {
+        padding: 1.25rem;
+    }
+}
+
 @media (max-width: 768px) {
     .page-header {
         padding: 1.5rem;
         margin-bottom: 1.5rem;
+        border-radius: 12px;
     }
 
     .page-title {
@@ -280,6 +456,11 @@ body.admin-page {
     .btn {
         padding: 0.625rem 1.25rem;
         font-size: 0.9rem;
+    }
+
+    /* Mobile content padding */
+    .main-content .container-fluid {
+        padding: 1rem;
     }
 }
 
@@ -331,5 +512,141 @@ body.admin-page {
 
     .table tbody tr:hover {
         background: linear-gradient(135deg, #334155 0%, #475569 50%);
+    }
+}
+
+/* Ensure admin pages can scroll when content overflows */
+html, body.admin-page {
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+}
+
+.layout-page, .layout-wrapper, .layout-container {
+    overflow: visible !important;
+}
+
+/* If a component forces overflow hidden from vendor CSS, allow inner content to scroll */
+.layout-page main, .card, .page-content {
+    overflow: visible !important;
+}
+
+/* Additional Mobile Orientation Fixes */
+@media (max-width: 991.98px) {
+    /* Ensure proper touch scrolling on mobile */
+    .sidebar, .main-content {
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Fix sidebar overlay positioning for different orientations */
+    .sidebar-overlay {
+        top: 60px;
+        height: calc(100vh - 60px);
+    }
+
+    /* Improve table responsiveness on mobile */
+    .table-responsive {
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Better form controls on mobile */
+    .form-control, .form-select {
+        font-size: 16px; /* Prevents zoom on iOS */
+        padding: 0.875rem 1rem;
+    }
+
+    /* Improve button touch targets */
+    .btn {
+        min-height: 44px; /* iOS recommended touch target */
+        padding: 0.75rem 1.25rem;
+    }
+}
+
+/* Landscape-specific adjustments */
+@media (max-width: 991.98px) and (orientation: landscape) {
+    .sidebar-overlay {
+        top: 50px;
+        height: calc(100vh - 50px);
+    }
+
+    /* Compact stats cards for landscape */
+    .stats-grid {
+        gap: 0.5rem;
+    }
+
+    .stat-card {
+        padding: 0.75rem;
+    }
+
+    /* Reduce vertical spacing in landscape */
+    .dashboard-header {
+        padding: 0.5rem 0;
+    }
+
+    .greeting-text {
+        font-size: 1.25rem !important;
+    }
+
+    .header-title {
+        font-size: 1.5rem !important;
+    }
+}
+
+/* Portrait-specific adjustments */
+@media (max-width: 991.98px) and (orientation: portrait) {
+    .sidebar-overlay {
+        top: 60px;
+        height: calc(100vh - 60px);
+    }
+
+    /* Better spacing for portrait mode */
+    .stats-grid {
+        gap: 1rem;
+    }
+
+    .stat-card {
+        padding: 1.25rem;
+    }
+
+    /* Adequate spacing for portrait */
+    .dashboard-header {
+        padding: 1rem 0;
+    }
+}
+
+/* Fix for iOS Safari viewport issues */
+@supports (-webkit-touch-callout: none) {
+    .admin-layout {
+        min-height: -webkit-fill-available;
+    }
+
+    .main-content {
+        min-height: calc(-webkit-fill-available - 60px);
+    }
+
+    .sidebar {
+        min-height: calc(-webkit-fill-available - 60px);
+    }
+}
+
+/* Prevent horizontal scroll on mobile */
+@media (max-width: 991.98px) {
+    body, html {
+        overflow-x: hidden;
+    }
+
+    .container-fluid {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+
+    /* Ensure tables don't break layout */
+    .table-responsive {
+        margin-bottom: 0;
+    }
+
+    .table {
+        margin-bottom: 0;
+        white-space: nowrap;
     }
 }
