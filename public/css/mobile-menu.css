@@ -67,6 +67,20 @@
     transform: scale(0.95);
 }
 
+/* Logout button specific styles */
+.mobile-menu-link.text-danger {
+    color: #dc3545 !important;
+}
+
+.mobile-menu-link.text-danger:hover {
+    color: #ffffff !important;
+    background: #dc3545 !important;
+}
+
+.mobile-menu-link.text-danger i {
+    color: inherit;
+}
+
 .mobile-menu-drag-handle {
     position: absolute;
     top: -12px;
