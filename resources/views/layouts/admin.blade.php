@@ -38,7 +38,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.awesome-markers/2.0.4/leaflet.awesome-markers.css">
 
     <!-- Custom CSS -->
-    @vite(['resources/css/app.css', 'resources/css/admin.css', 'resources/css/mobile-menu.css'])
+    <link rel="stylesheet" href="{{ asset('build/assets/app-Djxyc8Yv.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/admin-C6fBljed.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/mobile-menu-BYmnylfb.css') }}">
 </head>
 <body class="d-flex flex-column h-100 admin-layout">
     <!-- Top Navigation Bar -->
@@ -117,7 +119,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Custom JavaScript -->
-    @vite(['resources/js/app.js', 'resources/js/mobile-menu.js', 'resources/js/service-worker.js'])
+    <script src="{{ asset('build/assets/app-ZVhyQ2Bm.js') }}" defer></script>
+    <script src="{{ asset('build/assets/mobile-menu-RpPGLjgO.js') }}" defer></script>
+    <script src="{{ asset('build/assets/service-worker-DcA8qplj.js') }}" defer></script>
 
     <!-- Admin Layout JavaScript -->
     <script>
