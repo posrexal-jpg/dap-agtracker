@@ -42,66 +42,74 @@
         <div class="container-fluid">
             <!-- Enhanced Stats Cards -->
             <div class="stats-grid">
-                <div class="stats-row">
-                    <div class="stat-card users-card">
-                        <div class="stat-card-inner">
-                            <div class="stat-icon">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <div class="stat-content">
-                                <div class="stat-number">{{ $userCount }}</div>
-                                <div class="stat-label">Total Users</div>
-                                <div class="stat-trend">
-                                    <i class="fas fa-arrow-up"></i>
-                                    <span>+12%</span>
+                <div class="row g-3 mb-4">
+                    <div class="col-6 col-lg-3">
+                        <div class="stat-card users-card h-100">
+                            <div class="stat-card-inner">
+                                <div class="stat-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number">{{ $userCount }}</div>
+                                    <div class="stat-label">Total Users</div>
+                                    <div class="stat-trend">
+                                        <i class="fas fa-arrow-up"></i>
+                                        <span>+12%</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="stat-card cots-card">
-                        <div class="stat-card-inner">
-                            <div class="stat-icon">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </div>
-                            <div class="stat-content">
-                                <div class="stat-number">{{ $totalCots }}</div>
-                                <div class="stat-label">Total COTS</div>
-                                <div class="stat-trend">
-                                    <i class="fas fa-arrow-up"></i>
-                                    <span>+8%</span>
+                    <div class="col-6 col-lg-3">
+                        <div class="stat-card cots-card h-100">
+                            <div class="stat-card-inner">
+                                <div class="stat-icon">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number">{{ $totalCots }}</div>
+                                    <div class="stat-label">Total COTS</div>
+                                    <div class="stat-trend">
+                                        <i class="fas fa-arrow-up"></i>
+                                        <span>+8%</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="stat-card locations-card">
-                        <div class="stat-card-inner">
-                            <div class="stat-icon">
-                                <i class="fas fa-map-marker-alt"></i>
-                            </div>
-                            <div class="stat-content">
-                                <div class="stat-number">{{ $locationCount }}</div>
-                                <div class="stat-label">Active Locations</div>
-                                <div class="stat-trend">
-                                    <i class="fas fa-arrow-up"></i>
-                                    <span>+15%</span>
+                    <div class="col-6 col-lg-3">
+                        <div class="stat-card locations-card h-100">
+                            <div class="stat-card-inner">
+                                <div class="stat-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number">{{ $locationCount }}</div>
+                                    <div class="stat-label">Active Locations</div>
+                                    <div class="stat-trend">
+                                        <i class="fas fa-arrow-up"></i>
+                                        <span>+15%</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="stat-card municipalities-card">
-                        <div class="stat-card-inner">
-                            <div class="stat-icon">
-                                <i class="fas fa-city"></i>
-                            </div>
-                            <div class="stat-content">
-                                <div class="stat-number">{{ count($municipalities ?? []) }}</div>
-                                <div class="stat-label">Municipalities</div>
-                                <div class="stat-trend">
-                                    <i class="fas fa-minus"></i>
-                                    <span>0%</span>
+                    <div class="col-6 col-lg-3">
+                        <div class="stat-card municipalities-card h-100">
+                            <div class="stat-card-inner">
+                                <div class="stat-icon">
+                                    <i class="fas fa-city"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number">{{ count($municipalities ?? []) }}</div>
+                                    <div class="stat-label">Municipalities</div>
+                                    <div class="stat-trend">
+                                        <i class="fas fa-minus"></i>
+                                        <span>0%</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -294,8 +302,8 @@
 .dashboard-header {
     background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
     color: white;
-    /* Stretch full-width by negating the parent container-fluid p-4 (1.5rem) */
-    margin: -1.5rem -1.5rem 2rem;
+    /* Stretch full-width by negating the parent container-fluid horizontal padding */
+    margin: 0 -1.5rem 2rem;
     padding: 2rem 1.5rem;
     box-shadow: var(--shadow-lg);
 }
@@ -369,13 +377,7 @@
 
 /* Stats Grid */
 .stats-grid {
-    margin-bottom: 2rem;
-}
-
-.stats-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
+    margin-bottom: 0;
 }
 
 .stat-card {
@@ -450,8 +452,8 @@
 .dashboard-grid {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    gap: 2rem;
-    margin-bottom: 2rem;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 
 /* Chart Section */
@@ -726,20 +728,12 @@
         grid-template-columns: 1fr;
         gap: 1.5rem;
     }
-
-    .stats-row {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    }
 }
 
 @media (max-width: 768px) {
     .dashboard-header {
         padding: 1.5rem 0;
         margin-bottom: 1.5rem;
-    }
-
-    .header-content {
-        margin-bottom: 1rem;
     }
 
     .header-title {
@@ -754,28 +748,23 @@
         font-size: 1rem;
     }
 
-    .header-actions {
-        justify-content: center !important;
-    }
-
-    .stats-row {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-
     .stat-card-inner {
         padding: 1rem;
         gap: 0.75rem;
     }
 
     .stat-icon {
-        width: 50px;
-        height: 50px;
-        font-size: 1.25rem;
+        width: 44px;
+        height: 44px;
+        font-size: 1.1rem;
     }
 
     .stat-number {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
+    }
+
+    .stat-label {
+        font-size: 0.75rem;
     }
 
     .dashboard-grid {
@@ -821,21 +810,21 @@
     }
 
     .stat-card-inner {
-        flex-direction: column;
-        text-align: center;
-        gap: 0.5rem;
+        flex-direction: row;
+        align-items: center;
+        padding: 0.875rem;
+        gap: 0.75rem;
     }
 
-    .action-btn {
-        flex-direction: column;
-        text-align: center;
-        gap: 0.5rem;
+    .stat-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+        flex-shrink: 0;
     }
 
-    .activity-item {
-        flex-direction: column;
-        text-align: center;
-        gap: 0.5rem;
+    .stat-number {
+        font-size: 1.25rem;
     }
 }
 
