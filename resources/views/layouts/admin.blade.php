@@ -197,12 +197,6 @@
         }
 
         /* Mobile Menu Notification Styles */
-        .mobile-menu-item .dropup .dropdown-menu {
-            width: 95vw !important;
-            max-width: 360px;
-            max-height: 400px !important;
-        }
-
         .mobile-menu-item .mobile-menu-link {
             position: relative;
         }
