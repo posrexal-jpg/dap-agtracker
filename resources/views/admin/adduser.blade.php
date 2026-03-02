@@ -90,7 +90,9 @@
                     <h5 class="card-title mb-0">Users List</h5>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
+
+                    <!-- Desktop Table (hidden on mobile) -->
+                    <div class="table-responsive d-none d-md-block">
                         <table class="table table-hover">
                             <thead class="table-light">
                                 <tr>
@@ -151,45 +153,98 @@
                                     </div>
                                 </td>
                             </tr>
-
-                            <!-- Edit User Modal for each user -->
-                            <div class="modal fade" id="editUserModal-{{ $user->id }}" tabindex="-1" aria-labelledby="editUserModalLabel-{{ $user->id }}" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="editUserModalLabel-{{ $user->id }}">Edit User: {{ $user->name }}</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form action="{{ route('admin.users.update', $user->id) }}" method="POST">
-                                                @csrf
-                                                @method('PUT')
-                                                <div class="mb-3">
-                                                    <label for="name-{{ $user->id }}" class="form-label">Name</label>
-                                                    <input type="text" class="form-control" id="name-{{ $user->id }}" name="name" value="{{ $user->name }}" required>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="email-{{ $user->id }}" class="form-label">Email</label>
-                                                    <input type="email" class="form-control" id="email-{{ $user->id }}" name="email" value="{{ $user->email }}" required>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="password-{{ $user->id }}" class="form-label">New Password (leave blank if no change)</label>
-                                                    <input type="password" class="form-control" id="password-{{ $user->id }}" name="password">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="password_confirmation-{{ $user->id }}" class="form-label">Confirm New Password</label>
-                                                    <input type="password" class="form-control" id="password_confirmation-{{ $user->id }}" name="password_confirmation">
-                                                </div>
-                                                <button type="submit" class="btn btn-primary">Update User</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             @endforeach
                             </tbody>
                         </table>
                     </div>
+
+                    <!-- Mobile Cards (shown only on mobile) -->
+                    <div class="d-md-none">
+                        @foreach ($users as $user)
+                        <div class="card mb-3 {{ !$user->is_approved ? 'border-warning' : 'border-0 shadow-sm' }}">
+                            <div class="card-body p-3">
+                                <div class="d-flex justify-content-between align-items-start mb-1">
+                                    <h6 class="mb-0 fw-bold">{{ $user->name }}</h6>
+                                    @if($user->is_approved)
+                                        <span class="badge bg-success"><i class="bx bx-check-circle"></i> Approved</span>
+                                    @else
+                                        <span class="badge bg-warning text-dark"><i class="bx bx-time-five"></i> Pending</span>
+                                    @endif
+                                </div>
+                                <p class="text-muted small mb-1">{{ $user->email }}</p>
+                                <p class="mb-2">
+                                    <span class="badge bg-primary">{{ $user->role->role_name ?? 'N/A' }}</span>
+                                </p>
+                                <hr class="my-2">
+                                <div class="d-flex gap-2 flex-wrap">
+                                    @if(!$user->is_approved)
+                                        <form action="{{ route('admin.users.approve', $user->id) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm btn-success">
+                                                <i class="bx bx-check me-1"></i>Approve
+                                            </button>
+                                        </form>
+                                    @else
+                                        <form action="{{ route('admin.users.reject', $user->id) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm btn-warning" onclick="return confirm('Revoke approval for this user?');">
+                                                <i class="bx bx-x me-1"></i>Revoke
+                                            </button>
+                                        </form>
+                                    @endif
+                                    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editUserModal-{{ $user->id }}">
+                                        <i class="bx bx-edit me-1"></i>Edit
+                                    </button>
+                                    <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this user?');">
+                                            <i class="bx bx-trash me-1"></i>Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+
+                    <!-- Edit User Modals (shared by both table and card views) -->
+                    @foreach ($users as $user)
+                    <div class="modal fade" id="editUserModal-{{ $user->id }}" tabindex="-1" aria-labelledby="editUserModalLabel-{{ $user->id }}" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editUserModalLabel-{{ $user->id }}">Edit User: {{ $user->name }}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{ route('admin.users.update', $user->id) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="mb-3">
+                                            <label for="name-{{ $user->id }}" class="form-label">Name</label>
+                                            <input type="text" class="form-control" id="name-{{ $user->id }}" name="name" value="{{ $user->name }}" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="email-{{ $user->id }}" class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="email-{{ $user->id }}" name="email" value="{{ $user->email }}" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="password-{{ $user->id }}" class="form-label">New Password (leave blank if no change)</label>
+                                            <input type="password" class="form-control" id="password-{{ $user->id }}" name="password">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="password_confirmation-{{ $user->id }}" class="form-label">Confirm New Password</label>
+                                            <input type="password" class="form-control" id="password_confirmation-{{ $user->id }}" name="password_confirmation">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Update User</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+
                 </div>
             </div>
         </div>
