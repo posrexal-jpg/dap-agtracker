@@ -78,6 +78,14 @@
 
 
     <!-- Professional Admin Pages Styling -->
+    <style>
+        /* Hide navbar on mobile orientation since bottom horizontal menu provides all navigation */
+        @media (max-width: 991px) {
+            #layout-navbar {
+                display: none !important;
+            }
+        }
+    </style>
 </head>
 <body class="{{ Route::is('admin.*') ? 'admin-page' : '' }}">
 <!-- Navbar -->

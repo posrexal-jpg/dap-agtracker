@@ -156,6 +156,18 @@
                 overflow-x: hidden;
             }
         }
+        /* Hide navbar on mobile orientation since bottom horizontal menu provides all navigation */
+        @media (max-width: 991px) {
+            #layout-navbar {
+                display: none !important;
+            }
+            .layout-page {
+                padding-top: 0 !important;
+            }
+            :root {
+                --navbar-height: 0px;
+            }
+        }
         /* Fullscreen map mode for sightings page: show top navbar and keep modals above map */
         body.map-fullscreen {
             overflow: hidden;
