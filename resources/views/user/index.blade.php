@@ -456,26 +456,38 @@
 
         .page-header {
             position: fixed !important;
-            top: 12px !important;
-            left: 12px !important;
-            right: 12px !important;
+            top: 8px !important;
+            left: 8px !important;
+            right: 8px !important;
             z-index: 1000 !important;
-            background: rgba(255, 255, 255, 0.95) !important;
+            background: rgba(255, 255, 255, 0.92) !important;
             backdrop-filter: blur(10px) !important;
-            border-radius: 16px !important;
-            padding: 12px !important;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+            border-radius: 12px !important;
+            padding: 8px 12px !important;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08) !important;
             margin: 0 !important;
             border: none !important;
+            gap: 8px !important;
+        }
+
+        .page-header-content {
+            gap: 0 !important;
         }
 
         .page-header h1 {
-            font-size: 1.25rem;
+            font-size: 0.95rem !important;
+            margin-bottom: 4px !important;
+            font-weight: 600 !important;
         }
 
         .page-header p.description {
-            font-size: 0.8rem;
-            margin-bottom: 8px;
+            display: none !important;
+        }
+
+        .page-header .d-flex {
+            flex-direction: row !important;
+            gap: 6px !important;
+            margin-top: 0 !important;
         }
 
         #map {
@@ -489,8 +501,13 @@
         }
 
         .connection-status {
-            font-size: 0.8rem;
-            padding: 6px 12px;
+            font-size: 0.7rem !important;
+            padding: 4px 8px !important;
+        }
+
+        .btn-sm {
+            font-size: 0.7rem !important;
+            padding: 4px 8px !important;
         }
     }
 
