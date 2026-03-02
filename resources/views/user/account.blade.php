@@ -177,7 +177,7 @@
                                 <select class="form-select" id="municipality" name="municipality" required>
                                     <option value="">Select Municipality</option>
                                     @foreach($municipalities as $municipality)
-                                        <option value="{{ $municipality->municipality_name }}">{{ $municipality->municipality_name }}</option>
+                                        <option value="{{ $municipality->name }}">{{ $municipality->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
