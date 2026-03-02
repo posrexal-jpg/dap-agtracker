@@ -124,6 +124,23 @@
     /* Consent modal z-index - highest priority */
     #consentModal {
         z-index: 9999 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    #consentModal .modal-dialog {
+        margin: auto !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        max-width: 800px !important;
+        width: 90% !important;
+    }
+
+    #consentModal .modal-content {
+        position: relative !important;
+        margin: 0 auto !important;
     }
 
     #consentModal + .modal-backdrop,
