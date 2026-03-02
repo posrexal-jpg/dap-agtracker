@@ -158,13 +158,28 @@
         }
         /* Hide navbar on mobile orientation since bottom horizontal menu provides all navigation */
         @media (max-width: 991px) {
+            body {
+                margin-top: 0 !important;
+                padding-top: 0 !important;
+            }
             #layout-navbar {
                 display: none !important;
             }
             .layout-page {
+                margin-top: 0 !important;
                 padding-top: 0 !important;
+                padding-left: 0 !important;
+                padding-right: 0 !important;
             }
             .layout-page main {
+                margin-top: 0 !important;
+                padding-top: 0 !important;
+            }
+            .layout-container {
+                margin-top: 0 !important;
+                padding-top: 0 !important;
+            }
+            .layout-wrapper {
                 margin-top: 0 !important;
                 padding-top: 0 !important;
             }
@@ -183,6 +198,15 @@
             left: 0;
             right: 0;
             z-index: 2147483647 !important;
+        }
+        /* Override: Hide navbar on mobile even in fullscreen map mode */
+        @media (max-width: 991px) {
+            body.map-fullscreen #layout-navbar {
+                display: none !important;
+            }
+            body.map-fullscreen #map {
+                top: 0 !important;
+            }
         }
         body.map-fullscreen .user-sidebar {
             display: none !important;
