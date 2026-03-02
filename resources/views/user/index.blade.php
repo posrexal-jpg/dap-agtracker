@@ -511,6 +511,68 @@
         }
     }
 
+    /* Mobile Orientation - Fullscreen Map */
+    @media (max-width: 991px) {
+        body, html {
+            overflow: hidden !important;
+        }
+
+        .container-fluid {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        #map {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            z-index: 1 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        .page-header {
+            position: fixed !important;
+            top: 8px !important;
+            left: 8px !important;
+            right: 8px !important;
+            z-index: 1000 !important;
+        }
+
+        .layout-page {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        .layout-page main {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+    }
+
     /* iOS-specific fixes */
     @supports (-webkit-touch-callout: none) {
         .form-control, select {
