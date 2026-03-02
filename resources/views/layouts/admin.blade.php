@@ -83,6 +83,7 @@
         .layout-page {
             flex: 1;
             margin-left: 280px;
+            margin-top: 0 !important;
             min-width: 0;
             display: flex;
             flex-direction: column;
@@ -103,7 +104,7 @@
         @media (max-width: 1199.98px) {
             .layout-page {
                 margin-left: 0;
-                margin-top: 0;
+                margin-top: 0 !important;
                 min-width: 0;
                 width: 100vw;
                 padding: 1rem;
