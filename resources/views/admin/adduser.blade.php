@@ -12,7 +12,16 @@
                 </h1>
                 <p class="page-subtitle">Add, edit, and manage system users with ease</p>
             </div>
-            <div class="page-actions">
+            <div class="page-actions d-flex gap-2">
+                @if($users->where('is_approved', false)->count() > 0)
+                <form action="{{ route('admin.users.approve-all') }}" method="POST" style="display: inline;">
+                    @csrf
+                    <button type="submit" class="btn btn-success" onclick="return confirm('Approve all pending users?');">
+                        <i class="bx bx-check-double me-2"></i>Approve All Pending
+                        <span class="badge bg-white text-success ms-1">{{ $users->where('is_approved', false)->count() }}</span>
+                    </button>
+                </form>
+                @endif
                 <button type="button" class="btn btn-primary" onclick="openAddUserModal()">
                     <i class="bx bx-plus me-2"></i>Add New User
                 </button>
@@ -57,19 +66,47 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Role</th>
+                                    <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                             @foreach ($users as $user)
-                            <tr>
-                                <td>{{ $user->name }}</td>
+                            <tr class="{{ !$user->is_approved ? 'table-warning' : '' }}">
+                                <td>
+                                    {{ $user->name }}
+                                    @if(!$user->is_approved)
+                                        <span class="badge bg-warning text-dark ms-2"><i class="bx bx-time"></i> Pending</span>
+                                    @endif
+                                </td>
                                 <td>{{ $user->email }}</td>
                                 <td>
                                     <span class="badge bg-primary">{{ $user->role->role_name ?? 'N/A' }}</span>
                                 </td>
                                 <td>
+                                    @if($user->is_approved)
+                                        <span class="badge bg-success"><i class="bx bx-check-circle"></i> Approved</span>
+                                    @else
+                                        <span class="badge bg-warning text-dark"><i class="bx bx-time-five"></i> Pending Approval</span>
+                                    @endif
+                                </td>
+                                <td>
                                     <div class="btn-group" role="group">
+                                        @if(!$user->is_approved)
+                                            <form action="{{ route('admin.users.approve', $user->id) }}" method="POST" style="display:inline;">
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm btn-success" title="Approve User">
+                                                    <i class="bx bx-check"></i>
+                                                </button>
+                                            </form>
+                                        @else
+                                            <form action="{{ route('admin.users.reject', $user->id) }}" method="POST" style="display:inline;">
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm btn-warning" title="Revoke Approval" onclick="return confirm('Revoke approval for this user?');">
+                                                    <i class="bx bx-x"></i>
+                                                </button>
+                                            </form>
+                                        @endif
                                         <button type="button" class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editUserModal-{{ $user->id }}" title="Edit User">
                                             <i class="bx bx-edit"></i>
                                         </button>

@@ -77,4 +77,36 @@ class UserController extends Controller
 
         return redirect()->route('admin.adduser')->with('success', 'User deleted successfully.');
     }
+
+    /**
+     * Approve a user account
+     */
+    public function approve(User $user)
+    {
+        $user->is_approved = true;
+        $user->save();
+
+        return redirect()->route('admin.adduser')->with('success', 'User approved successfully.');
+    }
+
+    /**
+     * Reject/unapprove a user account
+     */
+    public function reject(User $user)
+    {
+        $user->is_approved = false;
+        $user->save();
+
+        return redirect()->route('admin.adduser')->with('success', 'User approval revoked.');
+    }
+
+    /**
+     * Toggle auto-approve for new users (bulk action)
+     */
+    public function approveAll()
+    {
+        User::where('is_approved', false)->update(['is_approved' => true]);
+
+        return redirect()->route('admin.adduser')->with('success', 'All pending users approved successfully.');
+    }
 }

@@ -47,6 +47,12 @@ class LoginController extends Controller
 
         // Attempt to log the user in
         if (Auth::attempt($credentials)) {
+            // Check if user is approved
+            if (!Auth::user()->is_approved) {
+                Auth::logout();
+                return redirect("/login")->withErrors(['email' => 'Your account is pending approval. Please contact the administrator.']);
+            }
+            
             return redirect($this->redirectTo());
         }
 
@@ -103,6 +109,11 @@ class LoginController extends Controller
         if ($user) {
             $user->google_id = $googleUser->getId();
             $user->save();
+            
+            // Check if user is approved
+            if (!$user->is_approved) {
+                return redirect('/login')->withErrors(['email' => 'Your account is pending approval. Please contact the administrator.']);
+            }
         } else {
             $user = User::create([
                 'name' => $googleUser->getName() ?? $googleUser->getNickname() ?? 'Google User',
@@ -110,7 +121,10 @@ class LoginController extends Controller
                 'google_id' => $googleUser->getId(),
                 'password' => Hash::make(uniqid('google_', true)),
                 'role_id' => 2,
+                'is_approved' => false, // New users need approval
             ]);
+            
+            return redirect('/login')->withErrors(['email' => 'Your account has been created and is pending approval. Please contact the administrator.']);
         }
 
         Auth::login($user);

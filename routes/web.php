@@ -58,6 +58,11 @@ Route::prefix('admin')
         Route::get('/users/{user}/edit',       [Admin\UserController::class, 'edit'])->name('users.edit');
         Route::put('/users/{user}',            [Admin\UserController::class, 'update'])->name('users.update');
         Route::delete('/users/{user}',         [Admin\UserController::class, 'destroy'])->name('users.destroy');
+        
+        // User Approval
+        Route::post('/users/{user}/approve',   [Admin\UserController::class, 'approve'])->name('users.approve');
+        Route::post('/users/{user}/reject',    [Admin\UserController::class, 'reject'])->name('users.reject');
+        Route::post('/users/approve-all',      [Admin\UserController::class, 'approveAll'])->name('users.approve-all');
 
         // Downloads
         Route::get('/download', [Admin\DownloadController::class, 'index'])->name('download');
