@@ -217,10 +217,10 @@
         }
         body.map-fullscreen #map {
             position: fixed !important;
-            top: 0 !important;
+            top: 70px !important;
             left: 0 !important;
             width: 100vw !important;
-            height: 100vh !important;
+            height: calc(100vh - 70px) !important;
             z-index: 2147483645 !important;
         }
         /* Ensure modals always appear in front of all page elements */
