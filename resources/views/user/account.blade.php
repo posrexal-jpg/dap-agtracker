@@ -336,6 +336,13 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize main map
+    const map = L.map('map').setView([10.3157, 123.8854], 10); // Cebu coordinates
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
     // Function to create circle SVG icon
     function createCircleIcon(color) {
         const svg = `
@@ -347,18 +354,10 @@ document.addEventListener('DOMContentLoaded', function() {
         return `data:image/svg+xml;base64,${btoa(svg)}`;
     }
 
-    // Initialize main map
-    const map = L.map('map').setView([10.3157, 123.8854], 10); // Cebu coordinates
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
-
     // Add markers for user's locations
     @foreach($userLocations as $location)
         const cotsCount{{ $location->id }} = {{ $location->number_of_cots ?? 0 }};
         const markerColor{{ $location->id }} = cotsCount{{ $location->id }} > 15 ? '#dc3545' : '#28a745';
-        
         const markerIcon{{ $location->id }} = L.icon({
             iconUrl: createCircleIcon(markerColor{{ $location->id }}),
             iconSize: [32, 32],
@@ -389,10 +388,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }).addTo(locationMap);
 
     let selectedMarker = null;
-
-    // Icon for selected location marker (blue)
-    const selectedIcon = L.icon({
-        iconUrl: createCircleIcon('#3b82f6'),
+    const selectionIcon = L.icon({
+        iconUrl: createCircleIcon('#3b82f6'), // Blue for selection
         iconSize: [32, 32],
         iconAnchor: [16, 16],
         popupAnchor: [0, -16]
@@ -406,10 +403,8 @@ document.addEventListener('DOMContentLoaded', function() {
             locationMap.removeLayer(selectedMarker);
         }
 
-        // Add new marker with blue circle icon
-        selectedMarker = L.marker([lat, lng], {
-            icon: selectedIcon
-        }).addTo(locationMap);
+        // Add new marker
+        selectedMarker = L.marker([lat, lng], { icon: selectionIcon }).addTo(locationMap);
 
         // Update form fields
         document.getElementById('latitude').value = lat.toFixed(6);
