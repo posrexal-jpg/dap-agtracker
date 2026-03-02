@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth; // Don't forget to import Auth
 use Illuminate\Support\Facades\Session; // Import the Session facade
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Hash;
 use Exception;
 
@@ -115,16 +116,21 @@ class LoginController extends Controller
                 return redirect('/login')->withErrors(['email' => 'Your account is pending approval. Please contact the administrator.']);
             }
         } else {
+            // Check if auto-approve is enabled
+            $isAutoApprove = Setting::isAutoApproveEnabled();
+            
             $user = User::create([
                 'name' => $googleUser->getName() ?? $googleUser->getNickname() ?? 'Google User',
                 'email' => $googleUser->getEmail(),
                 'google_id' => $googleUser->getId(),
                 'password' => Hash::make(uniqid('google_', true)),
                 'role_id' => 2,
-                'is_approved' => false, // New users need approval
+                'is_approved' => $isAutoApprove, // Auto-approve if enabled
             ]);
             
-            return redirect('/login')->withErrors(['email' => 'Your account has been created and is pending approval. Please contact the administrator.']);
+            if (!$isAutoApprove) {
+                return redirect('/login')->withErrors(['email' => 'Your account has been created and is pending approval. Please contact the administrator.']);
+            }
         }
 
         Auth::login($user);

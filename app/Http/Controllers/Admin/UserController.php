@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -35,10 +36,11 @@ class UserController extends Controller
         ]);
 
         User::create([
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'password' => Hash::make($request->password),
-            'role_id'  => $request->role_id,
+            'name'        => $request->name,
+            'email'       => $request->email,
+            'password'    => Hash::make($request->password),
+            'role_id'     => $request->role_id,
+            'is_approved' => true, // Users created by admin are auto-approved
         ]);
 
         return redirect()->route('admin.adduser')->with('success', 'User created successfully.');
@@ -108,5 +110,24 @@ class UserController extends Controller
         User::where('is_approved', false)->update(['is_approved' => true]);
 
         return redirect()->route('admin.adduser')->with('success', 'All pending users approved successfully.');
+    }
+
+    /**
+     * Toggle auto-approve setting
+     */
+    public function toggleAutoApprove(Request $request)
+    {
+        $enabled = $request->input('enabled', 0);
+        Setting::set('auto_approve_users', $enabled);
+
+        $message = $enabled 
+            ? 'Auto-approve enabled. New users will be automatically approved.' 
+            : 'Auto-approve disabled. New users will require manual approval.';
+
+        return response()->json([
+            'success' => true,
+            'message' => $message,
+            'enabled' => (bool) $enabled
+        ]);
     }
 }

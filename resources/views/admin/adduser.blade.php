@@ -51,6 +51,37 @@
         </div>
     @endif
 
+    <!-- Auto-Approve Settings Card -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-info">
+                <div class="card-body py-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-1">
+                                <i class="bx bx-cog text-info me-2"></i>
+                                Auto-Approve New Registrations
+                            </h6>
+                            <p class="text-muted mb-0 small">
+                                When enabled, new user accounts will be automatically approved without admin intervention
+                            </p>
+                        </div>
+                        <div class="form-check form-switch" style="font-size: 1.5rem;">
+                            <input 
+                                class="form-check-input" 
+                                type="checkbox" 
+                                role="switch" 
+                                id="autoApproveToggle"
+                                {{ \App\Models\Setting::isAutoApproveEnabled() ? 'checked' : '' }}
+                                onchange="toggleAutoApprove(this)"
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Users Table Card -->
     <div class="row">
         <div class="col-12">
@@ -337,4 +368,43 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     @endif
 });
+
+// Toggle auto-approve setting
+function toggleAutoApprove(checkbox) {
+    const isEnabled = checkbox.checked ? 1 : 0;
+    
+    fetch('{{ route("admin.users.toggle-auto-approve") }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ enabled: isEnabled })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Show success message
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert alert-success alert-dismissible fade show';
+            alertDiv.innerHTML = `
+                <i class="bx bx-check-circle me-2"></i>
+                ${data.message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            `;
+            document.querySelector('.container-fluid').insertBefore(alertDiv, document.querySelector('.page-header').nextSibling);
+            
+            // Auto-dismiss after 3 seconds
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 3000);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // Revert checkbox on error
+        checkbox.checked = !checkbox.checked;
+        alert('Failed to update setting. Please try again.');
+    });
+}
 </script>
