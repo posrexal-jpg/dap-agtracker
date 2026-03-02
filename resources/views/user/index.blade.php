@@ -853,25 +853,21 @@
 
     /* Desktop-specific adjustments - Enhanced Design */
     @media (min-width: 992px) {
-        body.map-fullscreen {
-            --navbar-height: 64px;
-        }
-
         .container-fluid,
         .page-content,
         .content-wrapper {
-            height: 100vh !important;
+            height: calc(100vh - var(--navbar-height, 64px)) !important;
             padding: 0 !important;
             margin: 0 !important;
         }
         #map {
             position: fixed !important;
-            top: 64px !important;
+            top: var(--navbar-height, 64px) !important;
             left: 0 !important;
             right: 0 !important;
             bottom: 0 !important;
             width: 100vw !important;
-            height: calc(100vh - 64px) !important;
+            height: calc(100vh - var(--navbar-height, 64px)) !important;
             z-index: 1 !important;
             margin: 0 !important;
             padding: 0 !important;
@@ -891,106 +887,92 @@
         /* Desktop Control Panel - Left Side */
         .map-control-panel {
             position: fixed;
-            top: 84px;
+            top: calc(var(--navbar-height, 64px) + 20px);
             left: 20px;
-            width: 320px;
-            max-height: calc(100vh - 204px);
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(14px);
+            width: 340px;
+            max-height: calc(100vh - var(--navbar-height, 64px) - 100px);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(12px);
             border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
             z-index: 1000;
             overflow-y: auto;
-            border: 1px solid rgba(229, 231, 235, 0.6);
-            display: flex;
-            flex-direction: column;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .map-control-panel::-webkit-scrollbar {
             width: 6px;
         }
 
-        .map-control-panel::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
         .map-control-panel::-webkit-scrollbar-thumb {
-            background: rgba(30, 58, 138, 0.2);
+            background: rgba(30, 58, 138, 0.3);
             border-radius: 3px;
-        }
-
-        .map-control-panel::-webkit-scrollbar-thumb:hover {
-            background: rgba(30, 58, 138, 0.4);
         }
 
         .control-panel-header {
             background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
             color: white;
-            padding: 18px;
+            padding: 20px;
             border-radius: 16px 16px 0 0;
             position: sticky;
             top: 0;
             z-index: 10;
-            flex-shrink: 0;
         }
 
         .control-panel-header h3 {
-            font-size: 1.15rem;
+            font-size: 1.25rem;
             font-weight: 700;
-            margin: 0 0 4px 0;
+            margin: 0 0 8px 0;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
         .control-panel-header p {
-            font-size: 0.8rem;
+            font-size: 0.875rem;
             margin: 0;
             opacity: 0.9;
         }
 
         .control-panel-body {
-            padding: 18px;
-            overflow-y: auto;
-            flex: 1;
+            padding: 20px;
         }
 
         /* Stats Cards */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-bottom: 16px;
+            gap: 12px;
+            margin-bottom: 20px;
         }
 
         .stat-card {
             background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
             border: 1px solid #e2e8f0;
             border-radius: 12px;
-            padding: 14px;
+            padding: 16px;
             text-align: center;
             transition: all 0.3s ease;
         }
 
         .stat-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .stat-card .stat-value {
-            font-size: 1.5rem;
+            font-size: 1.75rem;
             font-weight: 700;
             color: #1e3a8a;
-            margin-bottom: 2px;
+            margin-bottom: 4px;
         }
 
         .stat-card .stat-label {
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             color: #64748b;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.4px;
+            letter-spacing: 0.5px;
         }
 
         .stat-card.danger .stat-value {
@@ -1006,15 +988,15 @@
             background: #ffffff;
             border: 1px solid #e5e7eb;
             border-radius: 12px;
-            padding: 14px;
-            margin-bottom: 14px;
+            padding: 16px;
+            margin-bottom: 16px;
         }
 
         .filter-section h4 {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 600;
             color: #1e3a8a;
-            margin: 0 0 10px 0;
+            margin: 0 0 12px 0;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -1024,16 +1006,9 @@
         .filter-section .form-select {
             border-radius: 8px;
             border: 1px solid #e5e7eb;
-            padding: 9px 11px;
-            font-size: 0.8rem;
-            margin-bottom: 8px;
-            background: #ffffff;
-            transition: all 0.2s ease;
-        }
-
-        .filter-section .form-control:last-child,
-        .filter-section .form-select:last-child {
-            margin-bottom: 0;
+            padding: 10px 12px;
+            font-size: 0.875rem;
+            margin-bottom: 10px;
         }
 
         .filter-section .form-control:focus,
@@ -1047,15 +1022,15 @@
             background: #ffffff;
             border: 1px solid #e5e7eb;
             border-radius: 12px;
-            padding: 14px;
-            margin-bottom: 14px;
+            padding: 16px;
+            margin-bottom: 16px;
         }
 
         .legend-section h4 {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 600;
             color: #1e3a8a;
-            margin: 0 0 10px 0;
+            margin: 0 0 12px 0;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -1064,7 +1039,7 @@
         .legend-item {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             padding: 8px 0;
             border-bottom: 1px solid #f1f5f9;
         }
@@ -1074,11 +1049,11 @@
         }
 
         .legend-marker {
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
-            border: 2px solid white;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+            border: 3px solid white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
             flex-shrink: 0;
         }
 
@@ -1095,7 +1070,7 @@
         }
 
         .legend-text {
-            font-size: 0.8rem;
+            font-size: 0.875rem;
             color: #475569;
             flex: 1;
         }
@@ -1103,118 +1078,93 @@
         .legend-text strong {
             color: #1e3a8a;
             font-weight: 600;
-            display: block;
-            margin-bottom: 2px;
         }
 
         /* Quick Actions */
         .quick-actions {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            margin-top: 2px;
+            gap: 10px;
         }
 
         .quick-actions .btn {
             border-radius: 10px;
-            padding: 10px;
+            padding: 12px;
             font-weight: 600;
-            font-size: 0.8rem;
+            font-size: 0.875rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 8px;
             transition: all 0.3s ease;
-            height: auto;
-            min-height: 38px;
         }
 
         .quick-actions .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         .quick-actions .btn-primary {
             background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
             border: none;
-            color: white;
-        }
-
-        .quick-actions .btn-primary:hover {
-            background: linear-gradient(135deg, #1e293b 0%, #2563eb 100%);
-        }
-
-        .quick-actions .btn-outline-secondary {
-            border: 1px solid #e5e7eb;
-            color: #64748b;
-            background: #ffffff;
-        }
-
-        .quick-actions .btn-outline-secondary:hover {
-            background: #f8fafc;
-            border-color: #cbd5e1;
         }
 
         /* Map Info Card - Bottom Right */
         .map-info-card {
             position: fixed;
-            bottom: 100px;
+            bottom: 20px;
             right: 20px;
             width: 280px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(14px);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(12px);
             border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
-            padding: 14px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+            padding: 16px;
             z-index: 1000;
-            border: 1px solid rgba(229, 231, 235, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .map-info-card h5 {
-            font-size: 0.85rem;
+            font-size: 0.875rem;
             font-weight: 600;
             color: #1e3a8a;
-            margin: 0 0 6px 0;
+            margin: 0 0 8px 0;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
         }
 
         .map-info-card p {
             font-size: 0.8rem;
             color: #64748b;
             margin: 0;
-            line-height: 1.4;
+            line-height: 1.5;
         }
 
         /* Floating Action Button */
         .fab-add-sighting {
             position: fixed;
-            bottom: 20px;
+            bottom: 80px;
             right: 20px;
-            width: 56px;
-            height: 56px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
             color: white;
             border: none;
-            box-shadow: 0 8px 24px rgba(220, 38, 38, 0.35);
-            display: flex !important;
+            box-shadow: 0 8px 24px rgba(220, 38, 38, 0.4);
+            display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             z-index: 1000;
             transition: all 0.3s ease;
             cursor: pointer;
         }
 
         .fab-add-sighting:hover {
-            transform: scale(1.12);
-            box-shadow: 0 12px 32px rgba(220, 38, 38, 0.45);
-        }
-
-        .fab-add-sighting:active {
-            transform: scale(0.95);
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 12px 32px rgba(220, 38, 38, 0.5);
         }
     }
 
