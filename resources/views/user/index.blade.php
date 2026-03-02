@@ -121,6 +121,16 @@
         transform: scale(1.02);
     }
 
+    /* Consent modal z-index - highest priority */
+    #consentModal {
+        z-index: 9999 !important;
+    }
+
+    #consentModal + .modal-backdrop,
+    .modal-backdrop.show {
+        z-index: 9998 !important;
+    }
+
     .modal-footer {
         padding: 6px 10px;
         border-top: 1px solid #f3f4f6;
