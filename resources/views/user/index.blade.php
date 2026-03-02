@@ -456,7 +456,7 @@
 
         .page-header {
             position: fixed !important;
-            top: 8px !important;
+            bottom: 70px !important;
             left: 8px !important;
             right: 8px !important;
             z-index: 100 !important;
@@ -544,7 +544,7 @@
 
         .page-header {
             position: fixed !important;
-            top: 8px !important;
+            bottom: 70px !important;
             left: 8px !important;
             right: 8px !important;
             z-index: 100 !important;
