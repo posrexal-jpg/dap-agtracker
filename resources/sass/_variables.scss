@@ -5,3 +5,8 @@ $body-bg: #f8fafc;
 $font-family-sans-serif: 'Nunito', sans-serif;
 $font-size-base: 0.9rem;
 $line-height-base: 1.6;
+
+// Display font styles (Bootstrap 5.2+ compatibility - must be defined before Bootstrap import)
+$display-font-style: normal;
+$display-font-weight: 300;
+$display-line-height: 1.2;
