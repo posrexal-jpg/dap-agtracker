@@ -445,15 +445,16 @@
         transform: translateY(-1px);
     }
 
-    /* Page Header - Mobile Responsive */
+    /* Page Header - Mobile Responsive - Enhanced Design */
     .page-header {
-        padding: 24px;
-        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-        border-bottom: 1px solid #e2e8f0;
+        padding: 24px 28px;
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        border-bottom: 2px solid #e2e8f0;
         flex-shrink: 0;
         display: flex;
         align-items: center;
         gap: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
 
     .page-header-logo {
@@ -467,8 +468,9 @@
         }
 
         .page-header-logo img {
-            height: 50px;
+            height: 55px;
             width: auto;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
         }
     }
 
@@ -476,22 +478,36 @@
         display: flex;
         flex-direction: column;
         width: 100%;
+        gap: 8px;
     }
 
     .page-header h1 {
-        font-size: 1.75rem;
+        font-size: 1.85rem;
         font-weight: 700;
         color: #1e3a8a;
-        margin-bottom: 8px;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        line-height: 1.2;
+    }
+
+    .page-header h1 i {
+        font-size: 1.6rem;
     }
 
     .page-header p {
         font-size: 0.95rem;
         color: #64748b;
-        margin-bottom: 16px;
+        margin: 0;
+        line-height: 1.6;
     }
 
-    /* Status Indicators - Mobile Friendly */
+    .page-header p strong {
+        color: #1e3a8a;
+        font-weight: 600;
+    }
+
+    /* Enhanced Status Indicators */
     .connection-status {
         display: inline-flex;
         align-items: center;
@@ -510,6 +526,56 @@
     .connection-status.offline {
         background: rgba(245, 158, 11, 0.1);
         color: var(--warning-color);
+    }
+
+    /* Enhanced Button Styles for Page Header */
+    .page-header .btn {
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .page-header .btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .page-header .btn:active {
+        transform: translateY(0);
+    }
+
+    .page-header .btn-primary {
+        background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        border: none;
+    }
+
+    .page-header .btn-primary:hover {
+        background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
+    }
+
+    .page-header .btn-outline-primary {
+        border-color: #3b82f6;
+        color: #3b82f6;
+    }
+
+    .page-header .btn-outline-primary:hover {
+        background: #3b82f6;
+        color: white;
+    }
+
+    /* Sync button animation */
+    #syncBtn.syncing i {
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
     }
 
     /* Map Container - Mobile Optimized */
@@ -646,24 +712,28 @@
             left: 8px !important;
             right: 8px !important;
             z-index: 100 !important;
-            background: rgba(255, 255, 255, 0.92) !important;
-            backdrop-filter: blur(10px) !important;
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(12px) !important;
             border-radius: 12px !important;
-            padding: 8px 12px !important;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08) !important;
+            padding: 10px 12px !important;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
             margin: 0 !important;
-            border: none !important;
+            border: 1px solid rgba(226, 232, 240, 0.8) !important;
             gap: 8px !important;
         }
 
         .page-header-content {
-            gap: 0 !important;
+            gap: 4px !important;
         }
 
         .page-header h1 {
-            font-size: 0.95rem !important;
-            margin-bottom: 4px !important;
+            font-size: 1rem !important;
+            margin: 0 !important;
             font-weight: 600 !important;
+        }
+
+        .page-header h1 i {
+            font-size: 0.9rem !important;
         }
 
         .page-header p.description {
@@ -673,7 +743,19 @@
         .page-header .d-flex {
             flex-direction: row !important;
             gap: 6px !important;
-            margin-top: 0 !important;
+            margin-top: 6px !important;
+            flex-wrap: wrap !important;
+        }
+
+        .page-header .btn {
+            font-size: 0.75rem !important;
+            padding: 6px 10px !important;
+            white-space: nowrap !important;
+        }
+
+        .page-header .connection-status {
+            font-size: 0.7rem !important;
+            padding: 4px 8px !important;
         }
 
         #map {
@@ -848,28 +930,45 @@
 </style>
 
 <div class="container-fluid" style="height: 100vh; min-height: 100vh; display: flex; flex-direction: column; overflow: hidden; padding: 0; margin: 0; position: fixed; top: 0; left: 0; right: 0; bottom: 0;">
-<div class="page-header">
-    <div class="page-header-logo">
-        <img src="{{ asset('images/logo.png') }}" alt="COTS Tracker Logo">
-    </div>
-    <div class="page-header-content">
-        <h1>🏊‍♂️ COTS Sighting Map</h1>
-        <p class="description">View all reported Crown-of-Thorns Starfish (COTS), locally known as Dap-ag, sightings on the interactive map. Help protect our reefs by adding pin to report new sightings in your area.</p>
+    <!-- Enhanced Page Header -->
+    <div class="page-header">
+        <div class="page-header-logo">
+            <img src="{{ asset('images/logo.png') }}" alt="COTS Tracker Logo" loading="lazy">
+        </div>
+        <div class="page-header-content">
+            <h1>
+                <i class="fas fa-map-marked-alt me-2" style="color: #3b82f6;"></i>
+                COTS Sighting Map
+            </h1>
+            <p class="description">
+                <i class="fas fa-info-circle me-1" style="font-size: 0.85rem; color: #64748b;"></i>
+                View all reported Crown-of-Thorns Starfish (COTS), locally known as <strong>Dap-ag</strong>, sightings on the interactive map. Help protect our reefs by reporting new sightings.
+            </p>
 
-        <!-- Mobile-Optimized Status and Sync Controls -->
-        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 mt-4">
-        <div class="connection-status online" id="connectionStatus">
-            <i class="fas fa-wifi"></i>
-            <span>Online</span>
-        </div>
-        <div class="d-flex gap-2">
-            <button type="button" class="btn btn-outline-primary btn-sm" onclick="manualSync()" id="syncBtn">
-                <i class="fas fa-sync-alt me-1"></i>Sync Data
-            </button>
+            <!-- Status and Controls -->
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 mt-3">
+                <!-- Connection Status -->
+                <div class="connection-status online" id="connectionStatus">
+                    <i class="fas fa-wifi"></i>
+                    <span>Online</span>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="d-flex gap-2 flex-wrap">
+                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="manualSync()" id="syncBtn" title="Sync offline data with server">
+                        <i class="fas fa-sync-alt me-1"></i>
+                        <span class="d-none d-sm-inline">Sync Data</span>
+                        <span class="d-inline d-sm-none">Sync</span>
+                    </button>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="$('#modal1').modal('show')" title="Report a new COTS sighting">
+                        <i class="fas fa-plus-circle me-1"></i>
+                        <span class="d-none d-sm-inline">Report Sighting</span>
+                        <span class="d-inline d-sm-none">Report</span>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
-    </div>
-</div>
 
 <div class="page-content" style="flex: 1; overflow-y: auto; padding: 0; margin: 0; display: flex; flex-direction: column; height: 100%; min-height: 400px;">
     <div class="content-wrapper" style="flex: 1; display: flex; flex-direction: column; height: 100%; padding: 0; margin: 0;">
