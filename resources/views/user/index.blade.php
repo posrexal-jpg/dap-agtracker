@@ -780,6 +780,64 @@
         }
     }
 
+    /* Tablet - Fullscreen Map */
+    @media (min-width: 992px) and (max-width: 1199px) {
+        body, html {
+            overflow: hidden !important;
+        }
+
+        .container-fluid {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        #map {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            z-index: 1 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        .page-header {
+            display: none !important;
+        }
+
+        .layout-page {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        .layout-page main {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+    }
+
     /* Desktop-specific adjustments */
     @media (min-width: 1200px) {
         .container-fluid,
@@ -791,10 +849,19 @@
             margin: 0 !important;
         }
         #map {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 100vw !important;
             height: 100vh !important;
-            min-height: 100vh !important;
-            width: 100% !important;
-            position: relative;
+            z-index: 1 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        .page-header {
+            display: none !important;
         }
         .user-sidebar {
             z-index: 1001;
