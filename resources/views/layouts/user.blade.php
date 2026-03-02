@@ -222,28 +222,31 @@
         body.map-fullscreen .user-sidebar {
             display: none !important;
         }
+        body.map-fullscreen .navbar {
+            display: none !important;
+        }
         body.map-fullscreen .layout-page {
             margin-left: 0 !important;
             padding-top: 0 !important;
         }
         body.map-fullscreen #map {
             position: fixed !important;
-            top: var(--navbar-height) !important;
+            top: 0 !important;
             left: 0 !important;
             width: 100vw !important;
-            height: calc(100vh - var(--navbar-height)) !important;
-            z-index: 2147483645 !important;
+            height: 100vh !important;
+            z-index: 1 !important;
         }
         /* Ensure modals always appear in front of all page elements */
         /* Backdrop should sit above the map but below the modal. Use very large
            z-index values to ensure the modal is always in front of the map. */
         .modal-backdrop {
-            z-index: 2147483646 !important;
+            z-index: 9998 !important;
             background-color: rgba(0,0,0,0.65) !important;
             opacity: 1 !important;
         }
         .modal {
-            z-index: 2147483647 !important;
+            z-index: 9999 !important;
         }
         /* Map-fullscreen specific: backdrop sits between the map and modal */
         /* On the fullscreen map page we remove the backdrop so the map stays

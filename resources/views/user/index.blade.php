@@ -461,7 +461,7 @@
         background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
         border-bottom: 1px solid #e2e8f0;
         flex-shrink: 0;
-        display: flex;
+        display: none !important; /* Hide on all screen sizes for fullscreen map */
         align-items: center;
         gap: 20px;
     }
