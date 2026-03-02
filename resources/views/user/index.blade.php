@@ -96,56 +96,215 @@
         outline: none;
     }
 
-    /* Consent modal specific styling */
-    #consentModal .modal-body {
-        padding: 16px;
-    }
-
-    #consentModal .modal-body p {
-        line-height: 1.8;
-        color: #374151;
-    }
-
-    #consentModal .modal-body p.fs-5 {
-        font-size: 0.9rem !important;
-        margin-bottom: 12px;
-    }
-
-    #consentModal .modal-body img {
-        border-radius: 12px;
-        border: 2px solid #e5e7eb;
-        transition: transform 0.2s ease;
-    }
-
-    #consentModal .modal-body img:hover {
-        transform: scale(1.02);
-    }
-
-    /* Consent modal z-index - highest priority */
+    /* Consent modal specific styling - Enhanced Design */
     #consentModal {
         z-index: 9999 !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-    }
-
-    #consentModal .modal-dialog {
-        margin: auto !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        max-width: 800px !important;
-        width: 90% !important;
-    }
-
-    #consentModal .modal-content {
-        position: relative !important;
-        margin: 0 auto !important;
     }
 
     #consentModal + .modal-backdrop,
     .modal-backdrop.show {
         z-index: 9998 !important;
+    }
+
+    #consentModal .modal-dialog {
+        max-width: 900px;
+    }
+
+    #consentModal .modal-content {
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+    }
+
+    #consentModal .modal-header {
+        background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        color: white;
+        padding: 24px 32px;
+        border-radius: 20px 20px 0 0;
+        border: none;
+    }
+
+    #consentModal .modal-header .modal-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    #consentModal .modal-header .modal-title i {
+        font-size: 1.75rem;
+        color: #fbbf24;
+    }
+
+    #consentModal .modal-body {
+        padding: 32px;
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+
+    #consentModal .modal-body .consent-intro {
+        background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%);
+        border-left: 4px solid #3b82f6;
+        padding: 20px;
+        border-radius: 12px;
+        margin-bottom: 24px;
+    }
+
+    #consentModal .modal-body .consent-intro p {
+        font-size: 1rem;
+        line-height: 1.8;
+        color: #1e40af;
+        margin: 0;
+        font-weight: 500;
+    }
+
+    #consentModal .modal-body .consent-notice {
+        background: #fef3c7;
+        border-left: 4px solid #f59e0b;
+        padding: 16px;
+        border-radius: 8px;
+        margin-bottom: 24px;
+    }
+
+    #consentModal .modal-body .consent-notice p {
+        color: #92400e;
+        margin: 0;
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    #consentModal .modal-body .species-gallery {
+        margin: 24px 0;
+    }
+
+    #consentModal .modal-body .species-gallery h6 {
+        color: #1e3a8a;
+        font-weight: 600;
+        margin-bottom: 16px;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    #consentModal .modal-body .species-gallery h6 i {
+        color: #3b82f6;
+    }
+
+    #consentModal .modal-body img {
+        border-radius: 12px;
+        border: 3px solid #e5e7eb;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+    }
+
+    #consentModal .modal-body img:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        border-color: #3b82f6;
+    }
+
+    #consentModal .modal-body .species-info {
+        background: #f8fafc;
+        padding: 20px;
+        border-radius: 12px;
+        border: 2px solid #e2e8f0;
+        margin-top: 24px;
+    }
+
+    #consentModal .modal-body .species-info h6 {
+        color: #1e3a8a;
+        font-weight: 600;
+        margin-bottom: 12px;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    #consentModal .modal-body .species-info h6 i {
+        color: #ef4444;
+    }
+
+    #consentModal .modal-body .species-info p {
+        color: #475569;
+        line-height: 1.8;
+        margin: 0;
+        font-size: 0.95rem;
+    }
+
+    #consentModal .modal-footer {
+        padding: 20px 32px;
+        border-top: 2px solid #e5e7eb;
+        background: #f9fafb;
+        border-radius: 0 0 20px 20px;
+        gap: 12px;
+    }
+
+    #consentModal .modal-footer .btn {
+        padding: 12px 32px;
+        font-weight: 600;
+        font-size: 1rem;
+        border-radius: 10px;
+        transition: all 0.2s ease;
+    }
+
+    #consentModal .modal-footer .btn-secondary {
+        background: #e5e7eb;
+        border: none;
+        color: #475569;
+    }
+
+    #consentModal .modal-footer .btn-secondary:hover {
+        background: #d1d5db;
+        transform: translateY(-2px);
+    }
+
+    #consentModal .modal-footer .btn-primary {
+        background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        border: none;
+        box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+    }
+
+    #consentModal .modal-footer .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(30, 58, 138, 0.4);
+    }
+
+    /* Mobile responsive consent modal */
+    @media (max-width: 768px) {
+        #consentModal .modal-dialog {
+            margin: 8px;
+        }
+
+        #consentModal .modal-header {
+            padding: 20px;
+        }
+
+        #consentModal .modal-header .modal-title {
+            font-size: 1.2rem;
+        }
+
+        #consentModal .modal-body {
+            padding: 20px;
+        }
+
+        #consentModal .modal-body img {
+            height: 140px;
+        }
+
+        #consentModal .modal-footer {
+            padding: 16px 20px;
+        }
+
+        #consentModal .modal-footer .btn {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+        }
     }
 
     .modal-footer {
@@ -715,44 +874,74 @@
 <div class="page-content" style="flex: 1; overflow-y: auto; padding: 0; margin: 0; display: flex; flex-direction: column; height: 100%; min-height: 400px;">
     <div class="content-wrapper" style="flex: 1; display: flex; flex-direction: column; height: 100%; padding: 0; margin: 0;">
         <div id="map"></div>
-            <!-- Consent Modal -->
-            <div class="modal fade" id="consentModal" tabindex="-1" aria-labelledby="consentModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-lg">
+            <!-- Consent Modal - Enhanced Design -->
+            <div class="modal fade" id="consentModal" tabindex="-1" aria-labelledby="consentModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                                <h5 class="modal-title" id="consentModalLabel"><i class="fas fa-shield-alt me-2"></i>Data Privacy Consent</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <h5 class="modal-title" id="consentModalLabel">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>Data Privacy Consent</span>
+                            </h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <p class="fs-5">
-                                All of the information that the respondents will provide will be treated as confidential and will only be used for research purposes.
-                                We are committed to protecting your personal information and respecting your privacy.
-                                Any personal information provided will be treated with confidentiality.
-                            </p> 
-                            <p class="text-muted">
-                                By clicking <strong>"I Agree"</strong>, you consent to the collection and processing of your data for research and monitoring purposes, in accordance with applicable data privacy laws.
-                            </p>
-                            <div class="row g-2 my-3">
-                                <div class="col-6">
-                                    <img src="{{ asset('images/img1.jpg') }}" class="img-fluid rounded" alt="Species 1">
-                                </div>
-                                <div class="col-6">
-                                    <img src="{{ asset('images/img2.jpg') }}" class="img-fluid rounded" alt="Species 2">
-                                </div>
-                                <div class="col-6">
-                                    <img src="{{ asset('images/img3.jpg') }}" class="img-fluid rounded" alt="Species 3">
-                                </div>
-                                <div class="col-6">
-                                    <img src="{{ asset('images/img4.jpg') }}" class="img-fluid rounded" alt="Species 4">
+                            <!-- Privacy Notice -->
+                            <div class="consent-intro">
+                                <p>
+                                    <i class="fas fa-lock me-2"></i>
+                                    <strong>Your Privacy Matters:</strong> All information you provide will be treated as strictly confidential and used solely for research and marine conservation purposes. We are committed to protecting your personal information and respecting your privacy rights.
+                                </p>
+                            </div>
+
+                            <!-- Consent Agreement -->
+                            <div class="consent-notice">
+                                <p>
+                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                    By clicking <strong>"I Agree"</strong>, you consent to the collection and processing of your data for research and monitoring purposes, in accordance with the Data Privacy Act of 2012 and other applicable data privacy laws.
+                                </p>
+                            </div>
+
+                            <!-- Species Gallery -->
+                            <div class="species-gallery">
+                                <h6>
+                                    <i class="fas fa-images"></i>
+                                    Crown-of-Thorns Starfish (COTS) - Visual Reference
+                                </h6>
+                                <div class="row g-3">
+                                    <div class="col-6">
+                                        <img src="{{ asset('images/img1.jpg') }}" alt="COTS Species 1" loading="lazy">
+                                    </div>
+                                    <div class="col-6">
+                                        <img src="{{ asset('images/img2.jpg') }}" alt="COTS Species 2" loading="lazy">
+                                    </div>
+                                    <div class="col-6">
+                                        <img src="{{ asset('images/img3.jpg') }}" alt="COTS Species 3" loading="lazy">
+                                    </div>
+                                    <div class="col-6">
+                                        <img src="{{ asset('images/img4.jpg') }}" alt="COTS Species 4" loading="lazy">
+                                    </div>
                                 </div>
                             </div>
-                            <p>
-                              The Crown-of-Thorns Starfish (COTS), locally known as Dap-ag, is a marine species known for its significant impact on coral reefs. While it is a natural part of the ecosystem, during population outbreaks, COTS can devastate coral reefs by feeding on coral polyps, leading to extensive coral degradation. This species poses a major threat to coral ecosystems, especially in tropical and subtropical regions, and is considered one of the key factors in coral reef decline. Effective management and research are essential to mitigate the damage caused by COTS outbreaks and protect vital marine biodiversity.
-                            </p>
+
+                            <!-- Species Information -->
+                            <div class="species-info">
+                                <h6>
+                                    <i class="fas fa-info-circle"></i>
+                                    About Crown-of-Thorns Starfish (Dap-ag)
+                                </h6>
+                                <p>
+                                    The Crown-of-Thorns Starfish (COTS), locally known as <strong>Dap-ag</strong>, is a marine species with significant impact on coral reef ecosystems. While naturally part of the marine environment, population outbreaks can devastate coral reefs by feeding on coral polyps, causing extensive degradation. COTS poses a major threat to coral ecosystems in tropical and subtropical regions and is considered a key factor in coral reef decline. Your reports help researchers monitor and manage COTS populations to protect vital marine biodiversity.
+                                </p>
+                            </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-primary" id="agreeConsent">I Agree</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                <i class="fas fa-times me-2"></i>Cancel
+                            </button>
+                            <button type="button" class="btn btn-primary" id="agreeConsent">
+                                <i class="fas fa-check-circle me-2"></i>I Agree & Continue
+                            </button>
                         </div>
                     </div>
                 </div>
