@@ -375,7 +375,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 Date: {{ $location->date_of_sighting ? \Carbon\Carbon::parse($location->date_of_sighting)->format('M d, Y') : $location->created_at->format('M d, Y') }}<br>
                 COTS: {{ $location->number_of_cots ?? 'N/A' }}<br>
                 @if($location->photo)
-                    <img src="{{ asset('storage/' . (is_array(json_decode($location->photo)) ? json_decode($location->photo)[0] : $location->photo)) }}" style="width: 100px; height: auto;" alt="Location photo">
+                    @php
+                        $photos = is_array(json_decode($location->photo)) ? json_decode($location->photo) : [$location->photo];
+                        $firstPhoto = !empty($photos) ? $photos[0] : null;
+                    @endphp
+                    @if($firstPhoto)
+                        <img src="{{ asset('storage/' . $firstPhoto) }}" style="width: 100px; height: auto;" alt="Location photo">
+                    @endif
                 @endif
             `);
     @endforeach
