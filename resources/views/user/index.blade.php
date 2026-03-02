@@ -284,6 +284,11 @@
             height: 50px;
             width: auto;
         }
+        
+        /* Fullscreen map on tablets */
+        body.map-fullscreen .page-header {
+            display: none !important;
+        }
     }
 
     .page-header-content {
@@ -326,17 +331,37 @@
         color: var(--warning-color);
     }
 
-    /* Map Container - Mobile Optimized */
+    /* Map Container - Fullscreen Mode */
+    body.map-fullscreen .page-header {
+        display: none !important;
+    }
+    
+    body.map-fullscreen .container-fluid {
+        height: 100vh !important;
+        overflow: hidden !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    body.map-fullscreen .page-content {
+        height: 100vh !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    body.map-fullscreen .content-wrapper {
+        height: 100vh !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
     #map {
         flex: 1;
         border-radius: 0;
         box-shadow: none;
         margin: 0 !important;
         padding: 0 !important;
-        height: 100vh !important;
-        width: 100vw !important;
         min-height: 400px;
-        position: relative;
     }
 
     .content-wrapper {
@@ -471,6 +496,24 @@
             font-size: 0.8rem;
             padding: 6px 12px;
         }
+        
+        /* Fullscreen map on mobile */
+        body.map-fullscreen .page-header {
+            display: none !important;
+        }
+        
+        body.map-fullscreen .container-fluid,
+        body.map-fullscreen .page-content,
+        body.map-fullscreen .content-wrapper {
+            height: 100vh !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        
+        body.map-fullscreen .layout-page {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
     }
 
     /* iOS-specific fixes */
@@ -512,6 +555,10 @@
 
     /* Desktop-specific adjustments */
     @media (min-width: 1200px) {
+        body.map-fullscreen .page-header {
+            display: none !important;
+        }
+        
         .container-fluid,
         .page-content,
         .content-wrapper {
@@ -537,17 +584,10 @@
         }
     }
 
-    /* Keep map contained within the page content. Do not override global html/body layout. */
+    /* Page content and wrapper */
     .page-content, .content-wrapper {
         height: 100%;
         width: 100%;
-    }
-    #map {
-        flex: 1;
-        width: 100%;
-        height: 100%;
-        min-height: 400px;
-        position: relative;
     }
 </style>
 
