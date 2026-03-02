@@ -1075,6 +1075,12 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
+                        <label for="location_name">Location Name:</label>
+                        <input type="text" class="form-control" id="location_name" name="location_name" placeholder="e.g., Near Reef Point, Coastal Area A" required>
+                        <small class="text-muted">Specify the exact location or landmark where COTS were sighted</small>
+                    </div>
+
+                    <div class="form-group">
                         <label>Latitude:</label>
                         <p id="latitude_display">Not selected</p>
                         <input type="hidden" id="latitude" name="latitude" required>

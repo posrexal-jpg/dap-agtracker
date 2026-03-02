@@ -38,6 +38,7 @@ class UserLocationController extends Controller
         $request->validate([
             'name' => 'nullable|string',
             'description' => 'nullable|string',
+            'location_name' => 'required|string',
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
             'number_of_cots' => 'nullable|string',
@@ -73,6 +74,7 @@ class UserLocationController extends Controller
             'user_id' => Auth::id(),
             'name' => $request->name ?? null,
             'description' => $request->description ?? null,
+            'location_name' => $request->location_name,
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
             'number_of_cots' => $request->number_of_cots,
@@ -131,6 +133,7 @@ class UserLocationController extends Controller
                     $validatedData = validator($locationData, [
                         'name' => 'nullable|string',
                         'description' => 'nullable|string',
+                        'location_name' => 'nullable|string',
                         'latitude' => 'required|numeric',
                         'longitude' => 'required|numeric',
                         'number_of_cots' => 'nullable|string',

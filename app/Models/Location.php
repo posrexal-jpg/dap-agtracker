@@ -14,6 +14,7 @@ class Location extends Model
         'user_id',
         'name',
         'description',
+        'location_name',
         'latitude',
         'longitude',
         'number_of_cots',
