@@ -172,15 +172,21 @@
 
         @media (max-width: 991px) {
             .admin-top-navbar {
-                padding: 0 1rem;
+                display: none;
             }
             
-            .admin-top-navbar .navbar-brand {
-                font-size: 1rem;
+            .layout-page {
+                margin-left: 0;
             }
             
-            .admin-top-navbar .navbar-brand i {
-                font-size: 1.2rem;
+            .admin-sidebar {
+                top: 0;
+                height: 100vh;
+            }
+            
+            .sidebar-overlay {
+                top: 0;
+                height: 100%;
             }
         }
 
@@ -202,10 +208,15 @@
         }
 
         .mobile-menu-item #notificationBadge {
-            position: absolute;
-            top: 8px;
-            left: 28px;
             z-index: 1;
+        }
+        
+        .mobile-menu-item .mobile-menu-link .badge {
+            min-width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     </style>
 </head>

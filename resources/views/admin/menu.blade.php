@@ -180,6 +180,8 @@
 /* Mobile responsiveness */
 @media (max-width: 1199.98px) {
     .admin-sidebar {
+        top: 0;
+        height: 100vh;
         transform: translateX(-100%);
         transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         padding: 0;
@@ -187,6 +189,11 @@
 
     .admin-sidebar.open {
         transform: translateX(0);
+    }
+
+    .sidebar-overlay {
+        top: 0;
+        height: 100%;
     }
 
     .sidebar-overlay.active {

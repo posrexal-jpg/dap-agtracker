@@ -4,13 +4,19 @@
     <div class="mobile-menu-container" id="mobileMenuContainer">
         @if(auth()->user()->role->role_name == 'admin')
             <!-- Admin Menu Items -->
+            <div class="mobile-menu-item">
+                <a href="{{ route('admin.index') }}" class="mobile-menu-link {{ Route::is('admin.index') ? 'active' : '' }}">
+                    <i class="bx bx-home-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </div>
             <!-- Notification Bell -->
             <div class="mobile-menu-item">
                 <div class="dropup">
                     <button class="mobile-menu-link position-relative w-100 text-start border-0 bg-transparent" type="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bx bx-bell"></i>
                         <span>Notifications</span>
-                        <span class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-danger" id="notificationBadge" style="display: none; margin-left: 10px; margin-top: 5px;">
+                        <span class="position-absolute badge rounded-pill bg-danger" id="notificationBadge" style="display: none; top: 5px; left: 26px; font-size: 0.65rem; padding: 0.25em 0.5em;">
                             0
                         </span>
                     </button>
@@ -33,12 +39,6 @@
                         </li>
                     </ul>
                 </div>
-            </div>
-            <div class="mobile-menu-item">
-                <a href="{{ route('admin.index') }}" class="mobile-menu-link {{ Route::is('admin.index') ? 'active' : '' }}">
-                    <i class="bx bx-home-alt"></i>
-                    <span>Dashboard</span>
-                </a>
             </div>
             <div class="mobile-menu-item">
                 <a href="{{ route('admin.location') }}" class="mobile-menu-link {{ Route::is('admin.location') ? 'active' : '' }}">
