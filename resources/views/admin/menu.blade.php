@@ -100,10 +100,10 @@
 /* Admin Sidebar Styles - Similar to User but with admin colors */
 .admin-sidebar {
     position: fixed;
-    top: 70px;
+    top: 0;
     left: 0;
     width: 280px;
-    height: calc(100vh - 70px);
+    height: 100vh;
     background: #ffffff;
     box-shadow: 2px 0 20px rgba(0, 0, 0, 0.08);
     z-index: 1050;
@@ -213,10 +213,10 @@
 .sidebar-overlay {
     display: none;
     position: fixed;
-    top: 70px;
+    top: 0;
     left: 0;
     width: 100%;
-    height: calc(100% - 70px);
+    height: 100%;
     background: rgba(0, 0, 0, 0.5);
     z-index: 1049;
 }
