@@ -851,23 +851,24 @@
         }
     }
 
-    /* Desktop-specific adjustments - Enhanced Design */
-    @media (min-width: 992px) {
+    /* Desktop-specific adjustments */
+    @media (min-width: 1200px) {
         .container-fluid,
         .page-content,
         .content-wrapper {
-            height: calc(100vh - var(--navbar-height, 64px)) !important;
+            height: 100vh !important;
+            min-height: 100vh !important;
             padding: 0 !important;
             margin: 0 !important;
         }
         #map {
             position: fixed !important;
-            top: var(--navbar-height, 64px) !important;
+            top: 0 !important;
             left: 0 !important;
             right: 0 !important;
             bottom: 0 !important;
             width: 100vw !important;
-            height: calc(100vh - var(--navbar-height, 64px)) !important;
+            height: 100vh !important;
             z-index: 1 !important;
             margin: 0 !important;
             padding: 0 !important;
@@ -880,291 +881,9 @@
         }
         .layout-page {
             height: 100vh !important;
+            min-height: 100vh !important;
             display: flex;
             flex-direction: column;
-        }
-
-        /* Desktop Control Panel - Left Side */
-        .map-control-panel {
-            position: fixed;
-            top: calc(var(--navbar-height, 64px) + 20px);
-            left: 20px;
-            width: 340px;
-            max-height: calc(100vh - var(--navbar-height, 64px) - 100px);
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(12px);
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-            z-index: 1000;
-            overflow-y: auto;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .map-control-panel::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .map-control-panel::-webkit-scrollbar-thumb {
-            background: rgba(30, 58, 138, 0.3);
-            border-radius: 3px;
-        }
-
-        .control-panel-header {
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 16px 16px 0 0;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-
-        .control-panel-header h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin: 0 0 8px 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .control-panel-header p {
-            font-size: 0.875rem;
-            margin: 0;
-            opacity: 0.9;
-        }
-
-        .control-panel-body {
-            padding: 20px;
-        }
-
-        /* Stats Cards */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .stat-card {
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 16px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .stat-card .stat-value {
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: #1e3a8a;
-            margin-bottom: 4px;
-        }
-
-        .stat-card .stat-label {
-            font-size: 0.75rem;
-            color: #64748b;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .stat-card.danger .stat-value {
-            color: #dc2626;
-        }
-
-        .stat-card.success .stat-value {
-            color: #16a34a;
-        }
-
-        /* Filter Section */
-        .filter-section {
-            background: #ffffff;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 16px;
-        }
-
-        .filter-section h4 {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: #1e3a8a;
-            margin: 0 0 12px 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .filter-section .form-control,
-        .filter-section .form-select {
-            border-radius: 8px;
-            border: 1px solid #e5e7eb;
-            padding: 10px 12px;
-            font-size: 0.875rem;
-            margin-bottom: 10px;
-        }
-
-        .filter-section .form-control:focus,
-        .filter-section .form-select:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-
-        /* Legend Section */
-        .legend-section {
-            background: #ffffff;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 16px;
-        }
-
-        .legend-section h4 {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: #1e3a8a;
-            margin: 0 0 12px 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 8px 0;
-            border-bottom: 1px solid #f1f5f9;
-        }
-
-        .legend-item:last-child {
-            border-bottom: none;
-        }
-
-        .legend-marker {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            border: 3px solid white;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            flex-shrink: 0;
-        }
-
-        .legend-marker.high-risk {
-            background: #dc2626;
-        }
-
-        .legend-marker.low-risk {
-            background: #16a34a;
-        }
-
-        .legend-marker.moderate-risk {
-            background: #f59e0b;
-        }
-
-        .legend-text {
-            font-size: 0.875rem;
-            color: #475569;
-            flex: 1;
-        }
-
-        .legend-text strong {
-            color: #1e3a8a;
-            font-weight: 600;
-        }
-
-        /* Quick Actions */
-        .quick-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .quick-actions .btn {
-            border-radius: 10px;
-            padding: 12px;
-            font-weight: 600;
-            font-size: 0.875rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .quick-actions .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .quick-actions .btn-primary {
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-            border: none;
-        }
-
-        /* Map Info Card - Bottom Right */
-        .map-info-card {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 280px;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(12px);
-            border-radius: 12px;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
-            padding: 16px;
-            z-index: 1000;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .map-info-card h5 {
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: #1e3a8a;
-            margin: 0 0 8px 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .map-info-card p {
-            font-size: 0.8rem;
-            color: #64748b;
-            margin: 0;
-            line-height: 1.5;
-        }
-
-        /* Floating Action Button */
-        .fab-add-sighting {
-            position: fixed;
-            bottom: 80px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
-            color: white;
-            border: none;
-            box-shadow: 0 8px 24px rgba(220, 38, 38, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            z-index: 1000;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .fab-add-sighting:hover {
-            transform: scale(1.1) rotate(90deg);
-            box-shadow: 0 12px 32px rgba(220, 38, 38, 0.5);
         }
     }
 
@@ -1219,120 +938,6 @@
 <div class="page-content" style="flex: 1; overflow: hidden; padding: 0; margin: 0; display: flex; flex-direction: column; height: 100vh; min-height: 100vh; position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw;">
     <div class="content-wrapper" style="flex: 1; display: flex; flex-direction: column; height: 100vh; padding: 0; margin: 0; position: relative; width: 100%; overflow: hidden;">
         <div id="map"></div>
-
-        <!-- Desktop Control Panel (Hidden on Mobile) -->
-        <div class="map-control-panel d-none d-lg-block">
-            <div class="control-panel-header">
-                <h3>
-                    <i class="fas fa-chart-line"></i>
-                    COTS Monitoring
-                </h3>
-                <p>Real-time sightings dashboard</p>
-            </div>
-            <div class="control-panel-body">
-                <!-- Stats Grid -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-value" id="totalSightings">0</div>
-                        <div class="stat-label">Total Sightings</div>
-                    </div>
-                    <div class="stat-card danger">
-                        <div class="stat-value" id="highRiskSightings">0</div>
-                        <div class="stat-label">High Risk</div>
-                    </div>
-                    <div class="stat-card success">
-                        <div class="stat-value" id="lowRiskSightings">0</div>
-                        <div class="stat-label">Low Risk</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="recentSightings">0</div>
-                        <div class="stat-label">This Week</div>
-                    </div>
-                </div>
-
-                <!-- Filter Section -->
-                <div class="filter-section">
-                    <h4>
-                        <i class="fas fa-filter"></i>
-                        Filters
-                    </h4>
-                    <select class="form-select" id="municipalityFilter" onchange="filterMarkers()">
-                        <option value="">All Municipalities</option>
-                        @if(isset($municipalities))
-                            @foreach($municipalities as $municipality)
-                                <option value="{{ $municipality }}">{{ $municipality }}</option>
-                            @endforeach
-                        @endif
-                    </select>
-                    <select class="form-select" id="riskFilter" onchange="filterMarkers()">
-                        <option value="">All Risk Levels</option>
-                        <option value="high">High Risk (15+ COTS)</option>
-                        <option value="moderate">Moderate Risk (5-15 COTS)</option>
-                        <option value="low">Low Risk (&lt;5 COTS)</option>
-                    </select>
-                    <input type="date" class="form-control" id="dateFilter" onchange="filterMarkers()">
-                </div>
-
-                <!-- Legend Section -->
-                <div class="legend-section">
-                    <h4>
-                        <i class="fas fa-map-marker-alt"></i>
-                        Map Legend
-                    </h4>
-                    <div class="legend-item">
-                        <div class="legend-marker high-risk"></div>
-                        <div class="legend-text">
-                            <strong>High Risk</strong><br>
-                            15+ COTS observed
-                        </div>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-marker moderate-risk"></div>
-                        <div class="legend-text">
-                            <strong>Moderate Risk</strong><br>
-                            5-15 COTS observed
-                        </div>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-marker low-risk"></div>
-                        <div class="legend-text">
-                            <strong>Low Risk</strong><br>
-                            Less than 5 COTS
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Quick Actions -->
-                <div class="quick-actions">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addLocationModal">
-                        <i class="fas fa-plus"></i>
-                        Report New Sighting
-                    </button>
-                    <button type="button" class="btn btn-outline-secondary" onclick="manualSync()">
-                        <i class="fas fa-sync-alt"></i>
-                        Sync Data
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Map Info Card - Bottom Right (Desktop Only) -->
-        <div class="map-info-card d-none d-lg-block">
-            <h5>
-                <i class="fas fa-info-circle"></i>
-                About COTS
-            </h5>
-            <p>
-                Crown-of-Thorns Starfish (locally known as <strong>Dap-ag</strong>) feeds on coral polyps. 
-                Large populations can devastate coral reefs. Report sightings to help monitor and protect our marine ecosystems.
-            </p>
-        </div>
-
-        <!-- Floating Action Button (Desktop Only) -->
-        <button class="fab-add-sighting d-none d-lg-flex" data-bs-toggle="modal" data-bs-target="#addLocationModal" title="Report New Sighting">
-            <i class="fas fa-plus"></i>
-        </button>
-
             <!-- Consent Modal - Enhanced Design -->
             <div class="modal fade" id="consentModal" tabindex="-1" aria-labelledby="consentModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
@@ -1619,58 +1224,9 @@
     <script>
         // Embed server-side sightings data for the map
         window.SIGHTINGS = @json(isset($locations) ? $locations->toArray() : []);
-        window.MUNICIPALITIES = @json(isset($municipalities) ? $municipalities : []);
     </script>
     <script src="{{ asset('js/user-map.js') }}"></script>
     <script src="{{ asset('js/user-form.js') }}"></script>
-
-    <!-- Desktop Control Panel Script -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            updateDesktopStats();
-            initializeFilters();
-        });
-
-        function updateDesktopStats() {
-            const sightings = window.SIGHTINGS || [];
-            const total = sightings.length;
-            const highRisk = sightings.filter(s => (s.number_of_cots || 0) > 15).length;
-            const lowRisk = sightings.filter(s => (s.number_of_cots || 0) < 5).length;
-            const thisWeek = sightings.filter(s => {
-                const date = new Date(s.created_at);
-                const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-                return date > weekAgo;
-            }).length;
-
-            document.getElementById('totalSightings').textContent = total;
-            document.getElementById('highRiskSightings').textContent = highRisk;
-            document.getElementById('lowRiskSightings').textContent = lowRisk;
-            document.getElementById('recentSightings').textContent = thisWeek;
-        }
-
-        function initializeFilters() {
-            const municipalities = window.MUNICIPALITIES || [];
-            const select = document.getElementById('municipalityFilter');
-            
-            municipalities.forEach(municipality => {
-                const option = document.createElement('option');
-                option.value = municipality;
-                option.textContent = municipality;
-                select.appendChild(option);
-            });
-        }
-
-        function filterMarkers() {
-            const municipality = document.getElementById('municipalityFilter').value;
-            const risk = document.getElementById('riskFilter').value;
-            const date = document.getElementById('dateFilter').value;
-
-            // Trigger map filter update
-            if (window.applyMapFilters) {
-                window.applyMapFilters({ municipality, risk, date });
-            }
-        }
-    </script>
     
     <!-- Language Translation Script -->
     <script>
