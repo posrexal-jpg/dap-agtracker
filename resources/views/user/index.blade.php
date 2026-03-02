@@ -18,14 +18,23 @@
         touch-action: manipulation;
     }
 
-    /* Modal Design Enhancement */
+    /* Modal Design Enhancement - Full Screen */
+    .modal-dialog {
+        max-width: 100vw !important;
+        margin: 0 !important;
+        height: 100vh !important;
+    }
+
     .modal-content {
-        border-radius: 20px;
+        border-radius: 0;
         border: none;
         padding: 0;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        box-shadow: none;
         background: #ffffff;
         overflow: hidden;
+        height: 100vh !important;
+        display: flex;
+        flex-direction: column;
     }
 
     .modal-header {
@@ -59,33 +68,33 @@
     }
 
     .modal-body {
-        padding: 10px 12px;
-        max-height: calc(100vh - 160px);
+        padding: 20px 24px;
+        flex: 1;
         overflow-y: auto;
-        font-size: 13px;
+        font-size: 14px;
     }
 
     .modal-body .form-group {
-        margin-bottom: 8px;
+        margin-bottom: 20px;
     }
 
     .modal-body label {
         font-weight: 600;
         color: #1f2937;
-        font-size: 0.78rem;
-        margin-bottom: 4px;
+        font-size: 0.95rem;
+        margin-bottom: 8px;
         display: block;
     }
 
     .modal-body .form-control,
     .modal-body select {
-        border-radius: 6px;
-        border: 1px solid #e5e7eb;
-        padding: 6px 8px;
-        font-size: 13px;
-        transition: all 0.12s ease;
-        background: #f9fafb;
-        height: 30px;
+        border-radius: 12px;
+        border: 2px solid #e5e7eb;
+        padding: 12px 16px;
+        font-size: 16px;
+        transition: all 0.2s ease;
+        background: #ffffff;
+        min-height: var(--touch-target-size);
     }
 
     .modal-body .form-control:focus,
@@ -308,25 +317,26 @@
     }
 
     .modal-footer {
-        padding: 6px 10px;
-        border-top: 1px solid #f3f4f6;
+        padding: 20px 24px;
+        border-top: 1px solid #e5e7eb;
         background: #f9fafb;
-        border-radius: 0 0 8px 8px;
+        border-radius: 0;
         display: flex;
-        gap: 6px;
+        gap: 12px;
         justify-content: flex-end;
         align-items: center;
+        flex-shrink: 0;
     }
 
     .modal-footer .btn {
-        border-radius: 6px;
-        padding: 4px 8px;
+        border-radius: 12px;
+        padding: 12px 24px;
         font-weight: 600;
-        font-size: 12px;
-        min-width: 56px;
-        transition: all 0.1s ease;
-        line-height: 1;
-        height: 30px;
+        font-size: 16px;
+        min-width: 120px;
+        transition: all 0.2s ease;
+        line-height: 1.5;
+        min-height: var(--touch-target-size);
     }
 
     .modal-footer .btn-primary {
@@ -630,14 +640,16 @@
 
     /* Mobile-specific adjustments */
     @media (max-width: 768px) {
-        .modal-content {
-            margin: 8px;
-            padding: 20px;
+        .modal-header {
+            padding: 20px 24px;
         }
 
-        .modal-header {
+        .modal-body {
             padding: 16px 20px;
-            margin: -20px -20px 16px -20px;
+        }
+
+        .modal-footer {
+            padding: 16px 20px;
         }
 
         .page-header {
@@ -1001,12 +1013,12 @@
             <form id="locationForm" action="{{ route('user-save-location') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <!-- Modal 1: Sighting Details -->
-    <div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="modal1Label" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="modal1Label" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-fullscreen">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modal1Label" data-en="Sighting Details" data-bis="Detalye sa Pagkakita"><i class="fas fa-info-circle me-2"></i>Sighting Details</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 
 
@@ -1046,8 +1058,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-en="Close" data-bis="Sirado">Close</button>
-                    <button type="button" class="btn btn-primary" id="nextBtn1" data-en="Next" data-bis="Sunod">Next</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-en="Close" data-bis="Sirado"><i class="fas fa-times me-2"></i>Close</button>
+                    <button type="button" class="btn btn-primary" id="nextBtn1" data-en="Next" data-bis="Sunod"><i class="fas fa-arrow-right me-2"></i>Next</button>
 
                 </div>
             </div>
@@ -1055,12 +1067,12 @@
     </div>
 
     <!-- Modal 2: COTS Count -->
-    <div class="modal fade" id="modal2" tabindex="-1" aria-labelledby="modal2Label" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal fade" id="modal2" tabindex="-1" aria-labelledby="modal2Label" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-fullscreen">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modal2Label" data-en="COTS Count" data-bis="Ihap sa COTS"><i class="fas fa-sort-numeric-up me-2"></i>COTS Count</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
@@ -1089,20 +1101,20 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="backBtn2" data-en="Back" data-bis="Balik">Back</button>
-                <button type="button" class="btn btn-primary" id="nextBtn2" data-en="Next" data-bis="Sunod">Next</button>
+                <button type="button" class="btn btn-secondary" id="backBtn2" data-en="Back" data-bis="Balik"><i class="fas fa-arrow-left me-2"></i>Back</button>
+                <button type="button" class="btn btn-primary" id="nextBtn2" data-en="Next" data-bis="Sunod"><i class="fas fa-arrow-right me-2"></i>Next</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Modal 3: Activity & Observer Info -->
-    <div class="modal fade" id="modal3" tabindex="-1" aria-labelledby="modal3Label" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal fade" id="modal3" tabindex="-1" aria-labelledby="modal3Label" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-fullscreen">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modal3Label" data-en="Activity & Observer Info" data-bis="Kalihokan ug Tigtan-aw"><i class="fas fa-user me-2"></i>Activity & Observer Info</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
@@ -1132,20 +1144,20 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="backBtn3" data-en="Back" data-bis="Balik">Back</button>
-                <button type="button" class="btn btn-primary" id="nextBtn3" data-en="Next" data-bis="Sunod">Next</button>
+                <button type="button" class="btn btn-secondary" id="backBtn3" data-en="Back" data-bis="Balik"><i class="fas fa-arrow-left me-2"></i>Back</button>
+                <button type="button" class="btn btn-primary" id="nextBtn3" data-en="Next" data-bis="Sunod"><i class="fas fa-arrow-right me-2"></i>Next</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Modal 4: Location & Media -->
-    <div class="modal fade" id="modal4" tabindex="-1" aria-labelledby="modal4Label" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg"> 
+    <div class="modal fade" id="modal4" tabindex="-1" aria-labelledby="modal4Label" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-fullscreen"> 
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modal4Label" data-en="Location & Media" data-bis="Lokasyon ug Media"><i class="fas fa-map-marker-alt me-2"></i>Location & Media</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
@@ -1176,8 +1188,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="backBtn4" data-en="Back" data-bis="Balik">Back</button>
-                    <button type="submit" class="btn btn-success" data-en="Submit" data-bis="Isumite">Submit</button>
+                    <button type="button" class="btn btn-secondary" id="backBtn4" data-en="Back" data-bis="Balik"><i class="fas fa-arrow-left me-2"></i>Back</button>
+                    <button type="submit" class="btn btn-success" data-en="Submit" data-bis="Isumite"><i class="fas fa-check me-2"></i>Submit</button>
                 </div>
             </div>
         </div>
