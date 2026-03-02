@@ -1,0 +1,57 @@
+{
+  "resources/css/admin.css": {
+    "file": "assets/admin-LSS5bzXB.css",
+    "src": "resources/css/admin.css",
+    "isEntry": true,
+    "name": "admin",
+    "names": [
+      "admin.css"
+    ]
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-Djxyc8Yv.css",
+    "src": "resources/css/app.css",
+    "isEntry": true,
+    "name": "app",
+    "names": [
+      "app.css"
+    ]
+  },
+  "resources/css/mobile-menu.css": {
+    "file": "assets/mobile-menu-BQoFyYL3.css",
+    "src": "resources/css/mobile-menu.css",
+    "isEntry": true,
+    "name": "mobile-menu",
+    "names": [
+      "mobile-menu.css"
+    ]
+  },
+  "resources/js/admin.js": {
+    "file": "assets/admin-l0sNRNKZ.js",
+    "name": "admin",
+    "src": "resources/js/admin.js",
+    "isEntry": true
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-ZVhyQ2Bm.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  },
+  "resources/js/mobile-menu.js": {
+    "file": "assets/mobile-menu-RpPGLjgO.js",
+    "name": "mobile-menu",
+    "src": "resources/js/mobile-menu.js",
+    "isEntry": true
+  },
+  "resources/js/service-worker.js": {
+    "file": "assets/service-worker-DcA8qplj.js",
+    "name": "service-worker",
+    "src": "resources/js/service-worker.js",
+    "isEntry": true
+  },
+  "resources/sass/app.scss": {
+    "file": "assets/app-_CzgOZFA.css",
+    "src": "resources/sass/app.scss"
+  }
+}
