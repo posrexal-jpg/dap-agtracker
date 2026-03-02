@@ -3,1020 +3,426 @@
 
 @section('content')
 <div class="admin-dashboard">
-    <!-- Modern Header Section -->
-    <div class="dashboard-header">
+
+    <!-- Header -->
+    <div class="dash-header">
         <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-12">
-                    <div class="header-content">
-                        @php
-                            $hour = date('H');
-                            $greeting = 'Good morning';
-                            if ($hour >= 12 && $hour < 17) {
-                                $greeting = 'Good afternoon';
-                            } elseif ($hour >= 17) {
-                                $greeting = 'Good evening';
-                            }
-                            $userName = auth()->user()->name ?? 'Admin';
-                        @endphp
-                        <div class="greeting mb-3">
-                            <h2 class="greeting-text">{{ $greeting }}, {{ $userName }}!</h2>
-                        </div>
-                        <div class="d-flex align-items-center mb-2">
-                            <div class="header-icon me-3">
-                                <i class="fas fa-tachometer-alt"></i>
-                            </div>
-                            <div>
-                                <h1 class="header-title mb-0">Admin Dashboard</h1>
-                                <p class="header-subtitle mb-0">Monitor and manage COTS tracking data across Southern Leyte</p>
-                            </div>
-                        </div>
-                    </div>
+            @php
+                $hour = date('H');
+                $greeting = 'Good morning';
+                if ($hour >= 12 && $hour < 17) { $greeting = 'Good afternoon'; }
+                elseif ($hour >= 17) { $greeting = 'Good evening'; }
+                $userName = auth()->user()->name ?? 'Admin';
+            @endphp
+            <div class="d-flex align-items-center gap-3">
+                <div class="dash-header-icon">
+                    <i class="fas fa-tachometer-alt"></i>
+                </div>
+                <div>
+                    <h1 class="dash-title mb-0">Admin Dashboard</h1>
+                    <p class="dash-subtitle mb-0">{{ $greeting }}, <strong>{{ $userName }}</strong> &mdash; Monitor and manage COTS tracking data</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Main Content -->
-    <div class="dashboard-content">
-        <div class="container-fluid">
-            <!-- Enhanced Stats Cards -->
-            <div class="stats-grid">
-                <div class="row g-3 mb-4">
-                    <div class="col-6 col-lg-3">
-                        <div class="stat-card users-card h-100">
-                            <div class="stat-card-inner">
-                                <div class="stat-icon">
-                                    <i class="fas fa-users"></i>
-                                </div>
-                                <div class="stat-content">
-                                    <div class="stat-number">{{ $userCount }}</div>
-                                    <div class="stat-label">Total Users</div>
-                                    <div class="stat-trend">
-                                        <i class="fas fa-arrow-up"></i>
-                                        <span>+12%</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <!-- Body -->
+    <div class="container-fluid py-4">
 
-                    <div class="col-6 col-lg-3">
-                        <div class="stat-card cots-card h-100">
-                            <div class="stat-card-inner">
-                                <div class="stat-icon">
-                                    <i class="fas fa-exclamation-triangle"></i>
-                                </div>
-                                <div class="stat-content">
-                                    <div class="stat-number">{{ $totalCots }}</div>
-                                    <div class="stat-label">Total COTS</div>
-                                    <div class="stat-trend">
-                                        <i class="fas fa-arrow-up"></i>
-                                        <span>+8%</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        <!-- Stats Row -->
+        <div class="row g-3 mb-4">
+            <div class="col-6 col-md-3">
+                <div class="dash-stat-card">
+                    <div class="dash-stat-icon" style="background: linear-gradient(135deg,#1e40af,#3b82f6);">
+                        <i class="fas fa-users"></i>
                     </div>
-
-                    <div class="col-6 col-lg-3">
-                        <div class="stat-card locations-card h-100">
-                            <div class="stat-card-inner">
-                                <div class="stat-icon">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                </div>
-                                <div class="stat-content">
-                                    <div class="stat-number">{{ $locationCount }}</div>
-                                    <div class="stat-label">Active Locations</div>
-                                    <div class="stat-trend">
-                                        <i class="fas fa-arrow-up"></i>
-                                        <span>+15%</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-6 col-lg-3">
-                        <div class="stat-card municipalities-card h-100">
-                            <div class="stat-card-inner">
-                                <div class="stat-icon">
-                                    <i class="fas fa-city"></i>
-                                </div>
-                                <div class="stat-content">
-                                    <div class="stat-number">{{ count($municipalities ?? []) }}</div>
-                                    <div class="stat-label">Municipalities</div>
-                                    <div class="stat-trend">
-                                        <i class="fas fa-minus"></i>
-                                        <span>0%</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="dash-stat-body">
+                        <div class="dash-stat-number">{{ $userCount }}</div>
+                        <div class="dash-stat-label">Total Users</div>
                     </div>
                 </div>
             </div>
-
-            <!-- Charts and Actions Section -->
-            <div class="dashboard-grid">
-                <!-- Main Chart -->
-                <div class="chart-section">
-                    <div class="chart-card">
-                        <div class="chart-header">
-                            <div class="chart-title">
-                                <i class="fas fa-chart-pie"></i>
-                                <span>COTS Distribution by Municipality</span>
-                            </div>
-                            <div class="chart-actions">
-                                <button class="btn btn-sm btn-outline-primary" onclick="refreshChart()">
-                                    <i class="fas fa-sync-alt"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="chart-body">
-                            <div id="pieChart" style="height: 400px;"></div>
-                        </div>
+            <div class="col-6 col-md-3">
+                <div class="dash-stat-card">
+                    <div class="dash-stat-icon" style="background: linear-gradient(135deg,#ef4444,#f87171);">
+                        <i class="fas fa-exclamation-triangle"></i>
                     </div>
-                </div>
-
-                <!-- Quick Actions & Recent Activity -->
-                <div class="actions-section">
-                    <!-- Quick Actions -->
-                    <div class="action-card">
-                        <div class="action-header">
-                            <div class="action-title">
-                                <i class="fas fa-bolt"></i>
-                                <span>Quick Actions</span>
-                            </div>
-                        </div>
-                        <div class="action-body">
-                            <div class="action-buttons">
-                                <a href="{{ route('admin.location') }}" class="action-btn primary">
-                                    <div class="action-icon">
-                                        <i class="fas fa-map-marked-alt"></i>
-                                    </div>
-                                    <div class="action-content">
-                                        <span class="action-label">Manage Locations</span>
-                                        <span class="action-desc">View and edit sighting data</span>
-                                    </div>
-                                    <i class="fas fa-chevron-right"></i>
-                                </a>
-
-                                <a href="{{ route('admin.adduser') }}" class="action-btn success">
-                                    <div class="action-icon">
-                                        <i class="fas fa-user-plus"></i>
-                                    </div>
-                                    <div class="action-content">
-                                        <span class="action-label">Manage Users</span>
-                                        <span class="action-desc">Add and manage user accounts</span>
-                                    </div>
-                                    <i class="fas fa-chevron-right"></i>
-                                </a>
-
-                                <a href="{{ route('admin.report') }}" class="action-btn info">
-                                    <div class="action-icon">
-                                        <i class="fas fa-chart-bar"></i>
-                                    </div>
-                                    <div class="action-content">
-                                        <span class="action-label">Generate Reports</span>
-                                        <span class="action-desc">Export data and analytics</span>
-                                    </div>
-                                    <i class="fas fa-chevron-right"></i>
-                                </a>
-
-                                <a href="{{ route('admin.download') }}" class="action-btn warning">
-                                    <div class="action-icon">
-                                        <i class="fas fa-download"></i>
-                                    </div>
-                                    <div class="action-content">
-                                        <span class="action-label">Download Data</span>
-                                        <span class="action-desc">Bulk data export options</span>
-                                    </div>
-                                    <i class="fas fa-chevron-right"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- System Status -->
-                    <div class="status-card">
-                        <div class="status-header">
-                            <div class="status-title">
-                                <i class="fas fa-server"></i>
-                                <span>System Status</span>
-                            </div>
-                        </div>
-                        <div class="status-body">
-                            <div class="status-items">
-                                <div class="status-item">
-                                    <div class="status-indicator online"></div>
-                                    <span>Database</span>
-                                </div>
-                                <div class="status-item">
-                                    <div class="status-indicator online"></div>
-                                    <span>File Storage</span>
-                                </div>
-                                <div class="status-item">
-                                    <div class="status-indicator online"></div>
-                                    <span>API Services</span>
-                                </div>
-                                <div class="status-item">
-                                    <div class="status-indicator warning"></div>
-                                    <span>Backup Status</span>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="dash-stat-body">
+                        <div class="dash-stat-number">{{ $totalCots }}</div>
+                        <div class="dash-stat-label">Total COTS</div>
                     </div>
                 </div>
             </div>
-
-            <!-- Recent Activity Section -->
-            <div class="recent-activity">
-                <div class="activity-card">
-                    <div class="activity-header">
-                        <div class="activity-title">
-                            <i class="fas fa-history"></i>
-                            <span>Recent Sightings (Last 7 Days)</span>
-                        </div>
-                        <a href="{{ route('admin.location') }}" class="view-all">View All</a>
+            <div class="col-6 col-md-3">
+                <div class="dash-stat-card">
+                    <div class="dash-stat-icon" style="background: linear-gradient(135deg,#06b6d4,#22d3ee);">
+                        <i class="fas fa-map-marker-alt"></i>
                     </div>
-                    <div class="activity-body">
-                        <div class="activity-list">
-                            @forelse($recentSightings as $sighting)
-                            <div class="activity-item">
-                                <div class="activity-icon">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                </div>
-                                <div class="activity-content">
-                                    <div class="activity-text">
-                                        COTS sighting in {{ $sighting->barangay ?? 'Unknown' }}, {{ $sighting->municipality ?? '—' }}
-                                        &mdash; <strong>{{ $sighting->number_of_cots ?? 0 }}</strong> COTS
-                                    </div>
-                                    <div class="activity-time">{{ $sighting->created_at->diffForHumans() }}</div>
-                                </div>
-                            </div>
-                            @empty
-                            <div class="text-center text-muted py-3">
-                                <i class="fas fa-inbox fa-2x mb-2 d-block opacity-50"></i>
-                                No sightings in the last 7 days.
-                            </div>
-                            @endforelse
-                        </div>
+                    <div class="dash-stat-body">
+                        <div class="dash-stat-number">{{ $locationCount }}</div>
+                        <div class="dash-stat-label">Sightings</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="dash-stat-card">
+                    <div class="dash-stat-icon" style="background: linear-gradient(135deg,#10b981,#34d399);">
+                        <i class="fas fa-city"></i>
+                    </div>
+                    <div class="dash-stat-body">
+                        <div class="dash-stat-number">{{ count($municipalities ?? []) }}</div>
+                        <div class="dash-stat-label">Municipalities</div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Chart + Quick Actions -->
+        <div class="row g-3 mb-4">
+            <!-- Pie Chart -->
+            <div class="col-12 col-lg-8">
+                <div class="dash-card h-100">
+                    <div class="dash-card-header">
+                        <i class="fas fa-chart-pie text-primary me-2"></i>
+                        <span>COTS Distribution by Municipality</span>
+                        <button class="btn btn-sm btn-outline-secondary ms-auto" onclick="refreshChart()">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                    <div class="dash-card-body">
+                        <div id="pieChart" style="min-height: 350px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="col-12 col-lg-4">
+                <div class="dash-card h-100">
+                    <div class="dash-card-header">
+                        <i class="fas fa-bolt text-warning me-2"></i>
+                        <span>Quick Actions</span>
+                    </div>
+                    <div class="dash-card-body p-2">
+                        <a href="{{ route('admin.location') }}" class="quick-action-btn">
+                            <div class="qa-icon" style="background:rgba(59,130,246,.12);color:#1e40af;">
+                                <i class="fas fa-map-marked-alt"></i>
+                            </div>
+                            <div class="qa-text">
+                                <span class="qa-label">Sightings Map</span>
+                                <span class="qa-desc">View and edit sighting data</span>
+                            </div>
+                            <i class="fas fa-chevron-right text-muted small"></i>
+                        </a>
+                        <a href="{{ route('admin.adduser') }}" class="quick-action-btn">
+                            <div class="qa-icon" style="background:rgba(16,185,129,.12);color:#10b981;">
+                                <i class="fas fa-user-plus"></i>
+                            </div>
+                            <div class="qa-text">
+                                <span class="qa-label">Manage Users</span>
+                                <span class="qa-desc">Add and manage accounts</span>
+                            </div>
+                            <i class="fas fa-chevron-right text-muted small"></i>
+                        </a>
+                        <a href="{{ route('admin.report') }}" class="quick-action-btn">
+                            <div class="qa-icon" style="background:rgba(6,182,212,.12);color:#06b6d4;">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                            <div class="qa-text">
+                                <span class="qa-label">Reports</span>
+                                <span class="qa-desc">Export data and analytics</span>
+                            </div>
+                            <i class="fas fa-chevron-right text-muted small"></i>
+                        </a>
+                        <a href="{{ route('admin.notifications') }}" class="quick-action-btn">
+                            <div class="qa-icon" style="background:rgba(139,92,246,.12);color:#8b5cf6;">
+                                <i class="fas fa-bell"></i>
+                            </div>
+                            <div class="qa-text">
+                                <span class="qa-label">Notifications</span>
+                                <span class="qa-desc">View recent alerts</span>
+                            </div>
+                            <i class="fas fa-chevron-right text-muted small"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Sightings -->
+        <div class="row g-3">
+            <div class="col-12">
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <i class="fas fa-history text-primary me-2"></i>
+                        <span>Recent Sightings <span class="text-muted fw-normal small">(Last 7 Days)</span></span>
+                        <a href="{{ route('admin.location') }}" class="btn btn-sm btn-outline-primary ms-auto">View All</a>
+                    </div>
+                    <div class="dash-card-body p-0">
+                        @forelse($recentSightings as $sighting)
+                        <div class="recent-item">
+                            <div class="recent-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="recent-content">
+                                <div class="recent-text">
+                                    <strong>{{ $sighting->barangay ?? 'Unknown' }}</strong>, {{ $sighting->municipality ?? '—' }}
+                                    <span class="badge bg-danger ms-2">{{ $sighting->number_of_cots ?? 0 }} COTS</span>
+                                </div>
+                                <div class="recent-time">{{ $sighting->created_at->diffForHumans() }}</div>
+                            </div>
+                        </div>
+                        @empty
+                        <div class="text-center text-muted py-5">
+                            <i class="fas fa-inbox fa-2x mb-2 d-block opacity-50"></i>
+                            No sightings in the last 7 days.
+                        </div>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 
 <style>
-/* Modern Admin Dashboard Styles */
-:root {
-    --primary-color: #1e40af;
-    --primary-dark: #1e3a8a;
-    --primary-light: #3b82f6;
-    --secondary-color: #64748b;
-    --success-color: #10b981;
-    --warning-color: #f59e0b;
-    --danger-color: #ef4444;
-    --info-color: #06b6d4;
-    --dark-color: #1f2937;
-    --light-color: #f8fafc;
-    --border-color: #e2e8f0;
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-    --radius-sm: 0.375rem;
-    --radius-md: 0.5rem;
-    --radius-lg: 0.75rem;
-    --radius-xl: 1rem;
-}
-
+/* ============ Dashboard Styles ============ */
 .admin-dashboard {
+    background: #f1f5f9;
     min-height: 100vh;
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
 }
 
-/* Header Styles */
-.dashboard-header {
-    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+/* Header */
+.dash-header {
+    background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
     color: white;
-    /* Stretch full-width by negating the parent container-fluid horizontal padding */
-    margin: 0 -1.5rem 2rem;
-    padding: 2rem 1.5rem;
-    box-shadow: var(--shadow-lg);
-}
-
-.header-content .header-icon {
-    width: 60px;
-    height: 60px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: var(--radius-lg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    backdrop-filter: blur(10px);
-}
-
-.header-title {
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 0.25rem;
-}
-
-.header-subtitle {
-    font-size: 1rem;
-    opacity: 0.9;
-    font-weight: 400;
-}
-
-/* Greeting Styles */
-.greeting {
-    margin-bottom: 1rem;
-}
-
-.greeting-text {
-    font-size: 1.25rem;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.95);
-    margin: 0;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.header-stats {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.stat-item {
-    text-align: center;
-    padding: 0.5rem 1rem;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: var(--radius-md);
-    backdrop-filter: blur(10px);
-}
-
-.stat-value {
-    display: block;
-    font-size: 1.5rem;
-    font-weight: 700;
-}
-
-.stat-label {
-    font-size: 0.875rem;
-    opacity: 0.9;
-}
-
-.brand-logo img {
-    height: 50px;
-    width: auto;
-}
-
-/* Stats Grid */
-.stats-grid {
+    padding: 1.5rem;
     margin-bottom: 0;
 }
 
-.stat-card {
-    background: white;
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-md);
-    transition: all 0.3s ease;
-    overflow: hidden;
-    border: 1px solid var(--border-color);
-}
-
-.stat-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-xl);
-}
-
-.stat-card-inner {
-    padding: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.stat-icon {
-    width: 60px;
-    height: 60px;
-    border-radius: var(--radius-lg);
+.dash-header-icon {
+    width: 52px;
+    height: 52px;
+    background: rgba(255,255,255,.15);
+    border-radius: 0.75rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+}
+
+.dash-title {
     font-size: 1.5rem;
-    color: white;
-}
-
-.users-card .stat-icon { background: linear-gradient(135deg, var(--primary-color), var(--primary-light)); }
-.cots-card .stat-icon { background: linear-gradient(135deg, var(--warning-color), #fbbf24); }
-.locations-card .stat-icon { background: linear-gradient(135deg, var(--info-color), #22d3ee); }
-.municipalities-card .stat-icon { background: linear-gradient(135deg, var(--success-color), #34d399); }
-
-.stat-content {
-    flex: 1;
-}
-
-.stat-number {
-    font-size: 2rem;
     font-weight: 700;
-    color: var(--dark-color);
-    margin-bottom: 0.25rem;
+    color: #fff;
 }
 
-.stat-label {
-    font-size: 0.875rem;
-    color: var(--secondary-color);
+.dash-subtitle {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,.85);
+}
+
+/* Stat Cards */
+.dash-stat-card {
+    background: #fff;
+    border-radius: 0.875rem;
+    padding: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08);
+    border: 1px solid #e2e8f0;
+    transition: box-shadow .2s, transform .2s;
+}
+
+.dash-stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,.1);
+}
+
+.dash-stat-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.dash-stat-number {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #1f2937;
+    line-height: 1;
+    margin-bottom: 0.2rem;
+}
+
+.dash-stat-label {
+    font-size: 0.8rem;
+    color: #64748b;
     font-weight: 500;
 }
 
-.stat-trend {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--success-color);
-    margin-top: 0.25rem;
-}
-
-.stat-trend i {
-    font-size: 0.625rem;
-}
-
-/* Dashboard Grid */
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
-}
-
-/* Chart Section */
-.chart-section .chart-card {
-    background: white;
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-md);
+/* Generic Card */
+.dash-card {
+    background: #fff;
+    border-radius: 0.875rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08);
+    border: 1px solid #e2e8f0;
     overflow: hidden;
-    border: 1px solid var(--border-color);
-}
-
-.chart-header {
-    padding: 1.5rem;
-    border-bottom: 1px solid var(--border-color);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.chart-title {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: var(--dark-color);
-}
-
-.chart-title i {
-    color: var(--primary-color);
-}
-
-.chart-actions .btn {
-    border-radius: var(--radius-md);
-    padding: 0.5rem;
-}
-
-.chart-body {
-    padding: 1.5rem;
-}
-
-/* Actions Section */
-.actions-section {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
 }
 
-.action-card, .status-card {
-    background: white;
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-md);
-    overflow: hidden;
-    border: 1px solid var(--border-color);
-}
-
-.action-header, .status-header {
-    padding: 1.5rem;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.action-title, .status-title {
+.dash-card-header {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid #e2e8f0;
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    font-size: 1.125rem;
+    font-size: 1rem;
     font-weight: 600;
-    color: var(--dark-color);
+    color: #1f2937;
+    flex-shrink: 0;
 }
 
-.action-title i, .status-title i {
-    color: var(--primary-color);
+.dash-card-body {
+    padding: 1.25rem;
+    flex: 1;
 }
 
-.action-body {
-    padding: 1.5rem;
-}
-
-.action-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.action-btn {
+/* Quick Actions */
+.quick-action-btn {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-    border-radius: var(--radius-lg);
+    gap: 0.875rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.625rem;
     text-decoration: none;
-    transition: all 0.3s ease;
-    border: 1px solid var(--border-color);
-    background: white;
+    color: #1f2937;
+    transition: background .15s;
+    margin-bottom: 0.25rem;
 }
 
-.action-btn:hover {
-    transform: translateX(4px);
-    box-shadow: var(--shadow-md);
+.quick-action-btn:hover {
+    background: #f1f5f9;
+    color: #1f2937;
 }
 
-.action-btn.primary { border-left: 4px solid var(--primary-color); }
-.action-btn.success { border-left: 4px solid var(--success-color); }
-.action-btn.info { border-left: 4px solid var(--info-color); }
-.action-btn.warning { border-left: 4px solid var(--warning-color); }
-
-.action-btn.primary:hover { background: rgba(59, 130, 246, 0.05); }
-.action-btn.success:hover { background: rgba(16, 185, 129, 0.05); }
-.action-btn.info:hover { background: rgba(6, 182, 212, 0.05); }
-.action-btn.warning:hover { background: rgba(245, 158, 11, 0.05); }
-
-.action-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: var(--radius-md);
+.qa-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 0.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1rem;
+    flex-shrink: 0;
 }
 
-.action-btn.primary .action-icon { background: rgba(59, 130, 246, 0.1); color: var(--primary-color); }
-.action-btn.success .action-icon { background: rgba(16, 185, 129, 0.1); color: var(--success-color); }
-.action-btn.info .action-icon { background: rgba(6, 182, 212, 0.1); color: var(--info-color); }
-.action-btn.warning .action-icon { background: rgba(245, 158, 11, 0.1); color: var(--warning-color); }
-
-.action-content {
+.qa-text {
     flex: 1;
-}
-
-.action-label {
-    display: block;
-    font-weight: 600;
-    color: var(--dark-color);
-    margin-bottom: 0.25rem;
-}
-
-.action-desc {
-    font-size: 0.875rem;
-    color: var(--secondary-color);
-}
-
-/* Status Card */
-.status-body {
-    padding: 1.5rem;
-}
-
-.status-items {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
 }
 
-.status-item {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--dark-color);
-}
-
-.status-indicator {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-}
-
-.status-indicator.online { background: var(--success-color); }
-.status-indicator.warning { background: var(--warning-color); }
-.status-indicator.offline { background: var(--danger-color); }
-
-/* Recent Activity */
-.recent-activity .activity-card {
-    background: white;
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-md);
-    overflow: hidden;
-    border: 1px solid var(--border-color);
-}
-
-.activity-header {
-    padding: 1.5rem;
-    border-bottom: 1px solid var(--border-color);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.activity-title {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-size: 1.125rem;
+.qa-label {
     font-weight: 600;
-    color: var(--dark-color);
-}
-
-.activity-title i {
-    color: var(--primary-color);
-}
-
-.view-all {
-    color: var(--primary-color);
-    text-decoration: none;
     font-size: 0.875rem;
-    font-weight: 500;
-    transition: color 0.3s ease;
+    line-height: 1.2;
 }
 
-.view-all:hover {
-    color: var(--primary-dark);
-    text-decoration: underline;
+.qa-desc {
+    font-size: 0.75rem;
+    color: #94a3b8;
 }
 
-.activity-body {
-    padding: 1.5rem;
-}
-
-.activity-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.activity-item {
+/* Recent Sightings */
+.recent-item {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-    border-radius: var(--radius-lg);
-    background: var(--light-color);
-    transition: background 0.3s ease;
+    gap: 0.875rem;
+    padding: 0.875rem 1.25rem;
+    border-bottom: 1px solid #f1f5f9;
+    transition: background .15s;
 }
 
-.activity-item:hover {
-    background: #e2e8f0;
-}
+.recent-item:last-child { border-bottom: none; }
+.recent-item:hover { background: #f8fafc; }
 
-.activity-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: var(--radius-md);
-    background: rgba(59, 130, 246, 0.1);
-    color: var(--primary-color);
+.recent-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 0.5rem;
+    background: rgba(59,130,246,.1);
+    color: #2563eb;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.875rem;
+    font-size: 0.85rem;
+    flex-shrink: 0;
 }
 
-.activity-content {
-    flex: 1;
-}
-
-.activity-text {
-    display: block;
+.recent-text {
     font-size: 0.875rem;
     font-weight: 500;
-    color: var(--dark-color);
-    margin-bottom: 0.25rem;
+    color: #1f2937;
+    margin-bottom: 0.15rem;
 }
 
-.activity-time {
+.recent-time {
     font-size: 0.75rem;
-    color: var(--secondary-color);
+    color: #94a3b8;
 }
 
-/* Responsive Design */
-@media (max-width: 1200px) {
-    .dashboard-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-}
-
-@media (max-width: 768px) {
-    .dashboard-header {
-        padding: 1.5rem 0;
-        margin-bottom: 1.5rem;
-    }
-
-    .header-title {
-        font-size: 1.5rem;
-    }
-
-    .header-subtitle {
-        font-size: 0.875rem;
-    }
-
-    .greeting-text {
-        font-size: 1rem;
-    }
-
-    .stat-card-inner {
-        padding: 1rem;
-        gap: 0.75rem;
-    }
-
-    .stat-icon {
-        width: 44px;
-        height: 44px;
-        font-size: 1.1rem;
-    }
-
-    .stat-number {
-        font-size: 1.4rem;
-    }
-
-    .stat-label {
-        font-size: 0.75rem;
-    }
-
-    .dashboard-grid {
-        gap: 1rem;
-    }
-
-    .chart-body {
-        padding: 1rem;
-    }
-
-    .action-body, .status-body, .activity-body {
-        padding: 1rem;
-    }
-
-    .action-btn {
-        padding: 0.75rem;
-        gap: 0.75rem;
-    }
-
-    .activity-item {
-        padding: 0.75rem;
-        gap: 0.75rem;
-    }
-}
-
+/* Responsive */
 @media (max-width: 576px) {
-    .dashboard-header {
-        padding: 1rem 0;
-    }
-
-    .header-content .header-icon {
-        width: 50px;
-        height: 50px;
-        font-size: 1.25rem;
-    }
-
-    .header-title {
-        font-size: 1.25rem;
-    }
-
-    .brand-logo img {
-        height: 40px;
-    }
-
-    .stat-card-inner {
-        flex-direction: row;
-        align-items: center;
-        padding: 0.875rem;
-        gap: 0.75rem;
-    }
-
-    .stat-icon {
-        width: 40px;
-        height: 40px;
-        font-size: 1rem;
-        flex-shrink: 0;
-    }
-
-    .stat-number {
-        font-size: 1.25rem;
-    }
-}
-
-/* Dark mode support (optional) */
-@media (prefers-color-scheme: dark) {
-    .admin-dashboard {
-        background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
-    }
-
-    .stat-card, .chart-card, .action-card, .status-card, .activity-card {
-        background: #374151;
-        border-color: #4b5563;
-        color: #f9fafb;
-    }
-
-    .stat-number, .stat-label, .activity-text {
-        color: #f9fafb;
-    }
-
-    .activity-item {
-        background: #4b5563;
-    }
-
-    .activity-item:hover {
-        background: #6b7280;
-    }
-}
-
-/* Print styles */
-@media print {
-    .dashboard-header,
-    .action-card,
-    .status-card,
-    .activity-card {
-        display: none;
-    }
-
-    .stats-grid,
-    .chart-section {
-        break-inside: avoid;
-    }
+    .dash-stat-card { padding: 1rem; gap: 0.75rem; }
+    .dash-stat-number { font-size: 1.4rem; }
+    .dash-title { font-size: 1.2rem; }
 }
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-
 <script>
 var municipalities = {!! json_encode($municipalities) !!};
 var totalCotsArray = {!! json_encode($totalCotsArray) !!};
 
-var baseColors = ['#1e40af', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4'];
+var baseColors = ['#1e40af','#10b981','#f59e0b','#ef4444','#8b5cf6','#06b6d4','#f97316','#84cc16'];
+var colors = municipalities.map((_, i) => baseColors[i % baseColors.length]);
 
-var generatedColors = [];
-for (var i = 0; i < municipalities.length; i++) {
-    if (i < baseColors.length) {
-        generatedColors.push(baseColors[i]);
-    } else {
-        generatedColors.push('#' + Math.floor(Math.random() * 16777215).toString(16));
-    }
-}
+var chartPie = null;
 
-var optionsPieChart = {
-    chart: {
-        type: 'donut',
-        height: 350,
-        animations: {
+if (municipalities.length > 0 && municipalities.length === totalCotsArray.length) {
+    var options = {
+        chart: { type: 'donut', height: 350, background: 'transparent', animations: { speed: 600 } },
+        series: totalCotsArray,
+        labels: municipalities,
+        colors: colors,
+        dataLabels: {
             enabled: true,
-            easing: 'easeinout',
-            speed: 800
+            style: { fontSize: '12px', fontWeight: '600', colors: ['#fff'] },
+            formatter: function(val) { return val.toFixed(1) + '%'; }
         },
-        background: 'transparent'
-    },
-    series: totalCotsArray,
-    labels: municipalities,
-    colors: generatedColors,
-    dataLabels: {
-        enabled: true,
-        style: {
-            fontSize: '14px',
-            fontWeight: 'bold',
-            colors: ['#fff']
+        tooltip: { y: { formatter: v => v + ' COTS' } },
+        plotOptions: {
+            pie: { donut: { size: '65%', labels: { show: true, total: { show: true, label: 'Total COTS', color: '#1e40af' } } } }
         },
-        formatter: function (val, opts) {
-            if (opts.series && opts.series[opts.seriesIndex] !== undefined) {
-                var totalCots = opts.series[opts.seriesIndex];
-                var percentage = (totalCots / opts.w.globals.seriesTotals.reduce((a, b) => a + b, 0)) * 100;
-                return totalCots + ' (' + percentage.toFixed(1) + '%)';
-            } else {
-                var municipality = municipalities[opts.seriesIndex];
-                return municipality;
-            }
-        }
-    },
-    tooltip: {
-        theme: 'light',
-        style: {
-            fontSize: '12px'
-        },
-        y: {
-            formatter: function (val) {
-                return val + ' COTS';
-            }
-        }
-    },
-    plotOptions: {
-        pie: {
-            donut: {
-                size: '70%',
-                labels: {
-                    show: true,
-                    total: {
-                        show: true,
-                        label: 'Total COTS',
-                        fontSize: '16px',
-                        fontWeight: 'bold',
-                        color: '#1e40af'
-                    }
-                }
-            }
-        }
-    },
-    legend: {
-        position: 'bottom',
-        horizontalAlign: 'center',
-        fontSize: '12px',
-        fontWeight: 'bold',
-        markers: {
-            width: 12,
-            height: 12,
-            radius: 6
-        },
-        itemMargin: {
-            horizontal: 8,
-            vertical: 4
-        }
-    },
-    responsive: [{
-        breakpoint: 768,
-        options: {
-            legend: {
-                position: 'bottom',
-                fontSize: '10px'
-            },
-            dataLabels: {
-                style: {
-                    fontSize: '10px'
-                }
-            }
-        }
-    }]
-};
-
-if (municipalities.length === totalCotsArray.length && municipalities.length > 0) {
-    var chartPie = new ApexCharts(document.querySelector("#pieChart"), optionsPieChart);
+        legend: { position: 'bottom', fontSize: '12px', itemMargin: { horizontal: 8, vertical: 4 } },
+        responsive: [{ breakpoint: 768, options: { legend: { fontSize: '10px' } } }]
+    };
+    chartPie = new ApexCharts(document.querySelector("#pieChart"), options);
     chartPie.render();
 } else {
-    console.error("Data mismatch or empty arrays:", municipalities.length, totalCotsArray.length);
+    document.querySelector("#pieChart").innerHTML = '<p class="text-center text-muted py-5">No data available.</p>';
 }
 
-// Refresh chart function
 function refreshChart() {
-    if (chartPie) {
-        chartPie.updateOptions(optionsPieChart);
-    }
+    if (chartPie) chartPie.updateOptions({});
 }
-
-// Add stagger animation on load
-document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.stat-card').forEach(function (card, index) {
-        card.style.animationDelay = (index * 0.1) + 's';
-        card.classList.add('animate-in');
-    });
-});
 </script>
-
-<style>
-/* Additional animations */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.animate-in {
-    animation: fadeInUp 0.6s ease-out forwards;
-    opacity: 0;
-}
-</style>
 
 @endsection
