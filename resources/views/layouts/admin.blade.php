@@ -93,6 +93,7 @@
         .layout-page main {
             flex: 1;
             padding: 2rem;
+            padding-top: 0;
             position: relative;
         }
 
@@ -166,7 +167,7 @@
             </aside>
         @endif
         <div class="layout-page flex-grow-1 d-flex flex-column">
-            <main class="py-4 flex-grow-1 d-flex flex-column">
+            <main class="pb-4 flex-grow-1 d-flex flex-column">
                 @yield('content')
             </main>
         </div>
