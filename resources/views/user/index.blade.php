@@ -935,8 +935,8 @@
     </div>
 </div>
 
-<div class="page-content" style="flex: 1; overflow-y: auto; padding: 0; margin: 0; display: flex; flex-direction: column; height: 100%; min-height: 400px;">
-    <div class="content-wrapper" style="flex: 1; display: flex; flex-direction: column; height: 100%; padding: 0; margin: 0;">
+<div class="page-content" style="flex: 1; overflow: hidden; padding: 0; margin: 0; display: flex; flex-direction: column; height: 100vh; min-height: 100vh; position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw;">
+    <div class="content-wrapper" style="flex: 1; display: flex; flex-direction: column; height: 100vh; padding: 0; margin: 0; position: relative; width: 100%; overflow: hidden;">
         <div id="map"></div>
             <!-- Consent Modal - Enhanced Design -->
             <div class="modal fade" id="consentModal" tabindex="-1" aria-labelledby="consentModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">

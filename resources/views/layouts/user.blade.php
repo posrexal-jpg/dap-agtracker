@@ -198,17 +198,12 @@
                 --navbar-height: 0px;
             }
         }
-        /* Fullscreen map mode for sightings page: show top navbar and keep modals above map */
+        /* Fullscreen map mode for sightings page: map fills entire screen */
         body.map-fullscreen {
             overflow: hidden;
         }
         body.map-fullscreen #layout-navbar {
-            display: block !important;
-            position: fixed !important;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 2147483647 !important;
+            display: none !important;
         }
         /* Override: Hide navbar on mobile even in fullscreen map mode */
         @media (max-width: 991px) {
@@ -228,11 +223,15 @@
         }
         body.map-fullscreen #map {
             position: fixed !important;
-            top: var(--navbar-height) !important;
+            top: 0 !important;
             left: 0 !important;
             width: 100vw !important;
-            height: calc(100vh - var(--navbar-height)) !important;
+            height: 100vh !important;
             z-index: 2147483645 !important;
+        }
+        /* Hide the top navbar entirely on map page so map is truly fullscreen */
+        body.map-fullscreen #layout-navbar {
+            display: none !important;
         }
         /* Ensure modals always appear in front of all page elements */
         /* Backdrop should sit above the map but below the modal. Use very large
