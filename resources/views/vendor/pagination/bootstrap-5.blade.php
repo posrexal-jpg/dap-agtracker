@@ -6,8 +6,25 @@
         Showing <strong>{{ $paginator->firstItem() }}</strong> to <strong>{{ $paginator->lastItem() }}</strong> of <strong>{{ $paginator->total() }}</strong> results
     </p>
 
-    {{-- Page buttons --}}
-    <ul class="pagination pagination-sm mb-0">
+    {{-- Mobile: Prev | Page X of Y | Next --}}
+    <div class="d-flex d-md-none align-items-center gap-2">
+        @if ($paginator->onFirstPage())
+            <button class="btn btn-outline-secondary btn-sm" disabled>&laquo; Prev</button>
+        @else
+            <a href="{{ $paginator->previousPageUrl() }}" class="btn btn-outline-primary btn-sm" rel="prev">&laquo; Prev</a>
+        @endif
+
+        <span class="text-muted small px-2">Page <strong>{{ $paginator->currentPage() }}</strong> of <strong>{{ $paginator->lastPage() }}</strong></span>
+
+        @if ($paginator->hasMorePages())
+            <a href="{{ $paginator->nextPageUrl() }}" class="btn btn-outline-primary btn-sm" rel="next">Next &raquo;</a>
+        @else
+            <button class="btn btn-outline-secondary btn-sm" disabled>Next &raquo;</button>
+        @endif
+    </div>
+
+    {{-- Desktop: full page number list --}}
+    <ul class="pagination pagination-sm mb-0 d-none d-md-flex">
 
         {{-- Previous --}}
         @if ($paginator->onFirstPage())
