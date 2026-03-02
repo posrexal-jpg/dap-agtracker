@@ -13,12 +13,12 @@
                 <p class="page-subtitle">Add, edit, and manage system users with ease</p>
             </div>
             <div class="page-actions d-flex gap-2">
-                @if($users->where('is_approved', false)->count() > 0)
+                @if(\App\Models\User::where('is_approved', false)->count() > 0)
                 <form action="{{ route('admin.users.approve-all') }}" method="POST" style="display: inline;">
                     @csrf
                     <button type="submit" class="btn btn-success" onclick="return confirm('Approve all pending users?');">
                         <i class="bx bx-check-double me-2"></i>Approve All Pending
-                        <span class="badge bg-white text-success ms-1">{{ $users->where('is_approved', false)->count() }}</span>
+                        <span class="badge bg-white text-success ms-1">{{ \App\Models\User::where('is_approved', false)->count() }}</span>
                     </button>
                 </form>
                 @endif
@@ -86,8 +86,18 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Users List</h5>
+                <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2">
+                    <h5 class="card-title mb-0">Users List <span class="text-muted fs-6">({{ $users->total() }} total)</span></h5>
+                    <form method="GET" action="{{ route('admin.adduser') }}" class="d-flex gap-2" style="min-width: 260px;">
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text"><i class="bx bx-search"></i></span>
+                            <input type="text" name="search" class="form-control" placeholder="Search name or email..." value="{{ $search ?? '' }}">
+                            @if(!empty($search))
+                                <a href="{{ route('admin.adduser') }}" class="btn btn-outline-secondary btn-sm" title="Clear search"><i class="bx bx-x"></i></a>
+                            @endif
+                            <button type="submit" class="btn btn-primary btn-sm">Search</button>
+                        </div>
+                    </form>
                 </div>
                 <div class="card-body">
 
@@ -244,6 +254,13 @@
                         </div>
                     </div>
                     @endforeach
+
+                    <!-- Pagination -->
+                    @if($users->hasPages())
+                    <div class="d-flex justify-content-center mt-3">
+                        {{ $users->links() }}
+                    </div>
+                    @endif
 
                 </div>
             </div>

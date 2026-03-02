@@ -11,12 +11,22 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::all();
+        $search = $request->input('search');
+
+        $users = User::with('role')
+            ->when($search, function ($query) use ($search) {
+                $query->where('name', 'like', "%{$search}%")
+                      ->orWhere('email', 'like', "%{$search}%");
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(10)
+            ->withQueryString();
+
         $roles = Role::all();
 
-        return view('admin.adduser', compact('users', 'roles'));
+        return view('admin.adduser', compact('users', 'roles', 'search'));
     }
 
     public function create()
