@@ -461,7 +461,7 @@
         background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
         border-bottom: 1px solid #e2e8f0;
         flex-shrink: 0;
-        display: none !important; /* Hide on all screen sizes for fullscreen map */
+        display: flex;
         align-items: center;
         gap: 20px;
     }
@@ -531,7 +531,7 @@
         padding: 0 !important;
         height: 100vh !important;
         width: 100vw !important;
-        min-height: 400px;
+        min-height: 100vh !important;
         position: fixed !important;
         top: 0 !important;
         left: 0 !important;
@@ -678,7 +678,8 @@
 
         #map {
             margin: 0;
-            height: 100%;
+            height: 100vh;
+            min-height: 100vh;
         }
 
         .btn {
@@ -899,8 +900,8 @@
     #map {
         flex: 1;
         width: 100%;
-        height: 100%;
-        min-height: 400px;
+        height: 100vh;
+        min-height: 100vh;
         position: fixed !important;
         top: 0 !important;
         left: 0 !important;
