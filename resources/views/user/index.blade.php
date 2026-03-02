@@ -459,7 +459,7 @@
             top: 8px !important;
             left: 8px !important;
             right: 8px !important;
-            z-index: 1000 !important;
+            z-index: 100 !important;
             background: rgba(255, 255, 255, 0.92) !important;
             backdrop-filter: blur(10px) !important;
             border-radius: 12px !important;
@@ -547,7 +547,7 @@
             top: 8px !important;
             left: 8px !important;
             right: 8px !important;
-            z-index: 1000 !important;
+            z-index: 100 !important;
         }
 
         .layout-page {
