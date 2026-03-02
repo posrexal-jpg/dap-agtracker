@@ -714,6 +714,23 @@
             height: 100vh !important;
             padding: 0 !important;
             margin: 0 !important;
+            display: block !important;
+            grid-template-columns: auto !important;
+            grid-gap: 0 !important;
+        }
+
+        .page-content,
+        .content-wrapper {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            display: block !important;
         }
 
         #map {
@@ -727,10 +744,31 @@
             z-index: 1 !important;
             margin: 0 !important;
             padding: 0 !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
         }
 
         .page-header {
             display: none !important;
+        }
+
+        .map-control-panel {
+            display: none !important;
+        }
+
+        .map-info-card {
+            position: fixed !important;
+            display: block !important;
+            bottom: auto !important;
+            right: auto !important;
+            width: auto !important;
+        }
+
+        .fab-add-sighting {
+            position: fixed !important;
+            display: flex !important;
+            bottom: auto !important;
+            right: auto !important;
         }
 
         .layout-page {
@@ -793,64 +831,6 @@
         }
     }
 
-    /* Tablet - Fullscreen Map */
-    @media (min-width: 992px) and (max-width: 1199px) {
-        body, html {
-            overflow: hidden !important;
-        }
-
-        .container-fluid {
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            right: 0 !important;
-            bottom: 0 !important;
-            width: 100vw !important;
-            height: 100vh !important;
-            padding: 0 !important;
-            margin: 0 !important;
-        }
-
-        #map {
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            right: 0 !important;
-            bottom: 0 !important;
-            width: 100vw !important;
-            height: 100vh !important;
-            z-index: 1 !important;
-            margin: 0 !important;
-            padding: 0 !important;
-        }
-
-        .page-header {
-            display: none !important;
-        }
-
-        .layout-page {
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            right: 0 !important;
-            bottom: 0 !important;
-            width: 100vw !important;
-            height: 100vh !important;
-            padding: 0 !important;
-            margin: 0 !important;
-        }
-
-        .layout-page main {
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            right: 0 !important;
-            bottom: 0 !important;
-            padding: 0 !important;
-            margin: 0 !important;
-        }
-    }
-
     /* Desktop-specific adjustments - Enhanced Design */
     @media (min-width: 992px) {
         body.map-fullscreen {
@@ -860,21 +840,35 @@
         .container-fluid,
         .page-content,
         .content-wrapper {
-            height: 100vh !important;
-            padding: 0 !important;
+            height: auto !important;
+            min-height: calc(100vh - 64px) !important;
+            padding: 20px !important;
             margin: 0 !important;
-        }
-        #map {
-            position: fixed !important;
+            display: grid !important;
+            grid-template-columns: 1fr 320px !important;
+            grid-gap: 20px !important;
+            overflow-y: auto !important;
+            position: absolute !important;
             top: 64px !important;
             left: 0 !important;
             right: 0 !important;
             bottom: 0 !important;
-            width: 100vw !important;
-            height: calc(100vh - 64px) !important;
+            width: 100% !important;
+        }
+
+        #map {
+            position: relative !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: auto !important;
+            bottom: auto !important;
+            width: 100% !important;
+            height: 500px !important;
             z-index: 1 !important;
             margin: 0 !important;
             padding: 0 !important;
+            border-radius: 12px !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
         }
         .page-header {
             display: none !important;
@@ -883,27 +877,28 @@
             z-index: 1001;
         }
         .layout-page {
-            height: 100vh !important;
+            height: auto !important;
             display: flex;
             flex-direction: column;
         }
 
-        /* Desktop Control Panel - Left Side */
+        /* Desktop Control Panel - Right Side */
         .map-control-panel {
-            position: fixed;
-            top: 84px;
-            left: 20px;
-            width: 320px;
-            max-height: calc(100vh - 204px);
+            position: relative;
+            top: auto;
+            left: auto;
+            width: 100%;
+            max-height: 100%;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(14px);
-            border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
-            z-index: 1000;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            z-index: 100;
             overflow-y: auto;
             border: 1px solid rgba(229, 231, 235, 0.6);
             display: flex;
             flex-direction: column;
+            height: fit-content;
         }
 
         .map-control-panel::-webkit-scrollbar {
@@ -1155,66 +1150,14 @@
             border-color: #cbd5e1;
         }
 
-        /* Map Info Card - Bottom Right */
+        /* Map Info Card - Hidden on Desktop */
         .map-info-card {
-            position: fixed;
-            bottom: 100px;
-            right: 20px;
-            width: 280px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(14px);
-            border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
-            padding: 14px;
-            z-index: 1000;
-            border: 1px solid rgba(229, 231, 235, 0.6);
+            display: none !important;
         }
 
-        .map-info-card h5 {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #1e3a8a;
-            margin: 0 0 6px 0;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .map-info-card p {
-            font-size: 0.8rem;
-            color: #64748b;
-            margin: 0;
-            line-height: 1.4;
-        }
-
-        /* Floating Action Button */
+        /* Floating Action Button - Hidden on Desktop */
         .fab-add-sighting {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
-            color: white;
-            border: none;
-            box-shadow: 0 8px 24px rgba(220, 38, 38, 0.35);
-            display: flex !important;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-            z-index: 1000;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .fab-add-sighting:hover {
-            transform: scale(1.12);
-            box-shadow: 0 12px 32px rgba(220, 38, 38, 0.45);
-        }
-
-        .fab-add-sighting:active {
-            transform: scale(0.95);
+            display: none !important;
         }
     }
 
@@ -1222,22 +1165,18 @@
     .page-content, .content-wrapper {
         height: 100%;
         width: 100%;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        position: relative;
+        display: contents;
     }
     #map {
         flex: 1;
         width: 100%;
-        height: 100vh;
-        min-height: 100vh;
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        bottom: 0 !important;
+        min-height: 400px;
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        bottom: auto !important;
         z-index: 1 !important;
     }
 </style>
