@@ -938,42 +938,49 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modal1Label"><i class="fas fa-info-circle me-2"></i>Sighting Details</h5>
+                    <h5 class="modal-title" id="modal1Label" data-en="Sighting Details" data-bis="Detalye sa Pagkakita"><i class="fas fa-info-circle me-2"></i>Sighting Details</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 
 
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="name">Name:</label>
+                        <label for="language" data-en="Language:" data-bis="Pinulongan:">Language:</label>
+                        <select class="form-control" id="language" name="language">
+                            <option value="en">English</option>
+                            <option value="bis">Bisaya</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" data-en="Name:" data-bis="Ngalan:">Name:</label>
                         <input type="text" class="form-control" id="name" name="name" placeholder="optional">
                     </div>
                     <div class="form-group">
-                        <label for="date_of_sighting">Date of COTS Sighting:</label>
+                        <label for="date_of_sighting" data-en="Date of COTS Sighting:" data-bis="Petsa sa Pagkakita sa COTS:">Date of COTS Sighting:</label>
                         <input type="date" class="form-control" id="date_of_sighting" name="date_of_sighting" required>
                     </div>
                     <div class="form-group">
-                        <label for="time_of_sighting">Time of COTS Sighting:</label>
+                        <label for="time_of_sighting" data-en="Time of COTS Sighting:" data-bis="Oras sa Pagkakita sa COTS:">Time of COTS Sighting:</label>
                         <input type="time" class="form-control" id="time_of_sighting" name="time_of_sighting" required>
                     </div>
                     <div class="form-group">
-                        <label for="municipality">Municipality:</label>
+                        <label for="municipality" data-en="Municipality:" data-bis="Munisipalidad:">Municipality:</label>
                         <select class="form-control" id="municipality" name="municipality" required>
-                            <option value="">Select Municipality</option>
+                            <option value="" data-en="Select Municipality" data-bis="Pilia ang Munisipalidad">Select Municipality</option>
                             <!-- Municipalities will be populated here -->
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="barangay">Barangay:</label>
+                        <label for="barangay" data-en="Barangay:" data-bis="Barangay:">Barangay:</label>
                         <select class="form-control" id="barangay" name="barangay" required>
-                            <option value="">Select Barangay</option>
+                            <option value="" data-en="Select Barangay" data-bis="Pilia ang Barangay">Select Barangay</option>
                             <!-- Barangays will be populated here -->
                         </select>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="nextBtn1">Next</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-en="Close" data-bis="Sirado">Close</button>
+                    <button type="button" class="btn btn-primary" id="nextBtn1" data-en="Next" data-bis="Sunod">Next</button>
 
                 </div>
             </div>
@@ -985,38 +992,38 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modal2Label"><i class="fas fa-sort-numeric-up me-2"></i>COTS Count</h5>
+                    <h5 class="modal-title" id="modal2Label" data-en="COTS Count" data-bis="Ihap sa COTS"><i class="fas fa-sort-numeric-up me-2"></i>COTS Count</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="early_juvenile">1-5cm:</label>
+                        <label for="early_juvenile" data-en="1-5cm:" data-bis="1-5cm:">1-5cm:</label>
                         <input type="number" class="form-control" id="early_juvenile" name="early_juvenile" min="0">
                     </div>
                     <div class="form-group">
-                        <label for="juvenile">6-15cm:</label>
+                        <label for="juvenile" data-en="6-15cm:" data-bis="6-15cm:">6-15cm:</label>
                         <input type="number" class="form-control" id="juvenile" name="juvenile" min="0">
                     </div>
                     <div class="form-group">
-                        <label for="sub_adult">15-25cm:</label>
+                        <label for="sub_adult" data-en="15-25cm:" data-bis="15-25cm:">15-25cm:</label>
                         <input type="number" class="form-control" id="sub_adult" name="sub_adult" min="0">
                     </div>
                     <div class="form-group">
-                        <label for="adult">25-35cm:</label>
+                        <label for="adult" data-en="25-35cm:" data-bis="25-35cm:">25-35cm:</label>
                         <input type="number" class="form-control" id="adult" name="adult" min="0">
                     </div>
                     <div class="form-group">
-                        <label for="late_adult">>35cm:</label>
+                        <label for="late_adult" data-en=">35cm:" data-bis=">35cm:">>35cm:</label>
                         <input type="number" class="form-control" id="late_adult" name="late_adult" min="0">
                     </div>
                     <div class="form-group">
-                        <label for="number_of_cots">Total COTS:</label>
+                        <label for="number_of_cots" data-en="Total COTS:" data-bis="Kinatibuk-an nga COTS:">Total COTS:</label>
                         <input type="number" class="form-control" id="number_of_cots" name="number_of_cots" min="0">
                     </div>
                 </div>
                 <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="backBtn2">Back</button>
-                <button type="button" class="btn btn-primary" id="nextBtn2">Next</button>
+                <button type="button" class="btn btn-secondary" id="backBtn2" data-en="Back" data-bis="Balik">Back</button>
+                <button type="button" class="btn btn-primary" id="nextBtn2" data-en="Next" data-bis="Sunod">Next</button>
                 </div>
             </div>
         </div>
@@ -1027,39 +1034,39 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modal3Label"><i class="fas fa-user me-2"></i>Activity & Observer Info</h5>
+                    <h5 class="modal-title" id="modal3Label" data-en="Activity & Observer Info" data-bis="Kalihokan ug Tigtan-aw"><i class="fas fa-user me-2"></i>Activity & Observer Info</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="activity_type">Type of Activity:</label>
+                        <label for="activity_type" data-en="Type of Activity:" data-bis="Matang sa Kalihokan:">Type of Activity:</label>
                         <select class="form-control" id="activity_type" name="activity_type" required>
-                            <option value="">Select Activity</option>
-                            <option value="Fishing">Fishing</option>
-                            <option value="Recreational diving">Recreational Diving</option>
-                            <option value="Research">Research</option>
-                            <option value="Cots collection">COTS Collection</option>
-                            <option value="other">Other</option>
+                            <option value="" data-en="Select Activity" data-bis="Pilia ang Kalihokan">Select Activity</option>
+                            <option value="Fishing" data-en="Fishing" data-bis="Pangisda">Fishing</option>
+                            <option value="Recreational diving" data-en="Recreational Diving" data-bis="Paglangoy Alang sa Kalingawan">Recreational Diving</option>
+                            <option value="Research" data-en="Research" data-bis="Panukiduki">Research</option>
+                            <option value="Cots collection" data-en="COTS Collection" data-bis="Pagkolekta sa COTS">COTS Collection</option>
+                            <option value="other" data-en="Other" data-bis="Uban pa">Other</option>
                         </select>
                         <input type="text" class="form-control mt-2 d-none" id="custom_activity" name="custom_activity" placeholder="Please specify activity">
                     </div>
                     <div class="form-group">
-                        <label for="observer_category">Observer Category:</label>
+                        <label for="observer_category" data-en="Observer Category:" data-bis="Kategorya sa Tigtan-aw:">Observer Category:</label>
                         <select class="form-control" id="observer_category" name="observer_category" required>
-                            <option value="">Select Observer</option>
-                            <option value="Fisherfolks">Fisherfolks</option>
-                            <option value="Barangay residents">Barangay Residents</option>
-                            <option value="Local government">Local Government</option>
-                            <option value="Advocacy groups">Advocacy Group</option>
-                            <option value="Researcher">Researcher</option>
-                            <option value="other">Other</option>
+                            <option value="" data-en="Select Observer" data-bis="Pilia ang Tigtan-aw">Select Observer</option>
+                            <option value="Fisherfolks" data-en="Fisherfolks" data-bis="Mananagat">Fisherfolks</option>
+                            <option value="Barangay residents" data-en="Barangay Residents" data-bis="Lumulupyo sa Barangay">Barangay Residents</option>
+                            <option value="Local government" data-en="Local Government" data-bis="Lokal nga Kagamhanan">Local Government</option>
+                            <option value="Advocacy groups" data-en="Advocacy Group" data-bis="Grupo sa Pagpakiglambigit">Advocacy Group</option>
+                            <option value="Researcher" data-en="Researcher" data-bis="Tigdukiduki">Researcher</option>
+                            <option value="other" data-en="Other" data-bis="Uban pa">Other</option>
                         </select>
                         <input type="text" class="form-control mt-2 d-none" id="custom_observer" name="custom_observer" placeholder="Please specify observer">
                     </div>
                 </div>
                 <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="backBtn3">Back</button>
-                <button type="button" class="btn btn-primary" id="nextBtn3">Next</button>
+                <button type="button" class="btn btn-secondary" id="backBtn3" data-en="Back" data-bis="Balik">Back</button>
+                <button type="button" class="btn btn-primary" id="nextBtn3" data-en="Next" data-bis="Sunod">Next</button>
                 </div>
             </div>
         </div>
@@ -1070,40 +1077,40 @@
         <div class="modal-dialog modal-dialog-centered modal-lg"> 
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modal4Label"><i class="fas fa-map-marker-alt me-2"></i>Location & Media</h5>
+                    <h5 class="modal-title" id="modal4Label" data-en="Location & Media" data-bis="Lokasyon ug Media"><i class="fas fa-map-marker-alt me-2"></i>Location & Media</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="location_name">Location Name:</label>
+                        <label for="location_name" data-en="Location Name:" data-bis="Ngalan sa Lokasyon:">Location Name:</label>
                         <input type="text" class="form-control" id="location_name" name="location_name" placeholder="e.g., Near Reef Point, Coastal Area A" required>
-                        <small class="text-muted">Specify the exact location or landmark where COTS were sighted</small>
+                        <small class="text-muted" data-en="Specify the exact location or landmark where COTS were sighted" data-bis="Isulti ang eksaktong lokasyon o landmark diin nakita ang COTS">Specify the exact location or landmark where COTS were sighted</small>
                     </div>
 
                     <div class="form-group">
-                        <label>Latitude:</label>
-                        <p id="latitude_display">Not selected</p>
+                        <label data-en="Latitude:" data-bis="Latitude:">Latitude:</label>
+                        <p id="latitude_display" data-en="Not selected" data-bis="Wala mapili">Not selected</p>
                         <input type="hidden" id="latitude" name="latitude" required>
                     </div>
 
                     <div class="form-group">
-                        <label>Longitude:</label>
-                        <p id="longitude_display">Not selected</p>
+                        <label data-en="Longitude:" data-bis="Longitude:">Longitude:</label>
+                        <p id="longitude_display" data-en="Not selected" data-bis="Wala mapili">Not selected</p>
                         <input type="hidden" id="longitude" name="longitude" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="photo">Photos:</label>
+                        <label for="photo" data-en="Photos:" data-bis="Mga Litrato:">Photos:</label>
                         <input type="file" class="form-control" id="photo" name="photo[]" accept="image/*" multiple>
                     </div>
                     <div class="form-group">
-                        <label for="description">Additional Comments:</label>
+                        <label for="description" data-en="Additional Comments:" data-bis="Dugang nga Komento:">Additional Comments:</label>
                         <textarea class="form-control" id="description" name="description"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="backBtn4">Back</button>
-                    <button type="submit" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-secondary" id="backBtn4" data-en="Back" data-bis="Balik">Back</button>
+                    <button type="submit" class="btn btn-success" data-en="Submit" data-bis="Isumite">Submit</button>
                 </div>
             </div>
         </div>
@@ -1140,6 +1147,61 @@
     </script>
     <script src="{{ asset('js/user-map.js') }}"></script>
     <script src="{{ asset('js/user-form.js') }}"></script>
+    
+    <!-- Language Translation Script -->
+    <script>
+        $(document).ready(function() {
+            // Language switcher
+            $('#language').on('change', function() {
+                const selectedLang = $(this).val();
+                translateForm(selectedLang);
+            });
+
+            function translateForm(lang) {
+                // Translate all elements with data attributes
+                $('[data-en][data-bis]').each(function() {
+                    const $element = $(this);
+                    const text = lang === 'bis' ? $element.data('bis') : $element.data('en');
+                    
+                    // Handle different element types
+                    if ($element.is('label') || $element.is('button') || $element.is('h5') || $element.is('p') || $element.is('small')) {
+                        // For labels with icons, preserve the icon HTML
+                        const icon = $element.find('i').length ? $element.find('i')[0].outerHTML : '';
+                        if (icon) {
+                            $element.html(icon + text);
+                        } else {
+                            $element.text(text);
+                        }
+                    } else if ($element.is('option')) {
+                        $element.text(text);
+                    }
+                });
+
+                // Update placeholders if needed
+                if (lang === 'bis') {
+                    $('#name').attr('placeholder', 'opsyonal');
+                    $('#custom_activity').attr('placeholder', 'Palihug isulti ang kalihokan');
+                    $('#custom_observer').attr('placeholder', 'Palihug isulti ang tigtan-aw');
+                    $('#location_name').attr('placeholder', 'pananglitan, Duol sa Reef Point, Coastal Area A');
+                } else {
+                    $('#name').attr('placeholder', 'optional');
+                    $('#custom_activity').attr('placeholder', 'Please specify activity');
+                    $('#custom_observer').attr('placeholder', 'Please specify observer');
+                    $('#location_name').attr('placeholder', 'e.g., Near Reef Point, Coastal Area A');
+                }
+
+                // Store selected language for form submission
+                localStorage.setItem('selectedLanguage', lang);
+            }
+
+            // Check if there's a saved language preference
+            const savedLang = localStorage.getItem('selectedLanguage');
+            if (savedLang) {
+                $('#language').val(savedLang);
+                translateForm(savedLang);
+            }
+        });
+    </script>
     <script src="{{ asset('js/user-offline.js') }}"></script>
     <script src="{{ asset('js/offline-manager.js') }}"></script>
     <script src="{{ asset('js/pwa-install.js') }}"></script>

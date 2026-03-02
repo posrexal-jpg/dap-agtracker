@@ -37,6 +37,7 @@ class UserLocationController extends Controller
         // Validate the request for multiple photos
         $request->validate([
             'name' => 'nullable|string',
+            'language' => 'nullable|string',
             'description' => 'nullable|string',
             'location_name' => 'required|string',
             'latitude' => 'required|numeric',
@@ -73,6 +74,7 @@ class UserLocationController extends Controller
         Location::create([
             'user_id' => Auth::id(),
             'name' => $request->name ?? null,
+            'language' => $request->language ?? 'en',
             'description' => $request->description ?? null,
             'location_name' => $request->location_name,
             'latitude' => $request->latitude,
@@ -132,6 +134,7 @@ class UserLocationController extends Controller
                     // Validate the location data
                     $validatedData = validator($locationData, [
                         'name' => 'nullable|string',
+                        'language' => 'nullable|string',
                         'description' => 'nullable|string',
                         'location_name' => 'nullable|string',
                         'latitude' => 'required|numeric',
