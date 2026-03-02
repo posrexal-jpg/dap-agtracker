@@ -94,7 +94,10 @@
         @media (max-width: 1199.98px) {
             .layout-page {
                 margin-left: 0;
-                width: 100%;
+                margin-top: 0;
+                min-width: 0;
+                width: 100vw;
+                padding: 1rem;
             }
 
             .layout-wrapper {

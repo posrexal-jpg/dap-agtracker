@@ -145,9 +145,11 @@
             }
             .layout-page {
                 margin-left: 0;
+                margin-top: 0;
                 min-width: 0;
                 width: 100vw;
                 max-width: 100vw;
+                padding: 1rem;
             }
             .layout-container {
                 flex-direction: column;
