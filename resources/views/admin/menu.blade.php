@@ -80,11 +80,11 @@
             </a>
         </li>
 
-        <!-- Logout (visible on mobile only) -->
-        <li class="menu-item d-block d-xl-none mt-3">
+        <!-- Logout -->
+        <li class="menu-item mt-3">
             <form action="{{ route('logout') }}" method="POST" class="w-100">
                 @csrf
-                <button type="submit" class="menu-link w-100 text-start text-dark hover-bg-danger hover-text-white text-decoration-none py-3 px-4 rounded-3 mx-2 mb-1 border-0 bg-transparent">
+                <button type="submit" class="menu-link w-100 text-start text-danger hover-bg-danger hover-text-white text-decoration-none py-3 px-4 rounded-3 mx-2 mb-1 border-0 bg-transparent">
                     <i class="menu-icon tf-icons bx bx-log-out fs-5"></i>
                     <div class="fw-semibold">Logout</div>
                 </button>
