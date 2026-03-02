@@ -431,3 +431,16 @@ body {
   }
 }
 
+/* Map container responsive sizing within layout structure */
+.layout-wrapper {
+  & .layout-page main {
+    @media (max-width: 767.98px), (max-width: 1024px) and (orientation: landscape) {
+      .leaflet-container, .map-container, #map {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: calc(100vh - 140px) !important;
+        min-height: 320px !important; /* Ensures map remains usable on small screens */
+      }
+    }
+  }
+}
