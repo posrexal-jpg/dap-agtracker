@@ -1,10 +1,6 @@
 @extends('layouts.user')
 
-@section('title', 'COTS Sightings Map - Real-time Tracker')
-
 @section('content')
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-
 <style>
     /* Root Variables */
     :root {
