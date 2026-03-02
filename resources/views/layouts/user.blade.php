@@ -140,7 +140,7 @@
                 width: 100% !important;
                 max-width: 100% !important;
                 height: calc(100vh - 140px) !important;
-                min-height: 100%;
+                /* min-height: 320px !important; */
             }
         }
         @media (max-width: 1199.98px) {
