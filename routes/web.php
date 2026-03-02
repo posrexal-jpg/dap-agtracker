@@ -67,6 +67,15 @@ Route::prefix('admin')
         Route::get('/municipality/create', [Admin\MunicipalityController::class, 'create'])->name('municipal.create');
         Route::post('/municipality',       [Admin\MunicipalityController::class, 'store'])->name('municipal.store');
         Route::delete('/municipality/{id}',[Admin\MunicipalityController::class, 'destroy'])->name('municipal.destroy');
+
+        // Notifications
+        Route::get('/notifications',              [Admin\NotificationController::class, 'index'])->name('notifications');
+        Route::get('/notifications/unread-count', [Admin\NotificationController::class, 'getUnreadCount'])->name('notifications.unread-count');
+        Route::get('/notifications/recent',       [Admin\NotificationController::class, 'getRecent'])->name('notifications.recent');
+        Route::post('/notifications/{id}/read',   [Admin\NotificationController::class, 'markAsRead'])->name('notifications.read');
+        Route::post('/notifications/mark-all-read', [Admin\NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-read');
+        Route::delete('/notifications/{id}',      [Admin\NotificationController::class, 'destroy'])->name('notifications.destroy');
+        Route::post('/notifications/clear-read',  [Admin\NotificationController::class, 'clearRead'])->name('notifications.clear-read');
     });
 
 // Redirect /users to /user for convenience

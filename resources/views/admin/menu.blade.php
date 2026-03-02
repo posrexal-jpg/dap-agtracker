@@ -46,6 +46,17 @@
             </a>
         </li>
 
+        <!-- Notifications -->
+        <li class="menu-item {{ Route::is('admin.notifications') ? 'active' : '' }}">
+            <a href="{{ route('admin.notifications') }}" class="menu-link text-dark hover-bg-admin hover-text-white text-decoration-none py-3 px-4 rounded-3 mx-2 mb-1 position-relative">
+                <i class="menu-icon tf-icons bx bx-bell fs-5"></i>
+                <div class="fw-semibold">Notifications</div>
+                <span class="position-absolute top-50 end-0 translate-middle-y badge rounded-pill bg-danger me-4" id="sidebarNotificationBadge" style="display: none; font-size: 0.65rem;">
+                    0
+                </span>
+            </a>
+        </li>
+
         <!-- Section Divider -->
         <li class="menu-section mt-3 mb-2">
             <div class="menu-section-title px-4 text-muted small fw-semibold">

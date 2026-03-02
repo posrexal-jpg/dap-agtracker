@@ -132,6 +132,36 @@
     </style>
 </head>
 <body class="admin-page">
+<!-- Notification Bell (Fixed Position) -->
+<div class="notification-bell-container" style="position: fixed; top: 20px; right: 20px; z-index: 1100;">
+    <div class="dropdown">
+        <button class="btn btn-light position-relative rounded-circle p-2 shadow" type="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="width: 50px; height: 50px;">
+            <i class="bx bx-bell fs-4"></i>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="notificationBadge" style="display: none;">
+                0
+            </span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end shadow-lg" aria-labelledby="notificationDropdown" style="width: 360px; max-height: 500px; overflow-y: auto;">
+            <li class="dropdown-header d-flex justify-content-between align-items-center px-3 py-2 border-bottom">
+                <h6 class="mb-0">Notifications</h6>
+                <button class="btn btn-sm btn-link text-primary p-0" id="markAllReadBtn" style="font-size: 0.8rem;">Mark all read</button>
+            </li>
+            <div id="notificationList">
+                <li class="text-center py-4 text-muted">
+                    <i class="bx bx-bell-off fs-3 d-block mb-2"></i>
+                    <small>No notifications</small>
+                </li>
+            </div>
+            <li class="dropdown-divider"></li>
+            <li class="text-center">
+                <a class="dropdown-item text-primary fw-semibold" href="{{ route('admin.notifications') }}">
+                    View All Notifications
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
 <!-- Page Content -->
 <div class="layout-wrapper layout-content-navbar">
     <div class="layout-container d-flex flex-row">
@@ -163,6 +193,135 @@
 
 <!-- Custom JavaScript (Vite) -->
 @vite(['resources/js/app.js', 'resources/js/mobile-menu.js', 'resources/js/service-worker.js'])
+
+<!-- Notification Script -->
+<script>
+$(document).ready(function() {
+    // Fetch notifications on page load
+    fetchNotifications();
+
+    // Poll for new notifications every 30 seconds
+    setInterval(fetchNotifications, 30000);
+
+    // Fetch notifications function
+    function fetchNotifications() {
+        $.ajax({
+            url: '{{ route("admin.notifications.recent") }}',
+            method: 'GET',
+            success: function(response) {
+                updateNotificationBadge(response.unread_count);
+                updateNotificationList(response.notifications);
+            },
+            error: function(xhr) {
+                console.error('Failed to fetch notifications:', xhr);
+            }
+        });
+    }
+
+    // Update notification badge
+    function updateNotificationBadge(count) {
+        const badge = $('#notificationBadge');
+        const sidebarBadge = $('#sidebarNotificationBadge');
+        
+        if (count > 0) {
+            badge.text(count).show();
+            sidebarBadge.text(count).show();
+        } else {
+            badge.hide();
+            sidebarBadge.hide();
+        }
+    }
+
+    // Update notification list
+    function updateNotificationList(notifications) {
+        const list = $('#notificationList');
+        list.empty();
+
+        if (notifications.length === 0) {
+            list.html(`
+                <li class="text-center py-4 text-muted">
+                    <i class="bx bx-bell-off fs-3 d-block mb-2"></i>
+                    <small>No notifications</small>
+                </li>
+            `);
+            return;
+        }
+
+        notifications.forEach(function(notification) {
+            const isRead = notification.is_read;
+            const bgClass = isRead ? '' : 'bg-light';
+            const timeAgo = getTimeAgo(notification.created_at);
+            
+            list.append(`
+                <li class="dropdown-item ${bgClass} notification-item" data-id="${notification.id}" style="cursor: pointer; padding: 12px 16px; border-bottom: 1px solid #f0f0f0;">
+                    <div class="d-flex">
+                        <div class="flex-shrink-0">
+                            <i class="bx bx-map-pin text-primary fs-4"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6 class="mb-1 fw-semibold" style="font-size: 0.9rem;">${notification.title}</h6>
+                            <p class="mb-1 text-muted" style="font-size: 0.85rem;">${notification.message}</p>
+                            <small class="text-muted" style="font-size: 0.75rem;">
+                                <i class="bx bx-time-five"></i> ${timeAgo}
+                            </small>
+                        </div>
+                        ${!isRead ? '<div class="ms-2"><span class="badge bg-primary rounded-circle" style="width: 8px; height: 8px; padding: 0;"></span></div>' : ''}
+                    </div>
+                </li>
+            `);
+        });
+    }
+
+    // Get time ago string
+    function getTimeAgo(dateString) {
+        const date = new Date(dateString);
+        const now = new Date();
+        const seconds = Math.floor((now - date) / 1000);
+
+        if (seconds < 60) return 'Just now';
+        if (seconds < 3600) return Math.floor(seconds / 60) + ' minutes ago';
+        if (seconds < 86400) return Math.floor(seconds / 3600) + ' hours ago';
+        if (seconds < 604800) return Math.floor(seconds / 86400) + ' days ago';
+        return date.toLocaleDateString();
+    }
+
+    // Mark notification as read on click
+    $(document).on('click', '.notification-item', function() {
+        const notificationId = $(this).data('id');
+        const notification = $(this);
+
+        $.ajax({
+            url: `/admin/notifications/${notificationId}/read`,
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function() {
+                notification.removeClass('bg-light');
+                notification.find('.badge').remove();
+                fetchNotifications(); // Refresh to update badge count
+            }
+        });
+    });
+
+    // Mark all as read
+    $('#markAllReadBtn').on('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        $.ajax({
+            url: '{{ route("admin.notifications.mark-all-read") }}',
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function() {
+                fetchNotifications();
+            }
+        });
+    });
+});
+</script>
 
 @stack('scripts')
 

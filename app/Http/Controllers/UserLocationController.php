@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Location;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Municipality;
 
@@ -71,7 +72,7 @@ class UserLocationController extends Controller
         }
     
         // Create a new location using the request data
-        Location::create([
+        $location = Location::create([
             'user_id' => Auth::id(),
             'name' => $request->name ?? null,
             'language' => $request->language ?? 'en',
@@ -92,6 +93,19 @@ class UserLocationController extends Controller
             'date_of_sighting' => $request->date_of_sighting,
             'time_of_sighting' => $request->time_of_sighting,
             'photo' => json_encode($photoPaths), // Store the array of photo paths as a JSON string
+        ]);
+
+        // Create notification for admins
+        $userName = $request->name ?? Auth::user()->name ?? 'A user';
+        $cotsCount = $request->number_of_cots ?? 'Unknown';
+        
+        Notification::create([
+            'type' => 'new_sighting',
+            'location_id' => $location->id,
+            'user_id' => Auth::id(),
+            'title' => 'New COTS Sighting Reported',
+            'message' => "{$userName} reported {$cotsCount} COTS at {$request->location_name}, {$request->municipality}, {$request->barangay}",
+            'is_read' => false,
         ]);
     
         // Redirect with a success message
