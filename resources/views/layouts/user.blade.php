@@ -164,6 +164,10 @@
             .layout-page {
                 padding-top: 0 !important;
             }
+            .layout-page main {
+                margin-top: 0 !important;
+                padding-top: 0 !important;
+            }
             :root {
                 --navbar-height: 0px;
             }
