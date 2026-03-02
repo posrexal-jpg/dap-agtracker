@@ -336,6 +336,17 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Function to create circle SVG icon
+    function createCircleIcon(color) {
+        const svg = `
+            <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="16" cy="16" r="12" fill="${color}" stroke="white" stroke-width="3"/>
+                <ellipse cx="16" cy="28" rx="10" ry="2" fill="rgba(0,0,0,0.15)"/>
+            </svg>
+        `;
+        return `data:image/svg+xml;base64,${btoa(svg)}`;
+    }
+
     // Initialize main map
     const map = L.map('map').setView([10.3157, 123.8854], 10); // Cebu coordinates
 
@@ -345,7 +356,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Add markers for user's locations
     @foreach($userLocations as $location)
-        const marker{{ $location->id }} = L.marker([{{ $location->latitude }}, {{ $location->longitude }}])
+        const cotsCount{{ $location->id }} = {{ $location->number_of_cots ?? 0 }};
+        const markerColor{{ $location->id }} = cotsCount{{ $location->id }} > 15 ? '#dc3545' : '#28a745';
+        
+        const markerIcon{{ $location->id }} = L.icon({
+            iconUrl: createCircleIcon(markerColor{{ $location->id }}),
+            iconSize: [32, 32],
+            iconAnchor: [16, 16],
+            popupAnchor: [0, -16]
+        });
+
+        const marker{{ $location->id }} = L.marker([{{ $location->latitude }}, {{ $location->longitude }}], {
+            icon: markerIcon{{ $location->id }}
+        })
             .addTo(map)
             .bindPopup(`
                 <strong>{{ $location->name ?? 'Unnamed Location' }}</strong><br>
@@ -367,6 +390,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let selectedMarker = null;
 
+    // Icon for selected location marker (blue)
+    const selectedIcon = L.icon({
+        iconUrl: createCircleIcon('#3b82f6'),
+        iconSize: [32, 32],
+        iconAnchor: [16, 16],
+        popupAnchor: [0, -16]
+    });
+
     locationMap.on('click', function(e) {
         const { lat, lng } = e.latlng;
 
@@ -375,8 +406,10 @@ document.addEventListener('DOMContentLoaded', function() {
             locationMap.removeLayer(selectedMarker);
         }
 
-        // Add new marker
-        selectedMarker = L.marker([lat, lng]).addTo(locationMap);
+        // Add new marker with blue circle icon
+        selectedMarker = L.marker([lat, lng], {
+            icon: selectedIcon
+        }).addTo(locationMap);
 
         // Update form fields
         document.getElementById('latitude').value = lat.toFixed(6);
