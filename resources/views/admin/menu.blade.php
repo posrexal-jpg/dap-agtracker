@@ -100,10 +100,10 @@
 /* Admin Sidebar Styles - Similar to User but with admin colors */
 .admin-sidebar {
     position: fixed;
-    top: 0;
+    top: 70px;
     left: 0;
     width: 280px;
-    height: 100vh;
+    height: calc(100vh - 70px);
     background: #ffffff;
     box-shadow: 2px 0 20px rgba(0, 0, 0, 0.08);
     z-index: 1050;
@@ -206,10 +206,10 @@
 .sidebar-overlay {
     display: none;
     position: fixed;
-    top: 0;
+    top: 70px;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: calc(100% - 70px);
     background: rgba(0, 0, 0, 0.5);
     z-index: 1049;
 }
@@ -283,6 +283,15 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.style.overflow = '';
         }
     }
+
+    // Global toggle function for navbar button
+    window.toggleAdminSidebar = function() {
+        if (sidebar && sidebar.classList.contains('open')) {
+            closeSidebar();
+        } else {
+            openSidebar();
+        }
+    };
 
     // Toggle menu on mobile
     if (menuToggle) {

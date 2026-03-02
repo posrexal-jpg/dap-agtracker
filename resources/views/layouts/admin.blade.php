@@ -96,14 +96,7 @@
             position: relative;
         }
 
-        /* Notification Bell - Ensure it's always on top */
-        .notification-bell-container {
-            z-index: 9999 !important;
-        }
 
-        .notification-bell-container .dropdown-menu {
-            z-index: 10000 !important;
-        }
 
         /* Mobile Responsive */
         @media (max-width: 1199.98px) {
@@ -144,38 +137,115 @@
                 margin-left: 0 !important;
             }
         }
+        /* Top Navbar Styles */
+        .admin-top-navbar {
+            position: sticky;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            z-index: 1051;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+        }
+
+        .admin-top-navbar .navbar-brand {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2C5F2D;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .admin-top-navbar .navbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        @media (max-width: 991px) {
+            .admin-top-navbar {
+                padding: 0 1rem;
+            }
+            
+            .admin-top-navbar .navbar-brand {
+                font-size: 1rem;
+            }
+            
+            .admin-top-navbar .navbar-brand i {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 575px) {
+            .admin-top-navbar .navbar-brand span {
+                display: none;
+            }
+            
+            .admin-top-navbar button[id="notificationDropdown"] {
+                width: 40px !important;
+                height: 40px !important;
+            }
+            
+            .dropdown-menu {
+                width: 95vw !important;
+                max-width: 360px;
+                right: 10px !important;
+            }
+        }
     </style>
 </head>
 <body class="admin-page">
-<!-- Notification Bell (Fixed Position) -->
-<div class="notification-bell-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999;">
-    <div class="dropdown">
-        <button class="btn btn-light position-relative rounded-circle p-2 shadow" type="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="width: 50px; height: 50px;">
-            <i class="bx bx-bell fs-4"></i>
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="notificationBadge" style="display: none;">
-                0
-            </span>
+
+<!-- Top Horizontal Navbar -->
+<nav class="admin-top-navbar">
+    <div class="d-flex align-items-center">
+        <!-- Mobile Menu Toggle (visible on small screens) -->
+        <button class="btn btn-link text-dark d-lg-none me-2 p-0" type="button" onclick="toggleAdminSidebar()" style="font-size: 1.5rem;">
+            <i class="bx bx-menu"></i>
         </button>
-        <ul class="dropdown-menu dropdown-menu-end shadow-lg position-absolute" aria-labelledby="notificationDropdown" style="width: 360px; max-height: 500px; overflow-y: auto; z-index: 10000;">
-            <li class="dropdown-header d-flex justify-content-between align-items-center px-3 py-2 border-bottom">
-                <h6 class="mb-0">Notifications</h6>
-                <button class="btn btn-sm btn-link text-primary p-0" id="markAllReadBtn" style="font-size: 0.8rem;">Mark all read</button>
-            </li>
-            <div id="notificationList">
-                <li class="text-center py-4 text-muted">
-                    <i class="bx bx-bell-off fs-3 d-block mb-2"></i>
-                    <small>No notifications</small>
-                </li>
-            </div>
-            <li class="dropdown-divider"></li>
-            <li class="text-center">
-                <a class="dropdown-item text-primary fw-semibold" href="{{ route('admin.notifications') }}">
-                    View All Notifications
-                </a>
-            </li>
-        </ul>
+        <div class="navbar-brand">
+            <i class="bx bx-water"></i> 
+            <span>COTS Tracker</span>
+        </div>
     </div>
-</div>
+    <div class="navbar-actions">
+        <!-- Notification Bell Dropdown -->
+        <div class="dropdown">
+            <button class="btn btn-light position-relative rounded-circle p-2" type="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="width: 45px; height: 45px;">
+                <i class="bx bx-bell fs-5"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="notificationBadge" style="display: none;">
+                    0
+                </span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-lg" aria-labelledby="notificationDropdown" style="width: 360px; max-height: 500px; overflow-y: auto;">
+                <li class="dropdown-header d-flex justify-content-between align-items-center px-3 py-2 border-bottom">
+                    <h6 class="mb-0">Notifications</h6>
+                    <button class="btn btn-sm btn-link text-primary p-0" id="markAllReadBtn" style="font-size: 0.8rem;">Mark all read</button>
+                </li>
+                <div id="notificationList">
+                    <li class="text-center py-4 text-muted">
+                        <i class="bx bx-bell-off fs-3 d-block mb-2"></i>
+                        <small>No notifications</small>
+                    </li>
+                </div>
+                <li class="dropdown-divider"></li>
+                <li class="text-center">
+                    <a class="dropdown-item text-primary fw-semibold" href="{{ route('admin.notifications') }}">
+                        View All Notifications
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
 <!-- Page Content -->
 <div class="layout-wrapper layout-content-navbar" style="position: relative; z-index: 1;">
