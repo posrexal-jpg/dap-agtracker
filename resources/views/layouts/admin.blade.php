@@ -188,17 +188,24 @@
             .admin-top-navbar .navbar-brand span {
                 display: none;
             }
-            
-            .admin-top-navbar button[id="notificationDropdown"] {
-                width: 40px !important;
-                height: 40px !important;
-            }
-            
-            .dropdown-menu {
-                width: 95vw !important;
-                max-width: 360px;
-                right: 10px !important;
-            }
+        }
+
+        /* Mobile Menu Notification Styles */
+        .mobile-menu-item .dropup .dropdown-menu {
+            width: 95vw !important;
+            max-width: 360px;
+            max-height: 400px !important;
+        }
+
+        .mobile-menu-item .mobile-menu-link {
+            position: relative;
+        }
+
+        .mobile-menu-item #notificationBadge {
+            position: absolute;
+            top: 8px;
+            left: 28px;
+            z-index: 1;
         }
     </style>
 </head>
@@ -214,35 +221,6 @@
         <div class="navbar-brand">
             <i class="bx bx-water"></i> 
             <span>COTS Tracker</span>
-        </div>
-    </div>
-    <div class="navbar-actions">
-        <!-- Notification Bell Dropdown -->
-        <div class="dropdown">
-            <button class="btn btn-light position-relative rounded-circle p-2" type="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="width: 45px; height: 45px;">
-                <i class="bx bx-bell fs-5"></i>
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="notificationBadge" style="display: none;">
-                    0
-                </span>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end shadow-lg" aria-labelledby="notificationDropdown" style="width: 360px; max-height: 500px; overflow-y: auto;">
-                <li class="dropdown-header d-flex justify-content-between align-items-center px-3 py-2 border-bottom">
-                    <h6 class="mb-0">Notifications</h6>
-                    <button class="btn btn-sm btn-link text-primary p-0" id="markAllReadBtn" style="font-size: 0.8rem;">Mark all read</button>
-                </li>
-                <div id="notificationList">
-                    <li class="text-center py-4 text-muted">
-                        <i class="bx bx-bell-off fs-3 d-block mb-2"></i>
-                        <small>No notifications</small>
-                    </li>
-                </div>
-                <li class="dropdown-divider"></li>
-                <li class="text-center">
-                    <a class="dropdown-item text-primary fw-semibold" href="{{ route('admin.notifications') }}">
-                        View All Notifications
-                    </a>
-                </li>
-            </ul>
         </div>
     </div>
 </nav>
