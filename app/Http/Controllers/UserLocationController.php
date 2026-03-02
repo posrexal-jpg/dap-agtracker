@@ -93,7 +93,7 @@ class UserLocationController extends Controller
         ]);
     
         // Redirect with a success message
-        return redirect()->route('user.index')->with('success', 'Location saved successfully.');
+        return redirect()->route('user.sightings-map')->with('success', 'Location saved successfully.');
     }
 
     public function destroy($id)
