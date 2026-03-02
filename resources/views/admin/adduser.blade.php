@@ -256,11 +256,7 @@
                     @endforeach
 
                     <!-- Pagination -->
-                    @if($users->hasPages())
-                    <div class="d-flex justify-content-center mt-3">
-                        {{ $users->links() }}
-                    </div>
-                    @endif
+                    {{ $users->links() }}
 
                 </div>
             </div>
