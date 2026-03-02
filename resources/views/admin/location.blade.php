@@ -246,25 +246,12 @@ document.addEventListener('DOMContentLoaded', function() {
         maxZoom: 19
     }).addTo(map);
 
-    // Function to create starfish SVG icon (matching sightings page)
-    function createStarfishIcon(color) {
+    // Function to create circle SVG icon
+    function createCircleIcon(color) {
         const svg = `
             <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="16" cy="16" r="6" fill="${color}" stroke="white" stroke-width="1.5"/>
-                <path d="M 16 2 Q 14 8 16 10" stroke="${color}" stroke-width="4" fill="none" stroke-linecap="round"/>
-                <path d="M 24 6 Q 21 10 20 12" stroke="${color}" stroke-width="4" fill="none" stroke-linecap="round"/>
-                <path d="M 26 18 Q 22 18 20 20" stroke="${color}" stroke-width="4" fill="none" stroke-linecap="round"/>
-                <path d="M 20 26 Q 18 22 16 20" stroke="${color}" stroke-width="4" fill="none" stroke-linecap="round"/>
-                <path d="M 8 18 Q 10 18 12 20" stroke="${color}" stroke-width="4" fill="none" stroke-linecap="round"/>
-                <path d="M 6 6 Q 10 10 12 12" stroke="${color}" stroke-width="4" fill="none" stroke-linecap="round"/>
-                <circle cx="16" cy="2" r="1.5" fill="${color}"/>
-                <circle cx="26" cy="8" r="1.5" fill="${color}"/>
-                <circle cx="28" cy="18" r="1.5" fill="${color}"/>
-                <circle cx="20" cy="28" r="1.5" fill="${color}"/>
-                <circle cx="12" cy="28" r="1.5" fill="${color}"/>
-                <circle cx="4" cy="18" r="1.5" fill="${color}"/>
-                <circle cx="6" cy="8" r="1.5" fill="${color}"/>
-                <ellipse cx="16" cy="30" rx="8" ry="1.5" fill="rgba(0,0,0,0.2)"/>
+                <circle cx="16" cy="16" r="12" fill="${color}" stroke="white" stroke-width="3"/>
+                <ellipse cx="16" cy="28" rx="10" ry="2" fill="rgba(0,0,0,0.15)"/>
             </svg>
         `;
         return `data:image/svg+xml;base64,${btoa(svg)}`;
@@ -283,10 +270,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const isOutbreak = cotsCount > 15;
         
         const markerIcon = L.icon({
-            iconUrl: createStarfishIcon(markerColor),
+            iconUrl: createCircleIcon(markerColor),
             iconSize: [32, 32],
-            iconAnchor: [16, 32],
-            popupAnchor: [0, -32]
+            iconAnchor: [16, 16],
+            popupAnchor: [0, -16]
         });
 
         const marker = L.marker([{{ $location->latitude }}, {{ $location->longitude }}], {
