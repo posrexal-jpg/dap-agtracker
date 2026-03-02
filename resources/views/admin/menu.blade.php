@@ -112,6 +112,11 @@
     overflow-x: hidden;
 }
 
+/* Sidebar overlay - should be below notification bell */
+.sidebar-overlay {
+    z-index: 1049 !important;
+}
+
 /* Admin gradient - professional blue gradient */
 .bg-gradient-admin {
     background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%) !important;

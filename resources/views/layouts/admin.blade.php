@@ -55,6 +55,7 @@
         html, body {
             height: 100%;
             overflow-x: hidden;
+            position: relative;
         }
 
         body {
@@ -68,12 +69,15 @@
             flex-direction: row;
             min-height: 100vh;
             width: 100%;
+            position: relative;
+            z-index: 1;
         }
 
         .layout-container {
             display: flex;
             flex: 1;
             min-height: 100vh;
+            position: relative;
         }
 
         .layout-page {
@@ -83,11 +87,22 @@
             display: flex;
             flex-direction: column;
             background: #f8fafc;
+            position: relative;
         }
 
         .layout-page main {
             flex: 1;
             padding: 2rem;
+            position: relative;
+        }
+
+        /* Notification Bell - Ensure it's always on top */
+        .notification-bell-container {
+            z-index: 9999 !important;
+        }
+
+        .notification-bell-container .dropdown-menu {
+            z-index: 10000 !important;
         }
 
         /* Mobile Responsive */
@@ -133,7 +148,7 @@
 </head>
 <body class="admin-page">
 <!-- Notification Bell (Fixed Position) -->
-<div class="notification-bell-container" style="position: fixed; top: 20px; right: 20px; z-index: 1100;">
+<div class="notification-bell-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999;">
     <div class="dropdown">
         <button class="btn btn-light position-relative rounded-circle p-2 shadow" type="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="width: 50px; height: 50px;">
             <i class="bx bx-bell fs-4"></i>
@@ -141,7 +156,7 @@
                 0
             </span>
         </button>
-        <ul class="dropdown-menu dropdown-menu-end shadow-lg" aria-labelledby="notificationDropdown" style="width: 360px; max-height: 500px; overflow-y: auto;">
+        <ul class="dropdown-menu dropdown-menu-end shadow-lg position-absolute" aria-labelledby="notificationDropdown" style="width: 360px; max-height: 500px; overflow-y: auto; z-index: 10000;">
             <li class="dropdown-header d-flex justify-content-between align-items-center px-3 py-2 border-bottom">
                 <h6 class="mb-0">Notifications</h6>
                 <button class="btn btn-sm btn-link text-primary p-0" id="markAllReadBtn" style="font-size: 0.8rem;">Mark all read</button>
@@ -163,7 +178,7 @@
 </div>
 
 <!-- Page Content -->
-<div class="layout-wrapper layout-content-navbar">
+<div class="layout-wrapper layout-content-navbar" style="position: relative; z-index: 1;">
     <div class="layout-container d-flex flex-row">
         @if(auth()->check() && auth()->user()->isAdmin())
             <aside class="d-none d-lg-block">
