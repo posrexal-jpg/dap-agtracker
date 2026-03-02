@@ -284,11 +284,6 @@
             height: 50px;
             width: auto;
         }
-        
-        /* Fullscreen map on tablets */
-        body.map-fullscreen .page-header {
-            display: none !important;
-        }
     }
 
     .page-header-content {
@@ -331,37 +326,22 @@
         color: var(--warning-color);
     }
 
-    /* Map Container - Fullscreen Mode */
-    body.map-fullscreen .page-header {
-        display: none !important;
-    }
-    
-    body.map-fullscreen .container-fluid {
-        height: 100vh !important;
-        overflow: hidden !important;
-        padding: 0 !important;
-        margin: 0 !important;
-    }
-    
-    body.map-fullscreen .page-content {
-        height: 100vh !important;
-        padding: 0 !important;
-        margin: 0 !important;
-    }
-    
-    body.map-fullscreen .content-wrapper {
-        height: 100vh !important;
-        padding: 0 !important;
-        margin: 0 !important;
-    }
-    
+    /* Map Container - Mobile Optimized */
     #map {
         flex: 1;
         border-radius: 0;
         box-shadow: none;
         margin: 0 !important;
         padding: 0 !important;
+        height: 100vh !important;
+        width: 100vw !important;
         min-height: 400px;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        z-index: 1 !important;
     }
 
     .content-wrapper {
@@ -372,6 +352,11 @@
         height: 100%;
         padding: 0 !important;
         margin: 0 !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
     }
 
     /* Notification Styles */
@@ -470,16 +455,27 @@
         }
 
         .page-header {
-            padding: 16px 12px;
-            margin: -16px -16px 16px -16px;
+            position: fixed !important;
+            top: 12px !important;
+            left: 12px !important;
+            right: 12px !important;
+            z-index: 1000 !important;
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px) !important;
+            border-radius: 16px !important;
+            padding: 12px !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+            margin: 0 !important;
+            border: none !important;
         }
 
         .page-header h1 {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
         }
 
-        .page-header {
-            padding: 16px;
+        .page-header p.description {
+            font-size: 0.8rem;
+            margin-bottom: 8px;
         }
 
         #map {
@@ -495,24 +491,6 @@
         .connection-status {
             font-size: 0.8rem;
             padding: 6px 12px;
-        }
-        
-        /* Fullscreen map on mobile */
-        body.map-fullscreen .page-header {
-            display: none !important;
-        }
-        
-        body.map-fullscreen .container-fluid,
-        body.map-fullscreen .page-content,
-        body.map-fullscreen .content-wrapper {
-            height: 100vh !important;
-            padding: 0 !important;
-            margin: 0 !important;
-        }
-        
-        body.map-fullscreen .layout-page {
-            padding: 0 !important;
-            margin: 0 !important;
         }
     }
 
@@ -555,10 +533,6 @@
 
     /* Desktop-specific adjustments */
     @media (min-width: 1200px) {
-        body.map-fullscreen .page-header {
-            display: none !important;
-        }
-        
         .container-fluid,
         .page-content,
         .content-wrapper {
@@ -584,14 +558,31 @@
         }
     }
 
-    /* Page content and wrapper */
+    /* Keep map contained within the page content. Do not override global html/body layout. */
     .page-content, .content-wrapper {
         height: 100%;
         width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+    #map {
+        flex: 1;
+        width: 100%;
+        height: 100%;
+        min-height: 400px;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        z-index: 1 !important;
     }
 </style>
 
-<div class="container-fluid" style="height: 100vh; min-height: 100vh; display: flex; flex-direction: column; overflow: hidden; padding: 0; margin: 0;">
+<div class="container-fluid" style="height: 100vh; min-height: 100vh; display: flex; flex-direction: column; overflow: hidden; padding: 0; margin: 0; position: fixed; top: 0; left: 0; right: 0; bottom: 0;">
 <div class="page-header">
     <div class="page-header-logo">
         <img src="{{ asset('images/logo.png') }}" alt="COTS Tracker Logo">
