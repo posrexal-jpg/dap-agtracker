@@ -192,16 +192,20 @@
         body.map-fullscreen {
             overflow: hidden;
         }
-        body.map-fullscreen #layout-navbar {
-            display: none !important;
-        }
-        /* Override: Hide navbar on mobile even in fullscreen map mode */
+        /* Show navbar on desktop, hide only on mobile for map page */
         @media (max-width: 991px) {
             body.map-fullscreen #layout-navbar {
                 display: none !important;
             }
             body.map-fullscreen #map {
                 top: 0 !important;
+            }
+        }
+        /* On desktop, map should account for navbar height */
+        @media (min-width: 992px) {
+            body.map-fullscreen #map {
+                top: var(--navbar-height, 64px) !important;
+                height: calc(100vh - var(--navbar-height, 64px)) !important;
             }
         }
         body.map-fullscreen .user-sidebar {
@@ -218,10 +222,6 @@
             width: 100vw !important;
             height: 100vh !important;
             z-index: 2147483645 !important;
-        }
-        /* Hide the top navbar entirely on map page so map is truly fullscreen */
-        body.map-fullscreen #layout-navbar {
-            display: none !important;
         }
         /* Ensure modals always appear in front of all page elements */
         /* Backdrop should sit above the map but below the modal. Use very large
