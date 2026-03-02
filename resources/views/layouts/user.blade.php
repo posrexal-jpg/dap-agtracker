@@ -199,6 +199,7 @@
             }
             body.map-fullscreen #map {
                 top: 0 !important;
+                height: 100vh !important;
             }
         }
         /* On desktop, map should account for navbar height */
