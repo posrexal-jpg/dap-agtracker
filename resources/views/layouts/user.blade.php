@@ -132,17 +132,7 @@
             background: transparent;
             max-width: 100%;
         }
-        /* Fullscreen map on mobile and landscape tablet */
-        @media (max-width: 767.98px), (max-width: 1024px) and (orientation: landscape) {
-            .layout-wrapper .layout-page main .leaflet-container,
-            .layout-wrapper .layout-page main .map-container,
-            .layout-wrapper .layout-page main #map {
-                width: 100% !important;
-                max-width: 100% !important;
-                height: calc(100vh - 140px) !important;
-                /* min-height: 320px !important; */
-            }
-        }
+
         @media (max-width: 1199.98px) {
             .user-sidebar {
                 position: fixed;
