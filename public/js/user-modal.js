@@ -3,7 +3,17 @@ function switchModal(hideId, showId) {
     let hideModal = bootstrap.Modal.getInstance(document.getElementById(hideId));
     if (hideModal) hideModal.hide();
 
-    let showModal = new bootstrap.Modal(document.getElementById(showId));
+    let showModalElement = document.getElementById(showId);
+    let showModal = bootstrap.Modal.getInstance(showModalElement);
+    
+    // If modal instance doesn't exist, create one with backdrop static
+    if (!showModal) {
+        showModal = new bootstrap.Modal(showModalElement, {
+            backdrop: 'static',
+            keyboard: false
+        });
+    }
+    
     showModal.show();
 }
 

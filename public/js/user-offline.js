@@ -204,8 +204,17 @@ function addNewSighting() {
     if (typeof addMarkerAtCurrentLocation === 'function') {
         addMarkerAtCurrentLocation();
     } else {
-        // Fallback: open the modal
-        const modal = new bootstrap.Modal(document.getElementById('modal1'));
+        // Fallback: open the modal with static backdrop
+        const modal1Element = document.getElementById('modal1');
+        let modal = bootstrap.Modal.getInstance(modal1Element);
+        
+        if (!modal) {
+            modal = new bootstrap.Modal(modal1Element, {
+                backdrop: 'static',
+                keyboard: false
+            });
+        }
+        
         if (modal) modal.show();
     }
 }
