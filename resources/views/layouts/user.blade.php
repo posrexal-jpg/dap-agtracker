@@ -335,6 +335,12 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
+        <!-- Navbar brand for desktop - professional app style -->
+        <a class="navbar-brand d-none d-lg-flex align-items-center justify-content-start" href="{{ route('user.dashboard') }}" style="margin: 0; margin-right: 2rem;">
+            <img src="{{ asset('images/logo.png') }}" alt="COTS Tracker Logo" style="height: 40px; width: auto;">
+            <span class="fw-bold text-primary" style="font-size: 1rem; letter-spacing: 0.5px; margin-left: 0.75rem; white-space: nowrap;">COTS Tracker</span>
+        </a>
+
         <!-- Collapsible Navbar Content -->
         <div class="collapse navbar-collapse" id="navbarContentPage1">
             <ul class="navbar-nav ms-auto align-items-center">
