@@ -25,6 +25,28 @@ function initializeOfflineFunctionality() {
     locationForm.addEventListener('submit', async function(e) {
         e.preventDefault();
 
+        // Validate required fields before proceeding
+        const activityType = document.getElementById('activity_type').value;
+        const observerCategory = document.getElementById('observer_category').value;
+        const locationName = document.getElementById('location_name').value.trim();
+        const latitude = document.getElementById('latitude').value;
+        const longitude = document.getElementById('longitude').value;
+
+        if (!activityType || !observerCategory) {
+            alert('Please fill out all required fields in Activity & Observer Info.');
+            return;
+        }
+
+        if (!locationName) {
+            alert('Please enter a location name.');
+            return;
+        }
+
+        if (!latitude || !longitude) {
+            alert('Please select a location on the map by clicking the pin icon and placing a marker.');
+            return;
+        }
+
         if (!navigator.onLine && window.offlineManager) {
             // Handle offline submission
             if (submitBtn) {
@@ -74,7 +96,7 @@ function initializeOfflineFunctionality() {
 
             } catch (error) {
                 console.error('Offline save failed:', error);
-                showErrorAlert('Failed to save data offline. Please try again.');
+                showNotification('Failed to save data offline. Please try again.', 'error');
                 if (submitBtn) {
                     submitBtn.innerHTML = originalBtnText;
                     submitBtn.disabled = false;
@@ -88,32 +110,42 @@ function initializeOfflineFunctionality() {
             }
 
             try {
+                const formData = new FormData(this);
+                
                 const response = await fetch(this.action, {
                     method: 'POST',
-                    body: new FormData(this),
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    }
+                    body: formData
                 });
 
                 if (response.ok) {
                     const result = await response.json();
                     showNotification('Location saved successfully!', 'success');
                     this.reset();
+                    
+                    // Close all modals
+                    const modals = ['modal1', 'modal2', 'modal3', 'modal4'];
+                    modals.forEach(modalId => {
+                        const modalEl = document.getElementById(modalId);
+                        if (modalEl) {
+                            const modal = bootstrap.Modal.getInstance(modalEl);
+                            if (modal) modal.hide();
+                        }
+                    });
+                    
                     // Optionally refresh the page or update the UI
                     setTimeout(() => location.reload(), 1000);
                 } else {
-                    const error = await response.json();
+                    const error = await response.json().catch(() => ({ message: 'Failed to save location' }));
                     showNotification(error.message || 'Failed to save location', 'error');
                 }
             } catch (error) {
                 console.error('Save failed:', error);
                 showNotification('Failed to save location. Please try again.', 'error');
-            }
-
-            if (submitBtn) {
-                submitBtn.innerHTML = originalBtnText;
-                submitBtn.disabled = false;
+            } finally {
+                if (submitBtn) {
+                    submitBtn.innerHTML = originalBtnText;
+                    submitBtn.disabled = false;
+                }
             }
         }
     });

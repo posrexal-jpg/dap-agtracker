@@ -34,6 +34,19 @@ document.addEventListener('DOMContentLoaded', function() {
     if (backBtn2) backBtn2.addEventListener("click", () => switchModal('modal2', 'modal1'));
     if (nextBtn2) nextBtn2.addEventListener("click", () => switchModal('modal2', 'modal3'));
     if (backBtn3) backBtn3.addEventListener("click", () => switchModal('modal3', 'modal2'));
-    if (nextBtn3) nextBtn3.addEventListener("click", () => switchModal('modal3', 'modal4'));
+    
+    if (nextBtn3) {
+        nextBtn3.addEventListener("click", function () {
+            let activityType = document.getElementById("activity_type").value;
+            let observerCategory = document.getElementById("observer_category").value;
+
+            if (activityType === "" || observerCategory === "") {
+                alert("Please fill out all required fields.");
+            } else {
+                switchModal('modal3', 'modal4');
+            }
+        });
+    }
+    
     if (backBtn4) backBtn4.addEventListener("click", () => switchModal('modal4', 'modal3'));
 });
