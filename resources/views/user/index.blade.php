@@ -540,6 +540,98 @@
         z-index: 1 !important;
     }
 
+    /* Map Legend */
+    .map-legend {
+        position: fixed;
+        bottom: 20px;
+        left: 10px;
+        background: white;
+        padding: 12px 16px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        font-family: Arial, sans-serif;
+        min-width: 160px;
+    }
+
+    .map-legend h6 {
+        margin: 0 0 10px 0;
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+        border-bottom: 1px solid #e0e0e0;
+        padding-bottom: 6px;
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+        font-size: 12px;
+    }
+
+    .legend-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .legend-marker {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        margin-right: 10px;
+        border: 2px solid white;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        flex-shrink: 0;
+    }
+
+    .legend-marker.green {
+        background-color: #28a745;
+    }
+
+    .legend-marker.red {
+        background-color: #dc3545;
+        animation: pulse-red 2s infinite;
+    }
+
+    .legend-text {
+        color: #555;
+        font-weight: 500;
+    }
+
+    @keyframes pulse-red {
+        0%, 100% {
+            box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7);
+        }
+        50% {
+            box-shadow: 0 0 0 8px rgba(220, 53, 69, 0);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .map-legend {
+            bottom: 80px;
+            left: 10px;
+            padding: 10px 12px;
+            min-width: 140px;
+        }
+
+        .map-legend h6 {
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .legend-item {
+            font-size: 11px;
+            margin-bottom: 6px;
+        }
+
+        .legend-marker {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+        }
+    }
+
     .content-wrapper {
         display: flex;
         flex-direction: column;
@@ -938,6 +1030,19 @@
 <div class="page-content" style="flex: 1; overflow: hidden; padding: 0; margin: 0; display: flex; flex-direction: column; height: 100vh; min-height: 100vh; position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw;">
     <div class="content-wrapper" style="flex: 1; display: flex; flex-direction: column; height: 100vh; padding: 0; margin: 0; position: relative; width: 100%; overflow: hidden;">
         <div id="map"></div>
+        
+        <!-- Map Legend -->
+        <div class="map-legend">
+            <h6><i class="fas fa-map-marker-alt me-1"></i>Legend</h6>
+            <div class="legend-item">
+                <div class="legend-marker green"></div>
+                <span class="legend-text">Normal (≤15 COTS)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-marker red"></div>
+                <span class="legend-text">Outbreak (>15 COTS)</span>
+            </div>
+        </div>
             <!-- Consent Modal - Enhanced Design -->
             <div class="modal fade" id="consentModal" tabindex="-1" aria-labelledby="consentModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
