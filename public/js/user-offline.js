@@ -112,15 +112,36 @@ function initializeOfflineFunctionality() {
             try {
                 const formData = new FormData(this);
                 
+                console.log('Submitting form to:', this.action);
+                console.log('Form data entries:');
+                for (let [key, value] of formData.entries()) {
+                    console.log(`  ${key}:`, value instanceof File ? `File: ${value.name}` : value);
+                }
+                
                 const response = await fetch(this.action, {
                     method: 'POST',
-                    body: formData
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    }
                 });
 
-                if (response.ok) {
-                    const result = await response.json();
+                console.log('Response status:', response.status);
+                console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+
+                const result = await response.json();
+                console.log('Response data:', result);
+
+                if (response.ok && result.success) {
                     showNotification('Location saved successfully!', 'success');
                     this.reset();
+                    
+                    // Reset latitude/longitude displays
+                    const latDisplay = document.getElementById('latitude_display');
+                    const lngDisplay = document.getElementById('longitude_display');
+                    if (latDisplay) latDisplay.textContent = 'Not selected';
+                    if (lngDisplay) lngDisplay.textContent = 'Not selected';
                     
                     // Close all modals
                     const modals = ['modal1', 'modal2', 'modal3', 'modal4'];
@@ -135,8 +156,7 @@ function initializeOfflineFunctionality() {
                     // Optionally refresh the page or update the UI
                     setTimeout(() => location.reload(), 1000);
                 } else {
-                    const error = await response.json().catch(() => ({ message: 'Failed to save location' }));
-                    showNotification(error.message || 'Failed to save location', 'error');
+                    showNotification(result.message || 'Failed to save location', 'error');
                 }
             } catch (error) {
                 console.error('Save failed:', error);
