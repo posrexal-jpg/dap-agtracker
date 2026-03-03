@@ -386,6 +386,42 @@
 
     .modal-backdrop {
         pointer-events: auto !important;
+        background-color: rgba(0, 0, 0, 0.7) !important;
+    }
+    
+    /* Disable page content when modal is active */
+    body.modal-open .page-content > *:not(.modal):not(.modal-backdrop),
+    body.modal-active .page-content > *:not(.modal):not(.modal-backdrop),
+    body.modal-open #map,
+    body.modal-active #map,
+    body.modal-open .content-wrapper > *:not(.modal):not(.modal-backdrop),
+    body.modal-active .content-wrapper > *:not(.modal):not(.modal-backdrop),
+    body.modal-open .layout-navbar,
+    body.modal-active .layout-navbar,
+    body.modal-open nav.navbar,
+    body.modal-active nav.navbar {
+        pointer-events: none !important;
+        user-select: none !important;
+        opacity: 0.6;
+        filter: blur(2px);
+        transition: opacity 0.3s, filter 0.3s;
+    }
+    
+    /* Ensure modals and their backdrops are always interactive */
+    body.modal-open .modal,
+    body.modal-active .modal,
+    body.modal-open .modal-backdrop,
+    body.modal-active .modal-backdrop,
+    body.modal-open .modal *,
+    body.modal-active .modal *,
+    body.modal-open .modal-dialog,
+    body.modal-active .modal-dialog,
+    body.modal-open .modal-content,
+    body.modal-active .modal-content {
+        pointer-events: auto !important;
+        user-select: auto !important;
+        opacity: 1 !important;
+        filter: none !important;
     }
 
     /* Allow modal to be shown/hidden properly by Bootstrap */
@@ -1282,6 +1318,43 @@
             }
         });
     </script>
+    
+    <!-- Modal Page Disable Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all modals
+            const modals = document.querySelectorAll('.modal');
+            
+            modals.forEach(function(modal) {
+                // When modal is shown
+                modal.addEventListener('show.bs.modal', function () {
+                    document.body.classList.add('modal-active');
+                    
+                    // Disable map interactions
+                    const map = document.getElementById('map');
+                    if (map) {
+                        map.style.pointerEvents = 'none';
+                    }
+                });
+                
+                // When modal is hidden
+                modal.addEventListener('hidden.bs.modal', function () {
+                    // Check if any other modal is still open
+                    const openModals = document.querySelectorAll('.modal.show');
+                    if (openModals.length === 0) {
+                        document.body.classList.remove('modal-active');
+                        
+                        // Re-enable map interactions
+                        const map = document.getElementById('map');
+                        if (map) {
+                            map.style.pointerEvents = 'auto';
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+    
     <script src="{{ asset('js/user-offline.js') }}"></script>
     <script src="{{ asset('js/offline-manager.js') }}"></script>
     <script src="{{ asset('js/pwa-install.js') }}"></script>
