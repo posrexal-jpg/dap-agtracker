@@ -409,6 +409,17 @@
         color: #ffffff !important;
         border-color: transparent !important;
     }
+
+    /* Fix modal z-index over layout wrapper */
+    .modal {
+        z-index: 1055 !important;
+    }
+    .modal-backdrop {
+        z-index: 1050 !important;
+    }
+    .modal-dialog {
+        z-index: 1056 !important;
+    }
 </style>
 @endpush
 
@@ -631,42 +642,7 @@
                         @endforeach
                     </div>
 
-                    <!-- Edit User Modals (shared by both table and card views) -->
-                    @foreach ($users as $user)
-                    <div class="modal fade" id="editUserModal-{{ $user->id }}" tabindex="-1" aria-labelledby="editUserModalLabel-{{ $user->id }}" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="editUserModalLabel-{{ $user->id }}">Edit User: {{ $user->name }}</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="{{ route('admin.users.update', $user->id) }}" method="POST">
-                                        @csrf
-                                        @method('PUT')
-                                        <div class="mb-3">
-                                            <label for="name-{{ $user->id }}" class="form-label">Name</label>
-                                            <input type="text" class="form-control" id="name-{{ $user->id }}" name="name" value="{{ $user->name }}" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="email-{{ $user->id }}" class="form-label">Email</label>
-                                            <input type="email" class="form-control" id="email-{{ $user->id }}" name="email" value="{{ $user->email }}" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="password-{{ $user->id }}" class="form-label">New Password (leave blank if no change)</label>
-                                            <input type="password" class="form-control" id="password-{{ $user->id }}" name="password">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="password_confirmation-{{ $user->id }}" class="form-label">Confirm New Password</label>
-                                            <input type="password" class="form-control" id="password_confirmation-{{ $user->id }}" name="password_confirmation">
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">Update User</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
+                    <!-- Edit User Modals are rendered outside the container below -->
 
                     <!-- Pagination -->
                     {{ $users->links() }}
@@ -676,184 +652,201 @@
         </div>
     </div>
 
-    <!-- Add User Modal -->
-    <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('admin.users.store') }}" method="POST">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
-                            @error('name')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}" required>
-                            @error('email')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" required>
-                            @error('password')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label for="password_confirmation" class="form-label">Confirm Password</label>
-                            <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" id="password_confirmation" name="password_confirmation" required>
-                            @error('password_confirmation')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+</div>
+@endsection
 
-                        <!-- Role Dropdown -->
-                        <div class="mb-3">
-                            <label for="role" class="form-label">Role</label>
-                            <select class="form-select @error('role_id') is-invalid @enderror" id="role" name="role_id" required>
-                                <option value="">Select Role</option>
-                                @foreach($roles as $role)
-                                <option value="{{ $role->id }}" {{ old('role_id') == $role->id ? 'selected' : '' }}>{{ $role->role_name }}</option>
-                                @endforeach
-                            </select>
-                            @error('role_id')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+{{-- All modals rendered at body level to avoid z-index/overlay issues --}}
+@push('modals')
 
-                        <!-- Add User Button -->
-                        <button type="submit" class="btn btn-primary">Add User</button>
-                    </form>
-                </div>
+@foreach ($users as $user)
+<div class="modal fade" id="editUserModal-{{ $user->id }}" tabindex="-1" aria-labelledby="editUserModalLabel-{{ $user->id }}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editUserModalLabel-{{ $user->id }}">
+                    <i class="bx bx-edit me-2"></i>Edit User: {{ $user->name }}
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('admin.users.update', $user->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="mb-3">
+                        <label for="edit-name-{{ $user->id }}" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="edit-name-{{ $user->id }}" name="name" value="{{ $user->name }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-email-{{ $user->id }}" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="edit-email-{{ $user->id }}" name="email" value="{{ $user->email }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-password-{{ $user->id }}" class="form-label">New Password <span class="text-muted">(leave blank to keep current)</span></label>
+                        <input type="password" class="form-control" id="edit-password-{{ $user->id }}" name="password">
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-password-confirm-{{ $user->id }}" class="form-label">Confirm New Password</label>
+                        <input type="password" class="form-control" id="edit-password-confirm-{{ $user->id }}" name="password_confirmation">
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary flex-fill">
+                            <i class="bx bx-save me-1"></i>Update User
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
-@endsection
+@endforeach
 
+<!-- Add User Modal -->
+<div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addUserModalLabel">
+                    <i class="bx bx-user-plus me-2"></i>Add New User
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addUserForm" action="{{ route('admin.users.store') }}" method="POST">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="add-name" class="form-label">Name</label>
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="add-name" name="name" value="{{ old('name') }}" required>
+                        @error('name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="add-email" class="form-label">Email</label>
+                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="add-email" name="email" value="{{ old('email') }}" required>
+                        @error('email')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="add-password" class="form-label">Password</label>
+                        <input type="password" class="form-control @error('password') is-invalid @enderror" id="add-password" name="password" required>
+                        @error('password')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="add-password-confirm" class="form-label">Confirm Password</label>
+                        <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" id="add-password-confirm" name="password_confirmation" required>
+                        @error('password_confirmation')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mb-4">
+                        <label for="add-role" class="form-label">Role</label>
+                        <select class="form-select @error('role_id') is-invalid @enderror" id="add-role" name="role_id" required>
+                            <option value="">Select Role</option>
+                            @foreach($roles as $role)
+                            <option value="{{ $role->id }}" {{ old('role_id') == $role->id ? 'selected' : '' }}>{{ $role->role_name }}</option>
+                            @endforeach
+                        </select>
+                        @error('role_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary flex-fill">
+                            <i class="bx bx-user-plus me-1"></i>Add User
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@endpush
+
+@push('scripts')
 <script>
 function openAddUserModal() {
-    const modalElement = document.getElementById('addUserModal');
-    if (modalElement) {
-        const modal = new bootstrap.Modal(modalElement);
-        modal.show();
+    const modalEl = document.getElementById('addUserModal');
+    if (modalEl) {
+        bootstrap.Modal.getOrCreateInstance(modalEl).show();
     }
 }
 
-// Password confirmation validation
 document.addEventListener('DOMContentLoaded', function() {
-    const password = document.getElementById('password');
-    const passwordConfirmation = document.getElementById('password_confirmation');
-    const form = document.querySelector('#addUserModal form');
+    const addPassword = document.getElementById('add-password');
+    const addPasswordConfirm = document.getElementById('add-password-confirm');
+    const addEmail = document.getElementById('add-email');
+    const addForm = document.getElementById('addUserForm');
 
-    // Real-time password confirmation validation
-    passwordConfirmation.addEventListener('input', function() {
-        if (password.value !== passwordConfirmation.value) {
-            passwordConfirmation.setCustomValidity('Passwords do not match');
-            passwordConfirmation.classList.add('is-invalid');
+    if (!addForm) return;
+
+    // Real-time password confirmation
+    addPasswordConfirm.addEventListener('input', function() {
+        if (addPassword.value !== addPasswordConfirm.value) {
+            addPasswordConfirm.setCustomValidity('Passwords do not match');
+            addPasswordConfirm.classList.add('is-invalid');
+            addPasswordConfirm.classList.remove('is-valid');
         } else {
-            passwordConfirmation.setCustomValidity('');
-            passwordConfirmation.classList.remove('is-invalid');
-            passwordConfirmation.classList.add('is-valid');
+            addPasswordConfirm.setCustomValidity('');
+            addPasswordConfirm.classList.remove('is-invalid');
+            addPasswordConfirm.classList.add('is-valid');
         }
     });
 
-    // Password strength validation
-    password.addEventListener('input', function() {
-        const value = password.value;
-        if (value.length < 8) {
-            password.setCustomValidity('Password must be at least 8 characters long');
-            password.classList.add('is-invalid');
+    // Password strength
+    addPassword.addEventListener('input', function() {
+        if (addPassword.value.length < 8) {
+            addPassword.setCustomValidity('Password must be at least 8 characters');
+            addPassword.classList.add('is-invalid');
+            addPassword.classList.remove('is-valid');
         } else {
-            password.setCustomValidity('');
-            password.classList.remove('is-invalid');
-            password.classList.add('is-valid');
+            addPassword.setCustomValidity('');
+            addPassword.classList.remove('is-invalid');
+            addPassword.classList.add('is-valid');
         }
-
-        // Re-validate confirmation if password changes
-        if (passwordConfirmation.value) {
-            passwordConfirmation.dispatchEvent(new Event('input'));
+        if (addPasswordConfirm.value) {
+            addPasswordConfirm.dispatchEvent(new Event('input'));
         }
     });
 
-    // Email validation
-    const email = document.getElementById('email');
-    email.addEventListener('input', function() {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email.value)) {
-            email.setCustomValidity('Please enter a valid email address');
-            email.classList.add('is-invalid');
-        } else {
-            email.setCustomValidity('');
-            email.classList.remove('is-invalid');
-            email.classList.add('is-valid');
-        }
-    });
-
-    // Form submission validation
-    form.addEventListener('submit', function(e) {
-        // Check if passwords match
-        if (password.value !== passwordConfirmation.value) {
+    // Form submit validation
+    addForm.addEventListener('submit', function(e) {
+        if (addPassword.value !== addPasswordConfirm.value) {
             e.preventDefault();
-            passwordConfirmation.setCustomValidity('Passwords do not match');
-            passwordConfirmation.classList.add('is-invalid');
-            passwordConfirmation.focus();
+            addPasswordConfirm.classList.add('is-invalid');
+            addPasswordConfirm.focus();
             return false;
         }
-
-        // Check password length
-        if (password.value.length < 8) {
+        if (addPassword.value.length < 8) {
             e.preventDefault();
-            password.setCustomValidity('Password must be at least 8 characters long');
-            password.classList.add('is-invalid');
-            password.focus();
-            return false;
-        }
-
-        // Check email format
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email.value)) {
-            e.preventDefault();
-            email.setCustomValidity('Please enter a valid email address');
-            email.classList.add('is-invalid');
-            email.focus();
+            addPassword.classList.add('is-invalid');
+            addPassword.focus();
             return false;
         }
     });
 
-    // Clear validation on modal close
-    const modal = document.getElementById('addUserModal');
-    modal.addEventListener('hidden.bs.modal', function() {
-        form.reset();
-        // Clear validation classes
-        const inputs = form.querySelectorAll('input, select');
-        inputs.forEach(input => {
-            input.classList.remove('is-invalid', 'is-valid');
-            input.setCustomValidity('');
+    // Clear form on modal close
+    document.getElementById('addUserModal').addEventListener('hidden.bs.modal', function() {
+        addForm.reset();
+        addForm.querySelectorAll('input, select').forEach(function(el) {
+            el.classList.remove('is-invalid', 'is-valid');
+            el.setCustomValidity('');
         });
     });
 
-    // Reopen modal if there are validation errors
+    // Auto-open add modal if there are validation errors from a store attempt
     @if($errors->any())
-        document.addEventListener('DOMContentLoaded', function() {
-            openAddUserModal();
-        });
+    openAddUserModal();
     @endif
 });
 
-// Toggle auto-approve setting
 function toggleAutoApprove(checkbox) {
     const isEnabled = checkbox.checked ? 1 : 0;
-    
     fetch('{{ route("admin.users.toggle-auto-approve") }}', {
         method: 'POST',
         headers: {
@@ -865,27 +858,19 @@ function toggleAutoApprove(checkbox) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // Show success message
             const alertDiv = document.createElement('div');
             alertDiv.className = 'alert alert-success alert-dismissible fade show';
-            alertDiv.innerHTML = `
-                <i class="bx bx-check-circle me-2"></i>
-                ${data.message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            `;
-            document.querySelector('.container-fluid').insertBefore(alertDiv, document.querySelector('.page-header').nextSibling);
-            
-            // Auto-dismiss after 3 seconds
-            setTimeout(() => {
-                alertDiv.remove();
-            }, 3000);
+            alertDiv.innerHTML = `<i class="bx bx-check-circle me-2"></i>${data.message}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>`;
+            const container = document.querySelector('.container-fluid');
+            container.insertBefore(alertDiv, container.firstChild);
+            setTimeout(() => alertDiv.remove(), 3000);
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        // Revert checkbox on error
         checkbox.checked = !checkbox.checked;
         alert('Failed to update setting. Please try again.');
     });
 }
 </script>
+@endpush

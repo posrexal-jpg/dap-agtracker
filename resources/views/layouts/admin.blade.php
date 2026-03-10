@@ -356,6 +356,8 @@ $(document).ready(function() {
 });
 </script>
 
+@stack('modals')
+
 @stack('scripts')
 
 </body>
