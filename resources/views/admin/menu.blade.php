@@ -80,6 +80,14 @@
             </a>
         </li>
 
+        <!-- Activity Logs -->
+        <li class="menu-item {{ Route::is('admin.activity-logs') ? 'active' : '' }}">
+            <a href="{{ route('admin.activity-logs') }}" class="menu-link text-dark hover-bg-admin hover-text-white text-decoration-none py-3 px-4 rounded-3 mx-2 mb-1">
+                <i class="menu-icon tf-icons bx bx-clipboard fs-5"></i>
+                <div class="fw-semibold">Activity Logs</div>
+            </a>
+        </li>
+
         <!-- Logout -->
         <li class="menu-item mt-3">
             <form action="{{ route('logout') }}" method="POST" class="w-100">

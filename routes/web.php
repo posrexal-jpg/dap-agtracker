@@ -43,6 +43,7 @@ Route::prefix('admin')
         // Dashboard
         Route::get('/',              [Admin\DashboardController::class, 'index'])->name('index');
         Route::get('/dashboard-data',[Admin\DashboardController::class, 'dashboardData'])->name('dashboard.data');
+        Route::get('/activity-logs', [Admin\DashboardController::class, 'activityLogs'])->name('activity-logs');
 
         // Locations
         Route::get('/locations',         [Admin\LocationController::class, 'index'])->name('location');
