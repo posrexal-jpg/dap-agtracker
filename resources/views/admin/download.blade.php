@@ -347,19 +347,30 @@
 
     /* Mobile Responsive - Material-UI */
     @media (max-width: 768px) {
+        * {
+            box-sizing: border-box !important;
+        }
+
         body {
             background: #f5f5f5 !important;
+            overflow-x: hidden !important;
+            width: 100vw !important;
         }
 
         .container-fluid {
-            padding-left: 16px !important;
-            padding-right: 16px !important;
+            padding-left: 12px !important;
+            padding-right: 12px !important;
+            max-width: 100vw !important;
+            overflow-x: hidden !important;
         }
 
         .h3 {
-            font-size: 1.25rem;
+            font-size: 1.15rem;
             font-weight: 500;
             letter-spacing: 0.0125em;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            line-height: 1.3;
         }
 
         /* Material-UI Card */
@@ -367,14 +378,19 @@
             border-radius: 12px !important;
             margin-bottom: 16px;
             box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12) !important;
+            max-width: 100% !important;
+            overflow: hidden !important;
         }
 
         .card-header {
-            padding: 16px !important;
+            padding: 12px !important;
+            overflow: hidden !important;
         }
 
         .card-body {
-            padding: 16px !important;
+            padding: 12px !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
         }
 
         /* Material-UI Typography */
@@ -382,12 +398,17 @@
             font-size: 0.875rem;
             line-height: 1.43;
             letter-spacing: 0.01071em;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            margin-bottom: 0.5rem;
         }
 
         h6 {
             font-size: 1rem;
             font-weight: 500;
             letter-spacing: 0.0125em;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         /* Material-UI List Item */
@@ -413,6 +434,8 @@
             letter-spacing: 0.0892857143em;
             font-weight: 500;
             box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12) !important;
+            font-size: 0.875rem;
+            word-wrap: break-word;
         }
 
         .btn:active {

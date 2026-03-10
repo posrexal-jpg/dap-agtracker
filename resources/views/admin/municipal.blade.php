@@ -270,30 +270,51 @@
 
     /* Mobile Responsive - Material-UI */
     @media (max-width: 768px) {
+        * {
+            box-sizing: border-box !important;
+        }
+
         body {
             background: #f5f5f5 !important;
+            overflow-x: hidden !important;
+            width: 100vw !important;
+        }
+
+        .container-fluid {
+            padding-left: 12px !important;
+            padding-right: 12px !important;
+            max-width: 100vw !important;
+            overflow-x: hidden !important;
         }
 
         /* Material-UI App Bar */
         .page-header {
-            padding: 1rem 1.25rem;
-            border-radius: 0 0 16px 16px;
-            margin-left: -1rem;
-            margin-right: -1rem;
-            margin-top: -1rem;
+            padding: 1rem;
+            border-radius: 12px;
+            margin-left: 0;
+            margin-right: 0;
+            margin-top: 0;
             box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12) !important;
+            max-width: 100% !important;
+            overflow: hidden !important;
         }
 
         .page-title {
-            font-size: 1.25rem;
+            font-size: 1.15rem;
             font-weight: 500;
             letter-spacing: 0.0125em;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            line-height: 1.3;
         }
 
         .page-subtitle {
-            font-size: 0.875rem;
+            font-size: 0.813rem;
             font-weight: 400;
             letter-spacing: 0.0178em;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            line-height: 1.4;
         }
 
         /* Material-UI FAB */
@@ -302,9 +323,9 @@
             height: 56px;
             border-radius: 16px;
             position: fixed;
-            bottom: 16px;
-            right: 16px;
-            z-index: 1050;
+            bottom: 80px;
+            right: 12px;
+            z-index: 999;
             box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12) !important;
             padding: 0;
             display: flex;
@@ -334,6 +355,18 @@
         .card {
             border-radius: 12px !important;
             box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12) !important;
+            max-width: 100% !important;
+            overflow: hidden !important;
+        }
+
+        .card-header {
+            padding: 0.875rem !important;
+            overflow: hidden !important;
+        }
+
+        .card-body {
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
         }
 
         /* Material-UI List */
@@ -361,6 +394,8 @@
             padding: 16px;
             border: none !important;
             transition: box-shadow 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            max-width: 100% !important;
+            overflow: hidden !important;
         }
 
         .table tbody tr:active {
@@ -375,6 +410,10 @@
             font-size: 0.875rem;
             line-height: 1.43;
             letter-spacing: 0.01071em;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: break-word;
+            max-width: 60% !important;
         }
 
         .table tbody td::before {
@@ -395,6 +434,13 @@
             font-size: 1rem;
             font-weight: 500;
             color: #10b981 !important;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        /* Pagination spacing */
+        .pagination {
+            margin-bottom: 80px !important;
         }
 
         /* Material-UI Alerts/Snackbar */

@@ -353,29 +353,39 @@
 
     /* Material-UI for Mobile */
     @media (max-width: 991px) {
+        * {
+            box-sizing: border-box !important;
+        }
+
         body {
             background: #f5f5f5 !important;
+            overflow-x: hidden !important;
+            width: 100vw !important;
         }
 
         /* Material-UI Card (Filter) */
         .month-filter-control {
-            top: 16px;
-            right: 16px;
-            left: 16px;
-            padding: 12px;
+            top: 12px;
+            right: 12px;
+            left: 12px;
+            padding: 10px;
             background: #ffffff;
             border-radius: 12px;
             box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
             border: 1px solid rgba(0, 0, 0, 0.12);
+            max-width: calc(100vw - 24px) !important;
+            overflow: hidden !important;
         }
 
         .month-filter-control label {
-            font-size: 0.75rem;
+            font-size: 0.688rem;
             font-weight: 500;
             letter-spacing: 0.0893em;
             text-transform: uppercase;
             color: rgba(0, 0, 0, 0.6);
             text-shadow: none;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .filter-row {
@@ -384,9 +394,9 @@
 
         .month-filter-control select {
             font-size: 0.875rem;
-            padding: 12px;
+            padding: 10px;
             width: 100%;
-            height: 48px;
+            height: 44px;
             border: 1px solid rgba(0, 0, 0, 0.23);
             border-radius: 4px;
             box-shadow: none;

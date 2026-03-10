@@ -120,16 +120,28 @@
 
         /* Mobile Responsive */
         @media (max-width: 1199.98px) {
+            * {
+                box-sizing: border-box !important;
+            }
+
+            body {
+                overflow-x: hidden !important;
+                width: 100vw !important;
+            }
+
             .layout-page {
                 margin-left: 0;
                 margin-top: 0 !important;
                 min-width: 0;
                 width: 100vw;
-                padding: 1rem;
+                max-width: 100vw;
+                padding: 12px;
+                overflow-x: hidden !important;
             }
 
             .layout-wrapper {
                 flex-direction: column;
+                overflow-x: hidden !important;
             }
         }
 
@@ -137,11 +149,14 @@
         @media (max-width: 991px) {
             body {
                 padding-bottom: 80px; /* Space for mobile menu */
+                overflow-x: hidden !important;
             }
 
             .layout-page main {
-                padding: 1rem;
+                padding: 0.75rem;
                 padding-bottom: 100px; /* Extra space for mobile menu */
+                max-width: 100vw;
+                overflow-x: hidden !important;
             }
         }
 

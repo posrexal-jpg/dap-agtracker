@@ -284,41 +284,75 @@
 
     /* Mobile Responsive - Material-UI Components */
     @media (max-width: 768px) {
+        * {
+            box-sizing: border-box !important;
+        }
+
         body {
             background: #f5f5f5 !important;
+            overflow-x: hidden !important;
+            width: 100vw !important;
+        }
+
+        /* Prevent horizontal scroll */
+        .container-fluid {
+            padding-left: 12px !important;
+            padding-right: 12px !important;
+            max-width: 100vw !important;
+            overflow-x: hidden !important;
         }
 
         /* Material-UI App Bar (Header) */
         .page-header {
-            padding: 1rem 1.25rem;
-            border-radius: 0 0 16px 16px;
-            margin-left: -1rem;
-            margin-right: -1rem;
-            margin-top: -1rem;
+            padding: 1rem;
+            border-radius: 12px;
+            margin-left: 0;
+            margin-right: 0;
+            margin-top: 0;
+            margin-bottom: 1rem !important;
             box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12) !important;
+            max-width: 100% !important;
+            overflow: hidden !important;
         }
 
         .page-title {
-            font-size: 1.25rem;
+            font-size: 1.15rem;
             font-weight: 500;
             letter-spacing: 0.0125em;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            max-width: 100%;
+            line-height: 1.3;
+        }
+
+        .page-title i {
+            font-size: 1.25rem;
+            flex-shrink: 0;
         }
 
         .page-subtitle {
-            font-size: 0.875rem;
+            font-size: 0.813rem;
             font-weight: 400;
             letter-spacing: 0.0178em;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            max-width: 100%;
+            line-height: 1.4;
         }
 
         /* Material-UI Floating Action Button (FAB) */
+        .page-actions {
+            margin-top: 0.75rem;
+        }
+
         .page-actions .btn {
             width: 56px;
             height: 56px;
             border-radius: 16px;
             position: fixed;
-            bottom: 16px;
-            right: 16px;
-            z-index: 1050;
+            bottom: 80px;
+            right: 12px;
+            z-index: 999;
             box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12) !important;
             padding: 0;
             display: flex;
@@ -353,37 +387,52 @@
             border-radius: 12px !important;
             margin-bottom: 1rem;
             box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12) !important;
+            max-width: 100% !important;
+            overflow: hidden !important;
         }
 
         .card-header {
-            padding: 1rem 1.25rem !important;
+            padding: 0.875rem !important;
             background: #ffffff !important;
             border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
+            overflow: hidden !important;
+        }
+
+        .card-title {
+            font-size: 1rem !important;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .card-body {
             padding: 0 !important;
             background: #ffffff !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
         }
 
         /* Material-UI Chip (Filter) */
         .filter-section {
-            padding: 1rem 1.25rem;
+            padding: 0.875rem;
             flex-direction: column;
-            gap: 0.75rem;
+            gap: 0.5rem;
             background: #ffffff;
             border: none;
             border-radius: 0;
             margin: 0;
+            max-width: 100%;
+            overflow: hidden;
         }
 
         .filter-section label {
-            margin-bottom: 0.5rem;
-            font-size: 0.75rem;
+            margin-bottom: 0.25rem;
+            font-size: 0.688rem;
             font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 0.0893em;
             color: rgba(0, 0, 0, 0.6) !important;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .filter-section .form-select {
@@ -425,6 +474,8 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             padding: 1rem;
             background: #ffffff !important;
+            max-width: 100% !important;
+            overflow: hidden !important;
         }
 
         .table tbody tr:hover {
@@ -438,31 +489,48 @@
             border: none !important;
             position: relative;
             padding-left: 45% !important;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: break-word;
+            max-width: 55% !important;
         }
 
         .table tbody td::before {
             content: attr(data-label);
             position: absolute;
             left: 0;
-            width: 40%;
-            padding-right: 10px;
-            font-weight: 700;
-            color: #6b7280 !important;
+            width: 36%;
+            padding-right: 6px;
+            font-weight: 500;
+            color: rgba(0, 0, 0, 0.6) !important;
             text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 0.5px;
+            font-size: 0.688rem;
+            letter-spacing: 0.06em;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            line-height: 1.2;
         }
 
         .table tbody td:first-child {
             padding-top: 0.75rem !important;
             font-size: 1.125rem;
             color: #1e40af !important;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        /* Badge overflow fix */
+        .badge {
+            font-size: 0.688rem !important;
+            padding: 4px 6px !important;
+            white-space: nowrap;
         }
 
         /* Pagination Mobile */
         .pagination {
             flex-wrap: wrap;
             justify-content: center;
+            margin-bottom: 80px !important;
         }
 
         .page-link {

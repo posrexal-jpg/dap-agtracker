@@ -761,32 +761,49 @@
 
     /* Material-UI for Mobile */
     @media (max-width: 768px) {
+        * {
+            box-sizing: border-box !important;
+        }
+
+        body {
+            overflow-x: hidden !important;
+            width: 100vw !important;
+        }
+
         .month-filter-control {
-            top: 16px;
-            right: 16px;
-            left: 16px;
+            top: 12px;
+            right: 12px;
+            left: 12px;
             min-width: auto;
-            padding: 12px;
+            padding: 10px;
             box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
+            max-width: calc(100vw - 24px) !important;
+            overflow: hidden !important;
         }
 
         .month-filter-control label {
-            font-size: 0.75rem;
-            margin-bottom: 8px;
+            font-size: 0.688rem;
+            margin-bottom: 6px;
             font-weight: 500;
             letter-spacing: 0.0893em;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .month-filter-control select {
             font-size: 0.875rem;
-            padding: 12px;
-            height: 48px;
+            padding: 10px;
+            height: 44px;
             line-height: 1.43;
         }
 
         .month-filter-control select:focus {
             border-width: 2px;
-            padding: 11px;
+            padding: 9px;
+        }
+
+        .filter-row {
+            gap: 6px;
         }
     }
 
@@ -794,6 +811,7 @@
     @media (max-width: 768px) {
         body {
             background: #f5f5f5 !important;
+            overflow-x: hidden !important;
         }
 
         .modal-dialog {
@@ -819,10 +837,13 @@
         }
 
         .modal-header .modal-title {
-            font-size: 1.25rem;
+            font-size: 1.15rem;
             font-weight: 500;
             letter-spacing: 0.0125em;
             color: rgba(0, 0, 0, 0.87);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            line-height: 1.3;
         }
 
         .modal-body {
@@ -835,6 +856,9 @@
             line-height: 1.43;
             letter-spacing: 0.01071em;
             color: rgba(0, 0, 0, 0.6);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: break-word;
         }
 
         .modal-body strong {
