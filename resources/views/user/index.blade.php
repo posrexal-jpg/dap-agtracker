@@ -677,6 +677,14 @@
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
         border: 1px solid #e5e7eb;
         min-width: 200px;
+        cursor: move;
+        user-select: none;
+        touch-action: none;
+    }
+
+    .month-filter-control.dragging {
+        opacity: 0.9;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
     }
 
     .month-filter-control label {
@@ -687,6 +695,38 @@
         font-weight: 600;
         color: #374151;
         margin-bottom: 10px;
+        cursor: move;
+    }
+
+    .month-filter-control label::before {
+        content: '\u22ee\u22ee';
+        font-size: 1rem;
+        opacity: 0.5;
+        letter-spacing: -2px;
+    }
+
+    .filter-row {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .filter-group {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .filter-group label {
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #6b7280;
+        margin-bottom: 4px;
+        cursor: default;
+    }
+
+    .filter-group label::before {
+        content: none;
     }
 
     .month-filter-control select {
@@ -1035,26 +1075,42 @@
 <div class="page-content" style="flex: 1; overflow: hidden; padding: 0; margin: 0; display: flex; flex-direction: column; height: 100vh; min-height: 100vh; position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw;">
     <div class="content-wrapper" style="flex: 1; display: flex; flex-direction: column; height: 100vh; padding: 0; margin: 0; position: relative; width: 100%; overflow: hidden;">
         <!-- Month Filter Control -->
-        <div class="month-filter-control">
+        <div class="month-filter-control" id="monthFilterContainer">
             <label for="monthFilter">
                 <i class="fas fa-calendar-alt"></i>
-                Filter by Month:
+                Filter Sightings:
             </label>
-            <select id="monthFilter" onchange="filterMarkersByMonth()">
-                <option value="all">All Months</option>
-                <option value="01">January</option>
-                <option value="02">February</option>
-                <option value="03">March</option>
-                <option value="04">April</option>
-                <option value="05">May</option>
-                <option value="06">June</option>
-                <option value="07">July</option>
-                <option value="08">August</option>
-                <option value="09">September</option>
-                <option value="10">October</option>
-                <option value="11">November</option>
-                <option value="12">December</option>
-            </select>
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label for="yearFilter">Year</label>
+                    <select id="yearFilter" onchange="filterMarkersByMonth()">
+                        <option value="all">All</option>
+                        <option value="2026" selected>2026</option>
+                        <option value="2025">2025</option>
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="monthFilter">Month</label>
+                    <select id="monthFilter" onchange="filterMarkersByMonth()">
+                        <option value="all">All</option>
+                        <option value="01">Jan</option>
+                        <option value="02">Feb</option>
+                        <option value="03">Mar</option>
+                        <option value="04">Apr</option>
+                        <option value="05">May</option>
+                        <option value="06">Jun</option>
+                        <option value="07">Jul</option>
+                        <option value="08">Aug</option>
+                        <option value="09">Sep</option>
+                        <option value="10">Oct</option>
+                        <option value="11">Nov</option>
+                        <option value="12">Dec</option>
+                    </select>
+                </div>
+            </div>
         </div>
         <div id="map"></div>
             <!-- Consent Modal - Enhanced Design -->

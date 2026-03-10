@@ -275,6 +275,14 @@
         box-shadow: 0 8px 24px rgba(30, 64, 175, 0.25);
         backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.2);
+        cursor: move;
+        user-select: none;
+        touch-action: none;
+    }
+
+    .month-filter-control.dragging {
+        opacity: 0.9;
+        box-shadow: 0 12px 32px rgba(30, 64, 175, 0.4);
     }
 
     .month-filter-control label {
@@ -282,10 +290,42 @@
         font-weight: 600;
         font-size: 0.9rem;
         margin-bottom: 6px;
-        display: block;
+        display: flex;
+        align-items: center;
+        gap: 6px;
         text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        cursor: move;
     }
 
+    .month-filter-control label::before {
+        content: '⋮⋮';
+        font-size: 1rem;
+        opacity: 0.7;
+        letter-spacing: -2px;
+    }
+    .filter-row {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .filter-group {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .filter-group label {
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 4px;
+        cursor: default;
+    }
+
+    .filter-group label::before {
+        content: none;
+    }
     .month-filter-control select {
         background: #ffffff;
         color: #1f2937;
@@ -362,23 +402,39 @@
 </div>
 
 <!-- Month Filter -->
-<div class="month-filter-control">
-    <label for="monthFilterAdmin">Filter by Month</label>
-    <select id="monthFilterAdmin" onchange="filterMarkersByMonth()">
-        <option value="all">All Months</option>
-        <option value="01">January</option>
-        <option value="02">February</option>
-        <option value="03">March</option>
-        <option value="04">April</option>
-        <option value="05">May</option>
-        <option value="06">June</option>
-        <option value="07">July</option>
-        <option value="08">August</option>
-        <option value="09">September</option>
-        <option value="10">October</option>
-        <option value="11">November</option>
-        <option value="12">December</option>
-    </select>
+<div class="month-filter-control" id="monthFilterAdminContainer">
+    <label for="monthFilterAdmin">Filter Sightings</label>
+    <div class="filter-row">
+        <div class="filter-group">
+            <label for="yearFilterAdmin">Year</label>
+            <select id="yearFilterAdmin" onchange="filterMarkersByMonth()">
+                <option value="all">All</option>
+                <option value="2026" selected>2026</option>
+                <option value="2025">2025</option>
+                <option value="2024">2024</option>
+                <option value="2023">2023</option>
+                <option value="2022">2022</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label for="monthFilterAdmin">Month</label>
+            <select id="monthFilterAdmin" onchange="filterMarkersByMonth()">
+                <option value="all">All</option>
+                <option value="01">Jan</option>
+                <option value="02">Feb</option>
+                <option value="03">Mar</option>
+                <option value="04">Apr</option>
+                <option value="05">May</option>
+                <option value="06">Jun</option>
+                <option value="07">Jul</option>
+                <option value="08">Aug</option>
+                <option value="09">Sep</option>
+                <option value="10">Oct</option>
+                <option value="11">Nov</option>
+                <option value="12">Dec</option>
+            </select>
+        </div>
+    </div>
 </div>
 
 <!-- Fullscreen Map -->
@@ -577,24 +633,26 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 100);
     });
 
-    // Filter markers by selected month
+    // Filter markers by selected year and month
     window.filterMarkersByMonth = function() {
         const monthFilter = document.getElementById('monthFilterAdmin');
-        if (!monthFilter) return;
+        const yearFilter = document.getElementById('yearFilterAdmin');
+        if (!monthFilter || !yearFilter) return;
 
         const selectedMonth = monthFilter.value; // "all", "01", "02", etc.
+        const selectedYear = yearFilter.value; // "all", "2026", "2025", etc.
 
         allMarkers.forEach(function(item) {
             const { marker, date } = item;
 
-            if (selectedMonth === 'all') {
+            if (selectedMonth === 'all' && selectedYear === 'all') {
                 // Show all markers
                 marker.setOpacity(1);
                 if (marker._icon) {
                     marker._icon.style.display = '';
                 }
             } else {
-                // Parse date and check if it matches selected month
+                // Parse date and check if it matches selected month/year
                 let showMarker = false;
 
                 if (date) {
@@ -612,9 +670,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
 
                         if (!isNaN(dateObj.getTime())) {
-                            // Get month as two-digit string (01-12)
+                            // Get month as two-digit string (01-12) and year as string
                             const markerMonth = ('0' + (dateObj.getMonth() + 1)).slice(-2);
-                            showMarker = (markerMonth === selectedMonth);
+                            const markerYear = dateObj.getFullYear().toString();
+
+                            // Check both year and month filters
+                            const monthMatches = (selectedMonth === 'all' || markerMonth === selectedMonth);
+                            const yearMatches = (selectedYear === 'all' || markerYear === selectedYear);
+                            
+                            showMarker = monthMatches && yearMatches;
                         }
                     } catch (parseError) {
                         console.warn('Failed to parse date:', date, parseError);
@@ -635,6 +699,110 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     };
+
+    // Make month filter draggable (works on both mobile and desktop)
+    (function() {
+        const filterElement = document.getElementById('monthFilterAdminContainer');
+        if (!filterElement) return;
+
+        let isDragging = false;
+        let currentX;
+        let currentY;
+        let initialX;
+        let initialY;
+        let xOffset = 0;
+        let yOffset = 0;
+
+        // Get initial position from CSS
+        const computedStyle = window.getComputedStyle(filterElement);
+        const right = parseInt(computedStyle.right);
+        const top = parseInt(computedStyle.top);
+        
+        // Convert right position to left position
+        xOffset = window.innerWidth - right - filterElement.offsetWidth;
+        yOffset = top;
+
+        // Mouse events for desktop
+        filterElement.addEventListener('mousedown', dragStart);
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', dragEnd);
+
+        // Touch events for mobile
+        filterElement.addEventListener('touchstart', dragStart, { passive: false });
+        document.addEventListener('touchmove', drag, { passive: false });
+        document.addEventListener('touchend', dragEnd);
+
+        function dragStart(e) {
+            // Don't drag if clicking on select element
+            if (e.target.tagName === 'SELECT' || e.target.tagName === 'OPTION') {
+                return;
+            }
+
+            if (e.type === 'touchstart') {
+                initialX = e.touches[0].clientX - xOffset;
+                initialY = e.touches[0].clientY - yOffset;
+            } else {
+                initialX = e.clientX - xOffset;
+                initialY = e.clientY - yOffset;
+            }
+
+            isDragging = true;
+            filterElement.classList.add('dragging');
+            filterElement.style.right = 'auto';
+            filterElement.style.top = 'auto';
+            filterElement.style.left = xOffset + 'px';
+            filterElement.style.top = yOffset + 'px';
+        }
+
+        function drag(e) {
+            if (isDragging) {
+                e.preventDefault();
+
+                if (e.type === 'touchmove') {
+                    currentX = e.touches[0].clientX - initialX;
+                    currentY = e.touches[0].clientY - initialY;
+                } else {
+                    currentX = e.clientX - initialX;
+                    currentY = e.clientY - initialY;
+                }
+
+                xOffset = currentX;
+                yOffset = currentY;
+
+                // Boundary constraints
+                const maxX = window.innerWidth - filterElement.offsetWidth;
+                const maxY = window.innerHeight - filterElement.offsetHeight;
+
+                xOffset = Math.max(0, Math.min(xOffset, maxX));
+                yOffset = Math.max(0, Math.min(yOffset, maxY));
+
+                setTranslate(xOffset, yOffset, filterElement);
+            }
+        }
+
+        function dragEnd(e) {
+            if (isDragging) {
+                initialX = currentX;
+                initialY = currentY;
+                isDragging = false;
+                filterElement.classList.remove('dragging');
+            }
+        }
+
+        function setTranslate(xPos, yPos, el) {
+            el.style.left = xPos + 'px';
+            el.style.top = yPos + 'px';
+        }
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            const maxX = window.innerWidth - filterElement.offsetWidth;
+            const maxY = window.innerHeight - filterElement.offsetHeight;
+            xOffset = Math.max(0, Math.min(xOffset, maxX));
+            yOffset = Math.max(0, Math.min(yOffset, maxY));
+            setTranslate(xOffset, yOffset, filterElement);
+        });
+    })();
 
     console.log('COTS Map initialized with', {{ $locations->count() }}, 'locations');
 });

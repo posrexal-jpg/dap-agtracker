@@ -379,12 +379,118 @@ function initializeMap() {
     }
 }
 
-// Global function to filter markers by selected month
+// Global function to make month filter draggable (works on both mobile and desktop)
+function makeFilterDraggable() {
+    const filterElement = document.getElementById('monthFilterContainer');
+    if (!filterElement) return;
+
+    let isDragging = false;
+    let currentX;
+    let currentY;
+    let initialX;
+    let initialY;
+    let xOffset = 0;
+    let yOffset = 0;
+
+    // Get initial position from CSS
+    const computedStyle = window.getComputedStyle(filterElement);
+    const right = parseInt(computedStyle.right);
+    const top = parseInt(computedStyle.top);
+    
+    // Convert right position to left position
+    xOffset = window.innerWidth - right - filterElement.offsetWidth;
+    yOffset = top;
+
+    // Mouse events for desktop
+    filterElement.addEventListener('mousedown', dragStart);
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('mouseup', dragEnd);
+
+    // Touch events for mobile
+    filterElement.addEventListener('touchstart', dragStart, { passive: false });
+    document.addEventListener('touchmove', drag, { passive: false });
+    document.addEventListener('touchend', dragEnd);
+
+    function dragStart(e) {
+        // Don't drag if clicking on select element
+        if (e.target.tagName === 'SELECT' || e.target.tagName === 'OPTION') {
+            return;
+        }
+
+        if (e.type === 'touchstart') {
+            initialX = e.touches[0].clientX - xOffset;
+            initialY = e.touches[0].clientY - yOffset;
+        } else {
+            initialX = e.clientX - xOffset;
+            initialY = e.clientY - yOffset;
+        }
+
+        isDragging = true;
+        filterElement.classList.add('dragging');
+        filterElement.style.right = 'auto';
+        filterElement.style.top = 'auto';
+        filterElement.style.left = xOffset + 'px';
+        filterElement.style.top = yOffset + 'px';
+    }
+
+    function drag(e) {
+        if (isDragging) {
+            e.preventDefault();
+
+            if (e.type === 'touchmove') {
+                currentX = e.touches[0].clientX - initialX;
+                currentY = e.touches[0].clientY - initialY;
+            } else {
+                currentX = e.clientX - initialX;
+                currentY = e.clientY - initialY;
+            }
+
+            xOffset = currentX;
+            yOffset = currentY;
+
+            // Boundary constraints
+            const maxX = window.innerWidth - filterElement.offsetWidth;
+            const maxY = window.innerHeight - filterElement.offsetHeight;
+
+            xOffset = Math.max(0, Math.min(xOffset, maxX));
+            yOffset = Math.max(0, Math.min(yOffset, maxY));
+
+            setTranslate(xOffset, yOffset, filterElement);
+        }
+    }
+
+    function dragEnd(e) {
+        if (isDragging) {
+            initialX = currentX;
+            initialY = currentY;
+            isDragging = false;
+            filterElement.classList.remove('dragging');
+        }
+    }
+
+    function setTranslate(xPos, yPos, el) {
+        el.style.left = xPos + 'px';
+        el.style.top = yPos + 'px';
+    }
+
+    // Handle window resize
+    window.addEventListener('resize', function() {
+        const maxX = window.innerWidth - filterElement.offsetWidth;
+        const maxY = window.innerHeight - filterElement.offsetHeight;
+        xOffset = Math.max(0, Math.min(xOffset, maxX));
+        yOffset = Math.max(0, Math.min(yOffset, maxY));
+        setTranslate(xOffset, yOffset, filterElement);
+    });
+}
+
+// Global function to filter markers by selected year and month
 function filterMarkersByMonth() {
     const monthFilter = document.getElementById('monthFilter');
-    if (!monthFilter) return;
+    const yearFilter = document.getElementById('yearFilter');
+    if (!monthFilter || !yearFilter) return;
 
     const selectedMonth = monthFilter.value; // "all", "01", "02", etc.
+    const selectedYear = yearFilter.value; // "all", "2026", "2025", etc.
 
     if (!window.allSightingMarkers || !Array.isArray(window.allSightingMarkers)) {
         console.warn('No markers available for filtering');
@@ -394,14 +500,14 @@ function filterMarkersByMonth() {
     window.allSightingMarkers.forEach(function(item) {
         const { marker, date } = item;
 
-        if (selectedMonth === 'all') {
+        if (selectedMonth === 'all' && selectedYear === 'all') {
             // Show all markers
             marker.setOpacity(1);
             if (marker._icon) {
                 marker._icon.style.display = '';
             }
         } else {
-            // Parse date and check if it matches selected month
+            // Parse date and check if it matches selected month/year
             let showMarker = false;
 
             if (date) {
@@ -419,9 +525,15 @@ function filterMarkersByMonth() {
                     }
 
                     if (!isNaN(dateObj.getTime())) {
-                        // Get month as two-digit string (01-12)
+                        // Get month as two-digit string (01-12) and year as string
                         const markerMonth = ('0' + (dateObj.getMonth() + 1)).slice(-2);
-                        showMarker = (markerMonth === selectedMonth);
+                        const markerYear = dateObj.getFullYear().toString();
+
+                        // Check both year and month filters
+                        const monthMatches = (selectedMonth === 'all' || markerMonth === selectedMonth);
+                        const yearMatches = (selectedYear === 'all' || markerYear === selectedYear);
+                        
+                        showMarker = monthMatches && yearMatches;
                     }
                 } catch (parseError) {
                     console.warn('Failed to parse date:', date, parseError);
@@ -447,9 +559,15 @@ function filterMarkersByMonth() {
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function() {
         console.log('DOM loaded, initializing map...');
-        setTimeout(initializeMap, 100); // Small delay to ensure all scripts are loaded
+        setTimeout(function() {
+            initializeMap();
+            makeFilterDraggable();
+        }, 100);
     });
 } else {
     console.log('DOM already ready, initializing map...');
-    setTimeout(initializeMap, 100);
+    setTimeout(function() {
+        initializeMap();
+        makeFilterDraggable();
+    }, 100);
 }
