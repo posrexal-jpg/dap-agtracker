@@ -351,21 +351,88 @@
         box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
     }
 
+    /* Material-UI for Mobile */
     @media (max-width: 991px) {
+        body {
+            background: #f5f5f5 !important;
+        }
+
+        /* Material-UI Card (Filter) */
         .month-filter-control {
-            top: 10px;
-            right: 10px;
-            padding: 10px 12px;
+            top: 16px;
+            right: 16px;
+            left: 16px;
+            padding: 12px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
+            border: 1px solid rgba(0, 0, 0, 0.12);
         }
 
         .month-filter-control label {
-            font-size: 0.85rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.0893em;
+            text-transform: uppercase;
+            color: rgba(0, 0, 0, 0.6);
+            text-shadow: none;
+        }
+
+        .filter-row {
+            gap: 8px;
         }
 
         .month-filter-control select {
-            font-size: 0.85rem;
-            padding: 6px 10px;
-            width: 160px;
+            font-size: 0.875rem;
+            padding: 12px;
+            width: 100%;
+            height: 48px;
+            border: 1px solid rgba(0, 0, 0, 0.23);
+            border-radius: 4px;
+            box-shadow: none;
+            line-height: 1.43;
+            letter-spacing: 0.01071em;
+        }
+
+        .month-filter-control select:focus {
+            border-width: 2px;
+            padding: 11px;
+            border-color: #1976d2;
+        }
+
+        /* Material-UI Stats Card */
+        .stats-overlay {
+            box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12) !important;
+            border-radius: 12px;
+        }
+
+        /* Material-UI FAB (Map Controls) */
+        .map-controls {
+            box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12) !important;
+        }
+
+        .map-control-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12) !important;
+        }
+
+        .map-control-btn:active {
+            box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12) !important;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.0893em;
+            text-transform: uppercase;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 400;
+            letter-spacing: 0em;
         }
     }
 </style>

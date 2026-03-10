@@ -665,37 +665,40 @@
         box-shadow: none !important;
     }
 
-    /* Month Filter Control */
+    /* Month Filter Control - Material-UI */
     .month-filter-control {
         position: fixed;
-        top: 20px;
-        right: 20px;
+        top: 16px;
+        right: 16px;
         z-index: 1000;
         background: #ffffff;
-        padding: 16px 20px;
+        padding: 16px;
         border-radius: 12px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-        border: 1px solid #e5e7eb;
+        box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
+        border: 1px solid rgba(0, 0, 0, 0.12);
         min-width: 200px;
         cursor: move;
         user-select: none;
         touch-action: none;
+        transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .month-filter-control.dragging {
         opacity: 0.9;
-        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
     }
 
     .month-filter-control label {
         display: flex;
         align-items: center;
         gap: 8px;
-        font-size: 0.875rem;
-        font-weight: 600;
-        color: #374151;
-        margin-bottom: 10px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: rgba(0, 0, 0, 0.6);
+        margin-bottom: 8px;
         cursor: move;
+        text-transform: uppercase;
+        letter-spacing: 0.0893em;
     }
 
     .month-filter-control label::before {
@@ -707,7 +710,7 @@
 
     .filter-row {
         display: flex;
-        gap: 10px;
+        gap: 8px;
         align-items: center;
     }
 
@@ -719,10 +722,12 @@
     .filter-group label {
         display: block;
         font-size: 0.75rem;
-        font-weight: 600;
-        color: #6b7280;
+        font-weight: 500;
+        color: rgba(0, 0, 0, 0.6);
         margin-bottom: 4px;
         cursor: default;
+        text-transform: uppercase;
+        letter-spacing: 0.0893em;
     }
 
     .filter-group label::before {
@@ -731,80 +736,130 @@
 
     .month-filter-control select {
         width: 100%;
-        padding: 10px 12px;
-        border: 2px solid #e5e7eb;
-        border-radius: 8px;
+        padding: 12px;
+        border: 1px solid rgba(0, 0, 0, 0.23);
+        border-radius: 4px;
         font-size: 0.875rem;
-        color: #1f2937;
+        color: rgba(0, 0, 0, 0.87);
         background: #ffffff;
         cursor: pointer;
-        transition: all 0.2s ease;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        line-height: 1.43;
+        letter-spacing: 0.01071em;
     }
 
     .month-filter-control select:focus {
         outline: none;
-        border-color: #3b82f6;
-        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        border-color: #1976d2;
+        border-width: 2px;
+        padding: 11px;
     }
 
     .month-filter-control select:hover {
         border-color: #d1d5db;
     }
 
+    /* Material-UI for Mobile */
     @media (max-width: 768px) {
         .month-filter-control {
-            top: 10px;
-            right: 10px;
-            left: 10px;
+            top: 16px;
+            right: 16px;
+            left: 16px;
             min-width: auto;
-            padding: 12px 16px;
+            padding: 12px;
+            box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
         }
 
         .month-filter-control label {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             margin-bottom: 8px;
+            font-weight: 500;
+            letter-spacing: 0.0893em;
         }
 
         .month-filter-control select {
-            font-size: 0.8rem;
-            padding: 8px 10px;
+            font-size: 0.875rem;
+            padding: 12px;
+            height: 48px;
+            line-height: 1.43;
+        }
+
+        .month-filter-control select:focus {
+            border-width: 2px;
+            padding: 11px;
         }
     }
 
-    /* Mobile-specific adjustments */
+    /* Material-UI Modal (Bottom Sheet) for Mobile */
     @media (max-width: 768px) {
+        body {
+            background: #f5f5f5 !important;
+        }
+
         .modal-dialog {
-            margin: 0.5rem !important;
-            max-width: calc(100vw - 1rem) !important;
+            margin: 0 !important;
+            max-width: 100% !important;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
         }
 
         .modal-content {
-            border-radius: 12px;
+            border-radius: 16px 16px 0 0 !important;
+            box-shadow: 0 8px 10px -5px rgba(0,0,0,.2), 0 16px 24px 2px rgba(0,0,0,.14), 0 6px 30px 5px rgba(0,0,0,.12) !important;
+            border: none;
         }
 
         .modal-header {
-            padding: 16px 20px;
-            border-radius: 12px 12px 0 0;
+            padding: 16px;
+            border-radius: 16px 16px 0 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.12);
         }
 
         .modal-header .modal-title {
-            font-size: 0.95rem;
+            font-size: 1.25rem;
+            font-weight: 500;
+            letter-spacing: 0.0125em;
+            color: rgba(0, 0, 0, 0.87);
         }
 
         .modal-body {
-            padding: 16px 20px;
-            max-height: calc(85vh - 140px);
+            padding: 16px;
+            max-height: calc(70vh - 140px);
+        }
+
+        .modal-body p {
+            font-size: 0.875rem;
+            line-height: 1.43;
+            letter-spacing: 0.01071em;
+            color: rgba(0, 0, 0, 0.6);
+        }
+
+        .modal-body strong {
+            font-weight: 500;
+            color: rgba(0, 0, 0, 0.87);
         }
 
         .modal-footer {
-            padding: 12px 16px;
-            border-radius: 0 0 12px 12px;
+            padding: 16px;
+            border-radius: 0;
+            border-top: 1px solid rgba(0, 0, 0, 0.12);
         }
 
         .modal-footer .btn {
-            min-width: 100px;
-            padding: 10px 16px;
-            font-size: 14px;
+            min-width: 64px;
+            padding: 8px 16px;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            font-weight: 500;
+            letter-spacing: 0.0892857143em;
+            box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12) !important;
+        }
+
+        .modal-footer .btn:active {
+            box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12) !important;
         }
 
         .page-header {
@@ -837,19 +892,37 @@
             min-height: 100vh;
         }
 
+        /* Material-UI Button Styles for Mobile */
         .btn {
             width: 100%;
             margin-bottom: 8px;
+            height: 48px;
+            text-transform: uppercase;
+            font-weight: 500;
+            letter-spacing: 0.0892857143em;
+            font-size: 0.875rem;
+            box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12) !important;
+        }
+
+        .btn:active {
+            box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12) !important;
         }
 
         .connection-status {
-            font-size: 0.7rem !important;
+            font-size: 0.75rem !important;
             padding: 4px 8px !important;
+            border-radius: 4px;
+            font-weight: 500;
+            letter-spacing: 0.0892857143em;
         }
 
         .btn-sm {
-            font-size: 0.7rem !important;
+            font-size: 0.75rem !important;
             padding: 4px 8px !important;
+            height: auto;
+            text-transform: uppercase;
+            font-weight: 500;
+            letter-spacing: 0.0892857143em;
         }
     }
 

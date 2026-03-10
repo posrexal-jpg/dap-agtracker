@@ -427,57 +427,96 @@
         margin-bottom: 0;
     }
 
-    /* Responsive - Material Design for Mobile */
+    /* Responsive - Material-UI for Mobile */
     @media (max-width: 768px) {
-        h2 {
-            font-size: 1.5rem !important;
+        body {
+            background: #f5f5f5 !important;
         }
 
+        .container-fluid {
+            padding-left: 16px !important;
+            padding-right: 16px !important;
+        }
+
+        /* Material-UI Typography */
+        h2 {
+            font-size: 1.25rem !important;
+            font-weight: 500 !important;
+            letter-spacing: 0.0125em !important;
+        }
+
+        /* Material-UI Button */
         .btn {
             font-size: 0.875rem;
-            padding: 0.625rem 1rem;
+            padding: 8px 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.0892857143em;
+            font-weight: 500;
+            box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12) !important;
         }
 
+        .btn:active {
+            box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12) !important;
+        }
+
+        /* Material-UI List Item */
         .notification-card {
             flex-direction: row;
-            padding: 1rem;
+            padding: 16px;
             border-radius: 12px;
+            box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12) !important;
+        }
+
+        .notification-card:active {
+            box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12) !important;
         }
 
         .notification-icon {
             width: 40px;
             height: 40px;
             font-size: 1.25rem;
+            border-radius: 8px;
         }
 
         .notification-title {
             font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 0.00938em;
         }
 
         .notification-message {
-            font-size: 0.9rem;
+            font-size: 0.875rem;
+            line-height: 1.43;
+            letter-spacing: 0.01071em;
         }
 
         .notification-meta {
-            font-size: 0.8rem;
-            gap: 0.75rem;
+            font-size: 0.75rem;
+            gap: 12px;
+            letter-spacing: 0.03333em;
         }
 
+        /* Material-UI Card (Stats) */
         .stats-card {
-            padding: 1.25rem;
+            padding: 16px;
             border-radius: 12px;
+            box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12) !important;
         }
 
         .stats-icon {
-            width: 50px;
-            height: 50px;
+            width: 48px;
+            height: 48px;
             font-size: 1.5rem;
+            border-radius: 8px;
         }
 
         .stats-card h3 {
             font-size: 1.5rem;
+            font-weight: 400;
+            letter-spacing: 0em;
         }
 
+        /* Material-UI Empty State */
         .empty-icon {
             width: 80px;
             height: 80px;
@@ -485,18 +524,20 @@
         }
 
         .empty-state {
-            padding: 3rem 1.5rem;
+            padding: 48px 24px;
+            border-radius: 12px;
+            box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12) !important;
         }
     }
 
     @media (max-width: 576px) {
         .notification-card {
-            padding: 0.875rem;
+            padding: 12px;
         }
 
         .notification-meta {
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 8px;
         }
     }
 

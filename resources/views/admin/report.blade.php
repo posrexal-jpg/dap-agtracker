@@ -282,52 +282,124 @@
         color: #9ca3af !important;
     }
 
-    /* Mobile Responsive - Material Design */
+    /* Mobile Responsive - Material-UI Components */
     @media (max-width: 768px) {
+        body {
+            background: #f5f5f5 !important;
+        }
+
+        /* Material-UI App Bar (Header) */
         .page-header {
-            padding: 1.5rem;
-            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            border-radius: 0 0 16px 16px;
+            margin-left: -1rem;
+            margin-right: -1rem;
+            margin-top: -1rem;
+            box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12) !important;
         }
 
         .page-title {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
+            font-weight: 500;
+            letter-spacing: 0.0125em;
         }
 
         .page-subtitle {
             font-size: 0.875rem;
+            font-weight: 400;
+            letter-spacing: 0.0178em;
         }
 
+        /* Material-UI Floating Action Button (FAB) */
         .page-actions .btn {
-            width: 100%;
-            margin-top: 1rem;
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            z-index: 1050;
+            box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12) !important;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fabEntrance 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
         }
 
+        .page-actions .btn i {
+            font-size: 1.5rem;
+            margin: 0 !important;
+        }
+
+        .page-actions .btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12) !important;
+        }
+
+        @keyframes fabEntrance {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Material-UI Card */
         .card {
             border-radius: 12px !important;
             margin-bottom: 1rem;
+            box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12) !important;
         }
 
         .card-header {
-            padding: 1rem !important;
+            padding: 1rem 1.25rem !important;
+            background: #ffffff !important;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
         }
 
         .card-body {
-            padding: 1rem !important;
+            padding: 0 !important;
+            background: #ffffff !important;
         }
 
+        /* Material-UI Chip (Filter) */
         .filter-section {
-            padding: 0.75rem 1rem;
+            padding: 1rem 1.25rem;
             flex-direction: column;
             gap: 0.75rem;
+            background: #ffffff;
+            border: none;
+            border-radius: 0;
+            margin: 0;
         }
 
         .filter-section label {
             margin-bottom: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.0893em;
+            color: rgba(0, 0, 0, 0.6) !important;
         }
 
         .filter-section .form-select {
             min-width: 100%;
             width: 100%;
+            height: 56px;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 0, 0, 0.23) !important;
+            padding: 16px 14px !important;
+            font-size: 1rem;
+            transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        .filter-section .form-select:focus {
+            border-width: 2px !important;
+            padding: 15px 13px !important;
         }
 
         /* Material Design Table for Mobile */

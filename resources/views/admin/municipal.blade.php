@@ -268,33 +268,82 @@
         margin-bottom: 1rem;
     }
 
-    /* Mobile Responsive */
+    /* Mobile Responsive - Material-UI */
     @media (max-width: 768px) {
+        body {
+            background: #f5f5f5 !important;
+        }
+
+        /* Material-UI App Bar */
         .page-header {
-            padding: 1.5rem;
-            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            border-radius: 0 0 16px 16px;
+            margin-left: -1rem;
+            margin-right: -1rem;
+            margin-top: -1rem;
+            box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12) !important;
         }
 
         .page-title {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
+            font-weight: 500;
+            letter-spacing: 0.0125em;
         }
 
         .page-subtitle {
             font-size: 0.875rem;
+            font-weight: 400;
+            letter-spacing: 0.0178em;
         }
 
+        /* Material-UI FAB */
         .page-actions .btn-primary {
-            width: 100%;
-            margin-top: 1rem;
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            z-index: 1050;
+            box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12) !important;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 0;
+            animation: fabEntrance 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
         }
 
+        .page-actions .btn-primary i {
+            font-size: 1.5rem;
+            margin: 0 !important;
+        }
+
+        @keyframes fabEntrance {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Material-UI Card */
         .card {
             border-radius: 12px !important;
+            box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12) !important;
         }
 
-        /* Material Design Table for Mobile */
+        /* Material-UI List */
         .table thead {
             display: none;
+        }
+
+        .table-responsive {
+            background: transparent !important;
+            border-radius: 0 !important;
         }
 
         .table,
@@ -306,39 +355,66 @@
         }
 
         .table tbody tr {
-            margin-bottom: 1rem;
+            margin-bottom: 8px;
             border-radius: 12px !important;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            padding: 1rem;
+            box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12) !important;
+            padding: 16px;
+            border: none !important;
+            transition: box-shadow 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        .table tbody tr:active {
+            box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12) !important;
         }
 
         .table tbody td {
-            padding: 0.625rem 0 !important;
+            padding: 8px 0 !important;
             text-align: left;
             position: relative;
-            padding-left: 45% !important;
+            padding-left: 40% !important;
+            font-size: 0.875rem;
+            line-height: 1.43;
+            letter-spacing: 0.01071em;
         }
 
         .table tbody td::before {
             content: attr(data-label);
             position: absolute;
             left: 0;
-            width: 40%;
+            width: 35%;
             padding-right: 10px;
-            font-weight: 700;
-            color: #6b7280 !important;
+            font-weight: 500;
+            color: rgba(0, 0, 0, 0.6) !important;
             text-transform: uppercase;
             font-size: 0.75rem;
+            letter-spacing: 0.08em;
         }
 
         .table tbody td:first-child {
-            padding-top: 0.75rem !important;
-            font-size: 1.125rem;
+            padding-top: 8px !important;
+            font-size: 1rem;
+            font-weight: 500;
             color: #10b981 !important;
         }
 
+        /* Material-UI Alerts/Snackbar */
         .alert {
             font-size: 0.875rem;
+            border-radius: 4px;
+            box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12) !important;
+            padding: 12px 16px;
+        }
+
+        /* Material-UI Button */
+        .btn {
+            text-transform: uppercase;
+            letter-spacing: 0.0892857143em;
+            font-weight: 500;
+            box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12) !important;
+        }
+
+        .btn:active {
+            box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12) !important;
         }
     }
 

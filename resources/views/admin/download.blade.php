@@ -345,46 +345,78 @@
         display: inline-block;
     }
 
-    /* Mobile Responsive */
+    /* Mobile Responsive - Material-UI */
     @media (max-width: 768px) {
-        .h3 {
-            font-size: 1.5rem;
+        body {
+            background: #f5f5f5 !important;
         }
 
+        .container-fluid {
+            padding-left: 16px !important;
+            padding-right: 16px !important;
+        }
+
+        .h3 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            letter-spacing: 0.0125em;
+        }
+
+        /* Material-UI Card */
         .card {
             border-radius: 12px !important;
-            margin-bottom: 1.5rem;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12) !important;
         }
 
         .card-header {
-            padding: 1.25rem !important;
+            padding: 16px !important;
         }
 
         .card-body {
-            padding: 1.25rem !important;
+            padding: 16px !important;
         }
 
+        /* Material-UI Typography */
         ol li {
-            font-size: 0.9rem;
+            font-size: 0.875rem;
+            line-height: 1.43;
+            letter-spacing: 0.01071em;
         }
 
         h6 {
             font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 0.0125em;
         }
 
+        /* Material-UI List Item */
         .feature-item {
-            padding: 0.875rem;
+            padding: 12px;
+            border-radius: 8px;
+            box-shadow: 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
         }
 
         .feature-icon {
             min-width: 40px;
             min-height: 40px;
             font-size: 1.25rem;
+            border-radius: 8px;
         }
 
+        /* Material-UI Button */
         .btn {
             width: 100%;
-            margin-bottom: 0.75rem;
+            margin-bottom: 12px;
+            height: 48px;
+            text-transform: uppercase;
+            letter-spacing: 0.0892857143em;
+            font-weight: 500;
+            box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12) !important;
+        }
+
+        .btn:active {
+            box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12) !important;
         }
     }
 
