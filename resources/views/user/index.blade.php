@@ -668,8 +668,8 @@
     /* Month Filter Control - Material-UI */
     .month-filter-control {
         position: fixed;
-        top: 16px;
-        right: 16px;
+        bottom: 16px;
+        left: 16px;
         z-index: 1000;
         background: rgba(0, 0, 0, 0.35);
         backdrop-filter: blur(14px);
@@ -783,9 +783,9 @@
         }
 
         .month-filter-control {
-            top: 12px;
-            right: 12px;
+            bottom: 12px;
             left: 12px;
+            right: auto;
             min-width: auto;
             padding: 10px;
             background: rgba(0, 0, 0, 0.35);
