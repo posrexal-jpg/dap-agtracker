@@ -25,9 +25,9 @@ class RedirectIfAuthenticated
                 $userroleid = Auth::user()->role_id;
                 switch ($userroleid) {
                     case 1:
-                        return redirect('/admin/index');
+                        return redirect('/admin');
                     case 2:
-                        return redirect('/user/index');
+                        return redirect('/user');
                 } 
             }
         }

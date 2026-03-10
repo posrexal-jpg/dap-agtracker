@@ -169,7 +169,7 @@
                                     <i class="fas fa-chevron-right"></i>
                                 </a>
 
-                                <a href="{{ route('admin.users.index') }}" class="action-btn success">
+                                <a href="{{ route('admin.adduser') }}" class="action-btn success">
                                     <div class="action-icon">
                                         <i class="fas fa-user-plus"></i>
                                     </div>
@@ -358,7 +358,7 @@
                         <a href="{{ route('admin.location') }}" class="btn btn-primary btn-lg w-100 mb-3">
                             <i class="fas fa-map-marked-alt me-2"></i>Manage Locations
                         </a>
-                        <a href="{{ route('admin.users.index') }}" class="btn btn-success btn-lg w-100 mb-3">
+                        <a href="{{ route('admin.adduser') }}" class="btn btn-success btn-lg w-100 mb-3">
                             <i class="fas fa-user-plus me-2"></i>Manage Users
                         </a>
                         <a href="{{ route('admin.report') }}" class="btn btn-info btn-lg w-100 mb-3">
