@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Notification;
+use App\Traits\LogsActivity;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
+    use LogsActivity;
     /**
      * Get all notifications for admin
      */
@@ -66,10 +68,20 @@ class NotificationController extends Controller
      */
     public function markAllAsRead()
     {
+        $count = Notification::unread()->count();
+        
         Notification::unread()->update([
             'is_read' => true,
             'read_at' => now()
         ]);
+
+        // Log the activity
+        if ($count > 0) {
+            $this->logActivity(
+                'mark_read',
+                "Marked {$count} notifications as read"
+            );
+        }
 
         return response()->json([
             'success' => true,
@@ -83,6 +95,10 @@ class NotificationController extends Controller
     public function destroy($id)
     {
         $notification = Notification::findOrFail($id);
+        
+        // Log before deleting
+        $this->logDelete($notification, "Deleted notification: {$notification->message}");
+        
         $notification->delete();
 
         return response()->json([
@@ -92,7 +108,17 @@ class NotificationController extends Controller
     }
 
     /**
-     * Delete all read notifications
+        $count = Notification::read()->count();
+        
+        Notification::read()->delete();
+
+        // Log the activity
+        if ($count > 0) {
+            $this->logActivity(
+                'delete',
+                "Cleared {$count} read notifications"
+            );
+        }
      */
     public function clearRead()
     {
