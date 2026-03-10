@@ -122,6 +122,47 @@
         background-clip: text;
     }
 
+    /* Stats overlay collapse */
+    .stats-toggle-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        user-select: none;
+        padding: 2px 0;
+    }
+
+    .stats-toggle-header .stats-title {
+        font-size: 0.875rem;
+        color: #374151;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .stats-toggle-icon {
+        font-size: 1.1rem;
+        color: #6b7280;
+        transition: transform 0.3s ease;
+    }
+
+    .stats-overlay.expanded .stats-toggle-icon {
+        transform: rotate(180deg);
+    }
+
+    .stats-body {
+        display: none;
+        overflow: hidden;
+    }
+
+    .stats-overlay.expanded .stats-body {
+        display: block;
+        margin-top: 8px;
+        border-top: 1px solid #f3f4f6;
+        padding-top: 4px;
+    }
+
     /* Map Controls */
     .map-controls {
         position: fixed;
@@ -483,18 +524,24 @@
 
 @section('content')
 <!-- Stats Overlay -->
-<div class="stats-overlay">
-    <div class="stat-item">
-        <span class="stat-label">Total Sightings</span>
-        <span class="stat-value">{{ $locations->count() }}</span>
+<div class="stats-overlay" id="statsOverlay">
+    <div class="stats-toggle-header" onclick="toggleStats()">
+        <span class="stats-title"><i class="bx bx-bar-chart-alt-2"></i> Statistics</span>
+        <i class="bx bx-chevron-down stats-toggle-icon"></i>
     </div>
-    <div class="stat-item">
-        <span class="stat-label">Total COTS</span>
-        <span class="stat-value">{{ $locations->sum('number_of_cots') }}</span>
-    </div>
-    <div class="stat-item">
-        <span class="stat-label">Municipalities</span>
-        <span class="stat-value">{{ $locations->pluck('municipality')->unique()->count() }}</span>
+    <div class="stats-body" id="statsBody">
+        <div class="stat-item">
+            <span class="stat-label">Total Sightings</span>
+            <span class="stat-value">{{ $locations->count() }}</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label">Total COTS</span>
+            <span class="stat-value">{{ $locations->sum('number_of_cots') }}</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label">Municipalities</span>
+            <span class="stat-value">{{ $locations->pluck('municipality')->unique()->count() }}</span>
+        </div>
     </div>
 </div>
 
@@ -554,6 +601,11 @@
 
 @push('scripts')
 <script>
+function toggleStats() {
+    const overlay = document.getElementById('statsOverlay');
+    overlay.classList.toggle('expanded');
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize map centered on Philippines
     const map = L.map('map').setView([10.3157, 123.8854], 8);
