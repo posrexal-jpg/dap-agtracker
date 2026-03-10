@@ -57,7 +57,7 @@
         }
 
         body.admin-page {
-            padding-bottom: 80px;
+            padding-bottom: 60px;
         }
     }
 

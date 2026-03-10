@@ -148,13 +148,13 @@
         /* Ensure content is always above mobile menu */
         @media (max-width: 991px) {
             body {
-                padding-bottom: 80px; /* Space for mobile menu */
+                padding-bottom: 60px; /* Space for mobile menu */
                 overflow-x: hidden !important;
             }
 
             .layout-page main {
                 padding: 0.75rem;
-                padding-bottom: 100px; /* Extra space for mobile menu */
+                padding-bottom: 20px; /* Reduced spacing */
                 max-width: 100vw;
                 overflow-x: hidden !important;
             }
