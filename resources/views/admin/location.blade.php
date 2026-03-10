@@ -197,6 +197,24 @@
         color: #6b7280 !important;
     }
 
+    /* Badge text visibility - ensure white text on colored backgrounds */
+    .sighting-detail .badge {
+        color: #ffffff !important;
+        font-weight: 600 !important;
+        padding: 0.5rem 0.75rem !important;
+        font-size: 0.875rem !important;
+    }
+
+    .sighting-detail .badge.bg-danger {
+        background-color: #dc3545 !important;
+        color: #ffffff !important;
+    }
+
+    .sighting-detail .badge.bg-success {
+        background-color: #28a745 !important;
+        color: #ffffff !important;
+    }
+
     .delete-btn-popup {
         margin-top: 12px;
         width: 100%;
