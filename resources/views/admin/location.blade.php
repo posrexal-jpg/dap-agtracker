@@ -344,7 +344,6 @@
     .month-filter-control.dragging {
         opacity: 0.85;
         box-shadow: 0 8px 28px rgba(0, 0, 0, 0.2);
-        transition: none !important;
     }
 
     .month-filter-control label {
@@ -436,10 +435,9 @@
 
         /* Material-UI Card (Filter) */
         .month-filter-control {
-            top: auto !important;
-            right: auto !important;
-            bottom: 90px;
-            left: 10px;
+            top: 12px;
+            right: 12px;
+            left: 12px;
             padding: 10px;
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(12px);
@@ -447,9 +445,7 @@
             border-radius: 12px;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
             border: 1px solid rgba(255, 255, 255, 0.3);
-            min-width: 160px;
-            max-width: calc(100vw - 80px) !important;
-            width: auto;
+            max-width: calc(100vw - 24px) !important;
             overflow: hidden !important;
         }
 
@@ -879,17 +875,14 @@ document.addEventListener('DOMContentLoaded', function() {
         let xOffset = 0;
         let yOffset = 0;
 
-        // Use getBoundingClientRect for robust initial position (works with any CSS positioning)
-        function initPosition() {
-            const rect = filterElement.getBoundingClientRect();
-            xOffset = rect.left;
-            yOffset = rect.top;
-            filterElement.style.left = xOffset + 'px';
-            filterElement.style.top = yOffset + 'px';
-            filterElement.style.right = 'auto';
-            filterElement.style.bottom = 'auto';
-        }
-        initPosition();
+        // Get initial position from CSS
+        const computedStyle = window.getComputedStyle(filterElement);
+        const right = parseInt(computedStyle.right);
+        const top = parseInt(computedStyle.top);
+        
+        // Convert right position to left position
+        xOffset = window.innerWidth - right - filterElement.offsetWidth;
+        yOffset = top;
 
         // Mouse events for desktop
         filterElement.addEventListener('mousedown', dragStart);
@@ -917,6 +910,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
             isDragging = true;
             filterElement.classList.add('dragging');
+            filterElement.style.right = 'auto';
+            filterElement.style.top = 'auto';
+            filterElement.style.left = xOffset + 'px';
+            filterElement.style.top = yOffset + 'px';
         }
 
         function drag(e) {
