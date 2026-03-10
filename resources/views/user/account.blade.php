@@ -68,6 +68,29 @@
     flex: 1;
     overflow-y: auto;
 }
+
+/* Custom circle icon styling - remove default divIcon background */
+.custom-circle-icon {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.marker-outbreak {
+    animation: pulseOutbreak 2s infinite;
+}
+
+@keyframes pulseOutbreak {
+    0% {
+        box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 15px rgba(220, 53, 69, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+    }
+}
 </style>
 <div class="container-fluid px-0" style="height: 100%; display: flex; flex-direction: column; overflow: auto;">
     <!-- Page Header -->
@@ -343,7 +366,7 @@ document.addEventListener('DOMContentLoaded', function() {
         attribution: '© OpenStreetMap contributors'
     }).addTo(map);
 
-    // Function to create circle SVG icon
+    // Function to create circle SVG icon using divIcon (more reliable on mobile)
     function createCircleIcon(color) {
         const svg = `
             <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
@@ -351,19 +374,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 <ellipse cx="16" cy="28" rx="10" ry="2" fill="rgba(0,0,0,0.15)"/>
             </svg>
         `;
-        return `data:image/svg+xml;base64,${btoa(svg)}`;
+        return L.divIcon({
+            html: svg,
+            className: 'custom-circle-icon',
+            iconSize: [32, 32],
+            iconAnchor: [16, 16],
+            popupAnchor: [0, -16]
+        });
     }
 
     // Add markers for user's locations
     @foreach($userLocations as $location)
         const cotsCount{{ $location->id }} = {{ $location->number_of_cots ?? 0 }};
         const markerColor{{ $location->id }} = cotsCount{{ $location->id }} > 15 ? '#dc3545' : '#28a745';
-        const markerIcon{{ $location->id }} = L.icon({
-            iconUrl: createCircleIcon(markerColor{{ $location->id }}),
-            iconSize: [32, 32],
-            iconAnchor: [16, 16],
-            popupAnchor: [0, -16]
-        });
+        const markerIcon{{ $location->id }} = createCircleIcon(markerColor{{ $location->id }});
 
         const marker{{ $location->id }} = L.marker([{{ $location->latitude }}, {{ $location->longitude }}], {
             icon: markerIcon{{ $location->id }}
@@ -394,12 +418,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }).addTo(locationMap);
 
     let selectedMarker = null;
-    const selectionIcon = L.icon({
-        iconUrl: createCircleIcon('#3b82f6'), // Blue for selection
-        iconSize: [32, 32],
-        iconAnchor: [16, 16],
-        popupAnchor: [0, -16]
-    });
+    const selectionIcon = createCircleIcon('#3b82f6'); // Blue for selection
 
     locationMap.on('click', function(e) {
         const { lat, lng } = e.latlng;

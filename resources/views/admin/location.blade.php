@@ -196,6 +196,29 @@
             font-size: 16px;
         }
     }
+
+    /* Custom circle icon styling - remove default divIcon background */
+    .custom-circle-icon {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    .marker-outbreak {
+        animation: pulseOutbreak 2s infinite;
+    }
+
+    @keyframes pulseOutbreak {
+        0% {
+            box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7);
+        }
+        70% {
+            box-shadow: 0 0 0 15px rgba(220, 53, 69, 0);
+        }
+        100% {
+            box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+        }
+    }
 </style>
 @endpush
 
@@ -254,7 +277,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 <ellipse cx="16" cy="28" rx="10" ry="2" fill="rgba(0,0,0,0.15)"/>
             </svg>
         `;
-        return `data:image/svg+xml;base64,${btoa(svg)}`;
+        return L.divIcon({
+            html: svg,
+            className: 'custom-circle-icon',
+            iconSize: [32, 32],
+            iconAnchor: [16, 16],
+            popupAnchor: [0, -16]
+        });
     }
 
     // Store all markers for later reference
@@ -269,12 +298,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const markerColor = cotsCount > 15 ? '#dc3545' : '#28a745';
         const isOutbreak = cotsCount > 15;
         
-        const markerIcon = L.icon({
-            iconUrl: createCircleIcon(markerColor),
-            iconSize: [32, 32],
-            iconAnchor: [16, 16],
-            popupAnchor: [0, -16]
-        });
+        const markerIcon = createCircleIcon(markerColor);
 
         const marker = L.marker([{{ $location->latitude }}, {{ $location->longitude }}], {
             icon: markerIcon

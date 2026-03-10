@@ -233,7 +233,7 @@ function initializeMap() {
             console.warn('Could not add Center control:', ctrlErr);
         }
 
-        // Function to create circle SVG icon (defined globally for all markers)
+        // Function to create circle SVG icon using divIcon (more reliable on mobile)
         function createCircleIcon(color) {
             const svg = `
                 <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
@@ -241,7 +241,13 @@ function initializeMap() {
                     <ellipse cx="16" cy="28" rx="10" ry="2" fill="rgba(0,0,0,0.15)"/>
                 </svg>
             `;
-            return `data:image/svg+xml;base64,${btoa(svg)}`;
+            return L.divIcon({
+                html: svg,
+                className: 'custom-circle-icon',
+                iconSize: [32, 32],
+                iconAnchor: [16, 16],
+                popupAnchor: [0, -16]
+            });
         }
 
         // Add markers from window.SIGHTINGS if available
@@ -255,12 +261,7 @@ function initializeMap() {
                         const markerColor = cotsCount > 15 ? '#dc3545' : '#28a745';
                         const isOutbreak = cotsCount > 15;
 
-                        const markerIcon = L.icon({
-                            iconUrl: createCircleIcon(markerColor),
-                            iconSize: [32, 32],
-                            iconAnchor: [16, 16],
-                            popupAnchor: [0, -16]
-                        });
+                        const markerIcon = createCircleIcon(markerColor);
 
                         var m = L.marker([parseFloat(loc.latitude), parseFloat(loc.longitude)], {
                             icon: markerIcon
@@ -289,12 +290,7 @@ function initializeMap() {
         var marker;
         
         // Create selection icon (blue circle for user-placed markers)
-        var selectionIcon = L.icon({
-            iconUrl: createCircleIcon('#3b82f6'),
-            iconSize: [32, 32],
-            iconAnchor: [16, 16],
-            popupAnchor: [0, -16]
-        });
+        var selectionIcon = createCircleIcon('#3b82f6');
 
         // Click event to place a new marker
         map.on('click', function (e) {

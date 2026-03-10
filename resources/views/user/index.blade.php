@@ -658,6 +658,13 @@
         animation: pulseOutbreak 2s infinite;
     }
 
+    /* Custom circle icon styling - remove default divIcon background */
+    .custom-circle-icon {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
     /* Mobile-specific adjustments */
     @media (max-width: 768px) {
         .modal-dialog {
