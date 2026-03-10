@@ -126,21 +126,96 @@
 </div>
 
 <style>
+    /* Force Light Mode */
+    html, body {
+        color-scheme: light !important;
+        background: #f8fafc !important;
+        color: #1f2937 !important;
+    }
+
+    .container-fluid {
+        background: transparent !important;
+    }
+
+    /* Page Header */
+    h2 {
+        color: #1f2937 !important;
+    }
+
+    .text-dark {
+        color: #1f2937 !important;
+    }
+
+    .text-muted {
+        color: #6b7280 !important;
+    }
+
+    .text-primary {
+        color: #3b82f6 !important;
+    }
+
+    /* Buttons */
+    .btn {
+        border-radius: 10px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: none;
+    }
+
+    .btn-outline-primary {
+        border: 2px solid #3b82f6 !important;
+        color: #3b82f6 !important;
+        background: #ffffff !important;
+    }
+
+    .btn-outline-primary:hover {
+        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%) !important;
+        border-color: transparent !important;
+        color: #ffffff !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+    }
+
+    .btn-outline-danger {
+        border: 2px solid #dc2626 !important;
+        color: #dc2626 !important;
+        background: #ffffff !important;
+    }
+
+    .btn-outline-danger:hover {
+        background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%) !important;
+        border-color: transparent !important;
+        color: #ffffff !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%) !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(30, 64, 175, 0.4);
+    }
+
     /* Stats Cards */
     .stats-card {
-        background: #fff;
+        background: #ffffff !important;
         border-radius: 12px;
         padding: 1.5rem;
         display: flex;
         align-items: center;
         gap: 1rem;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .stats-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        transform: translateY(-4px);
+        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
     }
 
     .stats-icon {
@@ -154,24 +229,25 @@
     }
 
     .stats-icon.unread {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
         color: white;
     }
 
     .stats-icon.read {
-        background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
-        color: #2C5F2D;
+        background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+        color: white;
     }
 
     .stats-card h3 {
         font-size: 2rem;
         font-weight: 700;
-        color: #2d3748;
+        color: #1f2937 !important;
     }
 
     .stats-card p {
         font-size: 0.9rem;
         margin: 0;
+        color: #6b7280 !important;
     }
 
     /* Notifications Container */
@@ -183,13 +259,13 @@
 
     /* Notification Card */
     .notification-card {
-        background: #fff;
+        background: #ffffff !important;
         border-radius: 12px;
         padding: 1.5rem;
         display: flex;
         gap: 1rem;
         position: relative;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
         transition: all 0.3s ease;
         cursor: pointer;
         overflow: hidden;
@@ -197,17 +273,17 @@
 
     .notification-card:hover {
         transform: translateX(5px);
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
     }
 
     .notification-card.unread {
-        background: linear-gradient(to right, #f7fafc 0%, #ffffff 100%);
-        border-left: 4px solid #667eea;
+        background: linear-gradient(to right, #eff6ff 0%, #ffffff 100%) !important;
+        border-left: 4px solid #8b5cf6;
     }
 
     .notification-card.read {
-        background: #fff;
-        border-left: 4px solid #e2e8f0;
+        background: #ffffff !important;
+        border-left: 4px solid #e5e7eb;
     }
 
     .notification-indicator {
@@ -216,7 +292,7 @@
         left: 0;
         width: 4px;
         height: 100%;
-        background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(180deg, #8b5cf6 0%, #a78bfa 100%);
         opacity: 0;
         transition: opacity 0.3s ease;
     }
@@ -229,7 +305,7 @@
         width: 50px;
         height: 50px;
         border-radius: 10px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -239,7 +315,7 @@
     }
 
     .notification-card.read .notification-icon {
-        background: linear-gradient(135deg, #cbd5e0 0%, #a0aec0 100%);
+        background: linear-gradient(135deg, #9ca3af 0%, #d1d5db 100%);
     }
 
     .notification-content {
@@ -257,13 +333,13 @@
     .notification-title {
         font-size: 1.1rem;
         font-weight: 600;
-        color: #2d3748;
+        color: #1f2937 !important;
         margin: 0;
         flex: 1;
     }
 
     .badge-new {
-        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
         color: white;
         font-size: 0.7rem;
         padding: 0.25rem 0.75rem;
@@ -285,7 +361,7 @@
 
     .notification-message {
         font-size: 0.95rem;
-        color: #4a5568;
+        color: #4b5563 !important;
         margin-bottom: 0.75rem;
         line-height: 1.5;
     }
@@ -295,13 +371,14 @@
         flex-wrap: wrap;
         gap: 1rem;
         font-size: 0.85rem;
-        color: #718096;
+        color: #6b7280 !important;
     }
 
     .meta-item {
         display: flex;
         align-items: center;
         gap: 0.35rem;
+        color: #6b7280 !important;
     }
 
     .meta-item i {
@@ -311,17 +388,17 @@
     .notification-status {
         display: flex;
         align-items: center;
-        color: #48bb78;
+        color: #10b981 !important;
         font-size: 1.75rem;
     }
 
     /* Empty State */
     .empty-state {
-        background: #fff;
+        background: #ffffff !important;
         border-radius: 16px;
         padding: 4rem 2rem;
         text-align: center;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
     }
 
     .empty-icon {
@@ -329,32 +406,42 @@
         height: 100px;
         margin: 0 auto 1.5rem;
         border-radius: 50%;
-        background: linear-gradient(135deg, #f6f8fb 0%, #e9ecef 100%);
+        background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 3rem;
-        color: #a0aec0;
+        color: #9ca3af !important;
     }
 
     .empty-state h3 {
         font-size: 1.5rem;
         font-weight: 600;
-        color: #2d3748;
+        color: #1f2937 !important;
         margin-bottom: 0.5rem;
     }
 
     .empty-state p {
         font-size: 1rem;
-        color: #718096;
+        color: #6b7280 !important;
         margin-bottom: 0;
     }
 
-    /* Responsive */
+    /* Responsive - Material Design for Mobile */
     @media (max-width: 768px) {
+        h2 {
+            font-size: 1.5rem !important;
+        }
+
+        .btn {
+            font-size: 0.875rem;
+            padding: 0.625rem 1rem;
+        }
+
         .notification-card {
-            flex-direction: column;
+            flex-direction: row;
             padding: 1rem;
+            border-radius: 12px;
         }
 
         .notification-icon {
@@ -372,12 +459,13 @@
         }
 
         .notification-meta {
-            flex-direction: column;
-            gap: 0.5rem;
+            font-size: 0.8rem;
+            gap: 0.75rem;
         }
 
         .stats-card {
-            padding: 1rem;
+            padding: 1.25rem;
+            border-radius: 12px;
         }
 
         .stats-icon {
@@ -389,29 +477,39 @@
         .stats-card h3 {
             font-size: 1.5rem;
         }
+
+        .empty-icon {
+            width: 80px;
+            height: 80px;
+            font-size: 2.5rem;
+        }
+
+        .empty-state {
+            padding: 3rem 1.5rem;
+        }
     }
 
-    /* Action Buttons */
-    .btn-outline-primary {
-        border-color: #667eea;
-        color: #667eea;
+    @media (max-width: 576px) {
+        .notification-card {
+            padding: 0.875rem;
+        }
+
+        .notification-meta {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
     }
 
-    .btn-outline-primary:hover {
-        background: #667eea;
-        border-color: #667eea;
-        color: white;
-    }
+    /* Dark Mode Prevention */
+    @media (prefers-color-scheme: dark) {
+        html, body, .stats-card, .notification-card, .empty-state {
+            background: #ffffff !important;
+            color: #1f2937 !important;
+        }
 
-    .btn-outline-danger {
-        border-color: #f56565;
-        color: #f56565;
-    }
-
-    .btn-outline-danger:hover {
-        background: #f56565;
-        border-color: #f56565;
-        color: white;
+        .notification-title, .notification-message, .meta-item, .stats-card h3, .stats-card p, .empty-state h3, .empty-state p {
+            color: #1f2937 !important;
+        }
     }
 </style>
 

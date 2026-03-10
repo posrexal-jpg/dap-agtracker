@@ -1,5 +1,447 @@
 @extends('layouts.admin')
 
+@push('styles')
+<style>
+    /* Force Light Mode - Override System Dark Mode */
+    html, body {
+        color-scheme: light !important;
+    }
+
+    body {
+        background: #f8fafc !important;
+        color: #1f2937 !important;
+    }
+
+    .container-fluid {
+        background: transparent !important;
+    }
+
+    /* Page Header Styling */
+    .page-header {
+        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        border-radius: 16px;
+        padding: 2rem;
+        color: #ffffff !important;
+        box-shadow: 0 8px 24px rgba(30, 64, 175, 0.25);
+        margin-bottom: 2rem;
+    }
+
+    .page-title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: #ffffff !important;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .page-subtitle {
+        font-size: 1rem;
+        opacity: 0.95;
+        margin-bottom: 0;
+        color: #ffffff !important;
+    }
+
+    .page-actions .btn {
+        background: #ffffff !important;
+        color: #1e40af !important;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .page-actions .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        background: #f0f9ff !important;
+    }
+
+    .page-actions .btn i {
+        color: #1e40af !important;
+    }
+
+    /* Cards */
+    .card {
+        border: none !important;
+        border-radius: 16px !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
+        background: #ffffff !important;
+        color: #1f2937 !important;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .card:hover {
+        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12) !important;
+        transform: translateY(-2px);
+    }
+
+    .card-header {
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+        border-bottom: 1px solid #e5e7eb !important;
+        padding: 1.5rem !important;
+        color: #1f2937 !important;
+    }
+
+    .card-title {
+        font-weight: 700;
+        font-size: 1.25rem;
+        margin-bottom: 0 !important;
+        color: #1f2937 !important;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .card-body {
+        padding: 1.5rem !important;
+        background: #ffffff !important;
+        color: #1f2937 !important;
+    }
+
+    /* Filter Section */
+    .filter-section {
+        background: #ffffff;
+        padding: 1rem 1.25rem;
+        border-radius: 12px;
+        border: 2px solid #e5e7eb;
+        transition: all 0.3s ease;
+    }
+
+    .filter-section:focus-within {
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .filter-section label {
+        color: #1f2937 !important;
+        font-weight: 600;
+        margin-bottom: 0;
+    }
+
+    .filter-section .form-select {
+        border: 2px solid #e5e7eb !important;
+        border-radius: 10px !important;
+        padding: 0.625rem 1rem !important;
+        font-weight: 500;
+        color: #1f2937 !important;
+        background: #ffffff !important;
+        transition: all 0.3s ease;
+        min-width: 200px;
+    }
+
+    .filter-section .form-select:focus {
+        border-color: #3b82f6 !important;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+        outline: none;
+    }
+
+    /* Table Styling */
+    .table-responsive {
+        border-radius: 12px;
+        overflow: hidden;
+        background: #ffffff !important;
+    }
+
+    .table {
+        margin-bottom: 0 !important;
+        color: #1f2937 !important;
+        background: #ffffff !important;
+    }
+
+    .table thead {
+        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%) !important;
+        color: #ffffff !important;
+    }
+
+    .table thead th {
+        color: #ffffff !important;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.875rem;
+        letter-spacing: 0.5px;
+        padding: 1rem !important;
+        border: none !important;
+    }
+
+    .table tbody tr {
+        border-bottom: 1px solid #f1f5f9 !important;
+        transition: all 0.2s ease;
+        background: #ffffff !important;
+        color: #1f2937 !important;
+    }
+
+    .table tbody tr:hover {
+        background: linear-gradient(135deg, #f0f9ff 0%, #f8fafc 100%) !important;
+        transform: scale(1.01);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .table tbody td {
+        padding: 1rem !important;
+        vertical-align: middle;
+        color: #1f2937 !important;
+        border: none !important;
+        font-weight: 500;
+    }
+
+    .table tbody td:first-child {
+        font-weight: 700;
+        color: #3b82f6 !important;
+    }
+
+    /* Badge Styling */
+    .badge {
+        padding: 0.4rem 0.8rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.875rem;
+    }
+
+    .badge.bg-danger {
+        background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%) !important;
+        color: #ffffff !important;
+    }
+
+    .badge.bg-success {
+        background: linear-gradient(135deg, #10b981 0%, #34d399 100%) !important;
+        color: #ffffff !important;
+    }
+
+    .badge.bg-warning {
+        background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%) !important;
+        color: #ffffff !important;
+    }
+
+    .badge.bg-info {
+        background: linear-gradient(135deg, #06b6d4 0%, #22d3ee 100%) !important;
+        color: #ffffff !important;
+    }
+
+    /* Pagination */
+    .pagination {
+        margin-top: 1.5rem;
+        gap: 0.5rem;
+    }
+
+    .page-link {
+        border: 2px solid #e5e7eb !important;
+        border-radius: 10px !important;
+        color: #1f2937 !important;
+        background: #ffffff !important;
+        padding: 0.625rem 1rem !important;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        margin: 0 0.25rem;
+    }
+
+    .page-link:hover {
+        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%) !important;
+        color: #ffffff !important;
+        border-color: transparent !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+    }
+
+    .page-item.active .page-link {
+        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%) !important;
+        color: #ffffff !important;
+        border-color: transparent !important;
+        box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+    }
+
+    .page-item.disabled .page-link {
+        background: #f1f5f9 !important;
+        color: #9ca3af !important;
+        border-color: #e5e7eb !important;
+    }
+
+    /* Empty State */
+    .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        color: #9ca3af !important;
+    }
+
+    .empty-state i {
+        font-size: 4rem;
+        opacity: 0.3;
+        margin-bottom: 1rem;
+    }
+
+    .empty-state h4 {
+        color: #6b7280 !important;
+        margin-bottom: 0.5rem;
+    }
+
+    .empty-state p {
+        color: #9ca3af !important;
+    }
+
+    /* Mobile Responsive - Material Design */
+    @media (max-width: 768px) {
+        .page-header {
+            padding: 1.5rem;
+            border-radius: 12px;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+        }
+
+        .page-subtitle {
+            font-size: 0.875rem;
+        }
+
+        .page-actions .btn {
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .card {
+            border-radius: 12px !important;
+            margin-bottom: 1rem;
+        }
+
+        .card-header {
+            padding: 1rem !important;
+        }
+
+        .card-body {
+            padding: 1rem !important;
+        }
+
+        .filter-section {
+            padding: 0.75rem 1rem;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .filter-section label {
+            margin-bottom: 0.5rem;
+        }
+
+        .filter-section .form-select {
+            min-width: 100%;
+            width: 100%;
+        }
+
+        /* Material Design Table for Mobile */
+        .table-responsive {
+            border-radius: 12px;
+        }
+
+        .table thead {
+            display: none;
+        }
+
+        .table,
+        .table tbody,
+        .table tr,
+        .table td {
+            display: block;
+            width: 100%;
+        }
+
+        .table tbody tr {
+            margin-bottom: 1rem;
+            border-radius: 12px !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            padding: 1rem;
+            background: #ffffff !important;
+        }
+
+        .table tbody tr:hover {
+            transform: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .table tbody td {
+            padding: 0.625rem 0 !important;
+            text-align: left;
+            border: none !important;
+            position: relative;
+            padding-left: 45% !important;
+        }
+
+        .table tbody td::before {
+            content: attr(data-label);
+            position: absolute;
+            left: 0;
+            width: 40%;
+            padding-right: 10px;
+            font-weight: 700;
+            color: #6b7280 !important;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+        }
+
+        .table tbody td:first-child {
+            padding-top: 0.75rem !important;
+            font-size: 1.125rem;
+            color: #1e40af !important;
+        }
+
+        /* Pagination Mobile */
+        .pagination {
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .page-link {
+            padding: 0.5rem 0.75rem !important;
+            font-size: 0.875rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .page-title {
+            font-size: 1.25rem;
+        }
+
+        .page-title i {
+            font-size: 1.25rem;
+        }
+
+        .table tbody td {
+            font-size: 0.875rem;
+        }
+
+        .table tbody td::before {
+            font-size: 0.7rem;
+        }
+    }
+
+    /* Dark Mode Prevention */
+    @media (prefers-color-scheme: dark) {
+        html, body {
+            color-scheme: light !important;
+        }
+
+        body {
+            background: #f8fafc !important;
+            color: #1f2937 !important;
+        }
+
+        .card,
+        .table,
+        .table tbody tr,
+        .filter-section,
+        .page-link,
+        .card-body,
+        .table-responsive {
+            background: #ffffff !important;
+            color: #1f2937 !important;
+        }
+    }
+</style>
+@endpush
+
 @section('content')
 
 <div class="container-fluid">
@@ -44,39 +486,55 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>#</th>
-                                    <th>Name</th>
-                                    <th>Municipality</th>
-                                    <th>Number of COTS</th>
-                                    <th>Date</th>
-                                    <th>Time</th>
-                                </tr>
-                            </thead>
-            </thead>
-            <tbody>
-                @foreach($locations as $location)
-                    <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $location->name }}</td>
-                        <td>{{ $location->municipality }}</td>
-                        <td>{{ $location->number_of_cots }}</td>
-                        <td>{{ $location->date_of_sighting}}</td>
-                        <td>{{ $location->time_of_sighting}}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+                    @if($locations->count() > 0)
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Municipality</th>
+                                        <th>COTS Count</th>
+                                        <th>Date</th>
+                                        <th>Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($locations as $location)
+                                        <tr>
+                                            <td data-label="#">{{ $loop->iteration + ($locations->currentPage() - 1) * $locations->perPage() }}</td>
+                                            <td data-label="Name">{{ $location->name }}</td>
+                                            <td data-label="Municipality">{{ $location->municipality }}</td>
+                                            <td data-label="COTS Count">
+                                                @if($location->number_of_cots > 15)
+                                                    <span class="badge bg-danger">{{ $location->number_of_cots }}</span>
+                                                @else
+                                                    <span class="badge bg-success">{{ $location->number_of_cots }}</span>
+                                                @endif
+                                            </td>
+                                            <td data-label="Date">{{ $location->date_of_sighting ? \Carbon\Carbon::parse($location->date_of_sighting)->format('M d, Y') : 'N/A' }}</td>
+                                            <td data-label="Time">{{ $location->time_of_sighting ?? 'N/A' }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
 
-    <!-- Pagination Links -->
-    <div class="d-flex justify-content-center my-3">
-        {{ $locations->links('pagination::bootstrap-5') }}
+                        <!-- Pagination Links -->
+                        <div class="d-flex justify-content-center">
+                            {{ $locations->links('pagination::bootstrap-5') }}
+                        </div>
+                    @else
+                        <div class="empty-state">
+                            <i class="bx bx-data"></i>
+                            <h4>No Sighting Records Found</h4>
+                            <p>There are no sighting records{{ request('municipality') ? ' for the selected municipality' : '' }}.</p>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
     </div>
-
 </div>
 
 

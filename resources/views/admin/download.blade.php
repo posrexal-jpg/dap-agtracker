@@ -151,50 +151,249 @@
 
 @push('styles')
 <style>
-    .bg-gradient {
-        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+    /* Force Light Mode */
+    html, body {
+        color-scheme: light !important;
+        background: #f8fafc !important;
+        color: #1f2937 !important;
     }
 
+    .container-fluid {
+        background: transparent !important;
+    }
+
+    /* Page Header */
+    .h3 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #1f2937 !important;
+    }
+
+    .text-gray-800 {
+        color: #1f2937 !important;
+    }
+
+    .text-muted {
+        color: #6b7280 !important;
+    }
+
+    /* Cards */
+    .card {
+        border: none !important;
+        border-radius: 16px !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
+        background: #ffffff !important;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .card:hover {
+        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12) !important;
+        transform: translateY(-4px);
+    }
+
+    .bg-gradient {
+        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%) !important;
+        color: #ffffff !important;
+    }
+
+    .card-header {
+        padding: 1.5rem !important;
+        border-bottom: none !important;
+    }
+
+    .card-header h5 {
+        color: #ffffff !important;
+        font-weight: 700;
+    }
+
+    .card-body {
+        padding: 1.5rem !important;
+        background: #ffffff !important;
+        color: #1f2937 !important;
+    }
+
+    /* Alert */
+    .alert {
+        border-radius: 12px;
+        border: none;
+        padding: 1rem 1.25rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        font-weight: 500;
+    }
+
+    .alert-info {
+        background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%) !important;
+        color: #1e40af !important;
+    }
+
+    .alert-success {
+        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%) !important;
+        color: #166534 !important;
+    }
+
+    .alert-warning {
+        background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%) !important;
+        color: #92400e !important;
+    }
+
+    /* Lists */
+    ol {
+        padding-left: 1.5rem;
+    }
+
+    ol li {
+        margin-bottom: 0.75rem;
+        line-height: 1.7;
+        color: #1f2937 !important;
+        font-weight: 500;
+    }
+
+    h6 {
+        color: #1f2937 !important;
+        font-weight: 700;
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    h6 i {
+        color: #3b82f6 !important;
+    }
+
+    strong {
+        color: #1e40af !important;
+        font-weight: 700;
+    }
+
+    /* Feature Items */
     .feature-icon {
         min-width: 50px;
         min-height: 50px;
         display: flex;
         align-items: center;
         justify-content: center;
+        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        color: #ffffff !important;
+        border-radius: 12px;
+        font-size: 1.5rem;
     }
 
     .feature-item {
-        padding: 0.75rem;
-        border-radius: 8px;
+        padding: 1rem;
+        border-radius: 12px;
         transition: all 0.3s ease;
+        background: #f8fafc;
+        margin-bottom: 0.75rem;
+        border: 2px solid transparent;
     }
 
     .feature-item:hover {
-        background: rgba(30, 64, 175, 0.05);
-        transform: translateX(5px);
+        background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+        border-color: #3b82f6;
+        transform: translateX(8px);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
     }
 
-    .card-header {
-        border-bottom: none;
-        padding: 1.25rem 1.5rem;
+    .feature-item strong {
+        color: #1f2937 !important;
+        display: block;
+        margin-bottom: 0.25rem;
     }
 
-    .card-body {
-        padding: 1.5rem;
+    .feature-item p {
+        margin-bottom: 0;
+        color: #6b7280 !important;
+        font-size: 0.9rem;
     }
 
-    .card {
-        border-radius: 12px;
-        overflow: hidden;
+    /* Buttons */
+    .btn {
+        border-radius: 10px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: none;
+        padding: 0.75rem 1.5rem;
     }
 
-    ol {
-        padding-left: 1.5rem;
+    .btn-primary {
+        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%) !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
     }
 
-    ol li {
-        margin-bottom: 0.5rem;
-        line-height: 1.6;
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(30, 64, 175, 0.4);
+    }
+
+    .btn-success {
+        background: linear-gradient(135deg, #10b981 0%, #34d399 100%) !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-success:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+    }
+
+    #installButton {
+        display: none;
+    }
+
+    #installButton.show {
+        display: inline-block;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .h3 {
+            font-size: 1.5rem;
+        }
+
+        .card {
+            border-radius: 12px !important;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            padding: 1.25rem !important;
+        }
+
+        .card-body {
+            padding: 1.25rem !important;
+        }
+
+        ol li {
+            font-size: 0.9rem;
+        }
+
+        h6 {
+            font-size: 1rem;
+        }
+
+        .feature-item {
+            padding: 0.875rem;
+        }
+
+        .feature-icon {
+            min-width: 40px;
+            min-height: 40px;
+            font-size: 1.25rem;
+        }
+
+        .btn {
+            width: 100%;
+            margin-bottom: 0.75rem;
+        }
+    }
+
+    /* Dark Mode Prevention */
+    @media (prefers-color-scheme: dark) {
+        html, body, .card, .card-body {
+            background: #ffffff !important;
+            color: #1f2937 !important;
+        }
     }
 </style>
 @endpush
