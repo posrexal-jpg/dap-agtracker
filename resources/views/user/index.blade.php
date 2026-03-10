@@ -671,21 +671,23 @@
         top: 16px;
         right: 16px;
         z-index: 1000;
-        background: #ffffff;
-        padding: 16px;
+        background: rgba(0, 0, 0, 0.35);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        padding: 14px 16px;
         border-radius: 12px;
-        box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
-        border: 1px solid rgba(0, 0, 0, 0.12);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.18);
         min-width: 200px;
         cursor: move;
         user-select: none;
         touch-action: none;
-        transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .month-filter-control.dragging {
-        opacity: 0.9;
-        box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
+        opacity: 0.85;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
     }
 
     .month-filter-control label {
@@ -693,18 +695,19 @@
         align-items: center;
         gap: 8px;
         font-size: 0.75rem;
-        font-weight: 500;
-        color: rgba(0, 0, 0, 0.6);
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.95);
         margin-bottom: 8px;
         cursor: move;
         text-transform: uppercase;
         letter-spacing: 0.0893em;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
     }
 
     .month-filter-control label::before {
         content: '\u22ee\u22ee';
         font-size: 1rem;
-        opacity: 0.5;
+        opacity: 0.7;
         letter-spacing: -2px;
     }
 
@@ -722,12 +725,13 @@
     .filter-group label {
         display: block;
         font-size: 0.75rem;
-        font-weight: 500;
-        color: rgba(0, 0, 0, 0.6);
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.8);
         margin-bottom: 4px;
         cursor: default;
         text-transform: uppercase;
         letter-spacing: 0.0893em;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
     }
 
     .filter-group label::before {
@@ -736,27 +740,35 @@
 
     .month-filter-control select {
         width: 100%;
-        padding: 12px;
-        border: 1px solid rgba(0, 0, 0, 0.23);
-        border-radius: 4px;
+        padding: 10px 12px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 8px;
         font-size: 0.875rem;
-        color: rgba(0, 0, 0, 0.87);
-        background: #ffffff;
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.15);
         cursor: pointer;
         transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         line-height: 1.43;
         letter-spacing: 0.01071em;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    .month-filter-control select option {
+        background: #1a2a3a;
+        color: #ffffff;
     }
 
     .month-filter-control select:focus {
         outline: none;
-        border-color: #1976d2;
+        border-color: rgba(255, 255, 255, 0.7);
         border-width: 2px;
-        padding: 11px;
+        padding: 9px 11px;
+        background: rgba(255, 255, 255, 0.25);
     }
 
     .month-filter-control select:hover {
-        border-color: #d1d5db;
+        background: rgba(255, 255, 255, 0.22);
+        border-color: rgba(255, 255, 255, 0.5);
     }
 
     /* Material-UI for Mobile */
@@ -776,11 +788,11 @@
             left: 12px;
             min-width: auto;
             padding: 10px;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
             max-width: calc(100vw - 24px) !important;
             overflow: hidden !important;
         }
