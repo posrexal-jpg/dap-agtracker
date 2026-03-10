@@ -312,6 +312,82 @@
             flex-shrink: 0;
             padding: 12px 20px;
         }
+
+        /* Material-UI Bottom Navigation Styles */
+        @media (max-width: 991px) {
+            .mui-bottom-nav {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: #ffffff;
+                box-shadow: 0 -2px 4px -1px rgba(0,0,0,.2), 0 -4px 5px 0 rgba(0,0,0,.14), 0 -1px 10px 0 rgba(0,0,0,.12) !important;
+                z-index: 1050;
+                height: 64px;
+                display: flex;
+                align-items: center;
+                border-radius: 0;
+            }
+
+            .mui-nav-container {
+                display: flex;
+                width: 100%!;
+                justify-content: space-around;
+                align-items: center;
+                padding: 0 8px;
+            }
+
+            .mobile-menu-item {
+                flex: 1;
+                display: flex;
+                justify-content: center;
+            }
+
+            .mobile-menu-link {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 8px 12px;
+                text-decoration: none;
+                color: rgba(0, 0, 0, 0.6) !important;
+                min-width: 64px;
+                max-width: 168px;
+                transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+                border-radius: 8px;
+            }
+
+            .mobile-menu-link i {
+                font-size: 1.5rem;
+                margin-bottom: 4px;
+                transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            .mobile-menu-link span {
+                font-size: 0.75rem;
+                font-weight: 500;
+                letter-spacing: 0.0892857143em;
+                text-transform: none;
+                line-height: 1.2;
+            }
+
+            .mobile-menu-link.active {
+                color: #0284c7 !important;
+                background: rgba(2, 132, 199, 0.08);
+            }
+
+            .mobile-menu-link.active i {
+                transform: scale(1.1);
+            }
+
+            .mobile-menu-link:active {
+                background: rgba(2, 132, 199, 0.12);
+            }
+
+            .mobile-menu-drag-handle {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body class="{{ Route::is('admin.*') ? 'admin-page' : '' }} {{ Route::is('user.sightings-map') ? 'map-fullscreen' : '' }}">

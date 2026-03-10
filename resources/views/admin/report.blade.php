@@ -468,7 +468,8 @@
             width: 100%;
         }
 
-        .table tbody tr {
+        /* Card View Styling */
+        .table-card-view .table tbody tr {
             margin-bottom: 1rem;
             border-radius: 12px !important;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -478,12 +479,12 @@
             overflow: hidden !important;
         }
 
-        .table tbody tr:hover {
+        .table-card-view .table tbody tr:hover {
             transform: none;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
         }
 
-        .table tbody td {
+        .table-card-view .table tbody td {
             padding: 0.625rem 0 !important;
             text-align: left;
             border: none !important;
@@ -495,7 +496,7 @@
             max-width: 55% !important;
         }
 
-        .table tbody td::before {
+        .table-card-view .table tbody td::before {
             content: attr(data-label);
             position: absolute;
             left: 0;
@@ -511,7 +512,7 @@
             line-height: 1.2;
         }
 
-        .table tbody td:first-child {
+        .table-card-view .table tbody td:first-child {
             padding-top: 0.75rem !important;
             font-size: 1.125rem;
             color: #1e40af !important;
@@ -524,6 +525,25 @@
             font-size: 0.688rem !important;
             padding: 4px 6px !important;
             white-space: nowrap;
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+            background: rgba(25, 118, 210, 0.1);
+            border-radius: 4px;
+            margin: 8px 0;
+            font-size: 0.75rem;
+            color: #1976d2;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
         /* Pagination Mobile */
@@ -627,7 +647,19 @@
                 </div>
                 <div class="card-body">
                     @if($locations->count() > 0)
-                        <div class="table-responsive">
+                        <!-- Mobile View Toggle -->
+                        <div class="view-toggle d-md-none">
+                            <button class="view-toggle-btn active" onclick="toggleView('card')" id="cardViewBtn">
+                                <i class="bx bx-grid-alt"></i> Cards
+                            </button>
+                            <button class="view-toggle-btn" onclick="toggleView('scroll')" id="scrollViewBtn">
+                                <i class="bx bx-table"></i> Table
+                            </button>
+                        </div>
+                        <div class="scroll-indicator d-md-none" id="scrollIndicator" style="display: none !important;">
+                            <i class="bx bx-chevron-right"></i> Swipe left to see more
+                        </div>
+                        <div class="table-responsive table-card-view" id="tableContainer">
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
@@ -677,5 +709,33 @@
     </div>
 </div>
 
+<script>
+// Toggle between card and table view on mobile
+function toggleView(view) {
+    const container = document.getElementById('tableContainer');
+    const cardBtn = document.getElementById('cardViewBtn');
+    const scrollBtn = document.getElementById('scrollViewBtn');
+    const scrollIndicator = document.getElementById('scrollIndicator');
+    
+    if (view === 'card') {
+        container.classList.remove('table-scroll-view');
+        container.classList.add('table-card-view');
+        cardBtn.classList.add('active');
+        scrollBtn.classList.remove('active');
+        scrollIndicator.style.display = 'none';
+    } else {
+        container.classList.remove('table-card-view');
+        container.classList.add('table-scroll-view');
+        scrollBtn.classList.add('active');
+        cardBtn.classList.remove('active');
+        scrollIndicator.style.display = 'flex';
+        
+        // Hide indicator after 3 seconds
+        setTimeout(() => {
+            scrollIndicator.style.display = 'none';
+        }, 3000);
+    }
+}
+</script>
 
 @endsection
