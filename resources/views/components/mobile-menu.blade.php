@@ -1,8 +1,7 @@
 @if(auth()->check() && auth()->user()->role)
-<!-- Material-UI Bottom Navigation -->
-<nav class="mobile-horizontal-menu mui-bottom-nav">
+<nav class="mobile-horizontal-menu">
     <div class="mobile-menu-drag-handle" id="mobileMenuDragHandle"></div>
-    <div class="mobile-menu-container mui-nav-container" id="mobileMenuContainer">
+    <div class="mobile-menu-container" id="mobileMenuContainer">
         @if(auth()->user()->role->role_name == 'admin')
             <!-- Admin Menu Items -->
             <div class="mobile-menu-item">
@@ -65,13 +64,13 @@
             <div class="mobile-menu-item">
                 <a href="{{ route('user.account') }}" class="mobile-menu-link {{ Route::is('user.account') ? 'active' : '' }}">
                     <i class="bx bx-user"></i>
-                    <span>My  Account</span>
+                    <span>My Account</span>
                 </a>
             </div>
             <div class="mobile-menu-item">
                 <form action="{{ route('logout') }}" method="POST" class="d-inline w-100">
                     @csrf
-                    <button type="submit" class="mobile-menu-link w-100 text-start border-0 bg-transparent" style="color: #d32f2f !important;" title="Logout">
+                    <button type="submit" class="mobile-menu-link w-100 text-start border-0 bg-transparent text-danger" title="Logout">
                         <i class="bx bx-log-out"></i>
                         <span>Logout</span>
                     </button>

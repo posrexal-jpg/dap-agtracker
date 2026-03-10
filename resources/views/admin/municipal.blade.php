@@ -370,84 +370,24 @@
         }
 
         /* Material-UI List */
-        .table-responsive {
-            background: transparent !important;
-            border-radius: 0 !important;
-            overflow-x: auto !important;
-            -webkit-overflow-scrolling: touch !important;
-            width: 100% !important;
-            display: block !important;
-        }
-
-        /* View Toggle */
-        .view-toggle {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 12px;
-            justify-content: flex-end;
-            padding: 0 12px;
-        }
-
-        .view-toggle-btn {
-            padding: 8px 16px;
-            border: 1px solid rgba(0, 0, 0, 0.23);
-            background: #ffffff;
-            border-radius: 4px;
-            font-size: 0.875rem;
-            cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .view-toggle-btn.active {
-            background: #10b981;
-            color: #ffffff;
-            border-color: #10b981;
-        }
-
-        .table-card-view .table thead {
+        .table thead {
             display: none;
         }
 
-        .table-card-view .table,
-        .table-card-view .table tbody,
-        .table-card-view .table tr,
-        .table-card-view .table td {
+        .table-responsive {
+            background: transparent !important;
+            border-radius: 0 !important;
+        }
+
+        .table,
+        .table tbody,
+        .table tr,
+        .table td {
             display: block;
             width: 100%;
         }
 
-        .table-scroll-view .table {
-            width: 100%;
-            white-space: nowrap;
-            display: table !important;
-        }
-
-        .table-scroll-view .table thead {
-            display: table-header-group !important;
-        }
-
-        .table-scroll-view .table tbody {
-            display: table-row-group !important;
-        }
-
-        .table-scroll-view .table tr {
-            display: table-row !important;
-        }
-
-        .table-scroll-view .table td,
-        .table-scroll-view .table th {
-            display: table-cell !important;
-            padding: 12px !important;
-            white-space: nowrap;
-        }
-
-        .table-scroll-view .table tbody tr {
-            border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-            margin-bottom: 0;
-            border-radius: 0 !important;
-        }
-
-        .table-card-view .table tbody tr {
+        .table tbody tr {
             margin-bottom: 8px;
             border-radius: 12px !important;
             box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12) !important;
@@ -458,11 +398,11 @@
             overflow: hidden !important;
         }
 
-        .table-card-view .table tbody tr:active {
+        .table tbody tr:active {
             box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12) !important;
         }
 
-        .table-card-view .table tbody td {
+        .table tbody td {
             padding: 8px 0 !important;
             text-align: left;
             position: relative;
@@ -476,7 +416,7 @@
             max-width: 60% !important;
         }
 
-        .table-card-view .table tbody td::before {
+        .table tbody td::before {
             content: attr(data-label);
             position: absolute;
             left: 0;
@@ -489,32 +429,13 @@
             letter-spacing: 0.08em;
         }
 
-        .table-card-view .table tbody td:first-child {
+        .table tbody td:first-child {
             padding-top: 8px !important;
             font-size: 1rem;
             font-weight: 500;
             color: #10b981 !important;
             word-wrap: break-word;
             overflow-wrap: break-word;
-        }
-
-        /* Scroll indicator */
-        .scroll-indicator {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 8px;
-            background: rgba(16, 185, 129, 0.1);
-            border-radius: 4px;
-            margin: 8px 0;
-            font-size: 0.75rem;
-            color: #10b981;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
         }
 
         /* Pagination spacing */
@@ -597,19 +518,7 @@
                 </div>
                 <div class="card-body">
                     @if($municipalities->count() > 0)
-                        <!-- Mobile View Toggle -->
-                        <div class="view-toggle d-md-none">
-                            <button class="view-toggle-btn active" onclick="toggleMunicipalView('card')" id="cardViewBtn">
-                                <i class="bx bx-grid-alt"></i> Cards
-                            </button>
-                            <button class="view-toggle-btn" onclick="toggleMunicipalView('scroll')" id="scrollViewBtn">
-                                <i class="bx bx-table"></i> Table
-                            </button>
-                        </div>
-                        <div class="scroll-indicator d-md-none" id="scrollIndicatorMunicipal" style="display: none !important;">
-                            <i class="bx bx-chevron-right"></i> Swipe left to see more
-                        </div>
-                        <div class="table-responsive table-card-view" id="municipalTableContainer">
+                        <div class="table-responsive">
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
@@ -671,36 +580,9 @@
             </div>
         </div>
     </div>
+@endsection
 
-<script>
-// Toggle between card and table view on mobile for municipalities
-function toggleMunicipalView(view) {
-    const container = document.getElementById('municipalTableContainer');
-    const cardBtn = document.getElementById('cardViewBtn');
-    const scrollBtn = document.getElementById('scrollViewBtn');
-    const scrollIndicator = document.getElementById('scrollIndicatorMunicipal');
-    
-    if (view === 'card') {
-        container.classList.remove('table-scroll-view');
-        container.classList.add('table-card-view');
-        cardBtn.classList.add('active');
-        scrollBtn.classList.remove('active');
-        scrollIndicator.style.display = 'none';
-    } else {
-        container.classList.remove('table-card-view');
-        container.classList.add('table-scroll-view');
-        scrollBtn.classList.add('active');
-        cardBtn.classList.remove('active');
-        scrollIndicator.style.display = 'flex';
-        
-        // Hide indicator after 3 seconds
-        setTimeout(() => {
-            scrollIndicator.style.display = 'none';
-        }, 3000);
-    }
-}
-</script>
-
+@push('scripts')
     <!-- Include Bootstrap JS (if not already included in your layout) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 @endpush
