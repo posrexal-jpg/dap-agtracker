@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Location;
 use App\Exports\LocationsExport;
-use App\Traits\LogsActivity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -13,7 +12,6 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class LocationController extends Controller
 {
-    use LogsActivity;
     /**
      * Display all locations with filtering, search, and pagination.
      */
@@ -122,12 +120,6 @@ class LocationController extends Controller
             'photo'             => json_encode($photoPaths),
         ]);
 
-        // Log the activity
-        $this->logCreate(
-            $location, 
-            "Created new sighting in {$location->municipality}, {$location->barangay} with {$location->number_of_cots} COTS"
-        );
-
         return redirect()->route('admin.location')->with('success', 'Location saved successfully.');
     }
 
@@ -136,11 +128,6 @@ class LocationController extends Controller
      */
     public function destroy($id)
     {
-        $locationInfo = "Location: {$location->municipality}, {$location->barangay} ({$location->number_of_cots} COTS)";
-        
-        // Log before deleting
-        $this->logDelete($location, "Deleted sighting - {$locationInfo}");
-
         $location = Location::find($id);
 
         if (! $location) {
@@ -179,15 +166,6 @@ class LocationController extends Controller
         $filename = $municipality
             ? 'report_' . strtolower($municipality) . '.xlsx'
             : 'report_all_locations.xlsx';
-
-        // Log the export activity
-        $recordCount = $locations->count();
-        $filterDescription = $municipality ? " (Municipality: {$municipality})" : ' (All locations)';
-        
-        $this->logExport(
-            'locations',
-            "Exported {$recordCount} location records to Excel{$filterDescription}"
-        );
 
         return Excel::download(new LocationsExport($locations), $filename);
     }

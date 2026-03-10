@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Location;
 use App\Models\User;
-use App\Models\ActivityLog;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -80,12 +78,6 @@ class DashboardController extends Controller
         // Recent users
         $recentUsers = User::orderByDesc('created_at')->take(3)->get();
 
-        // Recent admin activity logs
-        $recentActivityLogs = ActivityLog::with('user')
-            ->orderByDesc('created_at')
-            ->take(10)
-            ->get();
-
         return view('admin.index', [
             'userCount'       => $userCount,
             'locationCount'   => $locationCount,
@@ -104,7 +96,6 @@ class DashboardController extends Controller
             'cotsSizes'       => $cotsSizes,
             'topBarangays'    => $topBarangays,
             'recentUsers'     => $recentUsers,
-            'recentActivityLogs' => $recentActivityLogs,
         ]);
     }
 
@@ -126,69 +117,5 @@ class DashboardController extends Controller
             'municipalities' => $municipalityCots->pluck('municipality'),
             'totalCotsArray' => $municipalityCots->pluck('total_cots'),
         ]);
-    }
-
-    /**
-     * Display admin activity logs with filtering and pagination.
-     */
-    public function activityLogs(Request $request)
-    {
-        $activityType = $request->input('activity_type');
-        $userId = $request->input('user_id');
-        $dateFrom = $request->input('date_from');
-        $dateTo = $request->input('date_to');
-        $search = $request->input('search');
-
-        $query = ActivityLog::with('user')
-            ->orderByDesc('created_at');
-
-        // Apply filters
-        if ($activityType) {
-            $query->where('activity_type', $activityType);
-        }
-
-        if ($userId) {
-            $query->where('user_id', $userId);
-        }
-
-        if ($dateFrom) {
-            $query->whereDate('created_at', '>=', $dateFrom);
-        }
-
-        if ($dateTo) {
-            $query->whereDate('created_at', '<=', $dateTo);
-        }
-
-        if ($search) {
-            $query->where(function($q) use ($search) {
-                $q->where('description', 'LIKE', "%{$search}%")
-                  ->orWhere('activity_type', 'LIKE', "%{$search}%")
-                  ->orWhereHas('user', fn($uq) => $uq->where('name', 'LIKE', "%{$search}%"));
-            });
-        }
-
-        $activityLogs = $query->paginate(50)->withQueryString();
-
-        // Get distinct activity types for filter dropdown
-        $activityTypes = ActivityLog::distinct()
-            ->pluck('activity_type')
-            ->sort()
-            ->values();
-
-        // Get admin users for filter dropdown
-        $adminUsers = User::whereHas('role', function($q) {
-            $q->where('name', 'admin');
-        })->orderBy('name')->get();
-
-        return view('admin.activity-logs', compact(
-            'activityLogs',
-            'activityTypes',
-            'adminUsers',
-            'activityType',
-            'userId',
-            'dateFrom',
-            'dateTo',
-            'search'
-        ));
     }
 }

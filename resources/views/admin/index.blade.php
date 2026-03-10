@@ -149,7 +149,7 @@
         </div>
 
         <!-- Recent Sightings -->
-        <div class="row g-3 mb-4">
+        <div class="row g-3">
             <div class="col-12">
                 <div class="dash-card">
                     <div class="dash-card-header">
@@ -175,69 +175,6 @@
                         <div class="text-center text-muted py-5">
                             <i class="fas fa-inbox fa-2x mb-2 d-block opacity-50"></i>
                             No sightings in the last 7 days.
-                        </div>
-                        @endforelse
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Admin Activity Logs -->
-        <div class="row g-3">
-            <div class="col-12">
-                <div class="dash-card">
-                    <div class="dash-card-header">
-                        <i class="fas fa-clipboard-list text-warning me-2"></i>
-                        <span>Admin Activity Logs <span class="text-muted fw-normal small">(Recent Activities)</span></span>
-                        <a href="{{ route('admin.activity-logs') }}" class="btn btn-sm btn-outline-primary ms-auto">View All</a>
-                    </div>
-                    <div class="dash-card-body p-0">
-                        @forelse($recentActivityLogs as $log)
-                        <div class="recent-item">
-                            <div class="recent-icon" style="background: 
-                                @if($log->activity_type === 'create') linear-gradient(135deg, #10b981, #34d399)
-                                @elseif($log->activity_type === 'update') linear-gradient(135deg, #3b82f6, #60a5fa)
-                                @elseif($log->activity_type === 'delete') linear-gradient(135deg, #ef4444, #f87171)
-                                @elseif($log->activity_type === 'approve') linear-gradient(135deg, #8b5cf6, #a78bfa)
-                                @elseif($log->activity_type === 'reject') linear-gradient(135deg, #f59e0b, #fbbf24)
-                                @elseif($log->activity_type === 'export') linear-gradient(135deg, #06b6d4, #22d3ee)
-                                @else linear-gradient(135deg, #6b7280, #9ca3af)
-                                @endif;">
-                                <i class="fas 
-                                    @if($log->activity_type === 'create') fa-plus
-                                    @elseif($log->activity_type === 'update') fa-edit
-                                    @elseif($log->activity_type === 'delete') fa-trash
-                                    @elseif($log->activity_type === 'approve') fa-check
-                                    @elseif($log->activity_type === 'reject') fa-times
-                                    @elseif($log->activity_type === 'export') fa-download
-                                    @else fa-info-circle
-                                    @endif"></i>
-                            </div>
-                            <div class="recent-content">
-                                <div class="recent-text">
-                                    <strong>{{ $log->user->name ?? 'System' }}</strong> 
-                                    <span class="badge badge-sm" style="background: 
-                                        @if($log->activity_type === 'create') #10b981
-                                        @elseif($log->activity_type === 'update') #3b82f6
-                                        @elseif($log->activity_type === 'delete') #ef4444
-                                        @elseif($log->activity_type === 'approve') #8b5cf6
-                                        @elseif($log->activity_type === 'reject') #f59e0b
-                                        @elseif($log->activity_type === 'export') #06b6d4
-                                        @else #6b7280
-                                        @endif;">{{ ucfirst(str_replace('_', ' ', $log->activity_type)) }}</span>
-                                    <br>
-                                    <span class="text-muted" style="font-size: 0.875rem;">{{ $log->description }}</span>
-                                </div>
-                                <div class="recent-time">
-                                    {{ $log->created_at->diffForHumans() }}
-                                    <span class="text-muted" style="font-size: 0.75rem;">• {{ $log->ip_address }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        @empty
-                        <div class="text-center text-muted py-5">
-                            <i class="fas fa-clipboard fa-2x mb-2 d-block opacity-50"></i>
-                            No admin activity recorded yet.
                         </div>
                         @endforelse
                     </div>

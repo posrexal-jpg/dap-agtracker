@@ -6,13 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Setting;
-use App\Traits\LogsActivity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    use LogsActivity;
     public function index(Request $request)
     {
         $search = $request->input('search');
@@ -47,16 +45,13 @@ class UserController extends Controller
             'role_id'  => 'required|exists:roles,id',
         ]);
 
-        $user = User::create([
+        User::create([
             'name'        => $request->name,
             'email'       => $request->email,
             'password'    => Hash::make($request->password),
             'role_id'     => $request->role_id,
             'is_approved' => true, // Users created by admin are auto-approved
         ]);
-
-        // Log the activity
-        $this->logCreate($user, "Created new user: {$user->name} ({$user->email})");
 
         return redirect()->route('admin.adduser')->with('success', 'User created successfully.');
     }
@@ -76,33 +71,20 @@ class UserController extends Controller
             'password' => 'nullable|string|min:8|confirmed',
         ]);
 
-        // Store old values for logging
-        $oldValues = $user->only(['name', 'email']);
-
         $user->name  = $request->name;
         $user->email = $request->email;
 
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
-            $oldValues['password'] = '[hidden]';
         }
 
         $user->save();
-
-        // Log the activity
-        $this->logUpdate($user, $oldValues, "Updated user: {$user->name} ({$user->email})");
 
         return redirect()->route('admin.adduser')->with('success', 'User updated successfully.');
     }
 
     public function destroy(User $user)
     {
-        $userName = $user->name;
-        $userEmail = $user->email;
-
-        // Log before deleting
-        $this->logDelete($user, "Deleted user: {$userName} ({$userEmail})");
-
         $user->delete();
 
         return redirect()->route('admin.adduser')->with('success', 'User deleted successfully.');
@@ -116,9 +98,6 @@ class UserController extends Controller
         $user->is_approved = true;
         $user->save();
 
-        // Log the activity
-        $this->logApprove($user, "Approved user account: {$user->name} ({$user->email})");
-
         return redirect()->route('admin.adduser')->with('success', 'User approved successfully.');
     }
 
@@ -130,9 +109,6 @@ class UserController extends Controller
         $user->is_approved = false;
         $user->save();
 
-        // Log the activity
-        $this->logReject($user, "Rejected/revoked approval for user: {$user->name} ({$user->email})");
-
         return redirect()->route('admin.adduser')->with('success', 'User approval revoked.');
     }
 
@@ -141,14 +117,7 @@ class UserController extends Controller
      */
     public function approveAll()
     {
-        $count = User::where('is_approved', false)->count();
         User::where('is_approved', false)->update(['is_approved' => true]);
-
-        // Log the bulk activity
-        $this->logActivity(
-            'bulk_approve',
-            "Bulk approved {$count} pending users"
-        );
 
         return redirect()->route('admin.adduser')->with('success', 'All pending users approved successfully.');
     }
@@ -160,17 +129,6 @@ class UserController extends Controller
     {
         $enabled = $request->input('enabled', 0);
         Setting::set('auto_approve_users', $enabled);
-
-        // Log the setting change
-        $this->logActivity(
-            'settings_change',
-            $enabled 
-                ? 'Enabled auto-approve for new users' 
-                : 'Disabled auto-approve for new users',
-            null,
-            ['auto_approve_users' => !$enabled],
-            ['auto_approve_users' => (bool)$enabled]
-        );
 
         $message = $enabled 
             ? 'Auto-approve enabled. New users will be automatically approved.' 
