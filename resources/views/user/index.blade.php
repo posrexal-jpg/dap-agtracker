@@ -18,22 +18,22 @@
         touch-action: manipulation;
     }
 
-    /* Modal Design Enhancement - Full Screen */
+    /* Modal Design Enhancement - Fit to Screen */
     .modal-dialog {
-        max-width: 100vw !important;
-        margin: 0 !important;
-        height: 100vh !important;
+        max-width: 95vw !important;
+        margin: 1rem auto !important;
+        max-height: 90vh;
     }
 
     .modal-content {
-        border-radius: 0;
+        border-radius: 16px;
         border: none;
         padding: 0;
-        box-shadow: none;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
         background: #ffffff;
         color: #1f2937;
         overflow: hidden;
-        height: 100vh !important;
+        max-height: 90vh;
         display: flex;
         flex-direction: column;
     }
@@ -42,9 +42,10 @@
         background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
         color: white;
         border-bottom: none;
-        padding: 28px 32px;
+        padding: 20px 24px;
         margin: 0;
-        border-radius: 20px 20px 0 0;
+        border-radius: 16px 16px 0 0;
+        flex-shrink: 0;
     }
 
     .modal-header .modal-title {
@@ -73,6 +74,7 @@
         flex: 1;
         overflow-y: auto;
         font-size: 14px;
+        max-height: calc(90vh - 200px);
     }
 
     .modal-body .form-group {
@@ -119,6 +121,8 @@
 
     #consentModal .modal-dialog {
         max-width: 900px;
+        max-height: 90vh;
+        margin: 1rem auto;
     }
 
     #consentModal .modal-content {
@@ -127,6 +131,9 @@
         box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
         background: #ffffff;
         color: #1f2937;
+        max-height: 90vh;
+        display: flex;
+        flex-direction: column;
     }
 
     #consentModal .modal-header {
@@ -152,7 +159,7 @@
 
     #consentModal .modal-body {
         padding: 32px;
-        max-height: 70vh;
+        max-height: calc(90vh - 200px);
         overflow-y: auto;
     }
 
@@ -291,19 +298,26 @@
     /* Mobile responsive consent modal */
     @media (max-width: 768px) {
         #consentModal .modal-dialog {
-            margin: 8px;
+            margin: 0.5rem;
+            max-width: calc(100vw - 1rem);
+        }
+
+        #consentModal .modal-content {
+            border-radius: 12px;
         }
 
         #consentModal .modal-header {
-            padding: 20px;
+            padding: 16px 20px;
+            border-radius: 12px 12px 0 0;
         }
 
         #consentModal .modal-header .modal-title {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
 
         #consentModal .modal-body {
-            padding: 20px;
+            padding: 16px 20px;
+            max-height: calc(85vh - 140px);
         }
 
         #consentModal .modal-body img {
@@ -311,20 +325,21 @@
         }
 
         #consentModal .modal-footer {
-            padding: 16px 20px;
+            padding: 12px 16px;
+            border-radius: 0 0 12px 12px;
         }
 
         #consentModal .modal-footer .btn {
-            padding: 10px 20px;
+            padding: 10px 16px;
             font-size: 0.9rem;
         }
     }
 
     .modal-footer {
-        padding: 20px 24px;
+        padding: 16px 24px;
         border-top: 1px solid #e5e7eb;
         background: #f9fafb;
-        border-radius: 0;
+        border-radius: 0 0 16px 16px;
         display: flex;
         gap: 12px;
         justify-content: flex-end;
@@ -645,16 +660,38 @@
 
     /* Mobile-specific adjustments */
     @media (max-width: 768px) {
+        .modal-dialog {
+            margin: 0.5rem !important;
+            max-width: calc(100vw - 1rem) !important;
+        }
+
+        .modal-content {
+            border-radius: 12px;
+        }
+
         .modal-header {
-            padding: 20px 24px;
+            padding: 16px 20px;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .modal-header .modal-title {
+            font-size: 0.95rem;
         }
 
         .modal-body {
             padding: 16px 20px;
+            max-height: calc(85vh - 140px);
         }
 
         .modal-footer {
-            padding: 16px 20px;
+            padding: 12px 16px;
+            border-radius: 0 0 12px 12px;
+        }
+
+        .modal-footer .btn {
+            min-width: 100px;
+            padding: 10px 16px;
+            font-size: 14px;
         }
 
         .page-header {
