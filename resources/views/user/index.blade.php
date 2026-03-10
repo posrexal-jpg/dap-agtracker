@@ -776,7 +776,11 @@
             left: 12px;
             min-width: auto;
             padding: 10px;
-            box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
             max-width: calc(100vw - 24px) !important;
             overflow: hidden !important;
         }
@@ -784,8 +788,10 @@
         .month-filter-control label {
             font-size: 0.688rem;
             margin-bottom: 6px;
-            font-weight: 500;
+            font-weight: 600;
             letter-spacing: 0.0893em;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
             word-wrap: break-word;
             overflow-wrap: break-word;
         }
@@ -795,6 +801,9 @@
             padding: 10px;
             height: 44px;
             line-height: 1.43;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: #ffffff;
         }
 
         .month-filter-control select:focus {

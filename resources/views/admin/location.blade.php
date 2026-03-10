@@ -287,31 +287,33 @@
         top: 20px;
         right: 20px;
         z-index: 1001;
-        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
         border-radius: 12px;
         padding: 12px 16px;
-        box-shadow: 0 8px 24px rgba(30, 64, 175, 0.25);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.3);
         cursor: move;
         user-select: none;
         touch-action: none;
+        transition: all 0.3s ease;
     }
 
     .month-filter-control.dragging {
-        opacity: 0.9;
-        box-shadow: 0 12px 32px rgba(30, 64, 175, 0.4);
+        opacity: 0.85;
+        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.2);
     }
 
     .month-filter-control label {
         color: #ffffff;
         font-weight: 600;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         margin-bottom: 6px;
         display: flex;
         align-items: center;
         gap: 6px;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
         cursor: move;
     }
 
@@ -339,34 +341,43 @@
         color: rgba(255, 255, 255, 0.9);
         margin-bottom: 4px;
         cursor: default;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     }
 
     .filter-group label::before {
         content: none;
     }
     .month-filter-control select {
-        background: #ffffff;
-        color: #1f2937;
-        border: 1px solid rgba(30, 64, 175, 0.2);
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        color: #ffffff;
+        border: 1px solid rgba(255, 255, 255, 0.4);
         border-radius: 8px;
         padding: 8px 12px;
         font-size: 0.9rem;
         font-weight: 500;
         cursor: pointer;
         transition: all 0.3s ease;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        width: 180px;
+        width: 100%;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    .month-filter-control select option {
+        background: #1e40af;
+        color: #ffffff;
     }
 
     .month-filter-control select:hover {
-        border-color: #1e40af;
-        box-shadow: 0 4px 12px rgba(30, 64, 175, 0.2);
+        background: rgba(255, 255, 255, 0.35);
+        border-color: rgba(255, 255, 255, 0.6);
     }
 
     .month-filter-control select:focus {
         outline: none;
-        border-color: #1e40af;
-        box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+        background: rgba(255, 255, 255, 0.35);
+        border-color: rgba(255, 255, 255, 0.7);
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
     }
 
     /* Material-UI for Mobile */
@@ -387,21 +398,23 @@
             right: 12px;
             left: 12px;
             padding: 10px;
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-radius: 12px;
-            box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
-            border: 1px solid rgba(0, 0, 0, 0.12);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             max-width: calc(100vw - 24px) !important;
             overflow: hidden !important;
         }
 
         .month-filter-control label {
             font-size: 0.688rem;
-            font-weight: 500;
+            font-weight: 600;
             letter-spacing: 0.0893em;
             text-transform: uppercase;
-            color: rgba(0, 0, 0, 0.6);
-            text-shadow: none;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
             word-wrap: break-word;
             overflow-wrap: break-word;
         }
@@ -415,17 +428,19 @@
             padding: 10px;
             width: 100%;
             height: 44px;
-            border: 1px solid rgba(0, 0, 0, 0.23);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             border-radius: 4px;
             box-shadow: none;
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
             line-height: 1.43;
             letter-spacing: 0.01071em;
         }
 
         .month-filter-control select:focus {
             border-width: 2px;
-            padding: 11px;
-            border-color: #1976d2;
+            padding: 9px;
+            border-color: rgba(255, 255, 255, 0.7);
         }
 
         /* Material-UI Stats Card */
