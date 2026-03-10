@@ -665,6 +665,72 @@
         box-shadow: none !important;
     }
 
+    /* Month Filter Control */
+    .month-filter-control {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+        background: #ffffff;
+        padding: 16px 20px;
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        border: 1px solid #e5e7eb;
+        min-width: 200px;
+    }
+
+    .month-filter-control label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 10px;
+    }
+
+    .month-filter-control select {
+        width: 100%;
+        padding: 10px 12px;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 0.875rem;
+        color: #1f2937;
+        background: #ffffff;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .month-filter-control select:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .month-filter-control select:hover {
+        border-color: #d1d5db;
+    }
+
+    @media (max-width: 768px) {
+        .month-filter-control {
+            top: 10px;
+            right: 10px;
+            left: 10px;
+            min-width: auto;
+            padding: 12px 16px;
+        }
+
+        .month-filter-control label {
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+        }
+
+        .month-filter-control select {
+            font-size: 0.8rem;
+            padding: 8px 10px;
+        }
+    }
+
     /* Mobile-specific adjustments */
     @media (max-width: 768px) {
         .modal-dialog {
@@ -968,6 +1034,28 @@
 
 <div class="page-content" style="flex: 1; overflow: hidden; padding: 0; margin: 0; display: flex; flex-direction: column; height: 100vh; min-height: 100vh; position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw;">
     <div class="content-wrapper" style="flex: 1; display: flex; flex-direction: column; height: 100vh; padding: 0; margin: 0; position: relative; width: 100%; overflow: hidden;">
+        <!-- Month Filter Control -->
+        <div class="month-filter-control">
+            <label for="monthFilter">
+                <i class="fas fa-calendar-alt"></i>
+                Filter by Month:
+            </label>
+            <select id="monthFilter" onchange="filterMarkersByMonth()">
+                <option value="all">All Months</option>
+                <option value="01">January</option>
+                <option value="02">February</option>
+                <option value="03">March</option>
+                <option value="04">April</option>
+                <option value="05">May</option>
+                <option value="06">June</option>
+                <option value="07">July</option>
+                <option value="08">August</option>
+                <option value="09">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+            </select>
+        </div>
         <div id="map"></div>
             <!-- Consent Modal - Enhanced Design -->
             <div class="modal fade" id="consentModal" tabindex="-1" aria-labelledby="consentModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">

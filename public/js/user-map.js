@@ -250,6 +250,9 @@ function initializeMap() {
             });
         }
 
+        // Store all markers globally for filtering
+        window.allSightingMarkers = [];
+
         // Add markers from window.SIGHTINGS if available
         if (window.SIGHTINGS && Array.isArray(window.SIGHTINGS)) {
             window.SIGHTINGS.forEach(function(loc) {
@@ -277,6 +280,13 @@ function initializeMap() {
                                     '<strong>COTS Count:</strong> ' + cotsCount + '<br/>' +
                                     (loc.date_of_sighting ? loc.date_of_sighting : (loc.created_at || ''));
                         m.bindPopup(popup);
+
+                        // Store marker with date information for filtering
+                        window.allSightingMarkers.push({
+                            marker: m,
+                            date: loc.date_of_sighting || loc.created_at || '',
+                            data: loc
+                        });
                     }
                 } catch (markerError) {
                     console.warn('Failed to add marker for location:', markerError, loc);
@@ -367,6 +377,70 @@ function initializeMap() {
             `;
         }
     }
+}
+
+// Global function to filter markers by selected month
+function filterMarkersByMonth() {
+    const monthFilter = document.getElementById('monthFilter');
+    if (!monthFilter) return;
+
+    const selectedMonth = monthFilter.value; // "all", "01", "02", etc.
+
+    if (!window.allSightingMarkers || !Array.isArray(window.allSightingMarkers)) {
+        console.warn('No markers available for filtering');
+        return;
+    }
+
+    window.allSightingMarkers.forEach(function(item) {
+        const { marker, date } = item;
+
+        if (selectedMonth === 'all') {
+            // Show all markers
+            marker.setOpacity(1);
+            if (marker._icon) {
+                marker._icon.style.display = '';
+            }
+        } else {
+            // Parse date and check if it matches selected month
+            let showMarker = false;
+
+            if (date) {
+                try {
+                    // Try to parse date in various formats
+                    // Format examples: "Jan 15, 2026", "2026-01-15", "January 15, 2026"
+                    let dateObj;
+
+                    if (date.includes('-') && date.match(/^\d{4}-\d{2}-\d{2}/)) {
+                        // ISO format: "2026-01-15"
+                        dateObj = new Date(date);
+                    } else {
+                        // Text format: "Jan 15, 2026" or "January 15, 2026"
+                        dateObj = new Date(date);
+                    }
+
+                    if (!isNaN(dateObj.getTime())) {
+                        // Get month as two-digit string (01-12)
+                        const markerMonth = ('0' + (dateObj.getMonth() + 1)).slice(-2);
+                        showMarker = (markerMonth === selectedMonth);
+                    }
+                } catch (parseError) {
+                    console.warn('Failed to parse date:', date, parseError);
+                }
+            }
+
+            if (showMarker) {
+                marker.setOpacity(1);
+                if (marker._icon) {
+                    marker._icon.style.display = '';
+                }
+            } else {
+                marker.setOpacity(0);
+                if (marker._icon) {
+                    marker._icon.style.display = 'none';
+                }
+            }
+        }
+    });
 }
 
 // Initialize map when DOM is ready

@@ -262,6 +262,72 @@
             box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
         }
     }
+
+    /* Month Filter Control */
+    .month-filter-control {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1001;
+        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        border-radius: 12px;
+        padding: 12px 16px;
+        box-shadow: 0 8px 24px rgba(30, 64, 175, 0.25);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .month-filter-control label {
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-bottom: 6px;
+        display: block;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .month-filter-control select {
+        background: #ffffff;
+        color: #1f2937;
+        border: 1px solid rgba(30, 64, 175, 0.2);
+        border-radius: 8px;
+        padding: 8px 12px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        width: 180px;
+    }
+
+    .month-filter-control select:hover {
+        border-color: #1e40af;
+        box-shadow: 0 4px 12px rgba(30, 64, 175, 0.2);
+    }
+
+    .month-filter-control select:focus {
+        outline: none;
+        border-color: #1e40af;
+        box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+    }
+
+    @media (max-width: 991px) {
+        .month-filter-control {
+            top: 10px;
+            right: 10px;
+            padding: 10px 12px;
+        }
+
+        .month-filter-control label {
+            font-size: 0.85rem;
+        }
+
+        .month-filter-control select {
+            font-size: 0.85rem;
+            padding: 6px 10px;
+            width: 160px;
+        }
+    }
 </style>
 @endpush
 
@@ -293,6 +359,26 @@
     <button class="map-control-btn" onclick="toggleFullscreen()" title="Toggle Fullscreen">
         <i class="bx bx-fullscreen"></i>
     </button>
+</div>
+
+<!-- Month Filter -->
+<div class="month-filter-control">
+    <label for="monthFilterAdmin">Filter by Month</label>
+    <select id="monthFilterAdmin" onchange="filterMarkersByMonth()">
+        <option value="all">All Months</option>
+        <option value="01">January</option>
+        <option value="02">February</option>
+        <option value="03">March</option>
+        <option value="04">April</option>
+        <option value="05">May</option>
+        <option value="06">June</option>
+        <option value="07">July</option>
+        <option value="08">August</option>
+        <option value="09">September</option>
+        <option value="10">October</option>
+        <option value="11">November</option>
+        <option value="12">December</option>
+    </select>
 </div>
 
 <!-- Fullscreen Map -->
@@ -417,13 +503,24 @@ document.addEventListener('DOMContentLoaded', function() {
             className: 'custom-popup'
         });
 
-        allMarkers.push(marker);
+        // Store marker with date information for filtering
+        allMarkers.push({
+            marker: marker,
+            date: '{{ $location->date_of_sighting ?: '' }}',
+            data: {
+                id: {{ $location->id }},
+                name: '{{ $location->name }}',
+                municipality: '{{ $location->municipality }}',
+                barangay: '{{ $location->barangay }}',
+                cotsCount: {{ $location->number_of_cots }}
+            }
+        });
     })();
     @endforeach
 
     // Fit map to show all markers
     @if($locations->count() > 0)
-    const group = new L.featureGroup(allMarkers);
+    const group = new L.featureGroup(allMarkers.map(item => item.marker));
     map.fitBounds(group.getBounds().pad(0.1));
     @endif
 
@@ -434,7 +531,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     window.centerMap = function() {
         @if($locations->count() > 0)
-        const group = new L.featureGroup(allMarkers);
+        const group = new L.featureGroup(allMarkers.map(item => item.marker));
         map.fitBounds(group.getBounds().pad(0.1));
         @else
         map.setView([10.3157, 123.8854], 8);
@@ -479,6 +576,65 @@ document.addEventListener('DOMContentLoaded', function() {
             map.invalidateSize();
         }, 100);
     });
+
+    // Filter markers by selected month
+    window.filterMarkersByMonth = function() {
+        const monthFilter = document.getElementById('monthFilterAdmin');
+        if (!monthFilter) return;
+
+        const selectedMonth = monthFilter.value; // "all", "01", "02", etc.
+
+        allMarkers.forEach(function(item) {
+            const { marker, date } = item;
+
+            if (selectedMonth === 'all') {
+                // Show all markers
+                marker.setOpacity(1);
+                if (marker._icon) {
+                    marker._icon.style.display = '';
+                }
+            } else {
+                // Parse date and check if it matches selected month
+                let showMarker = false;
+
+                if (date) {
+                    try {
+                        // Try to parse date in various formats
+                        // Format examples: "2026-01-15", "Jan 15, 2026"
+                        let dateObj;
+
+                        if (date.includes('-') && date.match(/^\d{4}-\d{2}-\d{2}/)) {
+                            // ISO format: "2026-01-15"
+                            dateObj = new Date(date);
+                        } else {
+                            // Text format or other format
+                            dateObj = new Date(date);
+                        }
+
+                        if (!isNaN(dateObj.getTime())) {
+                            // Get month as two-digit string (01-12)
+                            const markerMonth = ('0' + (dateObj.getMonth() + 1)).slice(-2);
+                            showMarker = (markerMonth === selectedMonth);
+                        }
+                    } catch (parseError) {
+                        console.warn('Failed to parse date:', date, parseError);
+                    }
+                }
+
+                if (showMarker) {
+                    marker.setOpacity(1);
+                    if (marker._icon) {
+                        marker._icon.style.display = '';
+                    }
+                } else {
+                    marker.setOpacity(0);
+                    if (marker._icon) {
+                        marker._icon.style.display = 'none';
+                    }
+                }
+            }
+        });
+    };
 
     console.log('COTS Map initialized with', {{ $locations->count() }}, 'locations');
 });
