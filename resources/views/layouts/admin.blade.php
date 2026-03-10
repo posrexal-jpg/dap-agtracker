@@ -45,6 +45,21 @@
     @stack('styles')
 
     <style>
+        /* Force Light Mode - Prevent System Dark Mode */
+        html, body {
+            color-scheme: light !important;
+            background: #f8fafc !important;
+            color: #1f2937 !important;
+        }
+
+        /* Override Bootstrap Dark Mode */
+        [data-bs-theme="dark"],
+        [data-theme="dark"] {
+            color-scheme: light !important;
+            background: #f8fafc !important;
+            color: #1f2937 !important;
+        }
+
         /* Base Layout Styles */
         * {
             margin: 0;
@@ -60,7 +75,8 @@
 
         body {
             font-family: 'Inter', 'Poppins', sans-serif;
-            background: #f8fafc;
+            background: #f8fafc !important;
+            color: #1f2937 !important;
         }
 
         /* Layout Wrapper - matches user layout */
@@ -87,7 +103,8 @@
             min-width: 0;
             display: flex;
             flex-direction: column;
-            background: #f8fafc;
+            background: #f8fafc !important;
+            color: #1f2937 !important;
             position: relative;
         }
 
@@ -96,6 +113,7 @@
             padding: 2rem;
             padding-top: 0;
             position: relative;
+            background: transparent;
         }
 
 

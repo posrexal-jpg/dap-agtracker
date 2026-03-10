@@ -3,9 +3,25 @@
 
 @push('styles')
 <style>
+    /* Force Light Mode - Prevent System Dark Mode */
+    html, body {
+        color-scheme: light !important;
+        background: #f8fafc !important;
+        color: #1f2937 !important;
+    }
+
+    /* Override Bootstrap Dark Mode */
+    [data-bs-theme="dark"],
+    [data-theme="dark"] {
+        color-scheme: light !important;
+        background: #f8fafc !important;
+        color: #1f2937 !important;
+    }
+
     /* Fullscreen Map View - Matching /sightings page */
     body.admin-page {
         overflow: hidden;
+        background: #ffffff !important;
     }
 
     .layout-page {
@@ -67,21 +83,22 @@
         position: fixed;
         top: 20px;
         right: 20px;
-        background: rgba(255, 255, 255, 0.95);
+        background: #ffffff !important;
         backdrop-filter: blur(10px);
-        padding: 15px 20px;
-        border-radius: 12px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        padding: 20px 24px;
+        border-radius: 16px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
         z-index: 1000;
-        min-width: 200px;
+        min-width: 220px;
+        border: 1px solid #e5e7eb;
     }
 
     .stat-item {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 8px 0;
-        border-bottom: 1px solid #e5e7eb;
+        padding: 12px 0;
+        border-bottom: 1px solid #f3f4f6;
     }
 
     .stat-item:last-child {
@@ -89,15 +106,20 @@
     }
 
     .stat-label {
-        font-size: 0.85rem;
-        color: #6b7280;
-        font-weight: 500;
+        font-size: 0.875rem;
+        color: #6b7280 !important;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
 
     .stat-value {
-        font-size: 1.1rem;
-        font-weight: 700;
-        color: #1e40af;
+        font-size: 1.5rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
     }
 
     /* Map Controls */
@@ -108,60 +130,71 @@
         z-index: 1000;
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 12px;
     }
 
     .map-control-btn {
-        background: white;
-        border: none;
-        width: 44px;
-        height: 44px;
-        border-radius: 50%;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        background: #ffffff !important;
+        border: 1px solid #e5e7eb;
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 18px;
-        color: #1e40af;
+        font-size: 20px;
+        color: #1e40af !important;
         transition: all 0.3s ease;
     }
 
     .map-control-btn:hover {
-        background: #1e40af;
-        color: white;
-        transform: scale(1.1);
+        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%) !important;
+        color: #ffffff !important;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(30, 64, 175, 0.3);
+        border-color: transparent;
     }
 
     /* Popup Styles */
     .sighting-info {
-        max-width: 280px;
+        max-width: 300px;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: #ffffff !important;
+        color: #1f2937 !important;
     }
 
     .sighting-info h6 {
-        color: #1e40af;
-        margin-bottom: 12px;
-        font-weight: 600;
+        color: #1e40af !important;
+        margin-bottom: 14px;
+        font-weight: 700;
         display: flex;
         align-items: center;
         gap: 8px;
+        font-size: 1.1rem;
     }
 
     .sighting-detail {
-        margin-bottom: 6px;
+        margin-bottom: 8px;
         font-size: 0.9rem;
         display: flex;
         justify-content: space-between;
+        padding: 6px 0;
+        border-bottom: 1px solid #f3f4f6;
+    }
+
+    .sighting-detail:last-child {
+        border-bottom: none;
     }
 
     .sighting-detail strong {
-        color: #374151;
+        color: #374151 !important;
         font-weight: 600;
     }
 
     .sighting-detail span {
-        color: #6b7280;
+        color: #6b7280 !important;
     }
 
     .delete-btn-popup {
@@ -170,8 +203,18 @@
     }
 
     .leaflet-popup-content-wrapper {
-        border-radius: 12px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        border-radius: 16px !important;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15) !important;
+        background: #ffffff !important;
+        border: 1px solid #e5e7eb;
+    }
+
+    .leaflet-popup-content {
+        color: #1f2937 !important;
+    }
+
+    .leaflet-popup-tip {
+        background: #ffffff !important;
     }
 
     /* Mobile responsive */
