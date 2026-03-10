@@ -233,19 +233,19 @@ function initializeMap() {
             console.warn('Could not add Center control:', ctrlErr);
         }
 
+        // Function to create circle SVG icon (defined globally for all markers)
+        function createCircleIcon(color) {
+            const svg = `
+                <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="16" cy="16" r="12" fill="${color}" stroke="white" stroke-width="3"/>
+                    <ellipse cx="16" cy="28" rx="10" ry="2" fill="rgba(0,0,0,0.15)"/>
+                </svg>
+            `;
+            return `data:image/svg+xml;base64,${btoa(svg)}`;
+        }
+
         // Add markers from window.SIGHTINGS if available
         if (window.SIGHTINGS && Array.isArray(window.SIGHTINGS)) {
-            // Function to create circle SVG icon
-            function createCircleIcon(color) {
-                const svg = `
-                    <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="16" cy="16" r="12" fill="${color}" stroke="white" stroke-width="3"/>
-                        <ellipse cx="16" cy="28" rx="10" ry="2" fill="rgba(0,0,0,0.15)"/>
-                    </svg>
-                `;
-                return `data:image/svg+xml;base64,${btoa(svg)}`;
-            }
-
             window.SIGHTINGS.forEach(function(loc) {
                 try {
                     if (loc.latitude && loc.longitude) {
