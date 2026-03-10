@@ -413,42 +413,57 @@
 
         /* Material-UI Chip (Filter) */
         .filter-section {
-            padding: 0.875rem;
+            padding: 0.75rem !important;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0;
             background: #ffffff;
-            border: none;
-            border-radius: 0;
+            border: 1px solid rgba(0, 0, 0, 0.12) !important;
+            border-radius: 8px !important;
             margin: 0;
-            max-width: 100%;
-            overflow: hidden;
+            max-width: 100% !important;
+            overflow: hidden !important;
+        }
+
+        .filter-section form {
+            display: flex !important;
+            flex-direction: column !important;
+            width: 100% !important;
+            gap: 0.5rem !important;
         }
 
         .filter-section label {
-            margin-bottom: 0.25rem;
-            font-size: 0.688rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.0893em;
-            color: rgba(0, 0, 0, 0.6) !important;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
+            margin-bottom: 0.25rem !important;
+            margin-right: 0 !important;
+            font-size: 0.75rem !important;
+            font-weight: 500 !important;
+            text-transform: none !important;
+            letter-spacing: 0.0125em !important;
+            color: rgba(0, 0, 0, 0.87) !important;
+            word-wrap: break-word !important;
+            overflow-wrap: break-word !important;
+            line-height: 1.3 !important;
+            white-space: normal !important;
         }
 
         .filter-section .form-select {
-            min-width: 100%;
-            width: 100%;
-            height: 56px;
-            border-radius: 4px;
+            min-width: 100% !important;
+            width: 100% !important;
+            height: 48px !important;
+            border-radius: 4px !important;
             border: 1px solid rgba(0, 0, 0, 0.23) !important;
-            padding: 16px 14px !important;
-            font-size: 1rem;
-            transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+            padding: 12px !important;
+            font-size: 0.875rem !important;
+            transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1) !important;
+            background: #ffffff !important;
+            color: rgba(0, 0, 0, 0.87) !important;
+            line-height: 1.43 !important;
         }
 
         .filter-section .form-select:focus {
             border-width: 2px !important;
-            padding: 15px 13px !important;
+            padding: 11px !important;
+            border-color: #1976d2 !important;
+            outline: none !important;
         }
 
         /* Material Design Table for Mobile */
@@ -554,6 +569,25 @@
 
         .table tbody td::before {
             font-size: 0.7rem;
+        }
+
+        /* Even smaller screens - compact filter */
+        .filter-section {
+            padding: 0.625rem !important;
+        }
+
+        .filter-section label {
+            font-size: 0.688rem !important;
+        }
+
+        .filter-section .form-select {
+            height: 44px !important;
+            font-size: 0.813rem !important;
+            padding: 10px !important;
+        }
+
+        .filter-section .form-select:focus {
+            padding: 9px !important;
         }
     }
 
