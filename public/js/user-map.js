@@ -277,6 +277,34 @@ function initializeMap() {
                                     '<strong>COTS Count:</strong> ' + cotsCount + '<br/>' +
                                     (loc.date_of_sighting ? loc.date_of_sighting : (loc.created_at || ''));
                         m.bindPopup(popup);
+
+                        // Add click event to existing markers for reporting at that location
+                        m.on('click', function(e) {
+                            // Stop the map click event from firing
+                            L.DomEvent.stopPropagation(e);
+                            
+                            // Set the location name in the confirmation modal
+                            const locationName = loc.name || loc.municipality || 'this location';
+                            const locationNameElement = document.getElementById('locationNameText');
+                            if (locationNameElement) {
+                                locationNameElement.textContent = locationName;
+                            }
+                            
+                            // Store location data temporarily
+                            window.pendingLocationData = {
+                                latitude: parseFloat(loc.latitude),
+                                longitude: parseFloat(loc.longitude),
+                                municipality: loc.municipality,
+                                barangay: loc.barangay
+                            };
+                            
+                            // Show custom confirmation modal
+                            const confirmModalElement = document.getElementById('locationConfirmModal');
+                            if (confirmModalElement) {
+                                const confirmModal = new bootstrap.Modal(confirmModalElement);
+                                confirmModal.show();
+                            }
+                        });
                     }
                 } catch (markerError) {
                     console.warn('Failed to add marker for location:', markerError, loc);
@@ -335,6 +363,71 @@ function initializeMap() {
                 if (typeof $ !== 'undefined' && $('#consentModal').modal && $('#modal1').modal) {
                     $('#consentModal').modal('hide'); // Hide consent modal
                     $('#modal1').modal('show'); // Show location modal
+                }
+            });
+        }
+
+        // Handle location confirmation button
+        var confirmLocationBtn = document.getElementById('confirmLocationBtn');
+        if (confirmLocationBtn) {
+            confirmLocationBtn.addEventListener('click', function () {
+                // Get the pending location data
+                if (window.pendingLocationData) {
+                    const data = window.pendingLocationData;
+                    
+                    // Set latitude and longitude in the form
+                    const latInput = document.getElementById('latitude');
+                    const lngInput = document.getElementById('longitude');
+                    if (latInput) latInput.value = data.latitude;
+                    if (lngInput) lngInput.value = data.longitude;
+                    
+                    // Pre-populate municipality if available
+                    const municipalitySelect = document.getElementById('municipality');
+                    if (municipalitySelect && data.municipality) {
+                        municipalitySelect.value = data.municipality;
+                        
+                        // Trigger change event to load barangays
+                        const changeEvent = new Event('change', { bubbles: true });
+                        municipalitySelect.dispatchEvent(changeEvent);
+                        
+                        // Wait a moment for barangays to load, then set barangay
+                        if (data.barangay) {
+                            setTimeout(function() {
+                                const barangaySelect = document.getElementById('barangay');
+                                if (barangaySelect) {
+                                    barangaySelect.value = data.barangay;
+                                }
+                            }, 500);
+                        }
+                    }
+                    
+                    // Remove any existing manually placed marker
+                    if (marker) {
+                        map.removeLayer(marker);
+                        marker = null;
+                    }
+                    
+                    // Clear pending data
+                    window.pendingLocationData = null;
+                    
+                    // Hide confirmation modal
+                    const confirmModalElement = document.getElementById('locationConfirmModal');
+                    if (confirmModalElement) {
+                        const confirmModal = bootstrap.Modal.getInstance(confirmModalElement);
+                        if (confirmModal) {
+                            confirmModal.hide();
+                        }
+                    }
+                    
+                    // Open consent modal
+                    const consentModalElement = document.getElementById('consentModal');
+                    if (consentModalElement) {
+                        const consentModal = new bootstrap.Modal(consentModalElement, {
+                            backdrop: 'static',
+                            keyboard: false
+                        });
+                        consentModal.show();
+                    }
                 }
             });
         }

@@ -1042,6 +1042,44 @@
                 </div>
             </div>
             <!-- End Consent Modal -->
+
+            <!-- Location Confirmation Modal -->
+            <div class="modal fade" id="locationConfirmModal" tabindex="-1" aria-labelledby="locationConfirmModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%); color: white; border: none;">
+                            <h5 class="modal-title" id="locationConfirmModalLabel">
+                                <i class="fas fa-map-marker-alt me-2"></i>Use This Location?
+                            </h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" style="padding: 24px;">
+                            <div style="text-align: center; margin-bottom: 20px;">
+                                <i class="fas fa-question-circle" style="font-size: 3rem; color: #f97316;"></i>
+                            </div>
+                            <p id="locationConfirmText" style="font-size: 1.1rem; text-align: center; margin-bottom: 20px; color: #1f2937;">
+                                Do you want to use <strong id="locationNameText"></strong> to report a COTS sighting?
+                            </p>
+                            <div style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 12px; border-radius: 8px;">
+                                <p style="margin: 0; font-size: 0.9rem; color: #92400e;">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    This will pre-fill the location details for your COTS sighting report.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="modal-footer" style="border-top: 1px solid #e5e7eb; padding: 16px 24px; gap: 12px;">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 8px;">
+                                <i class="fas fa-times me-2"></i>Cancel
+                            </button>
+                            <button type="button" class="btn btn-primary" id="confirmLocationBtn" style="background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%); border: none; border-radius: 8px;">
+                                <i class="fas fa-check-circle me-2"></i>Yes, Use This Location
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Location Confirmation Modal -->
+
             <form id="locationForm" action="{{ route('user-save-location') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <!-- Modal 1: Sighting Details -->
