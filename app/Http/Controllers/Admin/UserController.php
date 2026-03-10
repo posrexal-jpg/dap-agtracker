@@ -90,19 +90,19 @@ class UserController extends Controller
         $user->save();
 
         // Log the activity
-        $thisName = $user->name;
-        $userEmail = $user->email;
-
-        // Log before deleting
-        $this->logDelete($user, "Deleted user: {$userName} ({$userEmail})");
-
-        $user->logUpdate($user, $oldValues, "Updated user: {$user->name} ({$user->email})");
+        $this->logUpdate($user, $oldValues, "Updated user: {$user->name} ({$user->email})");
 
         return redirect()->route('admin.adduser')->with('success', 'User updated successfully.');
     }
 
     public function destroy(User $user)
     {
+        $userName = $user->name;
+        $userEmail = $user->email;
+
+        // Log before deleting
+        $this->logDelete($user, "Deleted user: {$userName} ({$userEmail})");
+
         $user->delete();
 
         return redirect()->route('admin.adduser')->with('success', 'User deleted successfully.');
@@ -110,7 +110,13 @@ class UserController extends Controller
 
     /**
      * Approve a user account
-     */// Log the activity
+     */
+    public function approve(User $user)
+    {
+        $user->is_approved = true;
+        $user->save();
+
+        // Log the activity
         $this->logApprove($user, "Approved user account: {$user->name} ({$user->email})");
 
         return redirect()->route('admin.adduser')->with('success', 'User approved successfully.');
@@ -142,24 +148,7 @@ class UserController extends Controller
         $this->logActivity(
             'bulk_approve',
             "Bulk approved {$count} pending users"
-        // Log the setting change
-        $this->logActivity(
-            'settings_change',
-            $enabled 
-                ? 'Enabled auto-approve for new users' 
-                : 'Disabled auto-approve for new users',
-            null,
-            ['auto_approve_users' => !$enabled],
-            ['auto_approve_users' => (bool)$enabled]
         );
-
-        
-    /**
-     * Toggle auto-approve for new users (bulk action)
-     */
-    public function approveAll()
-    {
-        User::where('is_approved', false)->update(['is_approved' => true]);
 
         return redirect()->route('admin.adduser')->with('success', 'All pending users approved successfully.');
     }
@@ -171,6 +160,17 @@ class UserController extends Controller
     {
         $enabled = $request->input('enabled', 0);
         Setting::set('auto_approve_users', $enabled);
+
+        // Log the setting change
+        $this->logActivity(
+            'settings_change',
+            $enabled 
+                ? 'Enabled auto-approve for new users' 
+                : 'Disabled auto-approve for new users',
+            null,
+            ['auto_approve_users' => !$enabled],
+            ['auto_approve_users' => (bool)$enabled]
+        );
 
         $message = $enabled 
             ? 'Auto-approve enabled. New users will be automatically approved.' 
