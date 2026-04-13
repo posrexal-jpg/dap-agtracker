@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\Setting;
 
 class LocationController extends Controller
 {
@@ -59,8 +60,9 @@ class LocationController extends Controller
         $locations     = $query->get();
         $filterOptions = $this->getFilterOptions();
         $stats         = $this->getLocationStats($request);
+        $outbreakThreshold = (int) Setting::get('outbreak_threshold', 15);
 
-        return view('admin.location', compact('locations', 'filterOptions', 'stats'));
+        return view('admin.location', compact('locations', 'filterOptions', 'stats', 'outbreakThreshold'));
     }
 
     /**

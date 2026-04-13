@@ -506,6 +506,41 @@
         </div>
     </div>
 
+    <!-- Outbreak Threshold Settings Card -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-danger">
+                <div class="card-body py-3">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                        <div>
+                            <h6 class="mb-1">
+                                <i class="bx bx-pulse text-danger me-2"></i>
+                                COTS Outbreak Threshold
+                            </h6>
+                            <p class="text-muted mb-0 small">
+                                Map markers will pulse red when the COTS count at a location reaches or exceeds this number
+                            </p>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input 
+                                type="number" 
+                                id="outbreakThresholdInput"
+                                class="form-control form-control-sm text-center fw-bold"
+                                style="width: 90px; font-size: 1.1rem;"
+                                min="1" 
+                                max="9999"
+                                value="{{ \App\Models\Setting::get('outbreak_threshold', 15) }}"
+                            >
+                            <button class="btn btn-sm btn-danger" onclick="saveOutbreakThreshold()">
+                                <i class="bx bx-save me-1"></i>Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Users Table Card -->
     <div class="row">
         <div class="col-12">
@@ -870,6 +905,38 @@ function toggleAutoApprove(checkbox) {
         console.error('Error:', error);
         checkbox.checked = !checkbox.checked;
         alert('Failed to update setting. Please try again.');
+    });
+}
+
+function saveOutbreakThreshold() {
+    const input = document.getElementById('outbreakThresholdInput');
+    const threshold = parseInt(input.value, 10);
+    if (isNaN(threshold) || threshold < 1 || threshold > 9999) {
+        alert('Please enter a valid number between 1 and 9999.');
+        return;
+    }
+    fetch('{{ route("admin.settings.outbreak-threshold") }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ threshold: threshold })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert alert-success alert-dismissible fade show';
+            alertDiv.innerHTML = `<i class="bx bx-check-circle me-2"></i>${data.message}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>`;
+            const container = document.querySelector('.container-fluid');
+            container.insertBefore(alertDiv, container.firstChild);
+            setTimeout(() => alertDiv.remove(), 3000);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to update threshold. Please try again.');
     });
 }
 </script>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Location;
+use App\Models\Setting;
 
 class LocationController extends Controller
 {
@@ -12,7 +13,8 @@ class LocationController extends Controller
     public function sightings()
     {
         $locations = Location::all();
+        $outbreakThreshold = (int) Setting::get('outbreak_threshold', 15);
 
-        return view('sightings', compact('locations'));
+        return view('sightings', compact('locations', 'outbreakThreshold'));
     }
 }

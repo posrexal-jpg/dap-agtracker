@@ -140,4 +140,22 @@ class UserController extends Controller
             'enabled' => (bool) $enabled
         ]);
     }
+
+    /**
+     * Update the outbreak COTS count threshold
+     */
+    public function updateOutbreakThreshold(Request $request)
+    {
+        $request->validate([
+            'threshold' => 'required|integer|min:1|max:9999',
+        ]);
+
+        Setting::set('outbreak_threshold', $request->input('threshold'));
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Outbreak threshold updated to ' . $request->input('threshold') . ' COTS.',
+            'threshold' => (int) $request->input('threshold'),
+        ]);
+    }
 }

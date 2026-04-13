@@ -76,6 +76,7 @@
 
     .marker-outbreak {
         animation: pulseOutbreak 2s infinite;
+        border-radius: 50%;
     }
 
     /* Stats Overlay */
@@ -303,11 +304,11 @@
     .custom-circle-icon {
         background: transparent !important;
         border: none !important;
-        box-shadow: none !important;
     }
 
     .marker-outbreak {
         animation: pulseOutbreak 2s infinite;
+        border-radius: 50%;
     }
 
     @keyframes pulseOutbreak {
@@ -640,10 +641,9 @@ document.addEventListener('DOMContentLoaded', function() {
     @foreach($locations as $location)
     (function() {
         // Determine marker color based on COTS count
-        // Red if count > 15 (outbreak), Green otherwise
         const cotsCount = {{ $location->number_of_cots }};
-        const markerColor = cotsCount > 15 ? '#dc3545' : '#28a745';
-        const isOutbreak = cotsCount > 15;
+        const markerColor = cotsCount >= {{ $outbreakThreshold ?? 15 }} ? '#dc3545' : '#28a745';
+        const isOutbreak = cotsCount >= {{ $outbreakThreshold ?? 15 }};
         
         const markerIcon = createCircleIcon(markerColor);
 

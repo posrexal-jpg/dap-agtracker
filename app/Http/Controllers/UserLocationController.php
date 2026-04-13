@@ -7,6 +7,7 @@ use App\Models\Location;
 use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Municipality;
+use App\Models\Setting;
 
 class UserLocationController extends Controller
 {
@@ -15,16 +16,18 @@ class UserLocationController extends Controller
         $user = Auth::user();
         $userLocations = Location::where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
         $municipalities = Municipality::all();
+        $outbreakThreshold = (int) Setting::get('outbreak_threshold', 15);
 
-        return view('user.account', compact('userLocations', 'municipalities'));
+        return view('user.account', compact('userLocations', 'municipalities', 'outbreakThreshold'));
     }
 
     public function index()
     {
         $municipalities = Municipality::all();
         $locations = Location::orderBy('created_at', 'desc')->get();
+        $outbreakThreshold = (int) Setting::get('outbreak_threshold', 15);
 
-        return view('user.index', compact('locations', 'municipalities'));
+        return view('user.index', compact('locations', 'municipalities', 'outbreakThreshold'));
     }
 
     public function create()

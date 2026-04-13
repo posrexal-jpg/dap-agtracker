@@ -64,6 +64,7 @@ Route::prefix('admin')
         Route::post('/users/{user}/reject',    [Admin\UserController::class, 'reject'])->name('users.reject');
         Route::post('/users/approve-all',      [Admin\UserController::class, 'approveAll'])->name('users.approve-all');
         Route::post('/users/toggle-auto-approve', [Admin\UserController::class, 'toggleAutoApprove'])->name('users.toggle-auto-approve');
+        Route::post('/settings/outbreak-threshold', [Admin\UserController::class, 'updateOutbreakThreshold'])->name('settings.outbreak-threshold');
 
         // Downloads
         Route::get('/download', [Admin\DownloadController::class, 'index'])->name('download');

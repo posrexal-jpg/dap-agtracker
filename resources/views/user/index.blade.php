@@ -656,13 +656,13 @@
 
     .marker-outbreak {
         animation: pulseOutbreak 2s infinite;
+        border-radius: 50%;
     }
 
     /* Custom circle icon styling - remove default divIcon background */
     .custom-circle-icon {
         background: transparent !important;
         border: none !important;
-        box-shadow: none !important;
     }
 
     /* Month Filter Control - Material-UI */
@@ -1517,6 +1517,7 @@
     <script>
         // Embed server-side sightings data for the map
         window.SIGHTINGS = @json(isset($locations) ? $locations->toArray() : []);
+        window.OUTBREAK_THRESHOLD = {{ $outbreakThreshold ?? 15 }};
     </script>
     <script src="{{ asset('js/user-map.js') }}"></script>
     <script src="{{ asset('js/user-form.js') }}"></script>

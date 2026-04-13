@@ -345,11 +345,11 @@
         .custom-circle-icon {
             background: transparent !important;
             border: none !important;
-            box-shadow: none !important;
         }
 
         .marker-outbreak {
             animation: pulseOutbreak 2s infinite;
+            border-radius: 50%;
         }
 
         @keyframes pulseOutbreak {
@@ -491,6 +491,8 @@
         }).addTo(map);
 
         // Function to create circle SVG icon using divIcon (more reliable on mobile)
+        const outbreakThreshold = {{ $outbreakThreshold ?? 15 }};
+
         function createCircleIcon(color) {
             const svg = `
                 <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
@@ -510,10 +512,9 @@
         // Add markers for each sighting
         @foreach($locations as $location)
         // Determine marker color based on COTS count
-        // Red if count > 15, Green otherwise
         const cotsCount{{ $location->id }} = {{ $location->number_of_cots }};
-        const markerColor{{ $location->id }} = cotsCount{{ $location->id }} > 15 ? '#dc3545' : '#28a745';
-        const isOutbreak{{ $location->id }} = cotsCount{{ $location->id }} > 15;
+        const markerColor{{ $location->id }} = cotsCount{{ $location->id }} >= outbreakThreshold ? '#dc3545' : '#28a745';
+        const isOutbreak{{ $location->id }} = cotsCount{{ $location->id }} >= outbreakThreshold;
         
         const marker{{ $location->id }}Icon = createCircleIcon(markerColor{{ $location->id }});
 

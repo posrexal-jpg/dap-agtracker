@@ -259,10 +259,10 @@ function initializeMap() {
                 try {
                     if (loc.latitude && loc.longitude) {
                         // Determine marker color based on COTS count
-                        // Red if count > 15, Green otherwise
                         const cotsCount = loc.number_of_cots || 0;
-                        const markerColor = cotsCount > 15 ? '#dc3545' : '#28a745';
-                        const isOutbreak = cotsCount > 15;
+                        const threshold = window.OUTBREAK_THRESHOLD || 15;
+                        const markerColor = cotsCount >= threshold ? '#dc3545' : '#28a745';
+                        const isOutbreak = cotsCount >= threshold;
 
                         const markerIcon = createCircleIcon(markerColor);
 

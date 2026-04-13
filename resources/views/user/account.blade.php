@@ -73,11 +73,11 @@
 .custom-circle-icon {
     background: transparent !important;
     border: none !important;
-    box-shadow: none !important;
 }
 
 .marker-outbreak {
     animation: pulseOutbreak 2s infinite;
+    border-radius: 50%;
 }
 
 @keyframes pulseOutbreak {
@@ -386,7 +386,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add markers for user's locations
     @foreach($userLocations as $location)
         const cotsCount{{ $location->id }} = {{ $location->number_of_cots ?? 0 }};
-        const markerColor{{ $location->id }} = cotsCount{{ $location->id }} > 15 ? '#dc3545' : '#28a745';
+        const markerColor{{ $location->id }} = cotsCount{{ $location->id }} >= {{ $outbreakThreshold ?? 15 }} ? '#dc3545' : '#28a745';
         const markerIcon{{ $location->id }} = createCircleIcon(markerColor{{ $location->id }});
 
         const marker{{ $location->id }} = L.marker([{{ $location->latitude }}, {{ $location->longitude }}], {
