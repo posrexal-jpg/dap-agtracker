@@ -417,11 +417,55 @@ document.addEventListener('DOMContentLoaded', function() {
         attribution: '© OpenStreetMap contributors'
     }).addTo(locationMap);
 
+    // Sogod Bay polygon boundary
+    const sogodBayCoords = [
+        [10.398399643957603, 124.98882706137022],
+        [10.38719952081739,  124.96538337058183],
+        [10.347007542865796, 124.95600589426613],
+        [10.29890218090081,  124.97074192847674],
+        [10.263312667596836, 124.97141174821303],
+        [10.205965592498274, 124.97141174821303],
+        [10.159816761533278, 124.98212886400279],
+        [10.119595918359465, 124.99820453768757],
+        [10.085305317819461, 125.01026129294985],
+        [10.032543423636369, 125.00892165347574],
+        [9.996924282406624,  125.01495003110864],
+        [9.884104645319326,  125.07389416794933],
+        [9.870246924008114,  125.18709370347563],
+        [9.870906828729844,  125.27082117058052],
+        [9.904560213998522,  125.27617972847554],
+        [9.965259545956073,  125.2547454968975],
+        [10.068158647849856, 125.19178244163419],
+        [10.103769941717204, 125.13953650216087],
+        [10.195417877137956, 125.13082884558139],
+        [10.400376094583976, 125.01762931005521],
+        [10.403011342620147, 125.0028932758446],
+        [10.398399643957603, 124.98882706137022]
+    ];
+
+    // Ray-casting point-in-polygon check
+    function isInsideSogodBay(lat, lng) {
+        var inside = false;
+        for (var i = 0, j = sogodBayCoords.length - 1; i < sogodBayCoords.length; j = i++) {
+            var yi = sogodBayCoords[i][0], xi = sogodBayCoords[i][1];
+            var yj = sogodBayCoords[j][0], xj = sogodBayCoords[j][1];
+            if (((yi > lat) !== (yj > lat)) && (lng < (xj - xi) * (lat - yi) / (yj - yi) + xi)) {
+                inside = !inside;
+            }
+        }
+        return inside;
+    }
+
     let selectedMarker = null;
     const selectionIcon = createCircleIcon('#3b82f6'); // Blue for selection
 
     locationMap.on('click', function(e) {
         const { lat, lng } = e.latlng;
+
+        if (!isInsideSogodBay(lat, lng)) {
+            alert('You can only place markers inside Sogod Bay.');
+            return;
+        }
 
         // Remove previous marker
         if (selectedMarker) {

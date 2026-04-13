@@ -306,11 +306,17 @@ function initializeMap() {
         map.on('click', function (e) {
             var clickedPoint = e.latlng;
 
-            // Check if the clicked point is inside the polygon
+            // Check if the clicked point is inside the polygon (ray-casting algorithm)
             var inside = false;
             polygon.eachLayer(function (layer) {
-                if (layer.getBounds().contains(clickedPoint)) {
-                    inside = true;
+                var latlngs = layer.getLatLngs()[0]; // outer ring
+                var x = clickedPoint.lng, y = clickedPoint.lat;
+                for (var i = 0, j = latlngs.length - 1; i < latlngs.length; j = i++) {
+                    var xi = latlngs[i].lng, yi = latlngs[i].lat;
+                    var xj = latlngs[j].lng, yj = latlngs[j].lat;
+                    if (((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi)) {
+                        inside = !inside;
+                    }
                 }
             });
 
