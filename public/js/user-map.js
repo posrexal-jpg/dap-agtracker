@@ -302,11 +302,30 @@ function initializeMap() {
         // Create selection icon (blue circle for user-placed markers)
         var selectionIcon = createCircleIcon('#3b82f6');
 
+        // Place a verified marker after water check passes
+        function placeMarkerAt(clickedPoint) {
+            if (marker) {
+                map.removeLayer(marker);
+            }
+            marker = L.marker(clickedPoint, { icon: selectionIcon }).addTo(map);
+
+            document.getElementById('latitude').value = clickedPoint.lat;
+            document.getElementById('longitude').value = clickedPoint.lng;
+            document.getElementById('latitude_display').textContent = clickedPoint.lat.toFixed(6);
+            document.getElementById('longitude_display').textContent = clickedPoint.lng.toFixed(6);
+
+            if (typeof $ !== 'undefined' && $('#consentModal').modal) {
+                $('#consentModal').modal('show');
+            } else {
+                console.warn('jQuery or modal not available');
+            }
+        }
+
         // Click event to place a new marker
         map.on('click', function (e) {
             var clickedPoint = e.latlng;
 
-            // Check if the clicked point is inside the polygon (ray-casting algorithm)
+            // Step 1: Check if the clicked point is inside the Sogod Bay polygon (ray-casting)
             var inside = false;
             polygon.eachLayer(function (layer) {
                 var latlngs = layer.getLatLngs()[0]; // outer ring
@@ -320,28 +339,54 @@ function initializeMap() {
                 }
             });
 
-            if (inside) {
-                if (marker) {
-                    map.removeLayer(marker); // Remove existing marker
-                }
-                marker = L.marker(clickedPoint, { icon: selectionIcon }).addTo(map); // Place new marker
-
-                // Temporarily store the coordinates
-                document.getElementById('latitude').value = clickedPoint.lat;
-                document.getElementById('longitude').value = clickedPoint.lng;
-
-                document.getElementById('latitude_display').textContent = clickedPoint.lat.toFixed(6);
-                document.getElementById('longitude_display').textContent = clickedPoint.lng.toFixed(6);
-
-                // Show the consent modal
-                if (typeof $ !== 'undefined' && $('#consentModal').modal) {
-                    $('#consentModal').modal('show');
-                } else {
-                    console.warn('jQuery or modal not available');
-                }
-            } else {
-                alert("You can only place markers inside the sogod bay.");
+            if (!inside) {
+                alert("You can only place markers inside Sogod Bay.");
+                return;
             }
+
+            // Step 2: Verify the point is actually on water using reverse geocoding
+            fetch(
+                'https://nominatim.openstreetmap.org/reverse?format=json&lat=' +
+                clickedPoint.lat + '&lon=' + clickedPoint.lng + '&zoom=18',
+                { headers: { 'Accept-Language': 'en' } }
+            )
+            .then(function(response) { return response.json(); })
+            .then(function(data) {
+                // If Nominatim returns an error it means there is no land feature — open water
+                if (data.error) {
+                    placeMarkerAt(clickedPoint);
+                    return;
+                }
+
+                var cls  = (data.class || '').toLowerCase();
+                var type = (data.type  || '').toLowerCase();
+                var addr = data.address || {};
+
+                // Classes that only appear on land
+                var landClasses = ['highway', 'building', 'amenity', 'shop',
+                                   'tourism', 'landuse', 'leisure', 'man_made',
+                                   'railway', 'aeroway', 'power', 'barrier'];
+
+                // Water feature indicators
+                var waterTypes  = ['water', 'bay', 'sea', 'ocean', 'strait', 'lake', 'river'];
+                var isWaterFeature = (cls === 'natural'   && waterTypes.indexOf(type) !== -1) ||
+                                     (cls === 'place'     && (type === 'sea' || type === 'ocean' || type === 'bay')) ||
+                                     (cls === 'waterway');
+
+                // Land if the class is a known land class, OR the address contains road infrastructure
+                var isLand = landClasses.indexOf(cls) !== -1 || ('road' in addr) || ('pedestrian' in addr);
+
+                if (isLand && !isWaterFeature) {
+                    alert('Please click on the water area only. Land areas cannot be selected.');
+                    return;
+                }
+
+                placeMarkerAt(clickedPoint);
+            })
+            .catch(function() {
+                // If the check cannot be performed (offline/error), fall back to polygon-only check
+                placeMarkerAt(clickedPoint);
+            });
         });
 
         // Handle "Agree" button click in consent modal

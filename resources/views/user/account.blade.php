@@ -462,23 +462,53 @@ document.addEventListener('DOMContentLoaded', function() {
     locationMap.on('click', function(e) {
         const { lat, lng } = e.latlng;
 
+        // Step 1: Check polygon boundary
         if (!isInsideSogodBay(lat, lng)) {
             alert('You can only place markers inside Sogod Bay.');
             return;
         }
 
-        // Remove previous marker
+        // Step 2: Verify the point is on water via reverse geocoding
+        fetch(
+            'https://nominatim.openstreetmap.org/reverse?format=json&lat=' + lat + '&lon=' + lng + '&zoom=18',
+            { headers: { 'Accept-Language': 'en' } }
+        )
+        .then(r => r.json())
+        .then(data => {
+            if (data.error) {
+                placeSelectionMarker(lat, lng);
+                return;
+            }
+            const cls  = (data.class || '').toLowerCase();
+            const type = (data.type  || '').toLowerCase();
+            const addr = data.address || {};
+
+            const landClasses = ['highway', 'building', 'amenity', 'shop',
+                                  'tourism', 'landuse', 'leisure', 'man_made',
+                                  'railway', 'aeroway', 'power', 'barrier'];
+            const waterTypes  = ['water', 'bay', 'sea', 'ocean', 'strait', 'lake', 'river'];
+            const isWaterFeature = (cls === 'natural' && waterTypes.includes(type)) ||
+                                   (cls === 'place'   && ['sea','ocean','bay'].includes(type)) ||
+                                   (cls === 'waterway');
+            const isLand = landClasses.includes(cls) || 'road' in addr || 'pedestrian' in addr;
+
+            if (isLand && !isWaterFeature) {
+                alert('Please click on the water area only. Land areas cannot be selected.');
+                return;
+            }
+            placeSelectionMarker(lat, lng);
+        })
+        .catch(() => placeSelectionMarker(lat, lng));
+    });
+
+    function placeSelectionMarker(lat, lng) {
         if (selectedMarker) {
             locationMap.removeLayer(selectedMarker);
         }
-
-        // Add new marker
         selectedMarker = L.marker([lat, lng], { icon: selectionIcon }).addTo(locationMap);
-
-        // Update form fields
         document.getElementById('latitude').value = lat.toFixed(6);
         document.getElementById('longitude').value = lng.toFixed(6);
-    });
+    }
 
     // Get user's current location
     if (navigator.geolocation) {
