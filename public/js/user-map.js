@@ -344,49 +344,7 @@ function initializeMap() {
                 return;
             }
 
-            // Step 2: Verify the point is actually on water using reverse geocoding
-            fetch(
-                'https://nominatim.openstreetmap.org/reverse?format=json&lat=' +
-                clickedPoint.lat + '&lon=' + clickedPoint.lng + '&zoom=18',
-                { headers: { 'Accept-Language': 'en' } }
-            )
-            .then(function(response) { return response.json(); })
-            .then(function(data) {
-                // If Nominatim returns an error it means there is no land feature — open water
-                if (data.error) {
-                    placeMarkerAt(clickedPoint);
-                    return;
-                }
-
-                var cls  = (data.class || '').toLowerCase();
-                var type = (data.type  || '').toLowerCase();
-                var addr = data.address || {};
-
-                // Classes that only appear on land
-                var landClasses = ['highway', 'building', 'amenity', 'shop',
-                                   'tourism', 'landuse', 'leisure', 'man_made',
-                                   'railway', 'aeroway', 'power', 'barrier'];
-
-                // Water feature indicators
-                var waterTypes  = ['water', 'bay', 'sea', 'ocean', 'strait', 'lake', 'river'];
-                var isWaterFeature = (cls === 'natural'   && waterTypes.indexOf(type) !== -1) ||
-                                     (cls === 'place'     && (type === 'sea' || type === 'ocean' || type === 'bay')) ||
-                                     (cls === 'waterway');
-
-                // Land if the class is a known land class, OR the address contains road infrastructure
-                var isLand = landClasses.indexOf(cls) !== -1 || ('road' in addr) || ('pedestrian' in addr);
-
-                if (isLand && !isWaterFeature) {
-                    alert('Please click on the water area only. Land areas cannot be selected.');
-                    return;
-                }
-
-                placeMarkerAt(clickedPoint);
-            })
-            .catch(function() {
-                // If the check cannot be performed (offline/error), fall back to polygon-only check
-                placeMarkerAt(clickedPoint);
-            });
+            placeMarkerAt(clickedPoint);
         });
 
         // Handle "Agree" button click in consent modal
