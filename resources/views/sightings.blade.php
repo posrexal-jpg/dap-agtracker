@@ -536,17 +536,16 @@
         }
 
         // Create popup content
-        const popupContent{{ $location->id }} = `
-            <div class="sighting-info">
-                <h6><i class="fas fa-map-marker-alt text-danger"></i> COTS Sighting</h6>
-                <div class="sighting-detail"><strong>Location:</strong> {{ $location->location_name ?: 'Not specified' }}</div>
-                <div class="sighting-detail"><strong>Municipality:</strong> {{ $location->municipality }}</div>
-                <div class="sighting-detail"><strong>Barangay:</strong> {{ $location->barangay }}</div>
-                <div class="sighting-detail"><strong>COTS Count:</strong> {{ $location->number_of_cots }}</div>
-                <div class="sighting-detail"><strong>Date:</strong> {{ $location->date_of_sighting ? \Carbon\Carbon::parse($location->date_of_sighting)->format('M d, Y') : 'Not specified' }}</div>
-                <div class="sighting-detail"><strong>Time:</strong> {{ $location->time_of_sighting ? \Carbon\Carbon::parse('1970-01-01 ' . $location->time_of_sighting)->format('g:i A') : 'Not specified' }}</div>
-            </div>
-        `;
+        const popupContent{{ $location->id }} =
+            '<div class="sighting-info">' +
+            '<h6><i class="fas fa-map-marker-alt text-danger"></i> COTS Sighting</h6>' +
+            '<div class="sighting-detail"><strong>Location:</strong> ' + @json($location->location_name ?: ($location->name ?: 'Not specified')) + '</div>' +
+            '<div class="sighting-detail"><strong>Municipality:</strong> ' + @json($location->municipality ?: 'Not specified') + '</div>' +
+            '<div class="sighting-detail"><strong>Barangay:</strong> ' + @json($location->barangay ?: 'Not specified') + '</div>' +
+            '<div class="sighting-detail"><strong>COTS Count:</strong> {{ $location->number_of_cots }}</div>' +
+            '<div class="sighting-detail"><strong>Date:</strong> {{ $location->date_of_sighting ? \Carbon\Carbon::parse($location->date_of_sighting)->format("M d, Y") : "Not specified" }}</div>' +
+            '<div class="sighting-detail"><strong>Time:</strong> {{ $location->time_of_sighting ? \Carbon\Carbon::parse("1970-01-01 " . $location->time_of_sighting)->format("g:i A") : "Not specified" }}</div>' +
+            '</div>';
 
         marker{{ $location->id }}.bindPopup(popupContent{{ $location->id }});
         @endforeach

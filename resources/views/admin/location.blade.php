@@ -657,64 +657,34 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Create popup content
-        const popupContent = `
-            <div class="sighting-info">
-                <h6><i class="bx bx-map-pin"></i> COTS Sighting</h6>
-                <div class="sighting-detail">
-                    <strong>Location:</strong>
-                    <span>{{ $location->location_name ?: 'Not specified' }}</span>
-                </div>
-                <div class="sighting-detail">
-                    <strong>Municipality:</strong>
-                    <span>{{ $location->municipality }}</span>
-                </div>
-                <div class="sighting-detail">
-                    <strong>Barangay:</strong>
-                    <span>{{ $location->barangay }}</span>
-                </div>
-                <div class="sighting-detail">
-                    <strong>COTS Count:</strong>
-                    <span class="badge bg-${isOutbreak ? 'danger' : 'success'}">{{ $location->number_of_cots }}</span>
-                </div>
-                @if($location->early_juvenile || $location->juvenile || $location->sub_adult || $location->adult || $location->late_adult)
-                <div class="sighting-detail">
-                    <strong>Size Distribution:</strong>
-                    <span style="text-align:right;">
-                        @if($location->early_juvenile)1-5cm: {{ $location->early_juvenile }}&nbsp;@endif
-                        @if($location->juvenile)6-15cm: {{ $location->juvenile }}&nbsp;@endif
-                        @if($location->sub_adult)16-25cm: {{ $location->sub_adult }}&nbsp;@endif
-                        @if($location->adult)26-35cm: {{ $location->adult }}&nbsp;@endif
-                        @if($location->late_adult)&gt;35cm: {{ $location->late_adult }}@endif
-                    </span>
-                </div>
-                @endif
-                <div class="sighting-detail">
-                    <strong>Activity:</strong>
-                    <span>{{ $location->activity_type ?: 'Not specified' }}</span>
-                </div>
-                <div class="sighting-detail">
-                    <strong>Observer:</strong>
-                    <span>{{ $location->observer_category ?: 'Not specified' }}</span>
-                </div>
-                <div class="sighting-detail">
-                    <strong>Date:</strong>
-                    <span>{{ $location->date_of_sighting ? \Carbon\Carbon::parse($location->date_of_sighting)->format('M d, Y') : 'Not specified' }}</span>
-                </div>
-                <div class="sighting-detail">
-                    <strong>Time:</strong>
-                    <span>{{ $location->time_of_sighting ? \Carbon\Carbon::parse('1970-01-01 ' . $location->time_of_sighting)->format('g:i A') : 'Not specified' }}</span>
-                </div>
-                @if($location->description)
-                <div class="sighting-detail" style="flex-direction:column;gap:2px;">
-                    <strong>Description:</strong>
-                    <span style="font-size:0.75rem;color:#6b7280;">{{ Str::limit($location->description, 80) }}</span>
-                </div>
-                @endif
-                <button class="btn btn-danger btn-sm delete-btn-popup" onclick="deleteLocation({{ $location->id }})">
-                    <i class="bx bx-trash"></i> Delete Sighting
-                </button>
-            </div>
-        `;
+        @php
+            $sz{{ $location->id }} = collect([
+                '1-5cm' => $location->early_juvenile,
+                '6-15cm' => $location->juvenile,
+                '16-25cm' => $location->sub_adult,
+                '26-35cm' => $location->adult,
+                '>35cm' => $location->late_adult,
+            ])->filter()->map(fn($v,$k) => "$k: $v")->implode(' ');
+        @endphp
+        const popupContent =
+            '<div class="sighting-info">' +
+            '<h6><i class="bx bx-map-pin"></i> COTS Sighting</h6>' +
+            '<div class="sighting-detail"><strong>Location:</strong><span>' + @json($location->location_name ?: ($location->name ?: 'Not specified')) + '</span></div>' +
+            '<div class="sighting-detail"><strong>Municipality:</strong><span>' + @json($location->municipality ?: 'Not specified') + '</span></div>' +
+            '<div class="sighting-detail"><strong>Barangay:</strong><span>' + @json($location->barangay ?: 'Not specified') + '</span></div>' +
+            '<div class="sighting-detail"><strong>COTS Count:</strong><span class="badge bg-' + (isOutbreak ? 'danger' : 'success') + '">{{ $location->number_of_cots }}</span></div>' +
+            @if($sz{!! $location->id !!})
+            '<div class="sighting-detail"><strong>Size Distribution:</strong><span>' + @json($sz{!! $location->id !!}) + '</span></div>' +
+            @endif
+            '<div class="sighting-detail"><strong>Activity:</strong><span>' + @json($location->activity_type ?: 'Not specified') + '</span></div>' +
+            '<div class="sighting-detail"><strong>Observer:</strong><span>' + @json($location->observer_category ?: 'Not specified') + '</span></div>' +
+            '<div class="sighting-detail"><strong>Date:</strong><span>{{ $location->date_of_sighting ? \Carbon\Carbon::parse($location->date_of_sighting)->format("M d, Y") : "Not specified" }}</span></div>' +
+            '<div class="sighting-detail"><strong>Time:</strong><span>{{ $location->time_of_sighting ? \Carbon\Carbon::parse("1970-01-01 " . $location->time_of_sighting)->format("g:i A") : "Not specified" }}</span></div>' +
+            @if($location->description)
+            '<div class="sighting-detail" style="flex-direction:column;gap:2px;"><strong>Description:</strong><span style="font-size:0.75rem;color:#6b7280;">' + @json(Str::limit($location->description, 80)) + '</span></div>' +
+            @endif
+            '<button class="btn btn-danger btn-sm delete-btn-popup" onclick="deleteLocation({{ $location->id }})"><i class="bx bx-trash"></i> Delete Sighting</button>' +
+            '</div>';
 
         marker.bindPopup(popupContent, {
             maxWidth: 300,
