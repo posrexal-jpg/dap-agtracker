@@ -658,30 +658,45 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Create popup content
         @php
-            $sz{{ $location->id }} = collect([
+            $szParts = collect([
                 '1-5cm' => $location->early_juvenile,
                 '6-15cm' => $location->juvenile,
                 '16-25cm' => $location->sub_adult,
                 '26-35cm' => $location->adult,
                 '>35cm' => $location->late_adult,
             ])->filter()->map(fn($v,$k) => "$k: $v")->implode(' ');
+
+            $popupLoc   = $location->location_name ?: ($location->name ?: 'Not specified');
+            $popupMun   = $location->municipality ?: 'Not specified';
+            $popupBrgy  = $location->barangay ?: 'Not specified';
+            $popupAct   = $location->activity_type ?: 'Not specified';
+            $popupObs   = $location->observer_category ?: 'Not specified';
+            $popupDate  = $location->date_of_sighting
+                            ? \Carbon\Carbon::parse($location->date_of_sighting)->format('M d, Y')
+                            : 'Not specified';
+            $popupTime  = $location->time_of_sighting
+                            ? \Carbon\Carbon::parse('1970-01-01 ' . $location->time_of_sighting)->format('g:i A')
+                            : 'Not specified';
+            $popupDesc  = $location->description
+                            ? \Illuminate\Support\Str::limit($location->description, 80)
+                            : '';
         @endphp
         const popupContent =
             '<div class="sighting-info">' +
             '<h6><i class="bx bx-map-pin"></i> COTS Sighting</h6>' +
-            '<div class="sighting-detail"><strong>Location:</strong><span>' + @json($location->location_name ?: ($location->name ?: 'Not specified')) + '</span></div>' +
-            '<div class="sighting-detail"><strong>Municipality:</strong><span>' + @json($location->municipality ?: 'Not specified') + '</span></div>' +
-            '<div class="sighting-detail"><strong>Barangay:</strong><span>' + @json($location->barangay ?: 'Not specified') + '</span></div>' +
-            '<div class="sighting-detail"><strong>COTS Count:</strong><span class="badge bg-' + (isOutbreak ? 'danger' : 'success') + '">{{ $location->number_of_cots }}</span></div>' +
-            @if($sz{!! $location->id !!})
-            '<div class="sighting-detail"><strong>Size Distribution:</strong><span>' + @json($sz{!! $location->id !!}) + '</span></div>' +
+            '<div class="sighting-detail"><strong>Location:</strong><span>' + @json($popupLoc) + '</span></div>' +
+            '<div class="sighting-detail"><strong>Municipality:</strong><span>' + @json($popupMun) + '</span></div>' +
+            '<div class="sighting-detail"><strong>Barangay:</strong><span>' + @json($popupBrgy) + '</span></div>' +
+            '<div class="sighting-detail"><strong>COTS Count:</strong><span class="badge bg-' + (isOutbreak ? 'danger' : 'success') + '">{{ $location->number_of_cots ?? 0 }}</span></div>' +
+            @if($szParts)
+            '<div class="sighting-detail"><strong>Size Distribution:</strong><span>' + @json($szParts) + '</span></div>' +
             @endif
-            '<div class="sighting-detail"><strong>Activity:</strong><span>' + @json($location->activity_type ?: 'Not specified') + '</span></div>' +
-            '<div class="sighting-detail"><strong>Observer:</strong><span>' + @json($location->observer_category ?: 'Not specified') + '</span></div>' +
-            '<div class="sighting-detail"><strong>Date:</strong><span>{{ $location->date_of_sighting ? \Carbon\Carbon::parse($location->date_of_sighting)->format("M d, Y") : "Not specified" }}</span></div>' +
-            '<div class="sighting-detail"><strong>Time:</strong><span>{{ $location->time_of_sighting ? \Carbon\Carbon::parse("1970-01-01 " . $location->time_of_sighting)->format("g:i A") : "Not specified" }}</span></div>' +
-            @if($location->description)
-            '<div class="sighting-detail" style="flex-direction:column;gap:2px;"><strong>Description:</strong><span style="font-size:0.75rem;color:#6b7280;">' + @json(Str::limit($location->description, 80)) + '</span></div>' +
+            '<div class="sighting-detail"><strong>Activity:</strong><span>' + @json($popupAct) + '</span></div>' +
+            '<div class="sighting-detail"><strong>Observer:</strong><span>' + @json($popupObs) + '</span></div>' +
+            '<div class="sighting-detail"><strong>Date:</strong><span>' + @json($popupDate) + '</span></div>' +
+            '<div class="sighting-detail"><strong>Time:</strong><span>' + @json($popupTime) + '</span></div>' +
+            @if($popupDesc)
+            '<div class="sighting-detail" style="flex-direction:column;gap:2px;"><strong>Description:</strong><span style="font-size:0.75rem;color:#6b7280;">' + @json($popupDesc) + '</span></div>' +
             @endif
             '<button class="btn btn-danger btn-sm delete-btn-popup" onclick="deleteLocation({{ $location->id }})"><i class="bx bx-trash"></i> Delete Sighting</button>' +
             '</div>';
@@ -694,7 +709,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Store marker with date information for filtering
         allMarkers.push({
             marker: marker,
-            date: '{{ $location->date_of_sighting ?: '' }}',
+            date: '{{ addslashes($location->date_of_sighting ?? '') }}',
             data: {
                 id: {{ $location->id }},
                 name: '{{ $location->name }}',
