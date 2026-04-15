@@ -275,10 +275,24 @@ function initializeMap() {
                             m._icon.classList.add('marker-outbreak');
                         }
 
-                        var popup = '<strong>' + (loc.name || 'Unnamed') + '</strong><br/>' +
-                                    (loc.municipality ? loc.municipality + ' - ' : '') + (loc.barangay || '') + '<br/>' +
+                        var timeStr = 'Not specified';
+                        if (loc.time_of_sighting) {
+                            var tp = loc.time_of_sighting.split(':');
+                            var th = parseInt(tp[0], 10);
+                            var tm = tp[1] || '00';
+                            var ampm = th >= 12 ? 'PM' : 'AM';
+                            th = th % 12 || 12;
+                            timeStr = th + ':' + tm + ' ' + ampm;
+                        }
+                        var popup = '<div style="min-width:200px">' +
+                                    '<h6 style="color:#1e3a8a;margin-bottom:6px">COTS Sighting</h6>' +
+                                    '<strong>Location:</strong> ' + (loc.location_name || 'Not specified') + '<br/>' +
+                                    '<strong>Municipality:</strong> ' + (loc.municipality || 'Not specified') + '<br/>' +
+                                    '<strong>Barangay:</strong> ' + (loc.barangay || 'Not specified') + '<br/>' +
                                     '<strong>COTS Count:</strong> ' + cotsCount + '<br/>' +
-                                    (loc.date_of_sighting ? loc.date_of_sighting : (loc.created_at || ''));
+                                    '<strong>Date:</strong> ' + (loc.date_of_sighting || 'Not specified') + '<br/>' +
+                                    '<strong>Time:</strong> ' + timeStr + '<br/>' +
+                                    '</div>';
                         m.bindPopup(popup);
 
                         // Store marker with date information for filtering

@@ -535,22 +535,8 @@
                 <div class="sighting-detail"><strong>Municipality:</strong> {{ $location->municipality }}</div>
                 <div class="sighting-detail"><strong>Barangay:</strong> {{ $location->barangay }}</div>
                 <div class="sighting-detail"><strong>COTS Count:</strong> {{ $location->number_of_cots }}</div>
-                @if($location->early_juvenile || $location->juvenile || $location->sub_adult || $location->adult)
-                <div class="sighting-detail"><strong>Size Distribution:</strong></div>
-                <div style="font-size: 0.8rem; margin-left: 10px;">
-                    @if($location->early_juvenile) Early Juvenile: {{ $location->early_juvenile }}<br>@endif
-                    @if($location->juvenile) Juvenile: {{ $location->juvenile }}<br>@endif
-                    @if($location->sub_adult) Sub-adult: {{ $location->sub_adult }}<br>@endif
-                    @if($location->adult) Adult: {{ $location->adult }}<br>@endif
-                </div>
-                @endif
-                <div class="sighting-detail"><strong>Activity:</strong> {{ $location->activity_type ?: 'Not specified' }}</div>
-                <div class="sighting-detail"><strong>Observer:</strong> {{ $location->observer_category ?: 'Not specified' }}</div>
                 <div class="sighting-detail"><strong>Date:</strong> {{ $location->date_of_sighting ? \Carbon\Carbon::parse($location->date_of_sighting)->format('M d, Y') : 'Not specified' }}</div>
-                <div class="sighting-detail"><strong>Time:</strong> {{ $location->time_of_sighting ?: 'Not specified' }}</div>
-                @if($location->description)
-                <div class="sighting-detail"><strong>Description:</strong> {{ $location->description }}</div>
-                @endif
+                <div class="sighting-detail"><strong>Time:</strong> {{ $location->time_of_sighting ? \Carbon\Carbon::parse('1970-01-01 ' . $location->time_of_sighting)->format('g:i A') : 'Not specified' }}</div>
             </div>
         `;
 

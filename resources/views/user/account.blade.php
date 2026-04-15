@@ -394,10 +394,13 @@ document.addEventListener('DOMContentLoaded', function() {
         })
             .addTo(map)
             .bindPopup(`
+                <div style="min-width:200px">
                 <strong>{{ $location->location_name ?? $location->name ?? 'Unnamed Location' }}</strong><br>
-                {{ $location->barangay }}, {{ $location->municipality }}<br>
-                Date: {{ $location->date_of_sighting ? \Carbon\Carbon::parse($location->date_of_sighting)->format('M d, Y') : $location->created_at->format('M d, Y') }}<br>
-                COTS: {{ $location->number_of_cots ?? 'N/A' }}<br>
+                <strong>Municipality:</strong> {{ $location->municipality }}<br>
+                <strong>Barangay:</strong> {{ $location->barangay }}<br>
+                <strong>Date:</strong> {{ $location->date_of_sighting ? \Carbon\Carbon::parse($location->date_of_sighting)->format('M d, Y') : $location->created_at->format('M d, Y') }}<br>
+                <strong>Time:</strong> {{ $location->time_of_sighting ? \Carbon\Carbon::parse('1970-01-01 ' . $location->time_of_sighting)->format('g:i A') : 'Not specified' }}<br>
+                <strong>COTS Count:</strong> {{ $location->number_of_cots ?? 'N/A' }}<br>
                 @if($location->photo)
                     @php
                         $photos = is_array(json_decode($location->photo)) ? json_decode($location->photo) : [$location->photo];
@@ -407,6 +410,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <img src="{{ asset('storage/' . $firstPhoto) }}" style="width: 100px; height: auto;" alt="Location photo">
                     @endif
                 @endif
+                </div>
             `);
     @endforeach
 
