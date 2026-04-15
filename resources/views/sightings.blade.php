@@ -531,7 +531,7 @@
         const popupContent{{ $location->id }} = `
             <div class="sighting-info">
                 <h6><i class="fas fa-map-marker-alt text-danger"></i> COTS Sighting</h6>
-                <div class="sighting-detail"><strong>Location:</strong> {{ $location->name }}</div>
+                <div class="sighting-detail"><strong>Location:</strong> {{ $location->location_name ?: 'Not specified' }}</div>
                 <div class="sighting-detail"><strong>Municipality:</strong> {{ $location->municipality }}</div>
                 <div class="sighting-detail"><strong>Barangay:</strong> {{ $location->barangay }}</div>
                 <div class="sighting-detail"><strong>COTS Count:</strong> {{ $location->number_of_cots }}</div>

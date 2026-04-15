@@ -662,7 +662,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <h6><i class="bx bx-map-pin"></i> COTS Sighting</h6>
                 <div class="sighting-detail">
                     <strong>Location:</strong>
-                    <span>{{ $location->name }}</span>
+                    <span>{{ $location->location_name ?: 'Not specified' }}</span>
                 </div>
                 <div class="sighting-detail">
                     <strong>Municipality:</strong>
