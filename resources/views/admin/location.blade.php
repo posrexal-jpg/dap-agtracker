@@ -289,8 +289,10 @@
         }
 
         .month-filter-control {
-            top: 160px;
-            right: 10px;
+            bottom: 75px;
+            left: 10px;
+            top: auto;
+            right: auto;
         }
 
         .map-controls {
@@ -442,9 +444,10 @@
 
         /* Material-UI Card (Filter) */
         .month-filter-control {
-            top: 12px;
-            right: 12px;
-            left: 12px;
+            bottom: 75px;
+            left: 10px;
+            top: auto;
+            right: auto;
             padding: 10px;
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(12px);
@@ -452,8 +455,6 @@
             border-radius: 12px;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
             border: 1px solid rgba(255, 255, 255, 0.3);
-            max-width: calc(100vw - 24px) !important;
-            overflow: hidden !important;
         }
 
         .month-filter-control label {
