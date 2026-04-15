@@ -83,14 +83,14 @@
     .stats-overlay {
         position: fixed;
         top: 20px;
-        right: 20px;
+        left: 300px;
         background: #ffffff !important;
         backdrop-filter: blur(10px);
-        padding: 20px 24px;
-        border-radius: 16px;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+        padding: 10px 14px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
         z-index: 1000;
-        min-width: 220px;
+        min-width: 180px;
         border: 1px solid #e5e7eb;
     }
 
@@ -98,7 +98,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 12px 0;
+        padding: 5px 0;
         border-bottom: 1px solid #f3f4f6;
     }
 
@@ -278,13 +278,18 @@
     }
 
     /* Mobile responsive */
-    @media (max-width: 991px) {
+    @media (max-width: 1199.98px) {
         .stats-overlay {
             top: 10px;
-            right: 10px;
             left: 10px;
             min-width: auto;
-            padding: 10px 15px;
+            max-width: 160px;
+            padding: 8px 12px;
+        }
+
+        .month-filter-control {
+            top: 10px;
+            right: 10px;
         }
 
         .map-controls {
