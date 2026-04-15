@@ -552,8 +552,9 @@
 
         // Add markers for each sighting
         @foreach($locations as $location)
+        @if($location->latitude && $location->longitude)
         // Determine marker color based on COTS count
-        const cotsCount{{ $location->id }} = {{ $location->number_of_cots }};
+        const cotsCount{{ $location->id }} = {{ $location->number_of_cots ?? 0 }};
         const markerColor{{ $location->id }} = cotsCount{{ $location->id }} >= outbreakThreshold ? '#dc3545' : '#28a745';
         const isOutbreak{{ $location->id }} = cotsCount{{ $location->id }} >= outbreakThreshold;
         
@@ -575,18 +576,19 @@
             '<div class="sighting-detail"><strong>Location:</strong> ' + @json($location->location_name ?: ($location->name ?: 'Not specified')) + '</div>' +
             '<div class="sighting-detail"><strong>Municipality:</strong> ' + @json($location->municipality ?: 'Not specified') + '</div>' +
             '<div class="sighting-detail"><strong>Barangay:</strong> ' + @json($location->barangay ?: 'Not specified') + '</div>' +
-            '<div class="sighting-detail"><strong>COTS Count:</strong> {{ $location->number_of_cots }}</div>' +
+            '<div class="sighting-detail"><strong>COTS Count:</strong> {{ $location->number_of_cots ?? 0 }}</div>' +
             '<div class="sighting-detail"><strong>Date:</strong> {{ $location->date_of_sighting ? \Carbon\Carbon::parse($location->date_of_sighting)->format("M d, Y") : "Not specified" }}</div>' +
             '<div class="sighting-detail"><strong>Time:</strong> {{ $location->time_of_sighting ? \Carbon\Carbon::parse("1970-01-01 " . $location->time_of_sighting)->format("g:i A") : "Not specified" }}</div>' +
             '</div>';
 
         marker{{ $location->id }}.bindPopup(popupContent{{ $location->id }});
+        @endif
         @endforeach
 
         // Fit map to show all markers
-        @if($locations->count() > 0)
+        @if($locations->where('latitude', '!=', null)->where('longitude', '!=', null)->count() > 0)
         const group = new L.featureGroup([
-            @foreach($locations as $location)
+            @foreach($locations->whereNotNull('latitude')->whereNotNull('longitude') as $location)
             L.marker([{{ $location->latitude }}, {{ $location->longitude }}]),
             @endforeach
         ]);
