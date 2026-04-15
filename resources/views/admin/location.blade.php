@@ -115,7 +115,7 @@
     }
 
     .stat-value {
-        font-size: 1.5rem;
+        font-size: 1.1rem;
         font-weight: 800;
         background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
         -webkit-background-clip: text;
