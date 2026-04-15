@@ -679,7 +679,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 @if($location->early_juvenile || $location->juvenile || $location->sub_adult || $location->adult || $location->late_adult)
                 <div class="sighting-detail">
                     <strong>Size Distribution:</strong>
-                    <span>@if($location->early_juvenile)1-5cm:{{ $location->early_juvenile }} @endif@if($location->juvenile)6-15cm:{{ $location->juvenile }} @endif@if($location->sub_adult)16-25cm:{{ $location->sub_adult }} @endif@if($location->adult)26-35cm:{{ $location->adult }} @endif@if($location->late_adult)>35cm:{{ $location->late_adult }}@endif</span>
+                    <span style="text-align:right;">
+                        @if($location->early_juvenile)1-5cm: {{ $location->early_juvenile }}&nbsp;@endif
+                        @if($location->juvenile)6-15cm: {{ $location->juvenile }}&nbsp;@endif
+                        @if($location->sub_adult)16-25cm: {{ $location->sub_adult }}&nbsp;@endif
+                        @if($location->adult)26-35cm: {{ $location->adult }}&nbsp;@endif
+                        @if($location->late_adult)&gt;35cm: {{ $location->late_adult }}@endif
+                    </span>
                 </div>
                 @endif
                 <div class="sighting-detail">
