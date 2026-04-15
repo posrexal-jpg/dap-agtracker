@@ -48,7 +48,7 @@
                         <i class="fas fa-exclamation-triangle"></i>
                     </div>
                     <div class="dash-stat-body">
-                        <div class="dash-stat-number">{{ $totalCots }}</div>
+                        <div class="dash-stat-number{{ $totalCots > 25 ? ' cots-alert-blink' : '' }}">{{ $totalCots }}</div>
                         <div class="dash-stat-label">Total COTS</div>
                     </div>
                 </div>
@@ -259,6 +259,15 @@
     color: #1f2937;
     line-height: 1;
     margin-bottom: 0.2rem;
+}
+
+@keyframes cots-pulse {
+    0%, 100% { color: #ef4444; opacity: 1; }
+    50%       { color: #fca5a5; opacity: 0.45; }
+}
+
+.cots-alert-blink {
+    animation: cots-pulse 1s ease-in-out infinite;
 }
 
 .dash-stat-label {
