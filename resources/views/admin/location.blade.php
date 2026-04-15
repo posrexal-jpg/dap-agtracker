@@ -201,7 +201,7 @@
 
     /* Popup Styles */
     .sighting-info {
-        max-width: 300px;
+        max-width: 260px;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         background: #ffffff !important;
         color: #1f2937 !important;
@@ -209,20 +209,20 @@
 
     .sighting-info h6 {
         color: #1e40af !important;
-        margin-bottom: 14px;
+        margin-bottom: 8px;
         font-weight: 700;
         display: flex;
         align-items: center;
-        gap: 8px;
-        font-size: 1.1rem;
+        gap: 6px;
+        font-size: 0.95rem;
     }
 
     .sighting-detail {
-        margin-bottom: 8px;
-        font-size: 0.9rem;
+        margin-bottom: 2px;
+        font-size: 0.8rem;
         display: flex;
         justify-content: space-between;
-        padding: 6px 0;
+        padding: 3px 0;
         border-bottom: 1px solid #f3f4f6;
     }
 
@@ -677,18 +677,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     <span class="badge bg-${isOutbreak ? 'danger' : 'success'}">{{ $location->number_of_cots }}</span>
                 </div>
                 @if($location->early_juvenile || $location->juvenile || $location->sub_adult || $location->adult || $location->late_adult)
-                <div class="sighting-detail mt-2">
+                <div class="sighting-detail">
                     <strong>Size Distribution:</strong>
-                </div>
-                <div style="font-size: 0.8rem; margin-left: 10px;">
-                    @if($location->early_juvenile) <div>1-5cm: {{ $location->early_juvenile }}</div>@endif
-                    @if($location->juvenile) <div>6-15cm: {{ $location->juvenile }}</div>@endif
-                    @if($location->sub_adult) <div>16-25cm: {{ $location->sub_adult }}</div>@endif
-                    @if($location->adult) <div>26-35cm: {{ $location->adult }}</div>@endif
-                    @if($location->late_adult) <div>>35cm: {{ $location->late_adult }}</div>@endif
+                    <span>@if($location->early_juvenile)1-5cm:{{ $location->early_juvenile }} @endif@if($location->juvenile)6-15cm:{{ $location->juvenile }} @endif@if($location->sub_adult)16-25cm:{{ $location->sub_adult }} @endif@if($location->adult)26-35cm:{{ $location->adult }} @endif@if($location->late_adult)>35cm:{{ $location->late_adult }}@endif</span>
                 </div>
                 @endif
-                <div class="sighting-detail mt-2">
+                <div class="sighting-detail">
                     <strong>Activity:</strong>
                     <span>{{ $location->activity_type ?: 'Not specified' }}</span>
                 </div>
@@ -702,13 +696,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
                 <div class="sighting-detail">
                     <strong>Time:</strong>
-                    <span>{{ $location->time_of_sighting ?: 'Not specified' }}</span>
+                    <span>{{ $location->time_of_sighting ? \Carbon\Carbon::parse('1970-01-01 ' . $location->time_of_sighting)->format('g:i A') : 'Not specified' }}</span>
                 </div>
                 @if($location->description)
-                <div class="sighting-detail mt-2">
+                <div class="sighting-detail" style="flex-direction:column;gap:2px;">
                     <strong>Description:</strong>
+                    <span style="font-size:0.75rem;color:#6b7280;">{{ Str::limit($location->description, 80) }}</span>
                 </div>
-                <div style="font-size: 0.85rem; color: #6b7280; margin-top: 4px;">{{ $location->description }}</div>
                 @endif
                 <button class="btn btn-danger btn-sm delete-btn-popup" onclick="deleteLocation({{ $location->id }})">
                     <i class="bx bx-trash"></i> Delete Sighting

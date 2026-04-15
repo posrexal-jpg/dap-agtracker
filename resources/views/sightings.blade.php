@@ -314,6 +314,14 @@
                 font-size: 0.9rem;
                 margin: 4px 0 0 0;
             }
+        }
+
+        @media (max-width: 575.98px) {
+            .hero-section p {
+                font-size: 0.8rem;
+                margin: 3px 0 0 0;
+                width: 257px;
+            }
 
             .stats-section {
                 top: 56px;
