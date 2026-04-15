@@ -83,7 +83,7 @@
     .stats-overlay {
         position: fixed;
         top: 20px;
-        left: 300px;
+        right: 20px;
         background: #ffffff !important;
         backdrop-filter: blur(10px);
         padding: 10px 14px;
@@ -281,14 +281,15 @@
     @media (max-width: 1199.98px) {
         .stats-overlay {
             top: 10px;
-            left: 10px;
+            right: 10px;
+            left: auto;
             min-width: auto;
             max-width: 160px;
             padding: 8px 12px;
         }
 
         .month-filter-control {
-            top: 10px;
+            top: 160px;
             right: 10px;
         }
 
@@ -331,7 +332,7 @@
     /* Month Filter Control */
     .month-filter-control {
         position: fixed;
-        top: 20px;
+        top: 180px;
         right: 20px;
         z-index: 1001;
         background: rgba(255, 255, 255, 0.15);
