@@ -20,7 +20,8 @@ class LocationController extends Controller
     {
         $query = Location::with('user:id,name,email')
             ->select([
-                'id', 'user_id', 'name', 'description', 'latitude', 'longitude',
+                'id', 'user_id', 'name', 'language', 'description', 'location_name',
+                'latitude', 'longitude',
                 'number_of_cots', 'early_juvenile', 'juvenile', 'sub_adult',
                 'adult', 'late_adult', 'activity_type', 'observer_category',
                 'municipality', 'barangay', 'date_of_sighting', 'time_of_sighting',
