@@ -75,11 +75,39 @@
             top: 56px;
             left: 0;
             right: 0;
-            background: rgba(255, 255, 255, 0.92);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
-            padding: 8px 0;
+            padding: 0;
             z-index: 1021;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .stats-toggle {
+            width: 100%;
+            background: rgba(255,255,255,0.95);
+            border: none;
+            border-bottom: 1px solid rgba(0,0,0,0.07);
+            padding: 5px 12px;
+            font-size: 0.75rem;
+            color: #1e3a8a;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            z-index: 1022;
+        }
+
+        .stats-body {
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            max-height: 200px;
+        }
+
+        .stats-body.collapsed {
+            max-height: 0;
         }
 
         .stats-card {
@@ -448,7 +476,11 @@
 
     <!-- Stats Section -->
     <section class="stats-section">
-        <div class="container-fluid">
+        <button class="stats-toggle" id="statsToggle" onclick="toggleStats()">
+            <span id="statsToggleLabel">&#9650; Statistics</span>
+        </button>
+        <div class="stats-body" id="statsBody">
+        <div class="container-fluid" style="padding: 6px 0;">
             <div class="row g-2">
                 <div class="col-md-4">
                     <div class="stats-card text-center">
@@ -469,6 +501,7 @@
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     </section>
 
@@ -563,6 +596,25 @@
 
     <!-- Device Detection and Mobile Optimization -->
     <script>
+        // Stats toggle
+        function toggleStats() {
+            const body = document.getElementById('statsBody');
+            const label = document.getElementById('statsToggleLabel');
+            const collapsed = body.classList.toggle('collapsed');
+            label.innerHTML = collapsed ? '&#9660; Statistics' : '&#9650; Statistics';
+        }
+
+        // Collapse stats by default on mobile
+        (function() {
+            const isMobile = window.innerWidth <= 768;
+            if (isMobile) {
+                const body = document.getElementById('statsBody');
+                const label = document.getElementById('statsToggleLabel');
+                if (body) body.classList.add('collapsed');
+                if (label) label.innerHTML = '&#9660; Statistics';
+            }
+        })();
+
         // Device and orientation detection
         function updateDeviceClasses() {
             const body = document.body;
