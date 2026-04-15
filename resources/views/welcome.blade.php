@@ -883,12 +883,34 @@
             const mobileNavLinks = document.querySelectorAll('.mobile-bottom-nav .nav-link');
             const currentPath = window.location.pathname;
 
+            // Set active based on current path (non-anchor links only)
             mobileNavLinks.forEach(link => {
                 const href = link.getAttribute('href');
-                if (href === currentPath || (href.startsWith('#') && currentPath === '/')) {
+                if (!href.startsWith('#') && href === currentPath) {
                     link.classList.add('active');
                 }
             });
+
+            // Highlight anchor nav links based on scroll position
+            const anchorLinks = Array.from(mobileNavLinks).filter(l => l.getAttribute('href').startsWith('#'));
+            if (anchorLinks.length && currentPath === '/') {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const id = '#' + entry.target.getAttribute('id');
+                            anchorLinks.forEach(l => l.classList.remove('active'));
+                            const match = anchorLinks.find(l => l.getAttribute('href') === id);
+                            if (match) match.classList.add('active');
+                        }
+                    });
+                }, { threshold: 0.5 });
+
+                anchorLinks.forEach(link => {
+                    const id = link.getAttribute('href').replace('#', '');
+                    const section = document.getElementById(id);
+                    if (section) observer.observe(section);
+                });
+            }
 
             // Smooth scrolling for anchor links in mobile bottom nav
             mobileNavLinks.forEach(link => {
