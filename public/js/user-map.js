@@ -286,7 +286,7 @@ function initializeMap() {
                         }
                         var popup = '<div style="min-width:200px">' +
                                     '<h6 style="color:#1e3a8a;margin-bottom:6px">COTS Sighting</h6>' +
-                                    '<strong>Location:</strong> ' + (loc.location_name || loc.name || 'Not specified') + '<br/>' +
+                                    '<strong>Location:</strong> ' + (loc.location_name || 'Not specified') + '<br/>' +
                                     '<strong>Municipality:</strong> ' + (loc.municipality || 'Not specified') + '<br/>' +
                                     '<strong>Barangay:</strong> ' + (loc.barangay || 'Not specified') + '<br/>' +
                                     '<strong>COTS Count:</strong> ' + cotsCount + '<br/>' +

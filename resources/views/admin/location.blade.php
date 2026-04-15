@@ -673,7 +673,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 '>35cm' => $location->late_adult,
             ])->filter()->map(fn($v,$k) => "$k: $v")->implode(' ');
 
-            $popupLoc   = $location->location_name ?: ($location->name ?: 'Not specified');
+            $popupLoc   = $location->location_name ?: 'Not specified';
             $popupMun   = $location->municipality ?: 'Not specified';
             $popupBrgy  = $location->barangay ?: 'Not specified';
             $popupAct   = $location->activity_type ?: 'Not specified';

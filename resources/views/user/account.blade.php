@@ -395,7 +395,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .addTo(map)
             .bindPopup(`
                 <div style="min-width:200px">
-                <strong>{{ $location->location_name ?? $location->name ?? 'Unnamed Location' }}</strong><br>
+                <strong>{{ $location->location_name ?? 'Unnamed Location' }}</strong><br>
                 <strong>Municipality:</strong> {{ $location->municipality }}<br>
                 <strong>Barangay:</strong> {{ $location->barangay }}<br>
                 <strong>Date:</strong> {{ $location->date_of_sighting ? \Carbon\Carbon::parse($location->date_of_sighting)->format('M d, Y') : $location->created_at->format('M d, Y') }}<br>

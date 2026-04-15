@@ -541,7 +541,7 @@
         const popupContent{{ $location->id }} =
             '<div class="sighting-info">' +
             '<h6><i class="fas fa-map-marker-alt text-danger"></i> COTS Sighting</h6>' +
-            '<div class="sighting-detail"><strong>Location:</strong> ' + @json($location->location_name ?: ($location->name ?: 'Not specified')) + '</div>' +
+            '<div class="sighting-detail"><strong>Location:</strong> ' + @json($location->location_name ?: 'Not specified') + '</div>' +
             '<div class="sighting-detail"><strong>Municipality:</strong> ' + @json($location->municipality ?: 'Not specified') + '</div>' +
             '<div class="sighting-detail"><strong>Barangay:</strong> ' + @json($location->barangay ?: 'Not specified') + '</div>' +
             '<div class="sighting-detail"><strong>COTS Count:</strong> {{ $location->number_of_cots ?? 0 }}</div>' +
