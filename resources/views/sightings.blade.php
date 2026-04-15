@@ -32,16 +32,19 @@
             overflow: hidden;
         }
 
-        .hero-section {
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-            color: white;
-            padding: 20px 0;
-            text-align: center;
+        .top-overlay {
             position: fixed;
             top: 56px;
             left: 0;
             right: 0;
             z-index: 1020;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 10px 0;
+            text-align: center;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -71,16 +74,10 @@
         }
 
         .stats-section {
-            position: fixed;
-            top: 56px;
-            left: 0;
-            right: 0;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             padding: 0;
-            z-index: 1021;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
         }
 
         .stats-toggle {
@@ -288,51 +285,41 @@
 
         /* Mobile responsive adjustments */
         @media (max-width: 575.98px) {
-            .hero-section {
-                padding: 10px 0;
+            .top-overlay {
                 top: 0;
             }
 
-            .hero-section h1 {
-                font-size: 1.2rem;
-                margin: 0;
-            }
-
-            .hero-section p {
-                font-size: 0.8rem;
-                margin: 3px 0 0 0;
-            }
-
-            .stats-section {
-                top: auto;
-                bottom: 80px;
+            .hero-section {
                 padding: 6px 0;
             }
 
-            .stats-card {
-                padding: 6px 8px;
-            }
-
-            .stats-card h3 {
+            .hero-section h1 {
                 font-size: 1.1rem;
                 margin: 0;
             }
 
-            .stats-card p {
+            .hero-section p {
                 font-size: 0.75rem;
                 margin: 2px 0 0 0;
+                width: 257px;
             }
 
-            #map {
-                height: 100vh;
+            .stats-card {
+                padding: 4px 8px;
+            }
+
+            .stats-card h3 {
+                font-size: 1rem;
+                margin: 0;
+            }
+
+            .stats-card p {
+                font-size: 0.7rem;
+                margin: 1px 0 0 0;
             }
         }
 
         @media (min-width: 576px) {
-            .hero-section {
-                padding: 12px 0;
-            }
-
             .hero-section h1 {
                 font-size: 1.5rem;
                 margin: 0;
@@ -341,28 +328,6 @@
             .hero-section p {
                 font-size: 0.9rem;
                 margin: 4px 0 0 0;
-            }
-        }
-
-        @media (max-width: 575.98px) {
-            .hero-section p {
-                font-size: 0.8rem;
-                margin: 3px 0 0 0;
-                width: 257px;
-            }
-
-            .stats-section {
-                top: 56px;
-            }
-
-            .stats-card h3 {
-                font-size: 1.3rem;
-                margin: 0;
-            }
-
-            .stats-card p {
-                font-size: 0.8rem;
-                margin: 2px 0 0 0;
             }
         }
 
@@ -463,6 +428,8 @@
         </div>
     </nav>
 
+    <!-- Top Overlay: Hero + Stats stacked -->
+    <div class="top-overlay">
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="hero-logo">
@@ -504,6 +471,7 @@
         </div>
         </div>
     </section>
+    </div><!-- /.top-overlay -->
 
     <!-- Map Section -->
     <section class="map-section">
