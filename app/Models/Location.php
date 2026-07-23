@@ -11,6 +11,7 @@ class Location extends Model
 
     
     protected $fillable = [
+        'client_uuid',
         'user_id',
         'name',
         'language',

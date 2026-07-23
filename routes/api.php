@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\MobileAuthController;
+use App\Http\Controllers\Api\MobileDataController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +22,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // PWA Offline Data Sync API
 Route::middleware(['web', 'auth'])->post('/sync-locations', [App\Http\Controllers\UserLocationController::class, 'syncLocations'])->name('api.sync-locations');
+
+Route::prefix('v1')->group(function () {
+    Route::post('/login', [MobileAuthController::class, 'login'])->middleware('throttle:10,1');
+
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('/me', [MobileAuthController::class, 'me']);
+        Route::post('/logout', [MobileAuthController::class, 'logout']);
+        Route::get('/bootstrap', [MobileDataController::class, 'bootstrap']);
+        Route::get('/sightings', [MobileDataController::class, 'index']);
+        Route::post('/sightings', [MobileDataController::class, 'store']);
+        Route::delete('/sightings/{location}', [MobileDataController::class, 'destroy']);
+    });
+});
