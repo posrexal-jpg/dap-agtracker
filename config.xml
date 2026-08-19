@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.dagag.tracker" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>COTS Tracker</name>
+    <name>COTS tracker PWA</name>
     <description>Monitor and track dap-ag infestations to protect coral reefs</description>
     <author email="info@dagagtracker.com" href="https://dagagtracker.com">COTS Tracker Team</author>
     <content src="index.html" />

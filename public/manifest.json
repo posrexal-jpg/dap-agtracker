@@ -1,6 +1,6 @@
 {
-    "name": "COTS Tracker",
-    "short_name": "COTS Tracker",
+    "name": "COTS tracker PWA",
+    "short_name": "COTS tracker PWA",
     "description": "Monitor and track dap-ag infestations to protect coral reefs",
     "start_url": "/",
     "display": "standalone",

@@ -1,6 +1,6 @@
 {
   "appId": "com.dagag.tracker",
-  "appName": "COTS Tracker",
+  "appName": "COTS tracker PWA",
   "webDir": "public",
   "bundledWebRuntime": false,
   "plugins": {
