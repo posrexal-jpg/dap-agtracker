@@ -25,9 +25,13 @@ Route::middleware(['web', 'auth'])->post('/sync-locations', [App\Http\Controller
 
 Route::prefix('v1')->group(function () {
     Route::post('/login', [MobileAuthController::class, 'login'])->middleware('throttle:10,1');
+    Route::get('/google/config', [MobileAuthController::class, 'googleConfig']);
+    Route::post('/google/login', [MobileAuthController::class, 'googleLogin'])->middleware('throttle:10,1');
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/me', [MobileAuthController::class, 'me']);
+        Route::put('/profile', [MobileAuthController::class, 'updateProfile']);
+        Route::put('/password', [MobileAuthController::class, 'updatePassword']);
         Route::post('/logout', [MobileAuthController::class, 'logout']);
         Route::get('/bootstrap', [MobileDataController::class, 'bootstrap']);
         Route::get('/sightings', [MobileDataController::class, 'index']);
