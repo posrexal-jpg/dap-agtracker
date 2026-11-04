@@ -4,10 +4,31 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Location extends Model
 {
     use HasFactory;
+
+    protected static function booted(): void
+    {
+        static::deleted(fn (Location $location) => $location->deleteUploadedPhotos());
+    }
+
+    public function deleteUploadedPhotos(): void
+    {
+        $paths = json_decode($this->photo ?: '[]', true);
+        if (! is_array($paths)) {
+            return;
+        }
+
+        $safePaths = array_filter($paths, fn ($path) => is_string($path)
+            && str_starts_with($path, 'photos/')
+            && ! str_contains($path, '..'));
+        if ($safePaths) {
+            Storage::disk('public')->delete(array_values($safePaths));
+        }
+    }
 
     
     protected $fillable = [
