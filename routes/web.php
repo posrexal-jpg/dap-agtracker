@@ -15,6 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+// Public privacy policy for the website, Android app, and Play listing.
+Route::view('/privacy', 'privacy')->name('privacy');
+
 // COTS Sightings page
 Route::get('/sightings', [LocationController::class, 'sightings'])->name('sightings');
 
