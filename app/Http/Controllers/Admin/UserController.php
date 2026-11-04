@@ -85,7 +85,12 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
+        $locations = $user->locations()->get();
         $user->delete();
+        // Database cascades do not fire Eloquent deleted events for sightings.
+        foreach ($locations as $location) {
+            $location->deleteUploadedPhotos();
+        }
 
         return redirect()->route('admin.adduser')->with('success', 'User deleted successfully.');
     }

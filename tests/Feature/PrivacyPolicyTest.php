@@ -12,6 +12,15 @@ class PrivacyPolicyTest extends TestCase
             ->assertOk()
             ->assertSee('Privacy Policy')
             ->assertSee('SLSU-BONTOC Digital Technology')
-            ->assertSee('slsubontocdigitaltech@gmail.com');
+            ->assertSee('privacy@cotstracker.com');
+    }
+
+    public function test_account_deletion_request_is_public(): void
+    {
+        $this->get('/account-deletion')
+            ->assertOk()
+            ->assertSee('Delete your account')
+            ->assertSee('COTS Tracker account deletion request')
+            ->assertSee('privacy@cotstracker.com');
     }
 }

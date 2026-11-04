@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 // Public privacy policy for the website, Android app, and Play listing.
 Route::view('/privacy', 'privacy')->name('privacy');
+Route::view('/account-deletion', 'account-deletion')->name('account-deletion');
 
 // COTS Sightings page
 Route::get('/sightings', [LocationController::class, 'sightings'])->name('sightings');

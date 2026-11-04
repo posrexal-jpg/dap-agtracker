@@ -57,14 +57,14 @@
 
             <h2>Storage, security, and deletion</h2>
             <p>The production app sends account and report data to the service over HTTPS. Access to account and report functions is limited by sign-in and account permissions. Offline reports and cached data remain on your device until you remove them or uninstall the app. Signing out does not automatically erase saved reports on the device.</p>
-            <p>There is no fixed automatic expiry for account and submitted sighting records. We retain them while needed to operate the service and support the monitoring project, unless they are deleted or a valid deletion request is fulfilled, subject to applicable legal or research retention needs. You can delete your own report in the app. Deleting a synchronized report removes its database record, but uploaded photo files may need separate removal; contact us to request removal of photos or other associated data.</p>
-            <p>To request access, correction, or deletion of your account or information, email the address below. Include the email linked to your COTS Tracker account and describe your request. We may verify your identity before acting and will explain if any information must be retained.</p>
+            <p>There is no fixed automatic expiry for account and submitted sighting records. We retain them while needed to operate the service and support the monitoring project, unless they are deleted or a valid deletion request is fulfilled, subject to applicable legal or research retention needs. You can delete your own report in the app. Deleting a synchronized report removes its database record and associated uploaded photos. Contact us to request removal of an account or other associated data.</p>
+            <p>To request access, correction, or deletion of your account or information, email the address below. Include the email linked to your COTS Tracker account and describe your request. We may verify your identity before acting and will explain if any information must be retained. You can also use our <a href="{{ route('account-deletion') }}">account deletion request page</a> without signing in.</p>
 
             <h2>Changes and contact</h2>
             <p>We may update this policy when the app or its data practices change. The effective date at the top of this page will show the latest version.</p>
             <div class="contact">
                 <strong>SLSU-BONTOC Digital Technology</strong><br>
-                Privacy and deletion requests: <a href="mailto:slsubontocdigitaltech@gmail.com">slsubontocdigitaltech@gmail.com</a>
+                Privacy and deletion requests: <a href="mailto:privacy@cotstracker.com">privacy@cotstracker.com</a>
             </div>
         </main>
         <footer><a href="{{ route('home') }}">Back to COTS Tracker</a></footer>
