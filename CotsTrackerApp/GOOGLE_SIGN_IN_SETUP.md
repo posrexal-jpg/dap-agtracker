@@ -33,11 +33,17 @@ Create an Android OAuth 2.0 client for each package and SHA-1 pair below.
 ### Google Play builds
 
 Google Play signs downloaded builds with the **app signing certificate**, not
-the upload certificate. In Play Console, open **Setup > App integrity**, copy
-the app signing certificate SHA-1, and create another Android OAuth client with:
+the upload certificate. The certificate was verified from the Play-installed
+`1.2.2` APK on the connected TECNO CLA5:
 
 - Package: `com.cotstracker.app`
-- SHA-1: the Play Console **app signing certificate** SHA-1
+- Play app-signing SHA-1:
+  `A1:3C:DA:69:CF:6E:B3:39:F9:99:45:0F:2B:CD:13:FA:4C:6A:43:6B`
+- Play app-signing SHA-256:
+  `2A:00:96:0A:84:3B:25:DA:37:C9:28:25:E0:B2:B2:A4:AF:6E:18:AB:26:07:36:A0:19:3F:82:80:DF:5C:E1:EE`
+
+Create the Android OAuth client with this package and Play SHA-1 pair, then
+confirm the value against **Play Console > Setup > App integrity**.
 
 Do not substitute the upload certificate SHA-1 for this Play certificate.
 
