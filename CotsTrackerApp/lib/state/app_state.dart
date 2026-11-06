@@ -124,8 +124,26 @@ class AppState extends ChangeNotifier {
       await synchronize();
       return null;
     } on GoogleSignInException catch (error) {
-      if (error.code == GoogleSignInExceptionCode.canceled) return null;
-      return error.description ?? 'Google Sign-In failed.';
+      return switch (error.code) {
+        GoogleSignInExceptionCode.clientConfigurationError =>
+          'Google Sign-In is not registered for this Android build. '
+              'Check the package name and signing SHA-1 in Google Cloud.',
+        GoogleSignInExceptionCode.providerConfigurationError =>
+          'Google Sign-In is unavailable on this device. Update Google Play '
+              'services and try again.',
+        GoogleSignInExceptionCode.uiUnavailable =>
+          'Google Sign-In could not open. Return to the app and try again.',
+        // Android Credential Manager can report an OAuth package/SHA mismatch
+        // as "canceled" after an account is selected. Do not silently swallow
+        // that result, otherwise the button appears to do nothing.
+        GoogleSignInExceptionCode.canceled =>
+          'Google Sign-In was canceled. If this appeared after choosing an '
+              'account, this build\'s signing SHA-1 is not registered.',
+        _ =>
+          error.description?.trim().isNotEmpty == true
+              ? error.description!.trim()
+              : 'Google Sign-In failed. Please try again.',
+      };
     } catch (error) {
       return ApiService.messageFor(error);
     }

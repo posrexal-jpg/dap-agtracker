@@ -45,8 +45,13 @@ class ApiService {
 
   Future<String> googleClientId() async {
     final response = await _dio.get<Map<String, dynamic>>('/google/config');
-    final value = '${response.data?['client_id'] ?? ''}';
-    if (value.isEmpty) throw StateError('Google Sign-In is not configured.');
+    final configuredValue = response.data?['client_id'];
+    final value = configuredValue is String ? configuredValue.trim() : '';
+    if (value.isEmpty || !value.endsWith('.apps.googleusercontent.com')) {
+      throw StateError(
+        'Google Sign-In is not configured correctly on the server.',
+      );
+    }
     return value;
   }
 

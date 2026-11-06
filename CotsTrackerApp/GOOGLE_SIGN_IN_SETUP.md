@@ -1,0 +1,51 @@
+# COTS Tracker Google Sign-In setup
+
+Google Sign-In requires a Web OAuth client for the Laravel API and a separate
+Android OAuth client for every certificate that can sign the Android app. Keep
+all of these clients in the same Google Cloud project.
+
+## Application identity
+
+- Android package/application ID: `com.cotstracker.app`
+- Backend client ID: the **Web application** OAuth client ID
+- Production configuration endpoint:
+  `https://cotstracker.com/api/v1/google/config`
+
+The Laravel production environment must set `GOOGLE_CLIENT_ID` to the Web
+client ID. `GOOGLE_CLIENT_SECRET` remains server-only and must never be added to
+Flutter or committed to Git.
+
+## Android OAuth clients
+
+Create an Android OAuth 2.0 client for each package and SHA-1 pair below.
+
+### Local debug builds
+
+- Package: `com.cotstracker.app`
+- SHA-1: `DC:8B:A9:EC:1A:F0:61:59:32:A3:2F:88:C1:D6:A4:B8:AC:5F:61:07`
+
+### Directly installed release builds
+
+- Package: `com.cotstracker.app`
+- Upload/release SHA-1:
+  `F6:5B:80:19:10:F3:72:A5:B7:57:6E:16:4B:1C:1F:E9:6F:38:65:93`
+
+### Google Play builds
+
+Google Play signs downloaded builds with the **app signing certificate**, not
+the upload certificate. In Play Console, open **Setup > App integrity**, copy
+the app signing certificate SHA-1, and create another Android OAuth client with:
+
+- Package: `com.cotstracker.app`
+- SHA-1: the Play Console **app signing certificate** SHA-1
+
+Do not substitute the upload certificate SHA-1 for this Play certificate.
+
+## OAuth consent screen
+
+If the Google OAuth app is still in testing, add every tester's Google account
+as a test user. For production, complete the consent-screen branding and publish
+the OAuth app as appropriate for the selected audience.
+
+After changing OAuth clients, allow several minutes for Google configuration to
+propagate, then uninstall and reinstall the test build before trying again.
