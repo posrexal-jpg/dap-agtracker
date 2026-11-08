@@ -6,8 +6,11 @@ all of these clients in the same Google Cloud project.
 
 ## Application identity
 
+- Google Cloud project ID: `thunt-e93dc`
+- Google Cloud project number: `966442991972`
 - Android package/application ID: `com.cotstracker.app`
-- Backend client ID: the **Web application** OAuth client ID
+- Production Web client ID:
+  `966442991972-hnkm58h79tip4iqktg4qvrgefun1d8uf.apps.googleusercontent.com`
 - Production configuration endpoint:
   `https://cotstracker.com/api/v1/google/config`
 
@@ -41,6 +44,8 @@ the upload certificate. The certificate was verified from the Play-installed
   `A1:3C:DA:69:CF:6E:B3:39:F9:99:45:0F:2B:CD:13:FA:4C:6A:43:6B`
 - Play app-signing SHA-256:
   `2A:00:96:0A:84:3B:25:DA:37:C9:28:25:E0:B2:B2:A4:AF:6E:18:AB:26:07:36:A0:19:3F:82:80:DF:5C:E1:EE`
+- Android OAuth client ID:
+  `966442991972-knn0usj6srog9ekls502u9tb2rpvjdq4.apps.googleusercontent.com`
 
 Create the Android OAuth client with this package and Play SHA-1 pair, then
 confirm the value against **Play Console > Setup > App integrity**.
@@ -54,4 +59,6 @@ as a test user. For production, complete the consent-screen branding and publish
 the OAuth app as appropriate for the selected audience.
 
 After changing OAuth clients, allow several minutes for Google configuration to
-propagate, then uninstall and reinstall the test build before trying again.
+propagate, then force-stop and reopen the app before trying again. Do not
+uninstall a Play build just to refresh OAuth configuration because uninstalling
+would remove its local and offline app data.
