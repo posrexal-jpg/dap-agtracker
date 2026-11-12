@@ -72,11 +72,17 @@
             </a>
         </li>
 
-        <!-- Municipalities -->
-        <li class="menu-item {{ Route::is('admin.municipal') || Route::is('admin.municipal.*') ? 'active' : '' }}">
-            <a href="{{ route('admin.municipal') }}" class="menu-link text-dark hover-bg-admin hover-text-white text-decoration-none py-3 px-4 rounded-3 mx-2 mb-1">
-                <i class="menu-icon tf-icons bx bx-buildings fs-5"></i>
-                <div class="fw-semibold">Municipalities</div>
+        <li class="menu-item {{ Route::is('admin.activity-types.*') ? 'active' : '' }}">
+            <a href="{{ route('admin.activity-types.index') }}" class="menu-link text-dark hover-bg-admin hover-text-white text-decoration-none py-3 px-4 rounded-3 mx-2 mb-1">
+                <i class="menu-icon tf-icons bx bx-list-check fs-5"></i>
+                <div class="fw-semibold">Activity Types</div>
+            </a>
+        </li>
+
+        <li class="menu-item {{ Route::is('admin.activity-logs.*') ? 'active' : '' }}">
+            <a href="{{ route('admin.activity-logs.index') }}" class="menu-link text-dark hover-bg-admin hover-text-white text-decoration-none py-3 px-4 rounded-3 mx-2 mb-1">
+                <i class="menu-icon tf-icons bx bx-history fs-5"></i>
+                <div class="fw-semibold">Activity Logs</div>
             </a>
         </li>
 

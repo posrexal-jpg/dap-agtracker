@@ -13,7 +13,7 @@ class LocationController extends Controller
     public function sightings()
     {
         $locations = Location::all();
-        $outbreakThreshold = (int) Setting::get('outbreak_threshold', 15);
+        $outbreakThreshold = (int) Setting::get('outbreak_threshold', 25);
 
         return view('sightings', compact('locations', 'outbreakThreshold'));
     }

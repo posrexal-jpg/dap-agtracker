@@ -21,10 +21,19 @@ class AppState extends ChangeNotifier {
   Map<String, dynamic>? user;
   List<Sighting> sightings = [];
   List<String> municipalities = [];
+  List<String> activityTypes = const [
+    'SCUBA Diving',
+    'Snorkeling',
+    'Swimming',
+    'Shore observation',
+    'Boat observation',
+    'Opportunistic report',
+    'Others, please specify',
+  ];
   LocationCatalog _locationCatalog = const LocationCatalog.empty();
   int totalSightings = 0;
   int userSightings = 0;
-  int outbreakThreshold = 15;
+  int outbreakThreshold = 25;
 
   bool get isAuthenticated => user != null;
   int get pendingCount =>
@@ -60,6 +69,9 @@ class AppState extends ChangeNotifier {
     _api = ApiService(_store.apiBaseUrl);
     user = _store.user;
     sightings = _store.getSightings();
+    if (_store.activityTypes.isNotEmpty) {
+      activityTypes = _store.activityTypes;
+    }
     await loadLocationCatalog();
     final connectivity = Connectivity();
     final result = await connectivity.checkConnectivity();
@@ -198,7 +210,16 @@ class AppState extends ChangeNotifier {
       totalSightings = int.tryParse('${stats['total_sightings'] ?? 0}') ?? 0;
       userSightings = int.tryParse('${stats['user_sightings'] ?? 0}') ?? 0;
       outbreakThreshold =
-          int.tryParse('${data['outbreak_threshold'] ?? 15}') ?? 15;
+          int.tryParse('${data['outbreak_threshold'] ?? 25}') ?? 25;
+      final serverActivityTypes = (data['activity_types'] as List? ?? const [])
+          .whereType<String>()
+          .map((value) => value.trim())
+          .where((value) => value.isNotEmpty)
+          .toList();
+      if (serverActivityTypes.isNotEmpty) {
+        activityTypes = serverActivityTypes;
+        await _store.saveActivityTypes(activityTypes);
+      }
       final serverMunicipalities = (data['municipalities'] as List? ?? const [])
           .map((value) => value is Map ? value['name'] : value)
           .whereType<String>();

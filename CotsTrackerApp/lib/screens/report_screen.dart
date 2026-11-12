@@ -29,6 +29,13 @@ class _ReportScreenState extends State<ReportScreen> {
   final _barangay = TextEditingController();
   final _observer = TextEditingController();
   final _description = TextEditingController();
+  final _activityOther = TextEditingController();
+  final _transectLength = TextEditingController();
+  final _transectWidth = TextEditingController();
+  final _surveyedArea = TextEditingController();
+  final _depth = TextEditingController();
+  final _visibility = TextEditingController();
+  final _weatherSeaCondition = TextEditingController();
   final _latitude = TextEditingController();
   final _longitude = TextEditingController();
   final _counts = List.generate(5, (_) => TextEditingController(text: '0'));
@@ -37,22 +44,18 @@ class _ReportScreenState extends State<ReportScreen> {
   String? _municipality;
   String? _activity;
   String? _observerCategory;
+  String? _surveyStatus;
   String _language = 'en';
   DateTime _date = DateTime.now();
   TimeOfDay _time = TimeOfDay.now();
+  TimeOfDay? _observationStart;
+  TimeOfDay? _observationEnd;
   List<Uint8List> _photos = [];
   bool _locating = false;
   bool _saving = false;
   bool _locationConfirmed = false;
   double? _gpsAccuracy;
 
-  static const activities = [
-    'Fishing',
-    'Recreational diving',
-    'Research',
-    'Cots collection',
-    'Other',
-  ];
   static const observerCategories = [
     'Fisherfolks',
     'Barangay residents',
@@ -68,6 +71,13 @@ class _ReportScreenState extends State<ReportScreen> {
     _barangay.dispose();
     _observer.dispose();
     _description.dispose();
+    _activityOther.dispose();
+    _transectLength.dispose();
+    _transectWidth.dispose();
+    _surveyedArea.dispose();
+    _depth.dispose();
+    _visibility.dispose();
+    _weatherSeaCondition.dispose();
     _latitude.dispose();
     _longitude.dispose();
     for (final controller in _counts) {
@@ -123,6 +133,25 @@ class _ReportScreenState extends State<ReportScreen> {
 
   Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
+    if ((_observationStart == null) != (_observationEnd == null)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Select both observation start and end times.'),
+        ),
+      );
+      return;
+    }
+    if (_observationDurationMinutes != null &&
+        _observationDurationMinutes! < 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Observation end time must not be earlier than start time.',
+          ),
+        ),
+      );
+      return;
+    }
     if (!_locationConfirmed) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -146,7 +175,22 @@ class _ReportScreenState extends State<ReportScreen> {
       description: _description.text.trim(),
       language: _language,
       activityType: _activity,
+      activityTypeOther: _activity == 'Others, please specify'
+          ? _activityOther.text.trim()
+          : null,
       observerCategory: _observerCategory,
+      surveyStatus: _surveyStatus,
+      observationStartTime: _formatTime(_observationStart),
+      observationEndTime: _formatTime(_observationEnd),
+      observationDurationMinutes: _observationDurationMinutes,
+      transectLengthM: _optionalDouble(_transectLength),
+      transectWidthM: _optionalDouble(_transectWidth),
+      surveyedAreaM2: _surveyedAreaValue,
+      depthM: _optionalDouble(_depth),
+      waterVisibilityM: _optionalDouble(_visibility),
+      weatherSeaCondition: _weatherSeaCondition.text.trim().isEmpty
+          ? null
+          : _weatherSeaCondition.text.trim(),
       earlyJuvenile: _count(0),
       juvenile: _count(1),
       subAdult: _count(2),
@@ -180,6 +224,13 @@ class _ReportScreenState extends State<ReportScreen> {
       _barangay,
       _observer,
       _description,
+      _activityOther,
+      _transectLength,
+      _transectWidth,
+      _surveyedArea,
+      _depth,
+      _visibility,
+      _weatherSeaCondition,
       _latitude,
       _longitude,
     ]) {
@@ -192,6 +243,9 @@ class _ReportScreenState extends State<ReportScreen> {
       _municipality = null;
       _activity = null;
       _observerCategory = null;
+      _surveyStatus = null;
+      _observationStart = null;
+      _observationEnd = null;
       _photos = [];
       _date = DateTime.now();
       _time = TimeOfDay.now();
@@ -223,6 +277,38 @@ class _ReportScreenState extends State<ReportScreen> {
   bool get _isBisaya => _language == 'bis';
 
   String _text(String english, String bisaya) => _isBisaya ? bisaya : english;
+
+  int? get _observationDurationMinutes {
+    if (_observationStart == null || _observationEnd == null) return null;
+    final start = _observationStart!.hour * 60 + _observationStart!.minute;
+    final end = _observationEnd!.hour * 60 + _observationEnd!.minute;
+    return end - start;
+  }
+
+  double? _optionalDouble(TextEditingController controller) {
+    final value = controller.text.trim();
+    return value.isEmpty ? null : double.tryParse(value);
+  }
+
+  double? get _surveyedAreaValue {
+    final explicit = _optionalDouble(_surveyedArea);
+    if (explicit != null) return explicit;
+    final length = _optionalDouble(_transectLength);
+    final width = _optionalDouble(_transectWidth);
+    return length == null || width == null ? null : length * width;
+  }
+
+  String? _formatTime(TimeOfDay? value) => value == null
+      ? null
+      : '${value.hour.toString().padLeft(2, '0')}:${value.minute.toString().padLeft(2, '0')}';
+
+  String? _optionalNumber(String? value) {
+    if (value == null || value.trim().isEmpty) return null;
+    final number = double.tryParse(value);
+    return number == null || number < 0
+        ? 'Enter zero or a positive number'
+        : null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -593,7 +679,7 @@ class _ReportScreenState extends State<ReportScreen> {
                     ),
                   ),
                   _CountField(
-                    label: '6–15 cm',
+                    label: '>5–15 cm',
                     controller: _counts[1],
                     helper: _text(
                       'Number seen in this size.',
@@ -601,7 +687,7 @@ class _ReportScreenState extends State<ReportScreen> {
                     ),
                   ),
                   _CountField(
-                    label: '15–25 cm',
+                    label: '>15–25 cm',
                     controller: _counts[2],
                     helper: _text(
                       'Number seen in this size.',
@@ -609,7 +695,7 @@ class _ReportScreenState extends State<ReportScreen> {
                     ),
                   ),
                   _CountField(
-                    label: '26–35 cm',
+                    label: '>25–35 cm adult',
                     controller: _counts[3],
                     helper: _text(
                       'Number seen in this size.',
@@ -617,7 +703,7 @@ class _ReportScreenState extends State<ReportScreen> {
                     ),
                   ),
                   _CountField(
-                    label: '>35 cm',
+                    label: '>35 cm senescence',
                     controller: _counts[4],
                     helper: _text(
                       'Number seen in this size.',
@@ -625,6 +711,162 @@ class _ReportScreenState extends State<ReportScreen> {
                     ),
                   ),
                 ],
+              ),
+            ],
+          ),
+          _sectionGap,
+          _Section(
+            title: _text('Survey status', 'Kahimtang sa survey'),
+            icon: Icons.fact_check_outlined,
+            help: _text(
+              'Identify whether the observation followed a systematic survey or was an opportunistic sighting.',
+              'Ilha kon sistematikong survey ba kini o kalit nga nakit-an.',
+            ),
+            children: [
+              DropdownButtonFormField<String>(
+                initialValue: _surveyStatus,
+                items: const [
+                  DropdownMenuItem(
+                    value: 'Systematic survey',
+                    child: Text('Systematic survey'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'Opportunistic sighting',
+                    child: Text('Opportunistic sighting'),
+                  ),
+                ],
+                onChanged: (value) => setState(() => _surveyStatus = value),
+                decoration: const InputDecoration(
+                  labelText: 'Survey status (optional)',
+                ),
+              ),
+            ],
+          ),
+          _sectionGap,
+          _Section(
+            title: _text('Observation duration', 'Gidugayon sa obserbasyon'),
+            icon: Icons.timer_outlined,
+            help: _text(
+              'Optionally record start and end times. Total duration is calculated automatically.',
+              'Opsyonal nga irekord ang oras sa pagsugod ug pagtapos. Awtomatikong kwentahon ang gidugayon.',
+            ),
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: () async {
+                        final value = await showTimePicker(
+                          context: context,
+                          initialTime: _observationStart ?? TimeOfDay.now(),
+                        );
+                        if (value != null) {
+                          setState(() => _observationStart = value);
+                        }
+                      },
+                      icon: const Icon(Icons.play_arrow),
+                      label: Text(
+                        _observationStart?.format(context) ?? 'Start time',
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: () async {
+                        final value = await showTimePicker(
+                          context: context,
+                          initialTime:
+                              _observationEnd ??
+                              _observationStart ??
+                              TimeOfDay.now(),
+                        );
+                        if (value != null) {
+                          setState(() => _observationEnd = value);
+                        }
+                      },
+                      icon: const Icon(Icons.stop),
+                      label: Text(
+                        _observationEnd?.format(context) ?? 'End time',
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              if (_observationDurationMinutes != null) ...[
+                const SizedBox(height: 10),
+                Text(
+                  _observationDurationMinutes! < 0
+                      ? 'End time must not be earlier than start time.'
+                      : 'Total observation time: $_observationDurationMinutes minutes',
+                  style: TextStyle(
+                    color: _observationDurationMinutes! < 0
+                        ? Theme.of(context).colorScheme.error
+                        : null,
+                  ),
+                ),
+              ],
+              if (_observationStart != null || _observationEnd != null)
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: TextButton(
+                    onPressed: () => setState(() {
+                      _observationStart = null;
+                      _observationEnd = null;
+                    }),
+                    child: const Text('Clear duration'),
+                  ),
+                ),
+            ],
+          ),
+          _sectionGap,
+          _Section(
+            title: _text('Survey effort and conditions', 'Survey ug kahimtang'),
+            icon: Icons.science_outlined,
+            help: _text(
+              'Optional measurements describing survey coverage and environmental conditions.',
+              'Opsyonal nga sukod sa gilapdon sa survey ug kahimtang sa palibot.',
+            ),
+            children: [
+              Wrap(
+                spacing: 10,
+                runSpacing: 10,
+                children: [
+                  _OptionalNumberField(
+                    label: 'Transect length (m)',
+                    controller: _transectLength,
+                    validator: _optionalNumber,
+                  ),
+                  _OptionalNumberField(
+                    label: 'Transect width (m)',
+                    controller: _transectWidth,
+                    validator: _optionalNumber,
+                  ),
+                  _OptionalNumberField(
+                    label: 'Surveyed area (m²)',
+                    controller: _surveyedArea,
+                    validator: _optionalNumber,
+                  ),
+                  _OptionalNumberField(
+                    label: 'Depth (m)',
+                    controller: _depth,
+                    validator: _optionalNumber,
+                  ),
+                  _OptionalNumberField(
+                    label: 'Water visibility (m)',
+                    controller: _visibility,
+                    validator: _optionalNumber,
+                  ),
+                ],
+              ),
+              _gap,
+              TextFormField(
+                controller: _weatherSeaCondition,
+                maxLength: 255,
+                decoration: const InputDecoration(
+                  labelText: 'Weather / sea condition (optional)',
+                  hintText: 'Example: clear, calm sea, light current',
+                ),
               ),
             ],
           ),
@@ -642,7 +884,7 @@ class _ReportScreenState extends State<ReportScreen> {
                 isExpanded: true,
                 initialValue: _activity,
                 validator: _required,
-                items: activities
+                items: state.activityTypes
                     .map(
                       (value) => DropdownMenuItem(
                         value: value,
@@ -659,6 +901,17 @@ class _ReportScreenState extends State<ReportScreen> {
                   ),
                 ),
               ),
+              if (_activity == 'Others, please specify') ...[
+                _gap,
+                TextFormField(
+                  controller: _activityOther,
+                  validator: _required,
+                  maxLength: 255,
+                  decoration: const InputDecoration(
+                    labelText: 'Specify activity *',
+                  ),
+                ),
+              ],
               _gap,
               DropdownButtonFormField<String>(
                 key: ValueKey('observer-$_observerCategory'),
@@ -840,11 +1093,13 @@ class _ReportScreenState extends State<ReportScreen> {
   String _activityLabel(String value) {
     if (!_isBisaya) return value;
     return const {
-          'Fishing': 'Pagpangisda',
-          'Recreational diving': 'Recreational diving',
-          'Research': 'Panukiduki',
-          'Cots collection': 'Pagkolekta og dap-ag',
-          'Other': 'Uban pa',
+          'SCUBA Diving': 'SCUBA diving',
+          'Snorkeling': 'Snorkeling',
+          'Swimming': 'Paglangoy',
+          'Shore observation': 'Pag-obserbar gikan sa baybayon',
+          'Boat observation': 'Pag-obserbar gikan sa sakayan',
+          'Opportunistic report': 'Kalit nga nakit-an',
+          'Others, please specify': 'Uban pa, palihog isulti',
         }[value] ??
         value;
   }
@@ -947,6 +1202,31 @@ class _CountField extends StatelessWidget {
           return number == null || number < 0 ? 'Invalid' : null;
         },
         decoration: InputDecoration(labelText: label, helperText: helper),
+      ),
+    );
+  }
+}
+
+class _OptionalNumberField extends StatelessWidget {
+  const _OptionalNumberField({
+    required this.label,
+    required this.controller,
+    required this.validator,
+  });
+
+  final String label;
+  final TextEditingController controller;
+  final FormFieldValidator<String> validator;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 170,
+      child: TextFormField(
+        controller: controller,
+        keyboardType: const TextInputType.numberWithOptions(decimal: true),
+        validator: validator,
+        decoration: InputDecoration(labelText: label),
       ),
     );
   }

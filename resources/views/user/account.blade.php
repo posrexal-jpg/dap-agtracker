@@ -386,7 +386,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add markers for user's locations
     @foreach($userLocations as $location)
         const cotsCount{{ $location->id }} = {{ $location->number_of_cots ?? 0 }};
-        const markerColor{{ $location->id }} = cotsCount{{ $location->id }} >= {{ $outbreakThreshold ?? 15 }} ? '#dc3545' : '#28a745';
+        const outbreakCount{{ $location->id }} = {{ $location->outbreak_count }};
+        const markerColor{{ $location->id }} = outbreakCount{{ $location->id }} > {{ $outbreakThreshold ?? 25 }} ? '#dc3545' : '#28a745';
         const markerIcon{{ $location->id }} = createCircleIcon(markerColor{{ $location->id }});
 
         const marker{{ $location->id }} = L.marker([{{ $location->latitude }}, {{ $location->longitude }}], {

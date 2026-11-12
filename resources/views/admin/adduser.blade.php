@@ -518,7 +518,7 @@
                                 COTS Outbreak Threshold
                             </h6>
                             <p class="text-muted mb-0 small">
-                                Map markers will pulse red when the COTS count at a location reaches or exceeds this number
+                                Map markers pulse red when adult plus senescence COTS are greater than this number
                             </p>
                         </div>
                         <div class="d-flex align-items-center gap-2">
@@ -529,7 +529,7 @@
                                 style="width: 90px; font-size: 1.1rem;"
                                 min="1" 
                                 max="9999"
-                                value="{{ \App\Models\Setting::get('outbreak_threshold', 15) }}"
+                                value="{{ \App\Models\Setting::get('outbreak_threshold', 25) }}"
                             >
                             <button class="btn btn-sm btn-danger" onclick="saveOutbreakThreshold()">
                                 <i class="bx bx-save me-1"></i>Save

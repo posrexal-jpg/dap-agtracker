@@ -163,7 +163,7 @@ class _MapView extends StatelessWidget {
                       child: Tooltip(
                         message: '${item.locationName} · ${item.total} COTS',
                         child: _SightingPin(
-                          outbreak: item.total >= outbreakThreshold,
+                          outbreak: item.outbreakCount > outbreakThreshold,
                           synchronized: item.syncStatus == SyncStatus.synced,
                         ),
                       ),
@@ -196,7 +196,7 @@ class _MapView extends StatelessWidget {
                 ),
                 const SizedBox(width: 5),
                 Text(
-                  'Blinking = outbreak (≥$outbreakThreshold COTS)',
+                  'Blinking = outbreak (>$outbreakThreshold adult + senescence)',
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ],

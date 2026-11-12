@@ -500,7 +500,7 @@
         }).addTo(map);
 
         // Function to create circle SVG icon using divIcon (more reliable on mobile)
-        const outbreakThreshold = {{ $outbreakThreshold ?? 15 }};
+        const outbreakThreshold = {{ $outbreakThreshold ?? 25 }};
 
         function createCircleIcon(color) {
             const svg = `
@@ -523,8 +523,9 @@
         @if($location->latitude && $location->longitude)
         // Determine marker color based on COTS count
         const cotsCount{{ $location->id }} = {{ $location->number_of_cots ?? 0 }};
-        const markerColor{{ $location->id }} = cotsCount{{ $location->id }} >= outbreakThreshold ? '#dc3545' : '#28a745';
-        const isOutbreak{{ $location->id }} = cotsCount{{ $location->id }} >= outbreakThreshold;
+        const outbreakCount{{ $location->id }} = {{ $location->outbreak_count }};
+        const markerColor{{ $location->id }} = outbreakCount{{ $location->id }} > outbreakThreshold ? '#dc3545' : '#28a745';
+        const isOutbreak{{ $location->id }} = outbreakCount{{ $location->id }} > outbreakThreshold;
         
         const marker{{ $location->id }}Icon = createCircleIcon(markerColor{{ $location->id }});
 

@@ -16,12 +16,27 @@ void main() {
       subAdult: 3,
       adult: 4,
       lateAdult: 5,
+      surveyStatus: 'Systematic survey',
+      observationStartTime: '09:00',
+      observationEndTime: '10:30',
+      observationDurationMinutes: 90,
+      transectLengthM: 50,
+      transectWidthM: 5,
+      surveyedAreaM2: 250,
+      depthM: 8.5,
+      waterVisibilityM: 12,
+      weatherSeaCondition: 'Clear and calm',
     );
 
     expect(original.total, 15);
+    expect(original.outbreakCount, 9);
     final restored = Sighting.fromMap(original.toLocalMap());
     expect(restored.clientUuid, original.clientUuid);
     expect(restored.locationName, 'Test reef');
     expect(restored.total, 15);
+    expect(restored.surveyStatus, 'Systematic survey');
+    expect(restored.observationDurationMinutes, 90);
+    expect(restored.surveyedAreaM2, 250);
+    expect(restored.weatherSeaCondition, 'Clear and calm');
   });
 }

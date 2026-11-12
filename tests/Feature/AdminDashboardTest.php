@@ -16,17 +16,16 @@ class AdminDashboardTest extends TestCase
     public function admin_can_view_the_admin_dashboard()
     {
         // Create a role
-        $role = Role::create(['name' => 'admin']);
+        $role = Role::where('role_name', 'admin')->firstOrFail();
         
         // Create an admin user and assign the role
-        $admin = User::factory()->create();
-        $admin->role_id = $role->id;
-        $admin->save();
+        $admin = User::factory()->create(['role_id' => $role->id]);
 
         // Create a location with some data
         Location::create([
             'name' => 'Test Location',
             'municipality' => 'Test Municipality',
+            'barangay' => 'Test Barangay',
             'latitude' => 10.0,
             'longitude' => 125.0,
             'early_juvenile' => 1,

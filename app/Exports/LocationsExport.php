@@ -11,6 +11,7 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Color;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 
 class LocationsExport implements FromCollection, WithHeadings, ShouldAutoSize, WithStyles
 {
@@ -41,7 +42,19 @@ class LocationsExport implements FromCollection, WithHeadings, ShouldAutoSize, W
                 'Latitude' => $location->latitude, // Add this field
                 'Longitude' => $location->longitude, // Add this field
                 'Activity Type' => $location->activity_type, // Add this field
+                'Activity Type Other' => $location->activity_type_other,
                 'Observer Category' => $location->observer_category, // Add this field
+                'Survey Status' => $location->survey_status,
+                'Observation Start' => $location->observation_start_time,
+                'Observation End' => $location->observation_end_time,
+                'Observation Duration (minutes)' => $location->observation_duration_minutes,
+                'Transect Length (m)' => $location->transect_length_m,
+                'Transect Width (m)' => $location->transect_width_m,
+                'Surveyed Area (m²)' => $location->surveyed_area_m2,
+                'Depth (m)' => $location->depth_m,
+                'Water Visibility (m)' => $location->water_visibility_m,
+                'Weather / Sea Condition' => $location->weather_sea_condition,
+                'Outbreak Count (Adult + Senescence)' => $location->outbreak_count,
             ];
         });
     }
@@ -65,29 +78,43 @@ class LocationsExport implements FromCollection, WithHeadings, ShouldAutoSize, W
             'Latitude',
             'Longitude',
             'Activity Type',
+            'Activity Type Other',
             'Observer Category',
+            'Survey Status',
+            'Observation Start',
+            'Observation End',
+            'Observation Duration (minutes)',
+            'Transect Length (m)',
+            'Transect Width (m)',
+            'Surveyed Area (m²)',
+            'Depth (m)',
+            'Water Visibility (m)',
+            'Weather / Sea Condition',
+            'Outbreak Count (Adult + Senescence)',
         ];
     }
 
     public function styles(Worksheet $sheet)
     {
         // Apply bold styling to the header row
-        $sheet->getStyle('A1:P1')->getFont()->setBold(true)->setSize(12);
-        $sheet->getStyle('A1:P1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $lastColumn = 'AC';
+        $sheet->getStyle("A1:{$lastColumn}1")->getFont()->setBold(true)->setSize(12);
+        $sheet->getStyle("A1:{$lastColumn}1")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
         
         // Apply background color to header row
-        $sheet->getStyle('A1:P1')->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB(Color::COLOR_YELLOW);
+        $sheet->getStyle("A1:{$lastColumn}1")->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB(Color::COLOR_YELLOW);
 
         // Add borders to all cells containing data
-        $sheet->getStyle('A2:P' . (count($this->locations) + 1))
+        $sheet->getStyle('A2:' . $lastColumn . (count($this->locations) + 1))
             ->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
 
         // Set alignment for all data cells
-        $sheet->getStyle('A2:P' . (count($this->locations) + 1))
+        $sheet->getStyle('A2:' . $lastColumn . (count($this->locations) + 1))
             ->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
         // Adjust column width for better visibility
-        foreach (range('A', 'P') as $column) {
+        for ($index = 1; $index <= 29; $index++) {
+            $column = Coordinate::stringFromColumnIndex($index);
             $sheet->getColumnDimension($column)->setAutoSize(true);
         }
 

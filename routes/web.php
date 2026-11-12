@@ -70,6 +70,13 @@ Route::prefix('admin')
         Route::post('/users/toggle-auto-approve', [Admin\UserController::class, 'toggleAutoApprove'])->name('users.toggle-auto-approve');
         Route::post('/settings/outbreak-threshold', [Admin\UserController::class, 'updateOutbreakThreshold'])->name('settings.outbreak-threshold');
 
+        // Configurable mobile reporting choices and audit trail
+        Route::get('/activity-types', [Admin\ActivityTypeController::class, 'index'])->name('activity-types.index');
+        Route::post('/activity-types', [Admin\ActivityTypeController::class, 'store'])->name('activity-types.store');
+        Route::put('/activity-types/{activityType}', [Admin\ActivityTypeController::class, 'update'])->name('activity-types.update');
+        Route::delete('/activity-types/{activityType}', [Admin\ActivityTypeController::class, 'destroy'])->name('activity-types.destroy');
+        Route::get('/activity-logs', [Admin\ActivityLogController::class, 'index'])->name('activity-logs.index');
+
         // Downloads
         Route::get('/download', [Admin\DownloadController::class, 'index'])->name('download');
 

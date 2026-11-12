@@ -15,18 +15,16 @@ class UserManagementTest extends TestCase
     public function admin_can_view_the_user_list_page()
     {
         // Create a role
-        $role = Role::create(['name' => 'admin']);
+        $role = Role::where('role_name', 'admin')->firstOrFail();
         
         // Create an admin user and assign the role
-        $admin = User::factory()->create();
-        $admin->role_id = $role->id;
-        $admin->save();
+        $admin = User::factory()->create(['role_id' => $role->id]);
 
         // Act as the admin user
         $this->actingAs($admin);
         
         // Access the user list page
-        $response = $this->get(route('admin.users.index'));
+        $response = $this->get(route('admin.adduser'));
         
         // Assert that the page is accessible
         $response->assertStatus(200);

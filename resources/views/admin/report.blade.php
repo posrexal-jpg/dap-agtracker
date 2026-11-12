@@ -669,6 +669,11 @@
                                         <th>Name</th>
                                         <th>Municipality</th>
                                         <th>COTS Count</th>
+                                        <th>Adult + Senescence</th>
+                                        <th>Survey Status</th>
+                                        <th>Duration</th>
+                                        <th>Survey Effort</th>
+                                        <th>Conditions</th>
                                         <th>Date</th>
                                         <th>Time</th>
                                     </tr>
@@ -680,12 +685,21 @@
                                             <td data-label="Name">{{ $location->name }}</td>
                                             <td data-label="Municipality">{{ $location->municipality }}</td>
                                             <td data-label="COTS Count">
-                                                @if($location->number_of_cots > 15)
+                                                @if($location->outbreak_count > 25)
                                                     <span class="badge bg-danger">{{ $location->number_of_cots }}</span>
                                                 @else
                                                     <span class="badge bg-success">{{ $location->number_of_cots }}</span>
                                                 @endif
                                             </td>
+                                            <td data-label="Adult + Senescence">{{ $location->outbreak_count }}</td>
+                                            <td data-label="Survey Status">{{ $location->survey_status ?? 'N/A' }}</td>
+                                            <td data-label="Duration">{{ $location->observation_duration_minutes !== null ? $location->observation_duration_minutes . ' min' : 'N/A' }}</td>
+                                            <td data-label="Survey Effort">
+                                                @if($location->surveyed_area_m2 !== null){{ $location->surveyed_area_m2 }} m²
+                                                @elseif($location->transect_length_m !== null || $location->transect_width_m !== null){{ $location->transect_length_m ?? '—' }} × {{ $location->transect_width_m ?? '—' }} m
+                                                @else N/A @endif
+                                            </td>
+                                            <td data-label="Conditions">Depth: {{ $location->depth_m ?? 'N/A' }} m; Visibility: {{ $location->water_visibility_m ?? 'N/A' }} m; {{ $location->weather_sea_condition ?? 'N/A' }}</td>
                                             <td data-label="Date">{{ $location->date_of_sighting ? \Carbon\Carbon::parse($location->date_of_sighting)->format('M d, Y') : 'N/A' }}</td>
                                             <td data-label="Time">{{ $location->time_of_sighting ?? 'N/A' }}</td>
                                         </tr>
