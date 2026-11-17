@@ -10,6 +10,11 @@ class Location extends Model
 {
     use HasFactory;
 
+<<<<<<< HEAD
+=======
+    protected $appends = ['outbreak_count'];
+
+>>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
     protected static function booted(): void
     {
         static::deleted(fn (Location $location) => $location->deleteUploadedPhotos());
@@ -47,14 +52,48 @@ class Location extends Model
         'adult',
         'late_adult',
         'activity_type',
+<<<<<<< HEAD
         'observer_category',
+=======
+        'activity_type_other',
+        'observer_category',
+        'survey_status',
+>>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
         'municipality',
         'barangay',
         'date_of_sighting',
         'time_of_sighting',
+<<<<<<< HEAD
         'photo',
     ];
 
+=======
+        'observation_start_time',
+        'observation_end_time',
+        'observation_duration_minutes',
+        'transect_length_m',
+        'transect_width_m',
+        'surveyed_area_m2',
+        'depth_m',
+        'water_visibility_m',
+        'weather_sea_condition',
+        'photo',
+    ];
+
+    protected $casts = [
+        'transect_length_m' => 'decimal:2',
+        'transect_width_m' => 'decimal:2',
+        'surveyed_area_m2' => 'decimal:2',
+        'depth_m' => 'decimal:2',
+        'water_visibility_m' => 'decimal:2',
+    ];
+
+    public function getOutbreakCountAttribute(): int
+    {
+        return (int) $this->adult + (int) $this->late_adult;
+    }
+
+>>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
     /**
      * Get the user that owns the location.
      */

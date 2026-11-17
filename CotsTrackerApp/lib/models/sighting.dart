@@ -15,7 +15,22 @@ class Sighting {
     this.description,
     this.language = 'en',
     this.activityType,
+<<<<<<< HEAD
     this.observerCategory,
+=======
+    this.activityTypeOther,
+    this.observerCategory,
+    this.surveyStatus,
+    this.observationStartTime,
+    this.observationEndTime,
+    this.observationDurationMinutes,
+    this.transectLengthM,
+    this.transectWidthM,
+    this.surveyedAreaM2,
+    this.depthM,
+    this.waterVisibilityM,
+    this.weatherSeaCondition,
+>>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
     this.earlyJuvenile = 0,
     this.juvenile = 0,
     this.subAdult = 0,
@@ -38,7 +53,22 @@ class Sighting {
   final String? description;
   final String language;
   final String? activityType;
+<<<<<<< HEAD
   final String? observerCategory;
+=======
+  final String? activityTypeOther;
+  final String? observerCategory;
+  final String? surveyStatus;
+  final String? observationStartTime;
+  final String? observationEndTime;
+  final int? observationDurationMinutes;
+  final double? transectLengthM;
+  final double? transectWidthM;
+  final double? surveyedAreaM2;
+  final double? depthM;
+  final double? waterVisibilityM;
+  final String? weatherSeaCondition;
+>>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
   final int earlyJuvenile;
   final int juvenile;
   final int subAdult;
@@ -52,6 +82,10 @@ class Sighting {
   final DateTime createdAt;
 
   int get total => earlyJuvenile + juvenile + subAdult + adult + lateAdult;
+<<<<<<< HEAD
+=======
+  int get outbreakCount => adult + lateAdult;
+>>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
 
   Sighting copyWith({
     int? serverId,
@@ -70,7 +104,22 @@ class Sighting {
       description: description,
       language: language,
       activityType: activityType,
+<<<<<<< HEAD
       observerCategory: observerCategory,
+=======
+      activityTypeOther: activityTypeOther,
+      observerCategory: observerCategory,
+      surveyStatus: surveyStatus,
+      observationStartTime: observationStartTime,
+      observationEndTime: observationEndTime,
+      observationDurationMinutes: observationDurationMinutes,
+      transectLengthM: transectLengthM,
+      transectWidthM: transectWidthM,
+      surveyedAreaM2: surveyedAreaM2,
+      depthM: depthM,
+      waterVisibilityM: waterVisibilityM,
+      weatherSeaCondition: weatherSeaCondition,
+>>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
       earlyJuvenile: earlyJuvenile,
       juvenile: juvenile,
       subAdult: subAdult,
@@ -97,7 +146,22 @@ class Sighting {
     'description': description,
     'language': language,
     'activity_type': activityType,
+<<<<<<< HEAD
     'observer_category': observerCategory,
+=======
+    'activity_type_other': activityTypeOther,
+    'observer_category': observerCategory,
+    'survey_status': surveyStatus,
+    'observation_start_time': observationStartTime,
+    'observation_end_time': observationEndTime,
+    'observation_duration_minutes': observationDurationMinutes,
+    'transect_length_m': transectLengthM,
+    'transect_width_m': transectWidthM,
+    'surveyed_area_m2': surveyedAreaM2,
+    'depth_m': depthM,
+    'water_visibility_m': waterVisibilityM,
+    'weather_sea_condition': weatherSeaCondition,
+>>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
     'early_juvenile': earlyJuvenile,
     'juvenile': juvenile,
     'sub_adult': subAdult,
@@ -122,7 +186,22 @@ class Sighting {
     'description': description,
     'language': language,
     'activity_type': activityType,
+<<<<<<< HEAD
     'observer_category': observerCategory,
+=======
+    'activity_type_other': activityTypeOther,
+    'observer_category': observerCategory,
+    'survey_status': surveyStatus,
+    'observation_start_time': observationStartTime,
+    'observation_end_time': observationEndTime,
+    'observation_duration_minutes': observationDurationMinutes,
+    'transect_length_m': transectLengthM,
+    'transect_width_m': transectWidthM,
+    'surveyed_area_m2': surveyedAreaM2,
+    'depth_m': depthM,
+    'water_visibility_m': waterVisibilityM,
+    'weather_sea_condition': weatherSeaCondition,
+>>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
     'early_juvenile': earlyJuvenile,
     'juvenile': juvenile,
     'sub_adult': subAdult,
@@ -148,7 +227,24 @@ class Sighting {
       description: map['description']?.toString(),
       language: '${map['language'] ?? 'en'}',
       activityType: map['activity_type']?.toString(),
+<<<<<<< HEAD
       observerCategory: map['observer_category']?.toString(),
+=======
+      activityTypeOther: map['activity_type_other']?.toString(),
+      observerCategory: map['observer_category']?.toString(),
+      surveyStatus: map['survey_status']?.toString(),
+      observationStartTime: shortTime(map['observation_start_time']),
+      observationEndTime: shortTime(map['observation_end_time']),
+      observationDurationMinutes: integerOrNull(
+        map['observation_duration_minutes'],
+      ),
+      transectLengthM: doubleOrNull(map['transect_length_m']),
+      transectWidthM: doubleOrNull(map['transect_width_m']),
+      surveyedAreaM2: doubleOrNull(map['surveyed_area_m2']),
+      depthM: doubleOrNull(map['depth_m']),
+      waterVisibilityM: doubleOrNull(map['water_visibility_m']),
+      weatherSeaCondition: map['weather_sea_condition']?.toString(),
+>>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
       earlyJuvenile: integer('early_juvenile'),
       juvenile: integer('juvenile'),
       subAdult: integer('sub_adult'),
@@ -177,6 +273,18 @@ class Sighting {
 
   static int? integerOrNull(dynamic value) =>
       value == null ? null : int.tryParse('$value');
+<<<<<<< HEAD
+=======
+
+  static double? doubleOrNull(dynamic value) =>
+      value == null ? null : double.tryParse('$value');
+
+  static String? shortTime(dynamic value) {
+    if (value == null || '$value'.isEmpty) return null;
+    final text = '$value';
+    return text.substring(0, text.length.clamp(0, 5));
+  }
+>>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
 }
 
 enum SyncStatus { pending, syncing, synced, failed }

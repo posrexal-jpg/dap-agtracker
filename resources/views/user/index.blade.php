@@ -1517,7 +1517,11 @@
     <script>
         // Embed server-side sightings data for the map
         window.SIGHTINGS = @json(isset($locations) ? $locations->toArray() : []);
+<<<<<<< HEAD
         window.OUTBREAK_THRESHOLD = {{ $outbreakThreshold ?? 15 }};
+=======
+        window.OUTBREAK_THRESHOLD = {{ $outbreakThreshold ?? 25 }};
+>>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
     </script>
     <script src="{{ asset('js/user-map.js') }}"></script>
     <script src="{{ asset('js/user-form.js') }}"></script>
@@ -1582,4 +1586,8 @@
 </div>
 </div>
 
+<<<<<<< HEAD
 @endsection
+=======
+@endsection
+>>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a

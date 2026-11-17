@@ -12,6 +12,11 @@ class Role extends Model
 {
     use HasFactory;
 
+<<<<<<< HEAD
+=======
+    protected $fillable = ['role_name'];
+
+>>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
     /** The role_id value that identifies an administrator. */
     public const ADMIN_ID = 1;
 

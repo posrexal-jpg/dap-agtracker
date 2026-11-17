@@ -260,9 +260,16 @@ function initializeMap() {
                     if (loc.latitude && loc.longitude) {
                         // Determine marker color based on COTS count
                         const cotsCount = loc.number_of_cots || 0;
+<<<<<<< HEAD
                         const threshold = window.OUTBREAK_THRESHOLD || 15;
                         const markerColor = cotsCount >= threshold ? '#dc3545' : '#28a745';
                         const isOutbreak = cotsCount >= threshold;
+=======
+                        const outbreakCount = loc.outbreak_count || 0;
+                        const threshold = window.OUTBREAK_THRESHOLD || 25;
+                        const markerColor = outbreakCount > threshold ? '#dc3545' : '#28a745';
+                        const isOutbreak = outbreakCount > threshold;
+>>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
 
                         const markerIcon = createCircleIcon(markerColor);
 
@@ -593,4 +600,8 @@ if (document.readyState === 'loading') {
         initializeMap();
         makeFilterDraggable();
     }, 100);
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a

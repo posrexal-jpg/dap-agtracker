@@ -43,7 +43,11 @@
             <h2>Information we handle</h2>
             <ul>
                 <li><strong>Account details:</strong> your name, email address, sign-in credentials, and account approval status. If you choose Google sign-in, we may receive your Google account name, email address, and account identifier to sign you in.</li>
+<<<<<<< HEAD
                 <li><strong>Sighting reports:</strong> the location name, municipality, barangay, precise coordinates, observation date and time, crown-of-thorns starfish counts, activity and observer categories, optional observer name and notes, and any photos you attach.</li>
+=======
+                <li><strong>Sighting reports:</strong> the location name, municipality, barangay, precise coordinates, observation date and time, crown-of-thorns starfish counts and size classes, activity and observer categories, survey status, optional observation duration, survey dimensions and area, depth, water visibility, weather or sea conditions, optional observer name and notes, and any photos you attach.</li>
+>>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
                 <li><strong>On-device data:</strong> reports waiting to sync, cached sightings and map tiles, an email address if you select “Remember email,” and app settings. The app stores its sign-in token using the device’s secure storage.</li>
             </ul>
             <p>Location access is used when you choose to obtain your current position for a report. You can instead enter coordinates or place the map pin manually. Photo access is used when you choose to attach images.</p>

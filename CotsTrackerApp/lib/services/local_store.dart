@@ -30,6 +30,15 @@ class LocalStore {
   Future<void> saveMunicipalities(List<String> values) =>
       _box.put('municipalities', values);
 
+<<<<<<< HEAD
+=======
+  List<String> get activityTypes =>
+      List<String>.from(_box.get('activity_types', defaultValue: <String>[]));
+
+  Future<void> saveActivityTypes(List<String> values) =>
+      _box.put('activity_types', values);
+
+>>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
   bool get hasSeenPartnershipWelcome =>
       _box.get('partnership_welcome_v1_seen', defaultValue: false) as bool;
 
