@@ -10,11 +10,8 @@ class Location extends Model
 {
     use HasFactory;
 
-<<<<<<< HEAD
-=======
     protected $appends = ['outbreak_count'];
 
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
     protected static function booted(): void
     {
         static::deleted(fn (Location $location) => $location->deleteUploadedPhotos());
@@ -52,22 +49,13 @@ class Location extends Model
         'adult',
         'late_adult',
         'activity_type',
-<<<<<<< HEAD
-        'observer_category',
-=======
         'activity_type_other',
         'observer_category',
         'survey_status',
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
         'municipality',
         'barangay',
         'date_of_sighting',
         'time_of_sighting',
-<<<<<<< HEAD
-        'photo',
-    ];
-
-=======
         'observation_start_time',
         'observation_end_time',
         'observation_duration_minutes',
@@ -93,7 +81,6 @@ class Location extends Model
         return (int) $this->adult + (int) $this->late_adult;
     }
 
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
     /**
      * Get the user that owns the location.
      */
