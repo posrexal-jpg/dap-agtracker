@@ -16,11 +16,7 @@ class UserLocationController extends Controller
         $user = Auth::user();
         $userLocations = Location::where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
         $municipalities = Municipality::all();
-<<<<<<< HEAD
-        $outbreakThreshold = (int) Setting::get('outbreak_threshold', 15);
-=======
         $outbreakThreshold = (int) Setting::get('outbreak_threshold', 25);
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
 
         return view('user.account', compact('userLocations', 'municipalities', 'outbreakThreshold'));
     }
@@ -29,11 +25,7 @@ class UserLocationController extends Controller
     {
         $municipalities = Municipality::all();
         $locations = Location::orderBy('created_at', 'desc')->get();
-<<<<<<< HEAD
-        $outbreakThreshold = (int) Setting::get('outbreak_threshold', 15);
-=======
         $outbreakThreshold = (int) Setting::get('outbreak_threshold', 25);
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
 
         return view('user.index', compact('locations', 'municipalities', 'outbreakThreshold'));
     }
@@ -62,20 +54,14 @@ class UserLocationController extends Controller
                 'adult' => 'nullable|integer',
                 'late_adult' => 'nullable|integer',
                 'activity_type' => 'nullable|string',
-<<<<<<< HEAD
-                'observer_category' => 'nullable|string',
-=======
                 'activity_type_other' => 'nullable|string|max:255',
                 'observer_category' => 'nullable|string',
                 'survey_status' => 'nullable|in:Systematic survey,Opportunistic sighting',
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
                 'municipality' => 'nullable|string',
                 'barangay' => 'required|string',
                 'photo.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240', // Handle multiple images
                 'date_of_sighting' => 'nullable|date',
                 'time_of_sighting' => 'nullable|date_format:H:i',
-<<<<<<< HEAD
-=======
                 'observation_start_time' => 'nullable|date_format:H:i|required_with:observation_end_time',
                 'observation_end_time' => 'nullable|date_format:H:i|required_with:observation_start_time|after_or_equal:observation_start_time',
                 'transect_length_m' => 'nullable|numeric|min:0',
@@ -84,7 +70,6 @@ class UserLocationController extends Controller
                 'depth_m' => 'nullable|numeric|min:0',
                 'water_visibility_m' => 'nullable|numeric|min:0',
                 'weather_sea_condition' => 'nullable|string|max:255',
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             // Return JSON response for AJAX requests with validation errors
@@ -128,19 +113,13 @@ class UserLocationController extends Controller
                 'adult' => $request->adult ?? null,
                 'late_adult' => $request->late_adult ?? null,
                 'activity_type' => $request->activity_type,
-<<<<<<< HEAD
-                'observer_category' => $request->observer_category,
-=======
                 'activity_type_other' => $request->activity_type_other,
                 'observer_category' => $request->observer_category,
                 'survey_status' => $request->survey_status,
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
                 'municipality' => $request->municipality,
                 'barangay' => $request->barangay,
                 'date_of_sighting' => $request->date_of_sighting,
                 'time_of_sighting' => $request->time_of_sighting,
-<<<<<<< HEAD
-=======
                 'observation_start_time' => $request->observation_start_time,
                 'observation_end_time' => $request->observation_end_time,
                 'observation_duration_minutes' => $this->durationMinutes($request->observation_start_time, $request->observation_end_time),
@@ -150,7 +129,6 @@ class UserLocationController extends Controller
                 'depth_m' => $request->depth_m,
                 'water_visibility_m' => $request->water_visibility_m,
                 'weather_sea_condition' => $request->weather_sea_condition,
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
                 'photo' => json_encode($photoPaths), // Store the array of photo paths as a JSON string
             ]);
 
@@ -242,19 +220,13 @@ class UserLocationController extends Controller
                         'adult' => 'nullable|integer',
                         'late_adult' => 'nullable|integer',
                         'activity_type' => 'nullable|string',
-<<<<<<< HEAD
-                        'observer_category' => 'nullable|string',
-=======
                         'activity_type_other' => 'nullable|string|max:255',
                         'observer_category' => 'nullable|string',
                         'survey_status' => 'nullable|in:Systematic survey,Opportunistic sighting',
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
                         'municipality' => 'nullable|string',
                         'barangay' => 'required|string',
                         'date_of_sighting' => 'nullable|date',
                         'time_of_sighting' => 'nullable|date_format:H:i',
-<<<<<<< HEAD
-=======
                         'observation_start_time' => 'nullable|date_format:H:i',
                         'observation_end_time' => 'nullable|date_format:H:i|after_or_equal:observation_start_time',
                         'observation_duration_minutes' => 'nullable|integer|min:0|max:1440',
@@ -264,7 +236,6 @@ class UserLocationController extends Controller
                         'depth_m' => 'nullable|numeric|min:0',
                         'water_visibility_m' => 'nullable|numeric|min:0',
                         'weather_sea_condition' => 'nullable|string|max:255',
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
                     ])->validate();
 
                     // Create the location
@@ -290,8 +261,6 @@ class UserLocationController extends Controller
             ], 500);
         }
     }
-<<<<<<< HEAD
-=======
 
     private function durationMinutes(?string $start, ?string $end): ?int
     {
@@ -304,5 +273,4 @@ class UserLocationController extends Controller
 
         return ($endHour * 60 + $endMinute) - ($startHour * 60 + $startMinute);
     }
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
 }
