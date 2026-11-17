@@ -29,8 +29,6 @@ class _ReportScreenState extends State<ReportScreen> {
   final _barangay = TextEditingController();
   final _observer = TextEditingController();
   final _description = TextEditingController();
-<<<<<<< HEAD
-=======
   final _activityOther = TextEditingController();
   final _transectLength = TextEditingController();
   final _transectWidth = TextEditingController();
@@ -38,7 +36,6 @@ class _ReportScreenState extends State<ReportScreen> {
   final _depth = TextEditingController();
   final _visibility = TextEditingController();
   final _weatherSeaCondition = TextEditingController();
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
   final _latitude = TextEditingController();
   final _longitude = TextEditingController();
   final _counts = List.generate(5, (_) => TextEditingController(text: '0'));
@@ -47,34 +44,18 @@ class _ReportScreenState extends State<ReportScreen> {
   String? _municipality;
   String? _activity;
   String? _observerCategory;
-<<<<<<< HEAD
-  String _language = 'en';
-  DateTime _date = DateTime.now();
-  TimeOfDay _time = TimeOfDay.now();
-=======
   String? _surveyStatus;
   String _language = 'en';
   DateTime _date = DateTime.now();
   TimeOfDay _time = TimeOfDay.now();
   TimeOfDay? _observationStart;
   TimeOfDay? _observationEnd;
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
   List<Uint8List> _photos = [];
   bool _locating = false;
   bool _saving = false;
   bool _locationConfirmed = false;
   double? _gpsAccuracy;
 
-<<<<<<< HEAD
-  static const activities = [
-    'Fishing',
-    'Recreational diving',
-    'Research',
-    'Cots collection',
-    'Other',
-  ];
-=======
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
   static const observerCategories = [
     'Fisherfolks',
     'Barangay residents',
@@ -90,8 +71,6 @@ class _ReportScreenState extends State<ReportScreen> {
     _barangay.dispose();
     _observer.dispose();
     _description.dispose();
-<<<<<<< HEAD
-=======
     _activityOther.dispose();
     _transectLength.dispose();
     _transectWidth.dispose();
@@ -99,7 +78,6 @@ class _ReportScreenState extends State<ReportScreen> {
     _depth.dispose();
     _visibility.dispose();
     _weatherSeaCondition.dispose();
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
     _latitude.dispose();
     _longitude.dispose();
     for (final controller in _counts) {
@@ -155,8 +133,6 @@ class _ReportScreenState extends State<ReportScreen> {
 
   Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
-<<<<<<< HEAD
-=======
     if ((_observationStart == null) != (_observationEnd == null)) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -176,7 +152,6 @@ class _ReportScreenState extends State<ReportScreen> {
       );
       return;
     }
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
     if (!_locationConfirmed) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -200,9 +175,6 @@ class _ReportScreenState extends State<ReportScreen> {
       description: _description.text.trim(),
       language: _language,
       activityType: _activity,
-<<<<<<< HEAD
-      observerCategory: _observerCategory,
-=======
       activityTypeOther: _activity == 'Others, please specify'
           ? _activityOther.text.trim()
           : null,
@@ -219,7 +191,6 @@ class _ReportScreenState extends State<ReportScreen> {
       weatherSeaCondition: _weatherSeaCondition.text.trim().isEmpty
           ? null
           : _weatherSeaCondition.text.trim(),
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
       earlyJuvenile: _count(0),
       juvenile: _count(1),
       subAdult: _count(2),
@@ -253,8 +224,6 @@ class _ReportScreenState extends State<ReportScreen> {
       _barangay,
       _observer,
       _description,
-<<<<<<< HEAD
-=======
       _activityOther,
       _transectLength,
       _transectWidth,
@@ -262,7 +231,6 @@ class _ReportScreenState extends State<ReportScreen> {
       _depth,
       _visibility,
       _weatherSeaCondition,
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
       _latitude,
       _longitude,
     ]) {
@@ -275,12 +243,9 @@ class _ReportScreenState extends State<ReportScreen> {
       _municipality = null;
       _activity = null;
       _observerCategory = null;
-<<<<<<< HEAD
-=======
       _surveyStatus = null;
       _observationStart = null;
       _observationEnd = null;
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
       _photos = [];
       _date = DateTime.now();
       _time = TimeOfDay.now();
@@ -313,8 +278,6 @@ class _ReportScreenState extends State<ReportScreen> {
 
   String _text(String english, String bisaya) => _isBisaya ? bisaya : english;
 
-<<<<<<< HEAD
-=======
   int? get _observationDurationMinutes {
     if (_observationStart == null || _observationEnd == null) return null;
     final start = _observationStart!.hour * 60 + _observationStart!.minute;
@@ -347,7 +310,6 @@ class _ReportScreenState extends State<ReportScreen> {
         : null;
   }
 
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
   @override
   Widget build(BuildContext context) {
     final state = context.watch<AppState>();
@@ -717,11 +679,7 @@ class _ReportScreenState extends State<ReportScreen> {
                     ),
                   ),
                   _CountField(
-<<<<<<< HEAD
-                    label: '6–15 cm',
-=======
                     label: '>5–15 cm',
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
                     controller: _counts[1],
                     helper: _text(
                       'Number seen in this size.',
@@ -729,11 +687,7 @@ class _ReportScreenState extends State<ReportScreen> {
                     ),
                   ),
                   _CountField(
-<<<<<<< HEAD
-                    label: '15–25 cm',
-=======
                     label: '>15–25 cm',
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
                     controller: _counts[2],
                     helper: _text(
                       'Number seen in this size.',
@@ -741,11 +695,7 @@ class _ReportScreenState extends State<ReportScreen> {
                     ),
                   ),
                   _CountField(
-<<<<<<< HEAD
-                    label: '26–35 cm',
-=======
                     label: '>25–35 cm adult',
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
                     controller: _counts[3],
                     helper: _text(
                       'Number seen in this size.',
@@ -753,11 +703,7 @@ class _ReportScreenState extends State<ReportScreen> {
                     ),
                   ),
                   _CountField(
-<<<<<<< HEAD
-                    label: '>35 cm',
-=======
                     label: '>35 cm senescence',
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
                     controller: _counts[4],
                     helper: _text(
                       'Number seen in this size.',
@@ -770,8 +716,6 @@ class _ReportScreenState extends State<ReportScreen> {
           ),
           _sectionGap,
           _Section(
-<<<<<<< HEAD
-=======
             title: _text('Survey status', 'Kahimtang sa survey'),
             icon: Icons.fact_check_outlined,
             help: _text(
@@ -928,7 +872,6 @@ class _ReportScreenState extends State<ReportScreen> {
           ),
           _sectionGap,
           _Section(
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
             title: _text('Observation details', 'Mga detalye sa obserbasyon'),
             icon: Icons.assignment_outlined,
             help: _text(
@@ -941,11 +884,7 @@ class _ReportScreenState extends State<ReportScreen> {
                 isExpanded: true,
                 initialValue: _activity,
                 validator: _required,
-<<<<<<< HEAD
-                items: activities
-=======
                 items: state.activityTypes
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
                     .map(
                       (value) => DropdownMenuItem(
                         value: value,
@@ -962,8 +901,6 @@ class _ReportScreenState extends State<ReportScreen> {
                   ),
                 ),
               ),
-<<<<<<< HEAD
-=======
               if (_activity == 'Others, please specify') ...[
                 _gap,
                 TextFormField(
@@ -975,7 +912,6 @@ class _ReportScreenState extends State<ReportScreen> {
                   ),
                 ),
               ],
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
               _gap,
               DropdownButtonFormField<String>(
                 key: ValueKey('observer-$_observerCategory'),
@@ -1157,13 +1093,6 @@ class _ReportScreenState extends State<ReportScreen> {
   String _activityLabel(String value) {
     if (!_isBisaya) return value;
     return const {
-<<<<<<< HEAD
-          'Fishing': 'Pagpangisda',
-          'Recreational diving': 'Recreational diving',
-          'Research': 'Panukiduki',
-          'Cots collection': 'Pagkolekta og dap-ag',
-          'Other': 'Uban pa',
-=======
           'SCUBA Diving': 'SCUBA diving',
           'Snorkeling': 'Snorkeling',
           'Swimming': 'Paglangoy',
@@ -1171,7 +1100,6 @@ class _ReportScreenState extends State<ReportScreen> {
           'Boat observation': 'Pag-obserbar gikan sa sakayan',
           'Opportunistic report': 'Kalit nga nakit-an',
           'Others, please specify': 'Uban pa, palihog isulti',
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
         }[value] ??
         value;
   }
@@ -1278,8 +1206,6 @@ class _CountField extends StatelessWidget {
     );
   }
 }
-<<<<<<< HEAD
-=======
 
 class _OptionalNumberField extends StatelessWidget {
   const _OptionalNumberField({
@@ -1305,4 +1231,3 @@ class _OptionalNumberField extends StatelessWidget {
     );
   }
 }
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a

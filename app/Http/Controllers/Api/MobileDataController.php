@@ -4,10 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Location;
-<<<<<<< HEAD
-=======
 use App\Models\ActivityType;
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
 use App\Models\Municipality;
 use App\Models\Notification;
 use App\Models\Setting;
@@ -24,15 +21,11 @@ class MobileDataController extends Controller
 
         return response()->json([
             'municipalities' => Municipality::orderBy('name')->pluck('name'),
-<<<<<<< HEAD
-            'outbreak_threshold' => (int) Setting::get('outbreak_threshold', 15),
-=======
             'activity_types' => ActivityType::where('is_active', true)
                 ->orderBy('sort_order')
                 ->orderBy('name')
                 ->pluck('name'),
             'outbreak_threshold' => (int) Setting::get('outbreak_threshold', 25),
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
             'stats' => [
                 'total_sightings' => Location::count(),
                 'user_sightings' => Location::where('user_id', $user->id)->count(),
@@ -77,19 +70,13 @@ class MobileDataController extends Controller
             'adult' => ['nullable', 'integer', 'min:0'],
             'late_adult' => ['nullable', 'integer', 'min:0'],
             'activity_type' => ['nullable', 'string', 'max:100'],
-<<<<<<< HEAD
-            'observer_category' => ['nullable', 'string', 'max:100'],
-=======
             'activity_type_other' => ['nullable', 'string', 'max:255'],
             'observer_category' => ['nullable', 'string', 'max:100'],
             'survey_status' => ['nullable', 'in:Systematic survey,Opportunistic sighting'],
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
             'municipality' => ['nullable', 'string', 'max:255'],
             'barangay' => ['required', 'string', 'max:255'],
             'date_of_sighting' => ['nullable', 'date'],
             'time_of_sighting' => ['nullable', 'date_format:H:i'],
-<<<<<<< HEAD
-=======
             'observation_start_time' => ['nullable', 'date_format:H:i', 'required_with:observation_end_time'],
             'observation_end_time' => ['nullable', 'date_format:H:i', 'required_with:observation_start_time', 'after_or_equal:observation_start_time'],
             'observation_duration_minutes' => ['nullable', 'integer', 'min:0', 'max:1440'],
@@ -99,15 +86,12 @@ class MobileDataController extends Controller
             'depth_m' => ['nullable', 'numeric', 'min:0'],
             'water_visibility_m' => ['nullable', 'numeric', 'min:0'],
             'weather_sea_condition' => ['nullable', 'string', 'max:255'],
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
             'photos' => ['nullable', 'array', 'max:5'],
             'photos.*' => ['image', 'mimes:jpeg,png,jpg,webp', 'max:10240'],
         ]);
 
         $user = $request->user();
         unset($data['photos']);
-<<<<<<< HEAD
-=======
         $data['observation_duration_minutes'] = $this->durationMinutes(
             $data['observation_start_time'] ?? null,
             $data['observation_end_time'] ?? null
@@ -115,7 +99,6 @@ class MobileDataController extends Controller
         if (! isset($data['surveyed_area_m2']) && isset($data['transect_length_m'], $data['transect_width_m'])) {
             $data['surveyed_area_m2'] = $data['transect_length_m'] * $data['transect_width_m'];
         }
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
 
         $location = DB::transaction(function () use ($request, $user, $data) {
             $location = Location::firstOrNew([
@@ -166,10 +149,7 @@ class MobileDataController extends Controller
     private function locationPayload(Location $location): array
     {
         $payload = $location->toArray();
-<<<<<<< HEAD
-=======
         $payload['outbreak_count'] = $location->outbreak_count;
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
         $paths = json_decode($location->photo ?: '[]', true) ?: [];
         $payload['photos'] = array_map(
             fn (string $path) => url(Storage::url($path)),
@@ -179,8 +159,6 @@ class MobileDataController extends Controller
 
         return $payload;
     }
-<<<<<<< HEAD
-=======
 
     private function durationMinutes(?string $start, ?string $end): ?int
     {
@@ -193,5 +171,4 @@ class MobileDataController extends Controller
 
         return ($endHour * 60 + $endMinute) - ($startHour * 60 + $startMinute);
     }
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
 }

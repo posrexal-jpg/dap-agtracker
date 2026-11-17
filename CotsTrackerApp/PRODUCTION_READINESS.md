@@ -3,11 +3,7 @@
 ## Source and build
 
 - Android application ID: `com.cotstracker.app`.
-<<<<<<< HEAD
-- Version: `1.2.2+6` (`versionCode` 6).
-=======
 - Version: `1.3.0+8` (`versionCode` 8).
->>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
 - Android target SDK: 36 through Flutter's Android Gradle extension.
 - Production API: `https://cotstracker.com/api/v1`; release builds do not use
   saved custom development URLs or allow cleartext HTTP.
