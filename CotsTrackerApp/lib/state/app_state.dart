@@ -21,6 +21,12 @@ class AppState extends ChangeNotifier {
   Map<String, dynamic>? user;
   List<Sighting> sightings = [];
   List<String> municipalities = [];
+<<<<<<< HEAD
+  LocationCatalog _locationCatalog = const LocationCatalog.empty();
+  int totalSightings = 0;
+  int userSightings = 0;
+  int outbreakThreshold = 15;
+=======
   List<String> activityTypes = const [
     'SCUBA Diving',
     'Snorkeling',
@@ -34,6 +40,7 @@ class AppState extends ChangeNotifier {
   int totalSightings = 0;
   int userSightings = 0;
   int outbreakThreshold = 25;
+>>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
 
   bool get isAuthenticated => user != null;
   int get pendingCount =>
@@ -69,9 +76,12 @@ class AppState extends ChangeNotifier {
     _api = ApiService(_store.apiBaseUrl);
     user = _store.user;
     sightings = _store.getSightings();
+<<<<<<< HEAD
+=======
     if (_store.activityTypes.isNotEmpty) {
       activityTypes = _store.activityTypes;
     }
+>>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
     await loadLocationCatalog();
     final connectivity = Connectivity();
     final result = await connectivity.checkConnectivity();
@@ -136,6 +146,10 @@ class AppState extends ChangeNotifier {
       await synchronize();
       return null;
     } on GoogleSignInException catch (error) {
+<<<<<<< HEAD
+      if (error.code == GoogleSignInExceptionCode.canceled) return null;
+      return error.description ?? 'Google Sign-In failed.';
+=======
       return switch (error.code) {
         GoogleSignInExceptionCode.clientConfigurationError =>
           'Google Sign-In is not registered for this Android build. '
@@ -156,6 +170,7 @@ class AppState extends ChangeNotifier {
               ? error.description!.trim()
               : 'Google Sign-In failed. Please try again.',
       };
+>>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
     } catch (error) {
       return ApiService.messageFor(error);
     }
@@ -210,6 +225,9 @@ class AppState extends ChangeNotifier {
       totalSightings = int.tryParse('${stats['total_sightings'] ?? 0}') ?? 0;
       userSightings = int.tryParse('${stats['user_sightings'] ?? 0}') ?? 0;
       outbreakThreshold =
+<<<<<<< HEAD
+          int.tryParse('${data['outbreak_threshold'] ?? 15}') ?? 15;
+=======
           int.tryParse('${data['outbreak_threshold'] ?? 25}') ?? 25;
       final serverActivityTypes = (data['activity_types'] as List? ?? const [])
           .whereType<String>()
@@ -220,6 +238,7 @@ class AppState extends ChangeNotifier {
         activityTypes = serverActivityTypes;
         await _store.saveActivityTypes(activityTypes);
       }
+>>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
       final serverMunicipalities = (data['municipalities'] as List? ?? const [])
           .map((value) => value is Map ? value['name'] : value)
           .whereType<String>();

@@ -16,6 +16,11 @@ void main() {
       subAdult: 3,
       adult: 4,
       lateAdult: 5,
+<<<<<<< HEAD
+    );
+
+    expect(original.total, 15);
+=======
       surveyStatus: 'Systematic survey',
       observationStartTime: '09:00',
       observationEndTime: '10:30',
@@ -30,13 +35,17 @@ void main() {
 
     expect(original.total, 15);
     expect(original.outbreakCount, 9);
+>>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
     final restored = Sighting.fromMap(original.toLocalMap());
     expect(restored.clientUuid, original.clientUuid);
     expect(restored.locationName, 'Test reef');
     expect(restored.total, 15);
+<<<<<<< HEAD
+=======
     expect(restored.surveyStatus, 'Systematic survey');
     expect(restored.observationDurationMinutes, 90);
     expect(restored.surveyedAreaM2, 250);
     expect(restored.weatherSeaCondition, 'Clear and calm');
+>>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
   });
 }

@@ -649,9 +649,14 @@ document.addEventListener('DOMContentLoaded', function() {
     (function() {
         // Determine marker color based on COTS count
         const cotsCount = {{ $location->number_of_cots }};
+<<<<<<< HEAD
+        const markerColor = cotsCount >= {{ $outbreakThreshold ?? 15 }} ? '#dc3545' : '#28a745';
+        const isOutbreak = cotsCount >= {{ $outbreakThreshold ?? 15 }};
+=======
         const outbreakCount = {{ $location->outbreak_count }};
         const markerColor = outbreakCount > {{ $outbreakThreshold ?? 25 }} ? '#dc3545' : '#28a745';
         const isOutbreak = outbreakCount > {{ $outbreakThreshold ?? 25 }};
+>>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
         
         const markerIcon = createCircleIcon(markerColor);
 

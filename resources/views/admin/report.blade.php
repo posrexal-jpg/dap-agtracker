@@ -669,11 +669,14 @@
                                         <th>Name</th>
                                         <th>Municipality</th>
                                         <th>COTS Count</th>
+<<<<<<< HEAD
+=======
                                         <th>Adult + Senescence</th>
                                         <th>Survey Status</th>
                                         <th>Duration</th>
                                         <th>Survey Effort</th>
                                         <th>Conditions</th>
+>>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
                                         <th>Date</th>
                                         <th>Time</th>
                                     </tr>
@@ -685,12 +688,18 @@
                                             <td data-label="Name">{{ $location->name }}</td>
                                             <td data-label="Municipality">{{ $location->municipality }}</td>
                                             <td data-label="COTS Count">
+<<<<<<< HEAD
+                                                @if($location->number_of_cots > 15)
+=======
                                                 @if($location->outbreak_count > 25)
+>>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
                                                     <span class="badge bg-danger">{{ $location->number_of_cots }}</span>
                                                 @else
                                                     <span class="badge bg-success">{{ $location->number_of_cots }}</span>
                                                 @endif
                                             </td>
+<<<<<<< HEAD
+=======
                                             <td data-label="Adult + Senescence">{{ $location->outbreak_count }}</td>
                                             <td data-label="Survey Status">{{ $location->survey_status ?? 'N/A' }}</td>
                                             <td data-label="Duration">{{ $location->observation_duration_minutes !== null ? $location->observation_duration_minutes . ' min' : 'N/A' }}</td>
@@ -700,6 +709,7 @@
                                                 @else N/A @endif
                                             </td>
                                             <td data-label="Conditions">Depth: {{ $location->depth_m ?? 'N/A' }} m; Visibility: {{ $location->water_visibility_m ?? 'N/A' }} m; {{ $location->weather_sea_condition ?? 'N/A' }}</td>
+>>>>>>> cfe5925bbedd2b2a05f4d904b6d23f3665016d7a
                                             <td data-label="Date">{{ $location->date_of_sighting ? \Carbon\Carbon::parse($location->date_of_sighting)->format('M d, Y') : 'N/A' }}</td>
                                             <td data-label="Time">{{ $location->time_of_sighting ?? 'N/A' }}</td>
                                         </tr>
